@@ -118,7 +118,7 @@ def get_args(argv):
         'o': '../test_data/snobal.out',
         'O': 'all',
         'c': True,
-        'K': False,
+        'K': True,
         'T': DEFAULT_NORMAL_THRESHOLD,
     }
     
@@ -214,7 +214,7 @@ def open_files(params):
     mh = pd.read_csv(params['mh_filename'], sep=' ', header=None, names=ht_prop, index_col='time_s')
     
     # read the precipitation file
-    ppt_prop = ['time_pp', 'm_pp', '%_snow', 'rho_snow', 'T_pp']
+    ppt_prop = ['time_pp', 'm_pp', 'percent_snow', 'rho_snow', 'T_pp']
     pr = pd.read_csv(params['pr_filename'], sep=None, header=None, names=ppt_prop, index_col='time_pp')
     
     # read the input file
@@ -227,8 +227,8 @@ def open_files(params):
         sn.T_s_0 += C_TO_K
         sn.T_s += C_TO_K
         pr.T_pp += C_TO_K
-        in_prop.T_a += C_TO_K
-        in_prop.T_g += C_TO_K
+        force.T_a += C_TO_K
+        force.T_g += C_TO_K
     
     # create the time steps for the forcing data
 #     time_f = 
@@ -262,11 +262,30 @@ def main(argv):
     sn, mh, pr, force = open_files(params)
     
     # initialize
-    s = snobal(params, tstep_info, sn, mh)
+    s = snobal(params, tstep_info, sn, mh, pr)
     
     # loop through the input
+    # do_data_tstep needs two input records so only go 
+    # to the last record-1
     
-    # call do_data_tstep()
+    it = force[:-1].iterrows()
+    index, in1 = next(it)    # this is the first input
+    
+    # add the precip to the data Series
+    input1 = pd.concat([in1, pr.loc[index]])
+    
+    for index,in2 in it:
+    
+        # add the precip to the data Series
+        input2 = pd.concat([in2, pr.loc[index]])
+    
+        # call do_data_tstep()
+        s.do_data_tstep(input1, input2)
+        
+        # input2 becomes input1
+        input1 = input2.copy()
+    
+    
     
     
     # output
