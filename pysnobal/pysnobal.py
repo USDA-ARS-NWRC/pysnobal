@@ -141,7 +141,7 @@ def parseOptions(options):
     for i in range(4):
         t = {}
         t['level'] = i;
-        t['output'] = 0;
+        t['output'] = False;
         tstep_info.append(t)
     
 
@@ -167,8 +167,17 @@ def parseOptions(options):
     tstep_info[SMALL_TSTEP]['time_step'] = min2sec(small_tstep_min);
     tstep_info[SMALL_TSTEP]['intervals'] = norm_tstep_min / small_tstep_min;
     
-    # output 
-    tstep_info[NORMAL_TSTEP]['output'] = DIVIDED_TSTEP;
+    # output
+    if options['O'] == 'data':
+        tstep_info[DATA_TSTEP]['output'] = DIVIDED_TSTEP
+    elif options['O'] == 'normal':
+        tstep_info[NORMAL_TSTEP]['output'] = WHOLE_TSTEP | DIVIDED_TSTEP
+    elif options['O'] == 'all':
+        tstep_info[NORMAL_TSTEP]['output'] = WHOLE_TSTEP
+        tstep_info[MEDIUM_TSTEP]['output'] = WHOLE_TSTEP
+        tstep_info[SMALL_TSTEP]['output'] = WHOLE_TSTEP
+    else:
+        tstep_info[DATA_TSTEP]['output'] = DIVIDED_TSTEP
     
     # mas thresholds for run timesteps
     threshold = DEFAULT_NORMAL_THRESHOLD;
@@ -193,6 +202,7 @@ def parseOptions(options):
     params['in_filename'] = options['i']
     params['pr_filename'] = options['p']
     params['out_filename'] = options['o']
+    params['out_file'] = open(params['out_filename'], 'w')
     params['stop_no_snow'] = options['c']
     params['temps_in_C'] = options['K']
     params['relative_hts'] = False
@@ -262,7 +272,7 @@ def main(argv):
     sn, mh, pr, force = open_files(params)
     
     # initialize
-    s = snobal(params, tstep_info, sn, mh, pr)
+    s = snobal(params, tstep_info, sn, mh)
     
     # loop through the input
     # do_data_tstep needs two input records so only go 
@@ -284,12 +294,14 @@ def main(argv):
         
         # input2 becomes input1
         input1 = input2.copy()
+        
+        
     
     
     
     
     # output
-    
+    params['out_file'].close()
 #     app = MyApplication()
 #     app.run()
 
