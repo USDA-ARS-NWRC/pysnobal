@@ -38,6 +38,7 @@ DIVIDED_TSTEP = 0x2  # output when timestep is divided
 hrs2min = lambda x: x * 60
 min2sec = lambda x: x * 60
 C_TO_K = 273.16
+FREEZE = C_TO_K
 
 
 def check_range(value, min_val, max_val, descrip):
@@ -116,7 +117,7 @@ def get_args(argv):
         'p': '../test_data/snobal.ppt.input',
         'i': '../test_data/snobal.data.input.short',
         'o': '../test_data/snobal.out',
-        'O': 'all',
+        'O': 'data',
         'c': True,
         'K': True,
         'T': DEFAULT_NORMAL_THRESHOLD,
@@ -165,7 +166,7 @@ def parseOptions(options):
     
     small_tstep_min = DEFAULT_SMALL_TSTEP
     tstep_info[SMALL_TSTEP]['time_step'] = min2sec(small_tstep_min);
-    tstep_info[SMALL_TSTEP]['intervals'] = norm_tstep_min / small_tstep_min;
+    tstep_info[SMALL_TSTEP]['intervals'] = med_tstep_min / small_tstep_min;
     
     # output
     if options['O'] == 'data':
@@ -180,7 +181,7 @@ def parseOptions(options):
         tstep_info[DATA_TSTEP]['output'] = DIVIDED_TSTEP
     
     # mas thresholds for run timesteps
-    threshold = DEFAULT_NORMAL_THRESHOLD;
+    threshold = DEFAULT_NORMAL_THRESHOLD
     tstep_info[NORMAL_TSTEP]['threshold'] = threshold
     
     threshold = DEFAULT_MEDIUM_TSTEP
@@ -225,20 +226,27 @@ def open_files(params):
     
     # read the precipitation file
     ppt_prop = ['time_pp', 'm_pp', 'percent_snow', 'rho_snow', 'T_pp']
-    pr = pd.read_csv(params['pr_filename'], sep=None, header=None, names=ppt_prop, index_col='time_pp')
+    pr = pd.read_csv(params['pr_filename'], sep=None, header=None, names=ppt_prop, index_col='time_pp', engine='python')
     
     # read the input file
     in_prop = ['S_n', 'I_lw', 'T_a', 'e_a', 'u', 'T_g']
-    force = pd.read_csv(params['in_filename'], sep=None, header=None, names=in_prop)
+    force = pd.read_csv(params['in_filename'], sep=None, header=None, names=in_prop, engine='python')
     
-    # check the ranges for the input values
-    
+    # convert to Kelvin
     if params['temps_in_C']:
         sn.T_s_0 += C_TO_K
         sn.T_s += C_TO_K
         pr.T_pp += C_TO_K
         force.T_a += C_TO_K
         force.T_g += C_TO_K
+        
+        
+    # check the ranges for the input values
+    
+        
+    # check the precip, temp. cannot be below freezing if rain present
+    mass_rain = pr.m_pp * (1 - pr.percent_snow)
+    pr.T_pp[(mass_rain > 0.0) & (pr.T_pp < FREEZE)] = FREEZE
     
     # create the time steps for the forcing data
 #     time_f = 

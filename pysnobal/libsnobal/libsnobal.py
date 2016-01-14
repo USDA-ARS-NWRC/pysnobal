@@ -183,7 +183,7 @@ def sati(tk):
         l10 = np.log(10.0)
         x = 100.0 * np.power(10.0, -9.09718*((FREEZE/tk) - 1.0) - 3.56654*np.log(FREEZE/tk)/l10 + \
                 8.76793e-1*(1.0 - (tk/FREEZE)) + np.log(6.1071)/l10)
-
+        
 
     return x
 
@@ -341,7 +341,7 @@ def hle1 (press, ta, ts, za, ea, es, zq, u, zu, z0):
     
     # air density at press, virtual temp of geometric mean
     # of air and surface
-    dens = GAS_DEN(press, MOL_AIR, VIR_TEMP(np.sqrt(ta*ts), np.sqrt(ea * es), press))
+    dens = GAS_DEN(press, MOL_AIR, VIR_TEMP(np.sqrt(ta * ts), np.sqrt(ea * es), press))
     
     # starting value, assume neutral stability, so psi-functions
     # are all zero
@@ -356,7 +356,7 @@ def hle1 (press, ta, ts, za, ea, es, zq, u, zu, z0):
     it = 0
     if ta != ts:
 
-        lo = 1e50
+        lo = 1e500
 
         while True:
             last = lo
@@ -379,11 +379,14 @@ def hle1 (press, ta, ts, za, ea, es, zq, u, zu, z0):
 
             diff = last - lo
 
-            if (np.abs(diff) > THRESH) and (np.abs(diff/lo) > THRESH) and (++it < ITMAX):
+            it+=1
+            if (np.abs(diff) < THRESH) and (np.abs(diff/lo) < THRESH):
+                break
+            if it > ITMAX:
                 break
 
     ier = -1 if (it >= ITMAX) else 0
-
+#     print 'iterations: %i' % it
     xlh = LH_VAP(ts)
     if ts <= FREEZE:
         xlh += LH_FUS(ts)
@@ -394,7 +397,7 @@ def hle1 (press, ta, ts, za, ea, es, zq, u, zu, z0):
     
     return h, le, e, ier
     
-    
+
 def efcon(k, t, p):
     """
     calculates the effective thermal conductivity for a layer
@@ -411,7 +414,8 @@ def efcon(k, t, p):
     """
     
     # calculate effective layer diffusion (see Anderson, 1976, pg. 32)
-    de = DIFFUS(p, t)
+#     de = DIFFUS(p, t)
+    de = 0.65 * (SEA_LEVEL / p) * np.power(t/FREEZE, 14.0) * (0.01 * 0.01)
 
     # set latent heat from layer temp.
     if t > FREEZE:
@@ -429,7 +433,7 @@ def efcon(k, t, p):
     return k + (lh * de * q)
 
     
-    
+ 
 def ssxfr(k1, k2, t1, t2, d1, d2):
     """
     calculates the steady state heat transfer between two layers.
