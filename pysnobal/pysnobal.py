@@ -298,7 +298,7 @@ def main(argv):
         input2 = pd.concat([in2, pr.loc[index]])
     
         # call do_data_tstep()
-        s.do_data_tstep(input1, input2)
+        s.do_data_tstep(input1.to_dict(), input2.to_dict())
         
         # input2 becomes input1
         input1 = input2.copy()

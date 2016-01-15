@@ -5,6 +5,7 @@ The Snobal 'library' which is a collection of functions to run the model
 """
 
 import numpy as np
+# from cytpes import *
 
 FREEZE = 273.16         # freezing temp K
 BOIL = 373.15           # boiling temperature K
@@ -256,7 +257,7 @@ def psi(zeta, code):
     
     return result
 
-
+# @profile
 def hle1 (press, ta, ts, za, ea, es, zq, u, zu, z0):
     """
     computes sensible and latent heat flux and mass flux given

@@ -6,7 +6,7 @@ Class snobal() that will hold all the modeling components
 
 import libsnobal
 import numpy as np
-import pandas as pd
+# import pandas as pd
 import warnings
 from copy import copy
 
@@ -156,9 +156,9 @@ class snobal(object):
         self.computed = dict()
         self.precip_info = dict()
         for level in range(DATA_TSTEP, SMALL_TSTEP+1):
-            self.input_deltas[level] = None
+            self.input_deltas[level] = Map({})
             self.computed[level] = None
-            self.precip_info[level] = None
+            self.precip_info[level] = Map({})
         
         
         self.time_since_out = 0
@@ -202,8 +202,8 @@ class snobal(object):
         In this happens, the flag 'stop_no_snow' is set to TRUE.
         
         Args:
-            input1: first timestep
-            input2: second timestep
+            input1: first timestep dict
+            input2: second timestep sixr
             
             inputs contain all forcing data:
                 ['S_n', 'I_lw', 'T_a', 'e_a', 'u', 'T_g','m_pp',
@@ -214,12 +214,17 @@ class snobal(object):
         
         print '%.2f' % (self.current_time/3600.0)
         
+        input1 = Map(input1)
+        input2 = Map(input2)
+        
         # store the inputs for later
-        self.input1 = input1.copy()
-        self.input2= input2.copy()
+        self.input1 = input1
+        self.input2 = input2
         
         # Compute deltas for the climate input parameters over the data timestep.
-        self.input_deltas[DATA_TSTEP] = input2.subtract(input1)
+        for i in input1.keys():
+            self.input_deltas[DATA_TSTEP][i] = input2[i] - input1[i] 
+#         self.input_deltas[DATA_TSTEP] = input2.subtract(input1)
         
         # If there is precipitation, then compute the amount of rain & snow in it.
         # Look at the first input record
@@ -227,7 +232,8 @@ class snobal(object):
         self.precip_now = False
         
         # this precip will hold the temperatures and such, set to zero initially
-        self.precip = pd.Series(0.0, index=['T_rain','T_snow','h2o_sat_snow'])
+#         self.precip = pd.Series(0.0, index=['T_rain','T_snow','h2o_sat_snow'])
+        self.precip = Map({key: 0.0 for key in ['T_rain','T_snow','h2o_sat_snow']})
         
         if input1.m_pp > 0:
             self.precip_now = True
@@ -265,13 +271,13 @@ class snobal(object):
                 # rain only
                 self.precip.T_rain = input1.T_pp
                     
-        self.precip_info[DATA_TSTEP] = pp_info.copy()
+        self.precip_info[DATA_TSTEP] = pp_info
                 
         # Clear the 'computed' flag at the other timestep levels.
         for level in range(DATA_TSTEP, SMALL_TSTEP+1):
             self.computed[level] = False
         
-        if self.current_time/3600.0 > 1452.99:
+        if self.current_time/3600.0 > 1036.99:
             self.curr_level
     
         #Divide the data timestep into normal run timesteps.
@@ -337,13 +343,17 @@ class snobal(object):
         # To-do can get rid of computed and use the None
         
         if not self.computed[self.next_level]:
-            next_lvl_deltas = curr_lvl_deltas / next_lvl_tstep['intervals']
-#             next_lvl_deltas = self.input_deltas[DATA_TSTEP] / next_lvl_tstep['intervals']
-            self.input_deltas[self.next_level] = next_lvl_deltas.copy()
+#             next_lvl_deltas = curr_lvl_deltas / next_lvl_tstep['intervals']
+#             self.input_deltas[self.next_level] = next_lvl_deltas.copy()
+            for k in curr_lvl_deltas.keys():
+                self.input_deltas[self.next_level][k] = curr_lvl_deltas[k] / next_lvl_tstep['intervals']
             
             if self.precip_now:
-                next_lvl_precip = curr_lvl_precip / next_lvl_tstep['intervals']
-                self.precip_info[self.next_level] = next_lvl_precip.copy()
+#                 next_lvl_precip = curr_lvl_precip / next_lvl_tstep['intervals']
+#                 self.precip_info[self.next_level] = next_lvl_precip.copy()
+                for k in curr_lvl_precip.keys():
+                    self.precip_info[self.next_level][k] = curr_lvl_precip[k] / next_lvl_tstep['intervals']
+                
             
             self.computed[self.next_level] = True
             
@@ -1038,6 +1048,8 @@ class snobal(object):
                 self.snow.m_s_l = 0
                 self.snow.cc_s_l = 0
                 self.snow.T_s_l = MIN_SNOW_TEMP + FREEZE
+                
+            self.snowcover = False
             
         else:
             self.layer_mass()
@@ -1053,6 +1065,7 @@ class snobal(object):
                 self.snow.cc_s_l = 0
             
         
+#     @profile
     def e_bal(self):
         """
         Calculates point energy budget for 2-layer snowcover.
@@ -1308,7 +1321,8 @@ class snobal(object):
             
         """
                 
-        return pd.Series(index=['m_pp','m_snow','m_rain','z_snow'])
+#         return pd.Series(index=['m_pp','m_snow','m_rain','z_snow'])
+        return Map({key: 0.0 for key in ['m_pp','m_snow','m_rain','z_snow']})
                 
     
     def init_snow(self, from_record=False):
@@ -1348,7 +1362,10 @@ class snobal(object):
         if from_record:
             
             # create an empty dataframe
-            self.snow = pd.Series(index=cols)
+#             self.snow = pd.Series(index=cols)
+            
+            # create a dict instead
+            self.snow = Map({key: 0.0 for key in cols})
         
             self.snow.z_s = self.snow_records.iloc[self.snow_prop_index].z_s
             self.snow.rho = self.snow_records.iloc[self.snow_prop_index].rho
@@ -1377,13 +1394,13 @@ class snobal(object):
                 self.snow.h2o_total += self.snow.m_s
             
             for col in ['rho','m_s','cc_s','m_s_0','cc_s_0','m_s_l','cc_s_l','h2o_vol','h2o','h2o_max','h2o_sat']:
-                self.snow.loc[col] = 0        
+                self.snow[col] = 0        
         
             # Note: Snow temperatures are set to MIN_SNOW_TEMP
             # (as degrees K) instead of 0 K to keep quantization
             # range in output image smaller.
             for col in ['T_s', 'T_s_0', 'T_s_l']:
-                self.snow.loc[col] = MIN_SNOW_TEMP + FREEZE
+                self.snow[col] = MIN_SNOW_TEMP + FREEZE
          
         else:
             # Compute the specific mass and cold content for each layer   
@@ -1444,8 +1461,8 @@ class snobal(object):
                 'E_s_sum'
                ]
         
-        self.em = pd.Series(data=np.zeros(len(col)), index=col)
-        
+#         self.em = pd.Series(data=np.zeros(len(col)), index=col)
+        self.em = Map({key: 0.0 for key in col})
         
 
 
@@ -1602,5 +1619,36 @@ class snobal(object):
                         (self.snow.T_s_0, self.snow.T_s_l, self.snow.T_s))
                 
                 
-            
+class Map(dict):
+    """
+    Example:
+    m = Map({'first_name': 'Eduardo'}, last_name='Pool', age=24, sports=['Soccer'])
+    """
+    def __init__(self, *args, **kwargs):
+        super(Map, self).__init__(*args, **kwargs)
+        for arg in args:
+            if isinstance(arg, dict):
+                for k, v in arg.iteritems():
+                    self[k] = v
+
+        if kwargs:
+            for k, v in kwargs.iteritems():
+                self[k] = v
+
+    def __getattr__(self, attr):
+        return self.get(attr)
+
+    def __setattr__(self, key, value):
+        self.__setitem__(key, value)
+
+    def __setitem__(self, key, value):
+        super(Map, self).__setitem__(key, value)
+        self.__dict__.update({key: value})
+
+    def __delattr__(self, item):
+        self.__delitem__(item)
+
+    def __delitem__(self, key):
+        super(Map, self).__delitem__(key)
+        del self.__dict__[key]            
         

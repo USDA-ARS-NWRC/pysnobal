@@ -21,7 +21,7 @@ output_label = np.array(['time_s','R_n','H','L_v_E','G','M','delta_Q','G_0','del
 
 # org = np.loadtxt('snobal.output.all')
 # new = np.loadtxt('snobal.out')
-org = pd.read_csv('snobal.v1', sep=' ', index_col=[0], names=output_label)
+org = pd.read_csv('snobal.output.all', sep=' ', index_col=[0], names=output_label)
 new = pd.read_csv('snobal.out', sep=' ', index_col=[0], names=output_label)
 
 d = org - new

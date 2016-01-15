@@ -7,6 +7,8 @@ try:
 except ImportError:
     from distutils.core import setup
 
+from distutils.extension import Extension
+from Cython.Distutils import build_ext
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()
@@ -29,7 +31,7 @@ setup(
     long_description=readme + '\n\n' + history,
     author="Scott Havens",
     author_email='scott.havens@ars.usda.gov',
-    url='https://github.com/scotthavens/pysnobal',
+    url='https://gitlab.com/ars-snow/pysnobal',
     packages=[
         'pysnobal',
     ],
@@ -54,5 +56,10 @@ setup(
         'Programming Language :: Python :: 3.5',
     ],
     test_suite='tests',
-    tests_require=test_requirements
+    tests_require=test_requirements,
+    cmdclass = {'build_ext': build_ext},
+    ext_modules= [
+        Extension("pysnobal.libsnobal", [ "pysnobal/libsnobal/libsnobal.py" ]),
+        Extension("pysnobal.snobal", [ "pysnobal/libsnobal/snobal.py" ]),
+    ]
 )
