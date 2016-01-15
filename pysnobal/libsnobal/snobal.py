@@ -84,7 +84,7 @@ STEF_BOLTZ = 5.67032e-8     # Stefan-Boltzmann constant (W / m^2 / deg^4)
 #    time_incr    the time interval the new value applies to
 TIME_AVG = lambda avg,total_time,value,time_incr: (avg * total_time + value * time_incr) / (total_time + time_incr) 
 
-class snobal():
+class snobal(object):
     """
     
     To-do
@@ -92,6 +92,17 @@ class snobal():
     self.output will be a dataframe that self.snow gets added 
     
     """
+    
+    # came from self.__dict__.keys()
+    # slots will help with memory when multiple instances of snobal are used
+    __slots__ = ['em', 'input2', 'input1', 'z_T', 'computed', 'precip_now', 
+                 'snow_records', 'time_step', 'precip_info', 'tstep_level', 
+                 'current_time', 'z_u', 'time_since_out', 'time_s', 'snow_prop_index', 
+                 'input_deltas', 'ro_data', 'snow', 'time_z', 'P_a', 'params', 'z_g', 
+                 'next_level', 'elevation', 'mh_prop_index', 'start_time', 'tstep_info', 
+                 'curr_time_hrs', 'mh_prop', 'z_0', 'more_sn_recs', 'relative_hts', 
+                 'curr_level', 'precip', 'more_mh_recs', 'snowcover', 'isothermal']
+    
     
     def __init__(self, params, tstep_info, snow_prop, meas_heights):
         """
@@ -151,6 +162,9 @@ class snobal():
         
         
         self.time_since_out = 0
+        
+        # set some attributes
+        self.isothermal = False
         
         
     def do_data_tstep(self, input1, input2):
@@ -361,7 +375,7 @@ class snobal():
         return True
         
         
-    @profile
+#     @profile
     def do_tstep(self, tstep):
         """
         This routine performs the model's calculations for a single timestep.
@@ -465,7 +479,7 @@ class snobal():
         
         return True
         
-    @profile    
+#     @profile    
     def mass_bal(self):
         """
         Calculates the point mass budget for 2-layer energy budget snowmelt
@@ -866,7 +880,7 @@ class snobal():
             # Add water in the snowcover to total liquid water
             self.snow.h2o_total += self.snow.h2o
             
-    @profile        
+#     @profile        
     def adj_snow(self, delta_z_s, delta_m_s):
         """
         This routine adjusts the snowcover for a change in its depth or
@@ -966,7 +980,7 @@ class snobal():
         self.adj_layers()
         
         
-    @profile    
+#     @profile    
     def adj_layers(self):
         """
         This routine adjusts the layers of the snowcover because the
@@ -1436,7 +1450,7 @@ class snobal():
 
 
 
-    @profile
+#     @profile
     def calc_layers(self):
         """
         This routine determines the # of layers in the snowcover based its
@@ -1488,7 +1502,7 @@ class snobal():
         self.snow.z_s_l = z_s_l
         
         
-    @profile
+#     @profile
     def layer_mass(self):
         """
         This routine computes the specific mass for each snow layer in
