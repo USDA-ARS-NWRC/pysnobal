@@ -59,7 +59,7 @@ setup(
     tests_require=test_requirements,
     cmdclass = {'build_ext': build_ext},
     ext_modules= [
-        Extension("pysnobal.libsnobal", [ "pysnobal/libsnobal/libsnobal.py" ]),
+        Extension("pysnobal.libsnobal.c_libsnobal", [ "pysnobal/libsnobal/c_libsnobal.pyx" ]),
         Extension("pysnobal.snobal", [ "pysnobal/libsnobal/snobal.py" ]),
     ]
 )

@@ -5,62 +5,63 @@ The Snobal 'library' which is a collection of functions to run the model
 """
 
 import numpy as np
+# cimport cython
+# from cytpes import *
 
-FREEZE = 273.16         # freezing temp K
-BOIL = 373.15           # boiling temperature K
-STD_LAPSE_M = -0.0065   # lapse rate (K/m)
-STD_LAPSE = -6.5        # lapse rate (K/km)
-STD_AIRTMP = 2.88e2     # standard sea level air temp (K)
-SEA_LEVEL = 1.013246e5  # sea level pressure
-RGAS = 8.31432e3        # gas constant (J / kmole / deg)
-GRAVITY = 9.80665       # gravity (m/s^2)
-MOL_AIR = 28.9644       # molecular weight of air (kg / kmole)
-MOL_H2O = 18.0153       # molecular weight of water vapor (kg / kmole)
-VON_KARMAN = 0.41       # Von Karman constant
+cdef double FREEZE = 273.16         # freezing temp K
+cdef double BOIL = 373.15           # boiling temperature K
+cdef double STD_LAPSE_M = -0.0065   # lapse rate (K/m)
+cdef double STD_LAPSE = -6.5        # lapse rate (K/km)
+cdef double STD_AIRTMP = 2.88e2     # standard sea level air temp (K)
+cdef double SEA_LEVEL = 1.013246e5  # sea level pressure
+cdef double RGAS = 8.31432e3        # gas constant (J / kmole / deg)
+cdef double GRAVITY = 9.80665       # gravity (m/s^2)
+cdef double MOL_AIR = 28.9644       # molecular weight of air (kg / kmole)
+cdef double MOL_H2O = 18.0153       # molecular weight of water vapor (kg / kmole)
+cdef double VON_KARMAN = 0.41       # Von Karman constant
 
-CP_AIR = 1.005e3        # specific heat of air at constant pressure (J / kg / deg)
-DALR = GRAVITY / CP_AIR # dry adiabatic lapse rate (deg / m)
+cdef double CP_AIR = 1.005e3        # specific heat of air at constant pressure (J / kg / deg)
+cdef double DALR = GRAVITY / CP_AIR # dry adiabatic lapse rate (deg / m)
 
-AH = 1.0                # ratio sensible/momentum phi func    
-AV = 1.0                # ratio latent/momentum phi func    
-ITMAX = 50              # max # iterations allowed        
-PAESCHKE = 7.35         # Paeschke's const (eq. 5.3)        
-THRESH = 1.e-5          # convergence threshold        
+cdef double AH = 1.0                # ratio sensible/momentum phi func    
+cdef double AV = 1.0                # ratio latent/momentum phi func    
+cdef int ITMAX = 50              # max # iterations allowed        
+cdef double PAESCHKE = 7.35         # Paeschke's const (eq. 5.3)        
+cdef double THRESH = 1.e-5          # convergence threshold        
 
 SM = 0
 SH = 1
 SV = 2
-BETA_S = 5.2
-BETA_U = 16
+cdef double BETA_S = 5.2
+cdef double BETA_U = 16
 
-ITMAX = 50
 
 # equation of state, to give density of a gas (kg/m^3) 
-GAS_DEN = lambda p, m, t: p * m/(RGAS * t)
+GAS_DEN = lambda double p, double m, double t: p * m/(RGAS * t)
 
 # virtual temperature, i.e. the fictitious temperature that air must
 # have at the given pressure to have the same density as a water vapor
 # and air mixture at the same pressure with the given temperature and
 # vapor pressure.
-VIR_TEMP = lambda t, e, P: t/(1. - (1. - MOL_H2O/MOL_AIR) * (e/P))
+VIR_TEMP = lambda double t, double e, double P: t/(1. - (1. - MOL_H2O/MOL_AIR) * (e/P))
 
 # latent heat of vaporization, t = temperature (K)
-LH_VAP = lambda t: 2.5e6 - 2.95573e3 *(t - FREEZE)
+LH_VAP = lambda double t: 2.5e6 - 2.95573e3 *(t - FREEZE)
 
 # latent heat of fusion, t = temperature (K)
-LH_FUS = lambda t: 3.336e5 + 1.6667e2 * (FREEZE - t)
+LH_FUS = lambda double t: 3.336e5 + 1.6667e2 * (FREEZE - t)
 
 # latent heat of sublimination (J/kg), t = temperature (K)
-LH_SUB = lambda t: LH_VAP(t) + LH_FUS(t)
+LH_SUB = lambda double t: LH_VAP(t) + LH_FUS(t)
 
 # mixing ratio
-MIX_RATIO = lambda e, P: (MOL_H2O/MOL_AIR) * e/(P - e)
+MIX_RATIO = lambda double e, double P: (MOL_H2O/MOL_AIR) * e/(P - e)
 
 # effectuve diffusion coefficient (m^2/sec) for saturated porous layer
 # (like snow...).  See Anderson, 1976, pg. 32, eq. 3.13.
 #    pa = air pressure (Pa)
 #    ts = layer temperature (K)
-DIFFUS = lambda pa, ts:  0.65 * (SEA_LEVEL / pa) * np.power(ts/FREEZE,14.0) * (0.01*0.01) 
+DIFFUS = lambda double pa, double ts:  0.65 * (SEA_LEVEL / pa) * np.power(ts/FREEZE,14.0) * (0.01*0.01) 
 
 # water vapor flux (kg/(m^2 sec)) between two layers
 #   air_d = air density (kg/m^3)
@@ -69,7 +70,7 @@ DIFFUS = lambda pa, ts:  0.65 * (SEA_LEVEL / pa) * np.power(ts/FREEZE,14.0) * (0
 #   z_dif = absolute distance between layers (m)
 #
 #   note:   q_dif controls the sign of the computed flux
-EVAP = lambda air_d,k,q_dif,z_dif: air_d * k * (q_dif/z_dif)
+EVAP = lambda double air_d, double k, double q_dif, double z_dif: air_d * k * (q_dif/z_dif)
 
 
 def hysat(pb, tb, L, h, g, m):        
@@ -143,11 +144,13 @@ def sati_np(tk):
     return x
 
 
-def satw(tk):
+def satw(double tk):
     '''
     Saturation vapor pressure of water. from IPW satw but for a single value
     20160112 Scott Havens
     '''
+    
+    cdef double l10, btk, x
     
     if tk < 0:
         raise ValueError('tk < 0')
@@ -165,11 +168,15 @@ def satw(tk):
     return x
 
 
-def sati(tk):
+# cpdef double sati(double tk):
+def sati(double tk):
     '''
     saturation vapor pressure over ice. From IPW sati but for a single value
     20151027 Scott Havens
     '''
+    
+    cdef double x
+    cdef double l10
     
     if tk < 0:
         raise ValueError('tk < 0')
@@ -213,7 +220,7 @@ def brutsaert(ta, l, ea, z, pa):
     return air_emiss
 
 
-def spec_hum(e, P):
+def spec_hum(double e, double P):
     """
     specific humidity from vapor pressure
  
@@ -223,13 +230,15 @@ def spec_hum(e, P):
     
     return e * MOL_H2O / (MOL_AIR * P + e * (MOL_H2O - MOL_AIR))
 
-def psi(zeta, code):
+def psi(double zeta, char code):
     """
     psi-functions
     code =   SM    momentum
              SH    sensible heat flux
              SV    latent heat flux
     """
+    
+    cdef double result, x
     
     if zeta > 0:        # stable
         if zeta > 1:
@@ -257,7 +266,8 @@ def psi(zeta, code):
     return result
 
 # @profile
-def hle1 (press, ta, ts, za, ea, es, zq, u, zu, z0):
+def hle1 (double press, double ta, double ts, double za, double ea, 
+          double es, double zq, double u, double zu, double z0):
     """
     computes sensible and latent heat flux and mass flux given
     measurements of temperature and specific humidity at surface
@@ -289,12 +299,16 @@ def hle1 (press, ta, ts, za, ea, es, zq, u, zu, z0):
     """
     
     # define some constants to keep constant with hle1.c
-    k = VON_KARMAN
-    av = AV
-    ah = AH
-    cp = CP_AIR
-    g = GRAVITY
+    cdef double k = VON_KARMAN
+    cdef double av = AV
+    cdef double ah = AH
+    cdef double cp = CP_AIR
+    cdef double g = GRAVITY
     
+    cdef double d0, ltsm, ltsh, ltsv, qa, qs, dens
+    cdef double ustar, factor, lo, last, diff
+    cdef double e, h
+    cdef int it, ier
     
     # Check for bad inputs
     
@@ -387,12 +401,12 @@ def hle1 (press, ta, ts, za, ea, es, zq, u, zu, z0):
 
     ier = -1 if (it >= ITMAX) else 0
 #     print 'iterations: %i' % it
-    xlh = LH_VAP(ts)
+    cdef double xlh = LH_VAP(ts)
     if ts <= FREEZE:
         xlh += LH_FUS(ts)
     
     # latent heat flux (- away from surf)
-    le = xlh * e
+    cdef double le = xlh * e
 
     
     return h, le, e, ier

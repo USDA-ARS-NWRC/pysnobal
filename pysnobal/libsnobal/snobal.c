@@ -760,14 +760,6 @@ static void __pyx_insert_code_object(int code_line, PyCodeObject* code_object);
 static void __Pyx_AddTraceback(const char *funcname, int c_line,
                                int py_line, const char *filename);
 
-static int __Pyx_Print(PyObject*, PyObject *, int);
-#if CYTHON_COMPILING_IN_PYPY || PY_MAJOR_VERSION >= 3
-static PyObject* __pyx_print = 0;
-static PyObject* __pyx_print_kwargs = 0;
-#endif
-
-static int __Pyx_PrintOne(PyObject* stream, PyObject *o);
-
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
 
 static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *);
@@ -801,7 +793,6 @@ static char __pyx_k_i[] = "i";
 static char __pyx_k_k[] = "k";
 static char __pyx_k_u[] = "u";
 static char __pyx_k_v[] = "v";
-static char __pyx_k_2f[] = "%.2f";
 static char __pyx_k_cc[] = "cc";
 static char __pyx_k_cp[] = "cp";
 static char __pyx_k_ds[] = "ds";
@@ -829,7 +820,6 @@ static char __pyx_k_doc[] = "__doc__";
 static char __pyx_k_e_a[] = "e_a";
 static char __pyx_k_e_g[] = "e_g";
 static char __pyx_k_e_s[] = "e_s";
-static char __pyx_k_end[] = "end";
 static char __pyx_k_g_2[] = "g";
 static char __pyx_k_get[] = "get";
 static char __pyx_k_h2o[] = "h2o";
@@ -858,7 +848,6 @@ static char __pyx_k_ccon[] = "ccon";
 static char __pyx_k_cols[] = "cols";
 static char __pyx_k_copy[] = "copy";
 static char __pyx_k_dict[] = "__dict__";
-static char __pyx_k_file[] = "file";
 static char __pyx_k_h_le[] = "h_le";
 static char __pyx_k_hle1[] = "hle1";
 static char __pyx_k_iloc[] = "iloc";
@@ -908,7 +897,6 @@ static char __pyx_k_m_s_0[] = "m_s_0";
 static char __pyx_k_m_s_l[] = "m_s_l";
 static char __pyx_k_numpy[] = "numpy";
 static char __pyx_k_power[] = "power";
-static char __pyx_k_print[] = "print";
 static char __pyx_k_q_s_l[] = "q_s_l";
 static char __pyx_k_range[] = "range";
 static char __pyx_k_slots[] = "__slots__";
@@ -1147,7 +1135,6 @@ static char __pyx_k_input1_rho_snow_is_0_0_with_inpu[] = "input1.rho_snow is <= 
 static PyObject *__pyx_kp_s_1f_1f;
 static PyObject *__pyx_kp_s_1f_1f_1f_1f;
 static PyObject *__pyx_kp_s_1f_1f_1f_1f_1f_1f;
-static PyObject *__pyx_kp_s_2f;
 static PyObject *__pyx_kp_s_2f_2f_2f;
 static PyObject *__pyx_kp_s_3f_3f_3f_1f;
 static PyObject *__pyx_kp_s_5f_5f_5f;
@@ -1287,9 +1274,7 @@ static PyObject *__pyx_n_s_e_s_l;
 static PyObject *__pyx_n_s_efcon;
 static PyObject *__pyx_n_s_elevation;
 static PyObject *__pyx_n_s_em;
-static PyObject *__pyx_n_s_end;
 static PyObject *__pyx_n_s_evap_cond;
-static PyObject *__pyx_n_s_file;
 static PyObject *__pyx_n_s_first_rec;
 static PyObject *__pyx_n_s_from_record;
 static PyObject *__pyx_kp_s_g;
@@ -1395,7 +1380,6 @@ static PyObject *__pyx_n_s_precip_now;
 static PyObject *__pyx_n_s_prepare;
 static PyObject *__pyx_n_s_prev_h2o_tot;
 static PyObject *__pyx_n_s_prev_layer_count;
-static PyObject *__pyx_n_s_print;
 static PyObject *__pyx_n_s_pysnobal_snobal;
 static PyObject *__pyx_n_s_q_delta;
 static PyObject *__pyx_n_s_q_g;
@@ -3162,26 +3146,8 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
   __Pyx_INCREF(__pyx_v_input1);
   __Pyx_INCREF(__pyx_v_input2);
 
-  /* "pysnobal/libsnobal/snobal.py":215
- *         """
- * 
- *         print '%.2f' % (self.current_time/3600.0)             # <<<<<<<<<<<<<<
- * 
- *         input1 = Map(input1)
- */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_current_time); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyFloat_DivideObjC(__pyx_t_1, __pyx_float_3600_0, 3600.0, 0); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyString_Format(__pyx_kp_s_2f, __pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (__Pyx_PrintOne(0, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
   /* "pysnobal/libsnobal/snobal.py":217
- *         print '%.2f' % (self.current_time/3600.0)
+ * #         print '%.2f' % (self.current_time/3600.0)
  * 
  *         input1 = Map(input1)             # <<<<<<<<<<<<<<
  *         input2 = Map(input2)
@@ -20331,7 +20297,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_1f_1f, __pyx_k_1f_1f, sizeof(__pyx_k_1f_1f), 0, 0, 1, 0},
   {&__pyx_kp_s_1f_1f_1f_1f, __pyx_k_1f_1f_1f_1f, sizeof(__pyx_k_1f_1f_1f_1f), 0, 0, 1, 0},
   {&__pyx_kp_s_1f_1f_1f_1f_1f_1f, __pyx_k_1f_1f_1f_1f_1f_1f, sizeof(__pyx_k_1f_1f_1f_1f_1f_1f), 0, 0, 1, 0},
-  {&__pyx_kp_s_2f, __pyx_k_2f, sizeof(__pyx_k_2f), 0, 0, 1, 0},
   {&__pyx_kp_s_2f_2f_2f, __pyx_k_2f_2f_2f, sizeof(__pyx_k_2f_2f_2f), 0, 0, 1, 0},
   {&__pyx_kp_s_3f_3f_3f_1f, __pyx_k_3f_3f_3f_1f, sizeof(__pyx_k_3f_3f_3f_1f), 0, 0, 1, 0},
   {&__pyx_kp_s_5f_5f_5f, __pyx_k_5f_5f_5f, sizeof(__pyx_k_5f_5f_5f), 0, 0, 1, 0},
@@ -20471,9 +20436,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_efcon, __pyx_k_efcon, sizeof(__pyx_k_efcon), 0, 0, 1, 1},
   {&__pyx_n_s_elevation, __pyx_k_elevation, sizeof(__pyx_k_elevation), 0, 0, 1, 1},
   {&__pyx_n_s_em, __pyx_k_em, sizeof(__pyx_k_em), 0, 0, 1, 1},
-  {&__pyx_n_s_end, __pyx_k_end, sizeof(__pyx_k_end), 0, 0, 1, 1},
   {&__pyx_n_s_evap_cond, __pyx_k_evap_cond, sizeof(__pyx_k_evap_cond), 0, 0, 1, 1},
-  {&__pyx_n_s_file, __pyx_k_file, sizeof(__pyx_k_file), 0, 0, 1, 1},
   {&__pyx_n_s_first_rec, __pyx_k_first_rec, sizeof(__pyx_k_first_rec), 0, 0, 1, 1},
   {&__pyx_n_s_from_record, __pyx_k_from_record, sizeof(__pyx_k_from_record), 0, 0, 1, 1},
   {&__pyx_kp_s_g, __pyx_k_g, sizeof(__pyx_k_g), 0, 0, 1, 0},
@@ -20579,7 +20542,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_prepare, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
   {&__pyx_n_s_prev_h2o_tot, __pyx_k_prev_h2o_tot, sizeof(__pyx_k_prev_h2o_tot), 0, 0, 1, 1},
   {&__pyx_n_s_prev_layer_count, __pyx_k_prev_layer_count, sizeof(__pyx_k_prev_layer_count), 0, 0, 1, 1},
-  {&__pyx_n_s_print, __pyx_k_print, sizeof(__pyx_k_print), 0, 0, 1, 1},
   {&__pyx_n_s_pysnobal_snobal, __pyx_k_pysnobal_snobal, sizeof(__pyx_k_pysnobal_snobal), 0, 0, 1, 1},
   {&__pyx_n_s_q_delta, __pyx_k_q_delta, sizeof(__pyx_k_q_delta), 0, 0, 1, 1},
   {&__pyx_n_s_q_g, __pyx_k_q_g, sizeof(__pyx_k_q_g), 0, 0, 1, 1},
@@ -24939,147 +24901,6 @@ bad:
     Py_XDECREF(py_code);
     Py_XDECREF(py_frame);
 }
-
-#if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION < 3
-static PyObject *__Pyx_GetStdout(void) {
-    PyObject *f = PySys_GetObject((char *)"stdout");
-    if (!f) {
-        PyErr_SetString(PyExc_RuntimeError, "lost sys.stdout");
-    }
-    return f;
-}
-static int __Pyx_Print(PyObject* f, PyObject *arg_tuple, int newline) {
-    int i;
-    if (!f) {
-        if (!(f = __Pyx_GetStdout()))
-            return -1;
-    }
-    Py_INCREF(f);
-    for (i=0; i < PyTuple_GET_SIZE(arg_tuple); i++) {
-        PyObject* v;
-        if (PyFile_SoftSpace(f, 1)) {
-            if (PyFile_WriteString(" ", f) < 0)
-                goto error;
-        }
-        v = PyTuple_GET_ITEM(arg_tuple, i);
-        if (PyFile_WriteObject(v, f, Py_PRINT_RAW) < 0)
-            goto error;
-        if (PyString_Check(v)) {
-            char *s = PyString_AsString(v);
-            Py_ssize_t len = PyString_Size(v);
-            if (len > 0) {
-                switch (s[len-1]) {
-                    case ' ': break;
-                    case '\f': case '\r': case '\n': case '\t': case '\v':
-                        PyFile_SoftSpace(f, 0);
-                        break;
-                    default:  break;
-                }
-            }
-        }
-    }
-    if (newline) {
-        if (PyFile_WriteString("\n", f) < 0)
-            goto error;
-        PyFile_SoftSpace(f, 0);
-    }
-    Py_DECREF(f);
-    return 0;
-error:
-    Py_DECREF(f);
-    return -1;
-}
-#else
-static int __Pyx_Print(PyObject* stream, PyObject *arg_tuple, int newline) {
-    PyObject* kwargs = 0;
-    PyObject* result = 0;
-    PyObject* end_string;
-    if (unlikely(!__pyx_print)) {
-        __pyx_print = PyObject_GetAttr(__pyx_b, __pyx_n_s_print);
-        if (!__pyx_print)
-            return -1;
-    }
-    if (stream) {
-        kwargs = PyDict_New();
-        if (unlikely(!kwargs))
-            return -1;
-        if (unlikely(PyDict_SetItem(kwargs, __pyx_n_s_file, stream) < 0))
-            goto bad;
-        if (!newline) {
-            end_string = PyUnicode_FromStringAndSize(" ", 1);
-            if (unlikely(!end_string))
-                goto bad;
-            if (PyDict_SetItem(kwargs, __pyx_n_s_end, end_string) < 0) {
-                Py_DECREF(end_string);
-                goto bad;
-            }
-            Py_DECREF(end_string);
-        }
-    } else if (!newline) {
-        if (unlikely(!__pyx_print_kwargs)) {
-            __pyx_print_kwargs = PyDict_New();
-            if (unlikely(!__pyx_print_kwargs))
-                return -1;
-            end_string = PyUnicode_FromStringAndSize(" ", 1);
-            if (unlikely(!end_string))
-                return -1;
-            if (PyDict_SetItem(__pyx_print_kwargs, __pyx_n_s_end, end_string) < 0) {
-                Py_DECREF(end_string);
-                return -1;
-            }
-            Py_DECREF(end_string);
-        }
-        kwargs = __pyx_print_kwargs;
-    }
-    result = PyObject_Call(__pyx_print, arg_tuple, kwargs);
-    if (unlikely(kwargs) && (kwargs != __pyx_print_kwargs))
-        Py_DECREF(kwargs);
-    if (!result)
-        return -1;
-    Py_DECREF(result);
-    return 0;
-bad:
-    if (kwargs != __pyx_print_kwargs)
-        Py_XDECREF(kwargs);
-    return -1;
-}
-#endif
-
-#if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION < 3
-static int __Pyx_PrintOne(PyObject* f, PyObject *o) {
-    if (!f) {
-        if (!(f = __Pyx_GetStdout()))
-            return -1;
-    }
-    Py_INCREF(f);
-    if (PyFile_SoftSpace(f, 0)) {
-        if (PyFile_WriteString(" ", f) < 0)
-            goto error;
-    }
-    if (PyFile_WriteObject(o, f, Py_PRINT_RAW) < 0)
-        goto error;
-    if (PyFile_WriteString("\n", f) < 0)
-        goto error;
-    Py_DECREF(f);
-    return 0;
-error:
-    Py_DECREF(f);
-    return -1;
-    /* the line below is just to avoid C compiler
-     * warnings about unused functions */
-    return __Pyx_Print(f, NULL, 0);
-}
-#else
-static int __Pyx_PrintOne(PyObject* stream, PyObject *o) {
-    int res;
-    PyObject* arg_tuple = PyTuple_Pack(1, o);
-    if (unlikely(!arg_tuple))
-        return -1;
-    res = __Pyx_Print(stream, arg_tuple, 1);
-    Py_DECREF(arg_tuple);
-    return res;
-}
-#endif
 
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
     const long neg_one = (long) -1, const_zero = (long) 0;

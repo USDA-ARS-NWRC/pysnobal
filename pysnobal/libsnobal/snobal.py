@@ -212,7 +212,7 @@ class snobal(object):
             
         """
         
-        print '%.2f' % (self.current_time/3600.0)
+#         print '%.2f' % (self.current_time/3600.0)
         
         input1 = Map(input1)
         input2 = Map(input2)
