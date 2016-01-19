@@ -5,19 +5,20 @@ The Snobal 'library' which is a collection of functions to run the model
 """
 
 import numpy as np
-# cimport cython
-# from cytpes import *
+# from math import log, pow
+from libc.math cimport *
+import cython
 
 cdef double FREEZE = 273.16         # freezing temp K
 cdef double BOIL = 373.15           # boiling temperature K
-cdef double STD_LAPSE_M = -0.0065   # lapse rate (K/m)
-cdef double STD_LAPSE = -6.5        # lapse rate (K/km)
-cdef double STD_AIRTMP = 2.88e2     # standard sea level air temp (K)
-cdef double SEA_LEVEL = 1.013246e5  # sea level pressure
+STD_LAPSE_M = -0.0065   # lapse rate (K/m)
+STD_LAPSE = -6.5        # lapse rate (K/km)
+STD_AIRTMP = 2.88e2     # standard sea level air temp (K)
+SEA_LEVEL = 1.013246e5  # sea level pressure
 cdef double RGAS = 8.31432e3        # gas constant (J / kmole / deg)
-cdef double GRAVITY = 9.80665       # gravity (m/s^2)
-cdef double MOL_AIR = 28.9644       # molecular weight of air (kg / kmole)
-cdef double MOL_H2O = 18.0153       # molecular weight of water vapor (kg / kmole)
+GRAVITY = 9.80665       # gravity (m/s^2)
+MOL_AIR = 28.9644       # molecular weight of air (kg / kmole)
+MOL_H2O = 18.0153       # molecular weight of water vapor (kg / kmole)
 cdef double VON_KARMAN = 0.41       # Von Karman constant
 
 cdef double CP_AIR = 1.005e3        # specific heat of air at constant pressure (J / kg / deg)
@@ -29,39 +30,47 @@ cdef int ITMAX = 50              # max # iterations allowed
 cdef double PAESCHKE = 7.35         # Paeschke's const (eq. 5.3)        
 cdef double THRESH = 1.e-5          # convergence threshold        
 
-SM = 0
-SH = 1
-SV = 2
+cdef int SM = 0
+cdef int SH = 1
+cdef int SV = 2
 cdef double BETA_S = 5.2
 cdef double BETA_U = 16
 
 
-# equation of state, to give density of a gas (kg/m^3) 
-GAS_DEN = lambda double p, double m, double t: p * m/(RGAS * t)
+# equation of state, to give density of a gas (kg/m^3)
+ 
+cpdef double GAS_DEN (double p, double m, double t): 
+    return p * m/(RGAS * t)
 
 # virtual temperature, i.e. the fictitious temperature that air must
 # have at the given pressure to have the same density as a water vapor
 # and air mixture at the same pressure with the given temperature and
 # vapor pressure.
-VIR_TEMP = lambda double t, double e, double P: t/(1. - (1. - MOL_H2O/MOL_AIR) * (e/P))
+@cython.cdivision(True)
+cdef double VIR_TEMP (double t, double e, double P): 
+    return t/(1. - (1. - MOL_H2O/MOL_AIR) * (e/P))
 
 # latent heat of vaporization, t = temperature (K)
-LH_VAP = lambda double t: 2.5e6 - 2.95573e3 *(t - FREEZE)
+cdef double LH_VAP (double t): 
+    return 2.5e6 - 2.95573e3 * (t - FREEZE)
 
 # latent heat of fusion, t = temperature (K)
-LH_FUS = lambda double t: 3.336e5 + 1.6667e2 * (FREEZE - t)
+cpdef double LH_FUS (double t): 
+    return 3.336e5 + 1.6667e2 * (FREEZE - t)
 
 # latent heat of sublimination (J/kg), t = temperature (K)
-LH_SUB = lambda double t: LH_VAP(t) + LH_FUS(t)
+cdef LH_SUB (double t):
+    return LH_VAP(t) + LH_FUS(t)
 
 # mixing ratio
-MIX_RATIO = lambda double e, double P: (MOL_H2O/MOL_AIR) * e/(P - e)
+cdef double MIX_RATIO (double e, double P): 
+    return (MOL_H2O/MOL_AIR) * e/(P - e)
 
 # effectuve diffusion coefficient (m^2/sec) for saturated porous layer
 # (like snow...).  See Anderson, 1976, pg. 32, eq. 3.13.
 #    pa = air pressure (Pa)
 #    ts = layer temperature (K)
-DIFFUS = lambda double pa, double ts:  0.65 * (SEA_LEVEL / pa) * np.power(ts/FREEZE,14.0) * (0.01*0.01) 
+DIFFUS = lambda double pa, double ts:  0.65 * (SEA_LEVEL / pa) * pow(ts/FREEZE,14.0) * (0.01*0.01) 
 
 # water vapor flux (kg/(m^2 sec)) between two layers
 #   air_d = air density (kg/m^3)
@@ -144,39 +153,42 @@ def sati_np(tk):
     return x
 
 
-def satw(double tk):
+@cython.cdivision(True) 
+cdef double satw(double tk):
     '''
     Saturation vapor pressure of water. from IPW satw but for a single value
     20160112 Scott Havens
     '''
     
-    cdef double l10, btk, x
+#     cdef double l10, btk, x
     
     if tk < 0:
         raise ValueError('tk < 0')
     
-    l10 = np.log(10.0)
+#     l10 = log(10.0)
 
     btk = BOIL/tk
-    x = -7.90298*(btk- 1.0) + 5.02808*np.log(btk)/l10 - \
-            1.3816e-7*(np.power(10.0,1.1344e1*(1.0 - tk/BOIL))-1.) + \
-            8.1328e-3*(np.power(10.0,-3.49149*(btk - 1.0)) - 1.0) + \
-            np.log(SEA_LEVEL)/l10
+    x = -7.90298*(btk- 1.0) + 5.02808*log(btk)/log(10.0) - \
+            1.3816e-7*(pow(10.0,1.1344e1*(1.0 - tk/BOIL))-1.) + \
+            8.1328e-3*(pow(10.0,-3.49149*(btk - 1.0)) - 1.0) + \
+            np.log(SEA_LEVEL)/log(10.0)
 
-    x = np.power(10.0,x)
+    x = pow(10.0,x)
 
     return x
 
 
 # cpdef double sati(double tk):
-def sati(double tk):
+@cython.cdivision(True)
+cpdef double sati(double tk):
     '''
     saturation vapor pressure over ice. From IPW sati but for a single value
     20151027 Scott Havens
     '''
     
     cdef double x
-    cdef double l10
+#     cdef double l10
+#     cdef double f = FREEZE
     
     if tk < 0:
         raise ValueError('tk < 0')
@@ -187,9 +199,9 @@ def sati(double tk):
         
     else:
         # vapor below freezing
-        l10 = np.log(10.0)
-        x = 100.0 * np.power(10.0, -9.09718*((FREEZE/tk) - 1.0) - 3.56654*np.log(FREEZE/tk)/l10 + \
-                8.76793e-1*(1.0 - (tk/FREEZE)) + np.log(6.1071)/l10)
+#         l10 = log(10.0)
+        x = 100.0 * pow(10.0, -9.09718*((FREEZE/tk) - 1.0) - 3.56654*log(FREEZE/tk)/log(10.0) + \
+                8.76793e-1*(1.0 - (tk/FREEZE)) + log(6.1071)/log(10.0))
         
 
     return x
@@ -220,7 +232,7 @@ def brutsaert(ta, l, ea, z, pa):
     return air_emiss
 
 
-def spec_hum(double e, double P):
+cpdef double spec_hum(double e, double P):
     """
     specific humidity from vapor pressure
  
@@ -230,7 +242,7 @@ def spec_hum(double e, double P):
     
     return e * MOL_H2O / (MOL_AIR * P + e * (MOL_H2O - MOL_AIR))
 
-def psi(double zeta, char code):
+cdef double psi(double zeta, int code):
     """
     psi-functions
     code =   SM    momentum
@@ -248,14 +260,14 @@ def psi(double zeta, char code):
 
     elif zeta < 0:    #unstable
 
-        x = np.sqrt(np.sqrt(1 - BETA_U * zeta));
+        x = sqrt(sqrt(1 - BETA_U * zeta));
 
-        if code == 'SM':
-            result = 2 * np.log((1 + x)/2) + np.log((1 + x * x)/2) - \
-                2 * np.arctan(x) + np.pi/2
+        if code == SM:
+            result = 2 * log((1 + x)/2) + log((1 + x * x)/2) - \
+                2 * atan(x) + M_PI_2
         
-        elif (code == 'SH') or (code == 'SV'):
-            result = 2 * np.log((1 + x * x)/2)
+        elif (code == SH) or (code == SV):
+            result = 2 * log((1 + x * x)/2)
         
         else: # shouldn't reach 
             raise ValueError("psi-function code not of these: SM, SH, SV")
@@ -266,7 +278,10 @@ def psi(double zeta, char code):
     return result
 
 # @profile
-def hle1 (double press, double ta, double ts, double za, double ea, 
+@cython.boundscheck(False)
+@cython.wraparound(False)
+@cython.cdivision(True)
+def hle1 (double press, double ta, double ts, double za, double ea, \
           double es, double zq, double u, double zu, double z0):
     """
     computes sensible and latent heat flux and mass flux given
@@ -299,14 +314,17 @@ def hle1 (double press, double ta, double ts, double za, double ea,
     """
     
     # define some constants to keep constant with hle1.c
-    cdef double k = VON_KARMAN
-    cdef double av = AV
-    cdef double ah = AH
-    cdef double cp = CP_AIR
-    cdef double g = GRAVITY
+    k = VON_KARMAN
+    av = AV
+    ah = AH
+    cp = CP_AIR
+    g = GRAVITY
     
     cdef double d0, ltsm, ltsh, ltsv, qa, qs, dens
-    cdef double ustar, factor, lo, last, diff
+    cdef double ustar, factor
+    cdef diff, last, lo
+#     cdef double d0, ltsm, ltsh, ltsv, qa, qs, dens
+#     cdef double ustar, factor, lo, last, diff
     cdef double e, h
     cdef int it, ier
     
@@ -342,9 +360,9 @@ def hle1 (double press, double ta, double ts, double za, double ea,
     d0 = 2 * PAESCHKE * z0 / 3
 
     # constant log expressions
-    ltsm = np.log((zu - d0) / z0)
-    ltsh = np.log((za - d0) / z0)
-    ltsv = np.log((zq - d0) / z0)
+    ltsm = log((zu - d0) / z0)
+    ltsh = log((za - d0) / z0)
+    ltsv = log((zq - d0) / z0)
     
     # convert vapor pressures to specific humidities
     qa = spec_hum(ea, press)
@@ -355,7 +373,7 @@ def hle1 (double press, double ta, double ts, double za, double ea,
     
     # air density at press, virtual temp of geometric mean
     # of air and surface
-    dens = GAS_DEN(press, MOL_AIR, VIR_TEMP(np.sqrt(ta * ts), np.sqrt(ea * es), press))
+    dens = GAS_DEN(press, MOL_AIR, VIR_TEMP(sqrt(ta * ts), sqrt(ea * es), press))
     
     # starting value, assume neutral stability, so psi-functions
     # are all zero
@@ -380,39 +398,40 @@ def hle1 (double press, double ta, double ts, double za, double ea,
             lo = ustar * ustar * ustar * dens / (k * g * (h/(ta * cp) + 0.61 * e))
                                 
             # friction velocity, eq. 4.34'
-            ustar = k * u / (ltsm - psi(zu/lo, 'SM'))
+            ustar = k * u / (ltsm - psi(zu/lo, SM))
 
             # evaporative flux, eq. 4.33'
             factor = k * ustar * dens
-            e = (qa - qs) * factor * av / (ltsv - psi(zq/lo, 'SV'))
+            e = (qa - qs) * factor * av / (ltsv - psi(zq/lo, SV))
 
             
             # sensible heat flus, eq. 4.35'
             # with sign reversed
-            h = (ta - ts) * factor * ah * cp / (ltsh - psi(za/lo, 'SH'))
+            h = (ta - ts) * factor * ah * cp / (ltsh - psi(za/lo, SH))
 
             diff = last - lo
 
             it+=1
-            if (np.abs(diff) < THRESH) and (np.abs(diff/lo) < THRESH):
+            if (fabs(diff) < THRESH) and (fabs(diff/lo) < THRESH):
                 break
             if it > ITMAX:
                 break
 
     ier = -1 if (it >= ITMAX) else 0
 #     print 'iterations: %i' % it
-    cdef double xlh = LH_VAP(ts)
+    xlh = LH_VAP(ts)
     if ts <= FREEZE:
         xlh += LH_FUS(ts)
     
     # latent heat flux (- away from surf)
-    cdef double le = xlh * e
+    le = xlh * e
 
     
     return h, le, e, ier
     
-
-def efcon(k, t, p):
+    
+@cython.cdivision(True)
+cpdef double efcon(double k, double t, double p):
     """
     calculates the effective thermal conductivity for a layer
     accounting for both conduction and vapor diffusion.
@@ -429,7 +448,8 @@ def efcon(k, t, p):
     
     # calculate effective layer diffusion (see Anderson, 1976, pg. 32)
 #     de = DIFFUS(p, t)
-    de = 0.65 * (SEA_LEVEL / p) * np.power(t/FREEZE, 14.0) * (0.01 * 0.01)
+    cdef double sl = SEA_LEVEL
+    de = 0.65 * (sl / p) * pow(t/FREEZE, 14.0) * (0.01 * 0.01)
 
     # set latent heat from layer temp.
     if t > FREEZE:
@@ -447,8 +467,8 @@ def efcon(k, t, p):
     return k + (lh * de * q)
 
     
- 
-def ssxfr(k1, k2, t1, t2, d1, d2):
+@cython.cdivision(True)
+cpdef ssxfr(double k1, double k2, double t1, double t2, double d1, double d2):
     """
     calculates the steady state heat transfer between two layers.
     

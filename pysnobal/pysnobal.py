@@ -9,7 +9,7 @@ snobal -z 2061 -t 60 -m 0.01 -s snow.properties.input
 20160118 Scott Havens
 """
 
-from libsnobal import c_libsnobal, snobal
+from libsnobal import libsnobal, snobal
 
 import sys, getopt
 import numpy as np

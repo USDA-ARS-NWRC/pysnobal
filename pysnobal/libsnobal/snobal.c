@@ -234,8 +234,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #endif
 #endif
 
-#define __PYX_HAVE__pysnobal__snobal
-#define __PYX_HAVE_API__pysnobal__snobal
+#define __PYX_HAVE__pysnobal__libsnobal__snobal
+#define __PYX_HAVE_API__pysnobal__libsnobal__snobal
 #ifdef _OPENMP
 #include <omp.h>
 #endif /* _OPENMP */
@@ -444,7 +444,7 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "pysnobal/libsnobal/snobal.py",
+  "pysnobal/libsnobal/snobal.pyx",
 };
 
 /*--- Type declarations ---*/
@@ -771,11 +771,11 @@ static int __Pyx_check_binary_version(void);
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 
-/* Module declarations from 'pysnobal.snobal' */
-#define __Pyx_MODULE_NAME "pysnobal.snobal"
-int __pyx_module_is_main_pysnobal__snobal = 0;
+/* Module declarations from 'pysnobal.libsnobal.snobal' */
+#define __Pyx_MODULE_NAME "pysnobal.libsnobal.snobal"
+int __pyx_module_is_main_pysnobal__libsnobal__snobal = 0;
 
-/* Implementation of 'pysnobal.snobal' */
+/* Implementation of 'pysnobal.libsnobal.snobal' */
 static PyObject *__pyx_builtin_object;
 static PyObject *__pyx_builtin_range;
 static PyObject *__pyx_builtin_ValueError;
@@ -1098,7 +1098,6 @@ static char __pyx_k_curr_lvl_deltas[] = "curr_lvl_deltas";
 static char __pyx_k_curr_lvl_precip[] = "curr_lvl_precip";
 static char __pyx_k_next_lvl_deltas[] = "next_lvl_deltas";
 static char __pyx_k_next_lvl_precip[] = "next_lvl_precip";
-static char __pyx_k_pysnobal_snobal[] = "pysnobal.snobal";
 static char __pyx_k_snobal_adj_snow[] = "snobal.adj_snow";
 static char __pyx_k_snobal_do_tstep[] = "snobal.do_tstep";
 static char __pyx_k_snobal_mass_bal[] = "snobal.mass_bal";
@@ -1124,9 +1123,10 @@ static char __pyx_k_snobal_divide_tstep[] = "snobal.divide_tstep";
 static char __pyx_k_snobal_precip_event[] = "snobal.precip_event";
 static char __pyx_k_snobal_time_compact[] = "snobal.time_compact";
 static char __pyx_k_snobal_do_data_tstep[] = "snobal.do_data_tstep";
+static char __pyx_k_pysnobal_libsnobal_snobal[] = "pysnobal.libsnobal.snobal";
 static char __pyx_k_g_soil_tsno_8_2f_set_to_8_2f[] = "g_soil: tsno = %8.2f; set to %8.2f\n";
 static char __pyx_k_To_do_self_snow_is_the_working[] = "\n    \n    To-do\n    self.snow is the working data frame only containing one record\n    self.output will be a dataframe that self.snow gets added \n    \n    ";
-static char __pyx_k_Users_scott_Documents_Projects[] = "/Users/scott/Documents/Projects/isnobal/pysnobal/pysnobal/libsnobal/snobal.py";
+static char __pyx_k_Users_scott_Documents_Projects[] = "/Users/scott/Documents/Projects/isnobal/pysnobal/pysnobal/libsnobal/snobal.pyx";
 static char __pyx_k_Class_snobal_that_will_hold_all[] = "\nClass snobal() that will hold all the modeling components\n\n20160109 Scott Havens\n";
 static char __pyx_k_Example_m_Map_first_name_Eduard[] = "\n    Example:\n    m = Map({'first_name': 'Eduardo'}, last_name='Pool', age=24, sports=['Soccer'])\n    ";
 static char __pyx_k_hle1_did_not_converge_P_a_f_T_a[] = "hle1 did not converge\nP_a %f, T_a %f, T_s_0 %f\nrelative z_T %f, e_a %f, e_s %f\nu %f, relative z_u %f, z_0 %f\n";
@@ -1380,7 +1380,7 @@ static PyObject *__pyx_n_s_precip_now;
 static PyObject *__pyx_n_s_prepare;
 static PyObject *__pyx_n_s_prev_h2o_tot;
 static PyObject *__pyx_n_s_prev_layer_count;
-static PyObject *__pyx_n_s_pysnobal_snobal;
+static PyObject *__pyx_n_s_pysnobal_libsnobal_snobal;
 static PyObject *__pyx_n_s_q_delta;
 static PyObject *__pyx_n_s_q_g;
 static PyObject *__pyx_n_s_q_s_l;
@@ -1482,51 +1482,51 @@ static PyObject *__pyx_n_s_z_s_0;
 static PyObject *__pyx_n_s_z_s_l;
 static PyObject *__pyx_n_s_z_snow;
 static PyObject *__pyx_n_s_z_u;
-static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x); /* proto */
-static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda1(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x); /* proto */
-static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda2(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_t); /* proto */
-static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda3(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_t); /* proto */
-static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda4(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_rhos, PyObject *__pyx_v_sat); /* proto */
-static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda5(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_d, PyObject *__pyx_v_rhos, PyObject *__pyx_v_sat); /* proto */
-static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda6(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_rho); /* proto */
-static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda7(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_Q); /* proto */
-static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda8(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_avg, PyObject *__pyx_v_total_time, PyObject *__pyx_v_value, PyObject *__pyx_v_time_incr); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_params, PyObject *__pyx_v_tstep_info, PyObject *__pyx_v_snow_prop, PyObject *__pyx_v_meas_heights); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_input1, PyObject *__pyx_v_input2); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_tstep); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_8mass_bal(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_10new_tsno(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self, PyObject *__pyx_v_spm, PyObject *__pyx_v_t0, PyObject *__pyx_v_ccon); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_12runoff(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_14h2o_compact(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_20precip_event(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_22adj_snow(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_delta_z_s, PyObject *__pyx_v_delta_m_s); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_24time_compact(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_28e_bal(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_30advec(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_32g_soil(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_layer); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_34g_snow(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_36h_le(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_38below_thold(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_threshold); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_40get_sn_rec(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_first_rec); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_42get_mh_rec(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_first_rec); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_44init_precip(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_from_record); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_48init_em(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_50calc_layers(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_52layer_mass(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_54cold_content(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_temp, PyObject *__pyx_v_mass); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_56heat_stor(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self, PyObject *__pyx_v_cp, PyObject *__pyx_v_spm, PyObject *__pyx_v_tdif); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_3Map___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_args, PyObject *__pyx_v_kwargs); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_2__getattr__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_attr); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_4__setattr__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_key, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_6__setitem__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_key, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_8__delattr__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_item); /* proto */
-static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_10__delitem__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_key); /* proto */
+static PyObject *__pyx_lambda_funcdef_8pysnobal_9libsnobal_6snobal_lambda(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x); /* proto */
+static PyObject *__pyx_lambda_funcdef_8pysnobal_9libsnobal_6snobal_lambda1(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x); /* proto */
+static PyObject *__pyx_lambda_funcdef_8pysnobal_9libsnobal_6snobal_lambda2(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_t); /* proto */
+static PyObject *__pyx_lambda_funcdef_8pysnobal_9libsnobal_6snobal_lambda3(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_t); /* proto */
+static PyObject *__pyx_lambda_funcdef_8pysnobal_9libsnobal_6snobal_lambda4(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_rhos, PyObject *__pyx_v_sat); /* proto */
+static PyObject *__pyx_lambda_funcdef_8pysnobal_9libsnobal_6snobal_lambda5(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_d, PyObject *__pyx_v_rhos, PyObject *__pyx_v_sat); /* proto */
+static PyObject *__pyx_lambda_funcdef_8pysnobal_9libsnobal_6snobal_lambda6(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_rho); /* proto */
+static PyObject *__pyx_lambda_funcdef_8pysnobal_9libsnobal_6snobal_lambda7(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_Q); /* proto */
+static PyObject *__pyx_lambda_funcdef_8pysnobal_9libsnobal_6snobal_lambda8(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_avg, PyObject *__pyx_v_total_time, PyObject *__pyx_v_value, PyObject *__pyx_v_time_incr); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_params, PyObject *__pyx_v_tstep_info, PyObject *__pyx_v_snow_prop, PyObject *__pyx_v_meas_heights); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_input1, PyObject *__pyx_v_input2); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_tstep); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_8mass_bal(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_10new_tsno(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self, PyObject *__pyx_v_spm, PyObject *__pyx_v_t0, PyObject *__pyx_v_ccon); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_12runoff(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_14h2o_compact(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_20precip_event(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_22adj_snow(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_delta_z_s, PyObject *__pyx_v_delta_m_s); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_24time_compact(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_28e_bal(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_30advec(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_32g_soil(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_layer); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_34g_snow(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_36h_le(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_38below_thold(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_threshold); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_40get_sn_rec(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_first_rec); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_42get_mh_rec(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_first_rec); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_44init_precip(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_from_record); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_48init_em(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_50calc_layers(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_52layer_mass(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_54cold_content(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_temp, PyObject *__pyx_v_mass); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_56heat_stor(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self, PyObject *__pyx_v_cp, PyObject *__pyx_v_spm, PyObject *__pyx_v_tdif); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_3Map___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_args, PyObject *__pyx_v_kwargs); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_3Map_2__getattr__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_attr); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_3Map_4__setattr__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_key, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_3Map_6__setitem__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_key, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_3Map_8__delattr__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_item); /* proto */
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_3Map_10__delitem__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_key); /* proto */
 static PyObject *__pyx_float_0_0;
 static PyObject *__pyx_float_1_0;
 static PyObject *__pyx_float_2_0;
@@ -1647,7 +1647,7 @@ static PyObject *__pyx_codeobj__82;
 static PyObject *__pyx_codeobj__84;
 static PyObject *__pyx_codeobj__86;
 
-/* "pysnobal/libsnobal/snobal.py":18
+/* "pysnobal/libsnobal/snobal.pyx":18
  * 
  * HR_TO_SEC = 3600.0
  * SEC_TO_HR = lambda x: x / 3600.0             # <<<<<<<<<<<<<<
@@ -1656,20 +1656,20 @@ static PyObject *__pyx_codeobj__86;
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_lambda(PyObject *__pyx_self, PyObject *__pyx_v_x); /*proto*/
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_lambda = {"lambda", (PyCFunction)__pyx_pw_8pysnobal_6snobal_lambda, METH_O, 0};
-static PyObject *__pyx_pw_8pysnobal_6snobal_lambda(PyObject *__pyx_self, PyObject *__pyx_v_x) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_lambda(PyObject *__pyx_self, PyObject *__pyx_v_x); /*proto*/
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_lambda = {"lambda", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_lambda, METH_O, 0};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_lambda(PyObject *__pyx_self, PyObject *__pyx_v_x) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("lambda (wrapper)", 0);
-  __pyx_r = __pyx_lambda_funcdef_8pysnobal_6snobal_lambda(__pyx_self, ((PyObject *)__pyx_v_x));
+  __pyx_r = __pyx_lambda_funcdef_8pysnobal_9libsnobal_6snobal_lambda(__pyx_self, ((PyObject *)__pyx_v_x));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x) {
+static PyObject *__pyx_lambda_funcdef_8pysnobal_9libsnobal_6snobal_lambda(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -1687,7 +1687,7 @@ static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda(CYTHON_UNUSED PyO
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("pysnobal.snobal.lambda", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.lambda", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -1695,7 +1695,7 @@ static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda(CYTHON_UNUSED PyO
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":42
+/* "pysnobal/libsnobal/snobal.pyx":42
  * 
  * # Kelvin to Celcius
  * K_TO_C = lambda x: x - FREEZE             # <<<<<<<<<<<<<<
@@ -1704,20 +1704,20 @@ static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda(CYTHON_UNUSED PyO
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_1lambda1(PyObject *__pyx_self, PyObject *__pyx_v_x); /*proto*/
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_1lambda1 = {"lambda1", (PyCFunction)__pyx_pw_8pysnobal_6snobal_1lambda1, METH_O, 0};
-static PyObject *__pyx_pw_8pysnobal_6snobal_1lambda1(PyObject *__pyx_self, PyObject *__pyx_v_x) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_1lambda1(PyObject *__pyx_self, PyObject *__pyx_v_x); /*proto*/
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_1lambda1 = {"lambda1", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_1lambda1, METH_O, 0};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_1lambda1(PyObject *__pyx_self, PyObject *__pyx_v_x) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("lambda1 (wrapper)", 0);
-  __pyx_r = __pyx_lambda_funcdef_8pysnobal_6snobal_lambda1(__pyx_self, ((PyObject *)__pyx_v_x));
+  __pyx_r = __pyx_lambda_funcdef_8pysnobal_9libsnobal_6snobal_lambda1(__pyx_self, ((PyObject *)__pyx_v_x));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda1(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x) {
+static PyObject *__pyx_lambda_funcdef_8pysnobal_9libsnobal_6snobal_lambda1(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -1740,7 +1740,7 @@ static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda1(CYTHON_UNUSED Py
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_AddTraceback("pysnobal.snobal.lambda1", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.lambda1", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -1748,7 +1748,7 @@ static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda1(CYTHON_UNUSED Py
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":46
+/* "pysnobal/libsnobal/snobal.pyx":46
  * # specific heat of ice (J/(kg K)) (from CRC table D-159; most accurate from 0 to -10 C)
  * # t - temperature in K
  * CP_ICE = lambda t: CAL_TO_J * (0.024928 + (0.00176 * t)) / 0.001             # <<<<<<<<<<<<<<
@@ -1757,20 +1757,20 @@ static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda1(CYTHON_UNUSED Py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_2lambda2(PyObject *__pyx_self, PyObject *__pyx_v_t); /*proto*/
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_2lambda2 = {"lambda2", (PyCFunction)__pyx_pw_8pysnobal_6snobal_2lambda2, METH_O, 0};
-static PyObject *__pyx_pw_8pysnobal_6snobal_2lambda2(PyObject *__pyx_self, PyObject *__pyx_v_t) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_2lambda2(PyObject *__pyx_self, PyObject *__pyx_v_t); /*proto*/
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_2lambda2 = {"lambda2", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_2lambda2, METH_O, 0};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_2lambda2(PyObject *__pyx_self, PyObject *__pyx_v_t) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("lambda2 (wrapper)", 0);
-  __pyx_r = __pyx_lambda_funcdef_8pysnobal_6snobal_lambda2(__pyx_self, ((PyObject *)__pyx_v_t));
+  __pyx_r = __pyx_lambda_funcdef_8pysnobal_9libsnobal_6snobal_lambda2(__pyx_self, ((PyObject *)__pyx_v_t));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda2(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_t) {
+static PyObject *__pyx_lambda_funcdef_8pysnobal_9libsnobal_6snobal_lambda2(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_t) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -1804,7 +1804,7 @@ static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda2(CYTHON_UNUSED Py
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("pysnobal.snobal.lambda2", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.lambda2", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -1812,7 +1812,7 @@ static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda2(CYTHON_UNUSED Py
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":51
+/* "pysnobal/libsnobal/snobal.pyx":51
  * #    (from CRC table D-158; most accurate from 0 to +10 C)
  * #    (incorrect at temperatures above 25 C)
  * CP_WATER = lambda t: CP_W0 - 2.55 * (t - FREEZE)             # <<<<<<<<<<<<<<
@@ -1821,20 +1821,20 @@ static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda2(CYTHON_UNUSED Py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_3lambda3(PyObject *__pyx_self, PyObject *__pyx_v_t); /*proto*/
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_3lambda3 = {"lambda3", (PyCFunction)__pyx_pw_8pysnobal_6snobal_3lambda3, METH_O, 0};
-static PyObject *__pyx_pw_8pysnobal_6snobal_3lambda3(PyObject *__pyx_self, PyObject *__pyx_v_t) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_3lambda3(PyObject *__pyx_self, PyObject *__pyx_v_t); /*proto*/
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_3lambda3 = {"lambda3", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_3lambda3, METH_O, 0};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_3lambda3(PyObject *__pyx_self, PyObject *__pyx_v_t) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("lambda3 (wrapper)", 0);
-  __pyx_r = __pyx_lambda_funcdef_8pysnobal_6snobal_lambda3(__pyx_self, ((PyObject *)__pyx_v_t));
+  __pyx_r = __pyx_lambda_funcdef_8pysnobal_9libsnobal_6snobal_lambda3(__pyx_self, ((PyObject *)__pyx_v_t));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda3(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_t) {
+static PyObject *__pyx_lambda_funcdef_8pysnobal_9libsnobal_6snobal_lambda3(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_t) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -1868,7 +1868,7 @@ static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda3(CYTHON_UNUSED Py
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("pysnobal.snobal.lambda3", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.lambda3", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -1876,7 +1876,7 @@ static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda3(CYTHON_UNUSED Py
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":57
+/* "pysnobal/libsnobal/snobal.pyx":57
  * # rhos = total density of snow (kg/m^3)
  * # sat  = snow saturation (see SNO_SAT)
  * DRY_SNO_RHO = lambda rhos,sat: ( ((rhos) - (sat) * RHO_W0) / (1 - (sat) * RHO_W0 / RHO_ICE) )             # <<<<<<<<<<<<<<
@@ -1885,9 +1885,9 @@ static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda3(CYTHON_UNUSED Py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_4lambda4(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_4lambda4 = {"lambda4", (PyCFunction)__pyx_pw_8pysnobal_6snobal_4lambda4, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_8pysnobal_6snobal_4lambda4(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_4lambda4(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_4lambda4 = {"lambda4", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_4lambda4, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_4lambda4(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_rhos = 0;
   PyObject *__pyx_v_sat = 0;
   int __pyx_lineno = 0;
@@ -1935,18 +1935,18 @@ static PyObject *__pyx_pw_8pysnobal_6snobal_4lambda4(PyObject *__pyx_self, PyObj
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("lambda4", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pysnobal.snobal.lambda4", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.lambda4", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_lambda_funcdef_8pysnobal_6snobal_lambda4(__pyx_self, __pyx_v_rhos, __pyx_v_sat);
+  __pyx_r = __pyx_lambda_funcdef_8pysnobal_9libsnobal_6snobal_lambda4(__pyx_self, __pyx_v_rhos, __pyx_v_sat);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda4(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_rhos, PyObject *__pyx_v_sat) {
+static PyObject *__pyx_lambda_funcdef_8pysnobal_9libsnobal_6snobal_lambda4(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_rhos, PyObject *__pyx_v_sat) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -1994,7 +1994,7 @@ static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda4(CYTHON_UNUSED Py
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("pysnobal.snobal.lambda4", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.lambda4", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -2002,7 +2002,7 @@ static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda4(CYTHON_UNUSED Py
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":63
+/* "pysnobal/libsnobal/snobal.pyx":63
  * #    rhos = density of snow (kg/m^3)
  * #    sat  = snow saturation (see SNO_SAT)
  * H2O_LEFT = lambda d,rhos,sat: ( (sat * d * RHO_W0 * (RHO_ICE - rhos)) / RHO_ICE )             # <<<<<<<<<<<<<<
@@ -2011,9 +2011,9 @@ static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda4(CYTHON_UNUSED Py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_5lambda5(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_5lambda5 = {"lambda5", (PyCFunction)__pyx_pw_8pysnobal_6snobal_5lambda5, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_8pysnobal_6snobal_5lambda5(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_5lambda5(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_5lambda5 = {"lambda5", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_5lambda5, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_5lambda5(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_d = 0;
   PyObject *__pyx_v_rhos = 0;
   PyObject *__pyx_v_sat = 0;
@@ -2070,18 +2070,18 @@ static PyObject *__pyx_pw_8pysnobal_6snobal_5lambda5(PyObject *__pyx_self, PyObj
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("lambda5", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pysnobal.snobal.lambda5", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.lambda5", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_lambda_funcdef_8pysnobal_6snobal_lambda5(__pyx_self, __pyx_v_d, __pyx_v_rhos, __pyx_v_sat);
+  __pyx_r = __pyx_lambda_funcdef_8pysnobal_9libsnobal_6snobal_lambda5(__pyx_self, __pyx_v_d, __pyx_v_rhos, __pyx_v_sat);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda5(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_d, PyObject *__pyx_v_rhos, PyObject *__pyx_v_sat) {
+static PyObject *__pyx_lambda_funcdef_8pysnobal_9libsnobal_6snobal_lambda5(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_d, PyObject *__pyx_v_rhos, PyObject *__pyx_v_sat) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2124,7 +2124,7 @@ static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda5(CYTHON_UNUSED Py
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("pysnobal.snobal.lambda5", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.lambda5", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -2132,7 +2132,7 @@ static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda5(CYTHON_UNUSED Py
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":72
+/* "pysnobal/libsnobal/snobal.pyx":72
  * # (after Yen, 1965, see Anderson, 1976, pg. 31)
  * #     rho = snow density (kg/m^3)
  * KTS = lambda rho: CAL_TO_J * 0.0077 * (rho/1000.0) * (rho/1000.0)             # <<<<<<<<<<<<<<
@@ -2141,20 +2141,20 @@ static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda5(CYTHON_UNUSED Py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_6lambda6(PyObject *__pyx_self, PyObject *__pyx_v_rho); /*proto*/
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_6lambda6 = {"lambda6", (PyCFunction)__pyx_pw_8pysnobal_6snobal_6lambda6, METH_O, 0};
-static PyObject *__pyx_pw_8pysnobal_6snobal_6lambda6(PyObject *__pyx_self, PyObject *__pyx_v_rho) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6lambda6(PyObject *__pyx_self, PyObject *__pyx_v_rho); /*proto*/
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_6lambda6 = {"lambda6", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_6lambda6, METH_O, 0};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6lambda6(PyObject *__pyx_self, PyObject *__pyx_v_rho) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("lambda6 (wrapper)", 0);
-  __pyx_r = __pyx_lambda_funcdef_8pysnobal_6snobal_lambda6(__pyx_self, ((PyObject *)__pyx_v_rho));
+  __pyx_r = __pyx_lambda_funcdef_8pysnobal_9libsnobal_6snobal_lambda6(__pyx_self, ((PyObject *)__pyx_v_rho));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda6(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_rho) {
+static PyObject *__pyx_lambda_funcdef_8pysnobal_9libsnobal_6snobal_lambda6(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_rho) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2191,7 +2191,7 @@ static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda6(CYTHON_UNUSED Py
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("pysnobal.snobal.lambda6", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.lambda6", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -2199,7 +2199,7 @@ static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda6(CYTHON_UNUSED Py
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":75
+/* "pysnobal/libsnobal/snobal.pyx":75
  * 
  * # melt (kg/m^2), Q = available energy (J/m^2)
  * MELT = lambda Q: Q / libsnobal.LH_FUS(FREEZE)             # <<<<<<<<<<<<<<
@@ -2208,20 +2208,20 @@ static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda6(CYTHON_UNUSED Py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_7lambda7(PyObject *__pyx_self, PyObject *__pyx_v_Q); /*proto*/
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_7lambda7 = {"lambda7", (PyCFunction)__pyx_pw_8pysnobal_6snobal_7lambda7, METH_O, 0};
-static PyObject *__pyx_pw_8pysnobal_6snobal_7lambda7(PyObject *__pyx_self, PyObject *__pyx_v_Q) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_7lambda7(PyObject *__pyx_self, PyObject *__pyx_v_Q); /*proto*/
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_7lambda7 = {"lambda7", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_7lambda7, METH_O, 0};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_7lambda7(PyObject *__pyx_self, PyObject *__pyx_v_Q) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("lambda7 (wrapper)", 0);
-  __pyx_r = __pyx_lambda_funcdef_8pysnobal_6snobal_lambda7(__pyx_self, ((PyObject *)__pyx_v_Q));
+  __pyx_r = __pyx_lambda_funcdef_8pysnobal_9libsnobal_6snobal_lambda7(__pyx_self, ((PyObject *)__pyx_v_Q));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda7(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_Q) {
+static PyObject *__pyx_lambda_funcdef_8pysnobal_9libsnobal_6snobal_lambda7(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_Q) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2281,7 +2281,7 @@ static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda7(CYTHON_UNUSED Py
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("pysnobal.snobal.lambda7", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.lambda7", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -2289,7 +2289,7 @@ static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda7(CYTHON_UNUSED Py
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":85
+/* "pysnobal/libsnobal/snobal.pyx":85
  * #    value        new value to be averaged in
  * #    time_incr    the time interval the new value applies to
  * TIME_AVG = lambda avg,total_time,value,time_incr: (avg * total_time + value * time_incr) / (total_time + time_incr)             # <<<<<<<<<<<<<<
@@ -2298,9 +2298,9 @@ static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda7(CYTHON_UNUSED Py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_8lambda8(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_8lambda8 = {"lambda8", (PyCFunction)__pyx_pw_8pysnobal_6snobal_8lambda8, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_8pysnobal_6snobal_8lambda8(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_8lambda8(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_8lambda8 = {"lambda8", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_8lambda8, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_8lambda8(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_avg = 0;
   PyObject *__pyx_v_total_time = 0;
   PyObject *__pyx_v_value = 0;
@@ -2366,18 +2366,18 @@ static PyObject *__pyx_pw_8pysnobal_6snobal_8lambda8(PyObject *__pyx_self, PyObj
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("lambda8", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pysnobal.snobal.lambda8", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.lambda8", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_lambda_funcdef_8pysnobal_6snobal_lambda8(__pyx_self, __pyx_v_avg, __pyx_v_total_time, __pyx_v_value, __pyx_v_time_incr);
+  __pyx_r = __pyx_lambda_funcdef_8pysnobal_9libsnobal_6snobal_lambda8(__pyx_self, __pyx_v_avg, __pyx_v_total_time, __pyx_v_value, __pyx_v_time_incr);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda8(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_avg, PyObject *__pyx_v_total_time, PyObject *__pyx_v_value, PyObject *__pyx_v_time_incr) {
+static PyObject *__pyx_lambda_funcdef_8pysnobal_9libsnobal_6snobal_lambda8(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_avg, PyObject *__pyx_v_total_time, PyObject *__pyx_v_value, PyObject *__pyx_v_time_incr) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2411,7 +2411,7 @@ static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda8(CYTHON_UNUSED Py
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("pysnobal.snobal.lambda8", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.lambda8", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -2419,7 +2419,7 @@ static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda8(CYTHON_UNUSED Py
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":107
+/* "pysnobal/libsnobal/snobal.pyx":107
  * 
  * 
  *     def __init__(self, params, tstep_info, snow_prop, meas_heights):             # <<<<<<<<<<<<<<
@@ -2428,10 +2428,10 @@ static PyObject *__pyx_lambda_funcdef_8pysnobal_6snobal_lambda8(CYTHON_UNUSED Py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_8pysnobal_6snobal_6snobal___init__[] = "\n        Initialize the snobal() class with the parameters,\n        time step information,\n        \n        This follows the initialize() function in snobal\n        \n        Args:\n            params: dictionary of parameters to run the model\n            tstep_info: list of time step information\n            snow_prop: the initial snow properties record\n            meas_height: measurement heights\n        ";
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_6snobal_1__init__ = {"__init__", (PyCFunction)__pyx_pw_8pysnobal_6snobal_6snobal_1__init__, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8pysnobal_6snobal_6snobal___init__};
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal___init__[] = "\n        Initialize the snobal() class with the parameters,\n        time step information,\n        \n        This follows the initialize() function in snobal\n        \n        Args:\n            params: dictionary of parameters to run the model\n            tstep_info: list of time step information\n            snow_prop: the initial snow properties record\n            meas_height: measurement heights\n        ";
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_1__init__ = {"__init__", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_1__init__, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal___init__};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_params = 0;
   PyObject *__pyx_v_tstep_info = 0;
@@ -2506,18 +2506,18 @@ static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_1__init__(PyObject *__pyx_se
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_6snobal___init__(__pyx_self, __pyx_v_self, __pyx_v_params, __pyx_v_tstep_info, __pyx_v_snow_prop, __pyx_v_meas_heights);
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal___init__(__pyx_self, __pyx_v_self, __pyx_v_params, __pyx_v_tstep_info, __pyx_v_snow_prop, __pyx_v_meas_heights);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_params, PyObject *__pyx_v_tstep_info, PyObject *__pyx_v_snow_prop, PyObject *__pyx_v_meas_heights) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_params, PyObject *__pyx_v_tstep_info, PyObject *__pyx_v_snow_prop, PyObject *__pyx_v_meas_heights) {
   PyObject *__pyx_v_level = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -2538,7 +2538,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObj
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":121
+  /* "pysnobal/libsnobal/snobal.pyx":121
  *         """
  * 
  *         self.params = params             # <<<<<<<<<<<<<<
@@ -2547,7 +2547,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObj
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_params, __pyx_v_params) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 121; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":122
+  /* "pysnobal/libsnobal/snobal.pyx":122
  * 
  *         self.params = params
  *         self.tstep_info = tstep_info             # <<<<<<<<<<<<<<
@@ -2556,7 +2556,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObj
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_tstep_info, __pyx_v_tstep_info) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 122; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":124
+  /* "pysnobal/libsnobal/snobal.pyx":124
  *         self.tstep_info = tstep_info
  * 
  *         self.elevation = params['elevation']             # <<<<<<<<<<<<<<
@@ -2568,7 +2568,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObj
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_elevation, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":125
+  /* "pysnobal/libsnobal/snobal.pyx":125
  * 
  *         self.elevation = params['elevation']
  *         self.P_a = libsnobal.hysat(libsnobal.SEA_LEVEL, libsnobal.STD_AIRTMP,             # <<<<<<<<<<<<<<
@@ -2591,7 +2591,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObj
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":126
+  /* "pysnobal/libsnobal/snobal.pyx":126
  *         self.elevation = params['elevation']
  *         self.P_a = libsnobal.hysat(libsnobal.SEA_LEVEL, libsnobal.STD_AIRTMP,
  *                                    libsnobal.STD_LAPSE, (self.elevation / 1000.0),             # <<<<<<<<<<<<<<
@@ -2609,7 +2609,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObj
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":127
+  /* "pysnobal/libsnobal/snobal.pyx":127
  *         self.P_a = libsnobal.hysat(libsnobal.SEA_LEVEL, libsnobal.STD_AIRTMP,
  *                                    libsnobal.STD_LAPSE, (self.elevation / 1000.0),
  *                                    libsnobal.GRAVITY, libsnobal.MOL_AIR)             # <<<<<<<<<<<<<<
@@ -2666,7 +2666,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObj
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":125
+  /* "pysnobal/libsnobal/snobal.pyx":125
  * 
  *         self.elevation = params['elevation']
  *         self.P_a = libsnobal.hysat(libsnobal.SEA_LEVEL, libsnobal.STD_AIRTMP,             # <<<<<<<<<<<<<<
@@ -2676,7 +2676,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObj
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_P_a, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 125; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":130
+  /* "pysnobal/libsnobal/snobal.pyx":130
  * 
  *         # get the intial snowcover properties
  *         self.snow_records = snow_prop             # <<<<<<<<<<<<<<
@@ -2685,7 +2685,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObj
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_snow_records, __pyx_v_snow_prop) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":131
+  /* "pysnobal/libsnobal/snobal.pyx":131
  *         # get the intial snowcover properties
  *         self.snow_records = snow_prop
  *         self.get_sn_rec(True)             # <<<<<<<<<<<<<<
@@ -2699,7 +2699,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObj
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":134
+  /* "pysnobal/libsnobal/snobal.pyx":134
  * 
  *         # initialize the snowcover
  *         self.init_snow(True)             # <<<<<<<<<<<<<<
@@ -2713,7 +2713,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObj
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":137
+  /* "pysnobal/libsnobal/snobal.pyx":137
  * 
  *         # initialize the em
  *         self.init_em()             # <<<<<<<<<<<<<<
@@ -2742,7 +2742,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObj
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":143
+  /* "pysnobal/libsnobal/snobal.pyx":143
  * 
  *         # get measurement-height record
  *         self.mh_prop = meas_heights             # <<<<<<<<<<<<<<
@@ -2751,7 +2751,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObj
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_mh_prop, __pyx_v_meas_heights) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 143; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":144
+  /* "pysnobal/libsnobal/snobal.pyx":144
  *         # get measurement-height record
  *         self.mh_prop = meas_heights
  *         self.get_mh_rec(True)             # <<<<<<<<<<<<<<
@@ -2765,7 +2765,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObj
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":145
+  /* "pysnobal/libsnobal/snobal.pyx":145
  *         self.mh_prop = meas_heights
  *         self.get_mh_rec(True)
  *         self.relative_hts = False             # <<<<<<<<<<<<<<
@@ -2774,7 +2774,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObj
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_relative_hts, Py_False) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 145; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":148
+  /* "pysnobal/libsnobal/snobal.pyx":148
  * 
  *         # runoff data
  *         self.ro_data = False             # <<<<<<<<<<<<<<
@@ -2783,7 +2783,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObj
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_ro_data, Py_False) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 148; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":155
+  /* "pysnobal/libsnobal/snobal.pyx":155
  * 
  *         # some other variables
  *         self.input_deltas = dict()             # <<<<<<<<<<<<<<
@@ -2795,7 +2795,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObj
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_input_deltas, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 155; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":156
+  /* "pysnobal/libsnobal/snobal.pyx":156
  *         # some other variables
  *         self.input_deltas = dict()
  *         self.computed = dict()             # <<<<<<<<<<<<<<
@@ -2807,7 +2807,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObj
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_computed, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 156; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":157
+  /* "pysnobal/libsnobal/snobal.pyx":157
  *         self.input_deltas = dict()
  *         self.computed = dict()
  *         self.precip_info = dict()             # <<<<<<<<<<<<<<
@@ -2819,7 +2819,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObj
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_precip_info, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 157; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":158
+  /* "pysnobal/libsnobal/snobal.pyx":158
  *         self.computed = dict()
  *         self.precip_info = dict()
  *         for level in range(DATA_TSTEP, SMALL_TSTEP+1):             # <<<<<<<<<<<<<<
@@ -2887,7 +2887,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObj
     __Pyx_XDECREF_SET(__pyx_v_level, __pyx_t_11);
     __pyx_t_11 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":159
+    /* "pysnobal/libsnobal/snobal.pyx":159
  *         self.precip_info = dict()
  *         for level in range(DATA_TSTEP, SMALL_TSTEP+1):
  *             self.input_deltas[level] = Map({})             # <<<<<<<<<<<<<<
@@ -2930,7 +2930,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObj
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":160
+    /* "pysnobal/libsnobal/snobal.pyx":160
  *         for level in range(DATA_TSTEP, SMALL_TSTEP+1):
  *             self.input_deltas[level] = Map({})
  *             self.computed[level] = None             # <<<<<<<<<<<<<<
@@ -2942,7 +2942,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObj
     if (unlikely(PyObject_SetItem(__pyx_t_11, __pyx_v_level, Py_None) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 160; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":161
+    /* "pysnobal/libsnobal/snobal.pyx":161
  *             self.input_deltas[level] = Map({})
  *             self.computed[level] = None
  *             self.precip_info[level] = Map({})             # <<<<<<<<<<<<<<
@@ -2985,7 +2985,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObj
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":158
+    /* "pysnobal/libsnobal/snobal.pyx":158
  *         self.computed = dict()
  *         self.precip_info = dict()
  *         for level in range(DATA_TSTEP, SMALL_TSTEP+1):             # <<<<<<<<<<<<<<
@@ -2995,7 +2995,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObj
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":164
+  /* "pysnobal/libsnobal/snobal.pyx":164
  * 
  * 
  *         self.time_since_out = 0             # <<<<<<<<<<<<<<
@@ -3004,7 +3004,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObj
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_time_since_out, __pyx_int_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 164; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":167
+  /* "pysnobal/libsnobal/snobal.pyx":167
  * 
  *         # set some attributes
  *         self.isothermal = False             # <<<<<<<<<<<<<<
@@ -3013,7 +3013,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObj
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_isothermal, Py_False) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 167; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":107
+  /* "pysnobal/libsnobal/snobal.pyx":107
  * 
  * 
  *     def __init__(self, params, tstep_info, snow_prop, meas_heights):             # <<<<<<<<<<<<<<
@@ -3035,7 +3035,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObj
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_9);
   __Pyx_XDECREF(__pyx_t_11);
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_level);
@@ -3044,7 +3044,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObj
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":170
+/* "pysnobal/libsnobal/snobal.pyx":170
  * 
  * 
  *     def do_data_tstep(self, input1, input2):             # <<<<<<<<<<<<<<
@@ -3053,10 +3053,10 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal___init__(CYTHON_UNUSED PyObj
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_3do_data_tstep(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_8pysnobal_6snobal_6snobal_2do_data_tstep[] = "\n        This routine performs the model's calculations for 1 data timestep\n        between 2 input-data records which are in 'input_rec1' and \n        'input_rec2'.\n        \n        If there's precipitation during the data timestep, the flag\n        'precip_now' used be TRUE.  Furthermore, the routine requires\n        that the following precipitation variables have been initialized:\n        \n            m_pp\n            percent_snow\n            rho_snow\n            T_pp\n        \n        This routine divides the data timestep into the appropriate number\n        of normal run timesteps.  The input values for each normal timestep\n        are computed from the two input records by linear interpolation.\n        \n        If output is desired for any of the run timesteps (normal, medium,\n        or small), the appropriate output flags must be set in the proper\n        timestep's record (i.e., the array 'tstep_info').  If any output\n        flag is set, the routine requires that the global variable 'out_func'\n        point to appropriate output function.\n        \n        This routine may return in the middle of a data timestep if:\n        \n            a)  the output function pointed to by 'out_func' is called, and\n            b)  the flag 'run_no_snow' is FALSE, and\n            c)  there is no snow remaining on the ground at the end of\n                timestep\n        \n        In this happens, the flag 'stop_no_snow' is set to TRUE.\n        \n        Args:\n            input1: first timestep dict\n            input2: second timestep sixr\n            \n            inputs contain all forcing data:\n                ['S_n', 'I_lw', 'T_a', 'e_a', 'u', 'T_g','m_pp',\n                    'percent_snow', 'rho_snow', 'T_pp']\n                \n            \n        ";
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_6snobal_3do_data_tstep = {"do_data_tstep", (PyCFunction)__pyx_pw_8pysnobal_6snobal_6snobal_3do_data_tstep, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8pysnobal_6snobal_6snobal_2do_data_tstep};
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_3do_data_tstep(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_3do_data_tstep(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_2do_data_tstep[] = "\n        This routine performs the model's calculations for 1 data timestep\n        between 2 input-data records which are in 'input_rec1' and \n        'input_rec2'.\n        \n        If there's precipitation during the data timestep, the flag\n        'precip_now' used be TRUE.  Furthermore, the routine requires\n        that the following precipitation variables have been initialized:\n        \n            m_pp\n            percent_snow\n            rho_snow\n            T_pp\n        \n        This routine divides the data timestep into the appropriate number\n        of normal run timesteps.  The input values for each normal timestep\n        are computed from the two input records by linear interpolation.\n        \n        If output is desired for any of the run timesteps (normal, medium,\n        or small), the appropriate output flags must be set in the proper\n        timestep's record (i.e., the array 'tstep_info').  If any output\n        flag is set, the routine requires that the global variable 'out_func'\n        point to appropriate output function.\n        \n        This routine may return in the middle of a data timestep if:\n        \n            a)  the output function pointed to by 'out_func' is called, and\n            b)  the flag 'run_no_snow' is FALSE, and\n            c)  there is no snow remaining on the ground at the end of\n                timestep\n        \n        In this happens, the flag 'stop_no_snow' is set to TRUE.\n        \n        Args:\n            input1: first timestep dict\n            input2: second timestep sixr\n            \n            inputs contain all forcing data:\n                ['S_n', 'I_lw', 'T_a', 'e_a', 'u', 'T_g','m_pp',\n                    'percent_snow', 'rho_snow', 'T_pp']\n                \n            \n        ";
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_3do_data_tstep = {"do_data_tstep", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_3do_data_tstep, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_2do_data_tstep};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_3do_data_tstep(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_input1 = 0;
   PyObject *__pyx_v_input2 = 0;
@@ -3113,18 +3113,18 @@ static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_3do_data_tstep(PyObject *__p
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("do_data_tstep", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 170; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.do_data_tstep", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.do_data_tstep", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(__pyx_self, __pyx_v_self, __pyx_v_input1, __pyx_v_input2);
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_2do_data_tstep(__pyx_self, __pyx_v_self, __pyx_v_input1, __pyx_v_input2);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_input1, PyObject *__pyx_v_input2) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_input1, PyObject *__pyx_v_input2) {
   PyObject *__pyx_v_i = NULL;
   PyObject *__pyx_v_pp_info = NULL;
   PyObject *__pyx_v_level = NULL;
@@ -3146,7 +3146,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
   __Pyx_INCREF(__pyx_v_input1);
   __Pyx_INCREF(__pyx_v_input2);
 
-  /* "pysnobal/libsnobal/snobal.py":217
+  /* "pysnobal/libsnobal/snobal.pyx":217
  * #         print '%.2f' % (self.current_time/3600.0)
  * 
  *         input1 = Map(input1)             # <<<<<<<<<<<<<<
@@ -3183,7 +3183,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
   __Pyx_DECREF_SET(__pyx_v_input1, __pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":218
+  /* "pysnobal/libsnobal/snobal.pyx":218
  * 
  *         input1 = Map(input1)
  *         input2 = Map(input2)             # <<<<<<<<<<<<<<
@@ -3220,7 +3220,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
   __Pyx_DECREF_SET(__pyx_v_input2, __pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":221
+  /* "pysnobal/libsnobal/snobal.pyx":221
  * 
  *         # store the inputs for later
  *         self.input1 = input1             # <<<<<<<<<<<<<<
@@ -3229,7 +3229,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_input1, __pyx_v_input1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 221; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":222
+  /* "pysnobal/libsnobal/snobal.pyx":222
  *         # store the inputs for later
  *         self.input1 = input1
  *         self.input2 = input2             # <<<<<<<<<<<<<<
@@ -3238,7 +3238,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_input2, __pyx_v_input2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 222; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":225
+  /* "pysnobal/libsnobal/snobal.pyx":225
  * 
  *         # Compute deltas for the climate input parameters over the data timestep.
  *         for i in input1.keys():             # <<<<<<<<<<<<<<
@@ -3308,7 +3308,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":226
+    /* "pysnobal/libsnobal/snobal.pyx":226
  *         # Compute deltas for the climate input parameters over the data timestep.
  *         for i in input1.keys():
  *             self.input_deltas[DATA_TSTEP][i] = input2[i] - input1[i]             # <<<<<<<<<<<<<<
@@ -3335,7 +3335,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":225
+    /* "pysnobal/libsnobal/snobal.pyx":225
  * 
  *         # Compute deltas for the climate input parameters over the data timestep.
  *         for i in input1.keys():             # <<<<<<<<<<<<<<
@@ -3345,7 +3345,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":231
+  /* "pysnobal/libsnobal/snobal.pyx":231
  *         # If there is precipitation, then compute the amount of rain & snow in it.
  *         # Look at the first input record
  *         pp_info = self.init_precip()             # <<<<<<<<<<<<<<
@@ -3375,7 +3375,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
   __pyx_v_pp_info = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":232
+  /* "pysnobal/libsnobal/snobal.pyx":232
  *         # Look at the first input record
  *         pp_info = self.init_precip()
  *         self.precip_now = False             # <<<<<<<<<<<<<<
@@ -3384,7 +3384,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_precip_now, Py_False) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":236
+  /* "pysnobal/libsnobal/snobal.pyx":236
  *         # this precip will hold the temperatures and such, set to zero initially
  * #         self.precip = pd.Series(0.0, index=['T_rain','T_snow','h2o_sat_snow'])
  *         self.precip = Map({key: 0.0 for key in ['T_rain','T_snow','h2o_sat_snow']})             # <<<<<<<<<<<<<<
@@ -3447,7 +3447,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_precip, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 236; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":238
+  /* "pysnobal/libsnobal/snobal.pyx":238
  *         self.precip = Map({key: 0.0 for key in ['T_rain','T_snow','h2o_sat_snow']})
  * 
  *         if input1.m_pp > 0:             # <<<<<<<<<<<<<<
@@ -3462,7 +3462,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   if (__pyx_t_8) {
 
-    /* "pysnobal/libsnobal/snobal.py":239
+    /* "pysnobal/libsnobal/snobal.pyx":239
  * 
  *         if input1.m_pp > 0:
  *             self.precip_now = True             # <<<<<<<<<<<<<<
@@ -3471,7 +3471,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
  */
     if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_precip_now, Py_True) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 239; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "pysnobal/libsnobal/snobal.py":241
+    /* "pysnobal/libsnobal/snobal.pyx":241
  *             self.precip_now = True
  * 
  *             pp_info.m_pp = input1.m_pp             # <<<<<<<<<<<<<<
@@ -3483,7 +3483,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
     if (__Pyx_PyObject_SetAttrStr(__pyx_v_pp_info, __pyx_n_s_m_pp, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 241; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":242
+    /* "pysnobal/libsnobal/snobal.pyx":242
  * 
  *             pp_info.m_pp = input1.m_pp
  *             pp_info.m_snow = input1.m_pp * input1.percent_snow             # <<<<<<<<<<<<<<
@@ -3501,7 +3501,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
     if (__Pyx_PyObject_SetAttrStr(__pyx_v_pp_info, __pyx_n_s_m_snow, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 242; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":243
+    /* "pysnobal/libsnobal/snobal.pyx":243
  *             pp_info.m_pp = input1.m_pp
  *             pp_info.m_snow = input1.m_pp * input1.percent_snow
  *             pp_info.m_rain = input1.m_pp - pp_info.m_snow             # <<<<<<<<<<<<<<
@@ -3519,7 +3519,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
     if (__Pyx_PyObject_SetAttrStr(__pyx_v_pp_info, __pyx_n_s_m_rain, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 243; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":245
+    /* "pysnobal/libsnobal/snobal.pyx":245
  *             pp_info.m_rain = input1.m_pp - pp_info.m_snow
  * 
  *             if (pp_info.m_snow > 0.0):             # <<<<<<<<<<<<<<
@@ -3534,7 +3534,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     if (__pyx_t_8) {
 
-      /* "pysnobal/libsnobal/snobal.py":246
+      /* "pysnobal/libsnobal/snobal.pyx":246
  * 
  *             if (pp_info.m_snow > 0.0):
  *                 if (input1.rho_snow > 0.0):             # <<<<<<<<<<<<<<
@@ -3549,7 +3549,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_8) {
 
-        /* "pysnobal/libsnobal/snobal.py":247
+        /* "pysnobal/libsnobal/snobal.pyx":247
  *             if (pp_info.m_snow > 0.0):
  *                 if (input1.rho_snow > 0.0):
  *                     pp_info.z_snow = pp_info.m_snow / input1.rho_snow             # <<<<<<<<<<<<<<
@@ -3567,7 +3567,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
         if (__Pyx_PyObject_SetAttrStr(__pyx_v_pp_info, __pyx_n_s_z_snow, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 247; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-        /* "pysnobal/libsnobal/snobal.py":246
+        /* "pysnobal/libsnobal/snobal.pyx":246
  * 
  *             if (pp_info.m_snow > 0.0):
  *                 if (input1.rho_snow > 0.0):             # <<<<<<<<<<<<<<
@@ -3577,7 +3577,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
         goto __pyx_L13;
       }
 
-      /* "pysnobal/libsnobal/snobal.py":249
+      /* "pysnobal/libsnobal/snobal.pyx":249
  *                     pp_info.z_snow = pp_info.m_snow / input1.rho_snow
  *                 else:
  *                     raise ValueError('input1.rho_snow is <= 0.0 with input1.percent_snow > 0.0')             # <<<<<<<<<<<<<<
@@ -3593,7 +3593,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
       }
       __pyx_L13:;
 
-      /* "pysnobal/libsnobal/snobal.py":245
+      /* "pysnobal/libsnobal/snobal.pyx":245
  *             pp_info.m_rain = input1.m_pp - pp_info.m_snow
  * 
  *             if (pp_info.m_snow > 0.0):             # <<<<<<<<<<<<<<
@@ -3603,7 +3603,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
       goto __pyx_L12;
     }
 
-    /* "pysnobal/libsnobal/snobal.py":251
+    /* "pysnobal/libsnobal/snobal.pyx":251
  *                     raise ValueError('input1.rho_snow is <= 0.0 with input1.percent_snow > 0.0')
  *             else:
  *                 pp_info.z_snow = 0             # <<<<<<<<<<<<<<
@@ -3615,7 +3615,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
     }
     __pyx_L12:;
 
-    /* "pysnobal/libsnobal/snobal.py":254
+    /* "pysnobal/libsnobal/snobal.pyx":254
  * 
  *             # Mixed snow and rain
  *             if (pp_info.m_snow > 0) and (pp_info.m_rain > 0):             # <<<<<<<<<<<<<<
@@ -3643,7 +3643,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
     __pyx_L15_bool_binop_done:;
     if (__pyx_t_8) {
 
-      /* "pysnobal/libsnobal/snobal.py":255
+      /* "pysnobal/libsnobal/snobal.pyx":255
  *             # Mixed snow and rain
  *             if (pp_info.m_snow > 0) and (pp_info.m_rain > 0):
  *                 self.precip.T_snow = FREEZE             # <<<<<<<<<<<<<<
@@ -3658,7 +3658,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":256
+      /* "pysnobal/libsnobal/snobal.pyx":256
  *             if (pp_info.m_snow > 0) and (pp_info.m_rain > 0):
  *                 self.precip.T_snow = FREEZE
  *                 self.precip.h2o_sat_snow = 1.0             # <<<<<<<<<<<<<<
@@ -3670,7 +3670,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
       if (__Pyx_PyObject_SetAttrStr(__pyx_t_2, __pyx_n_s_h2o_sat_snow, __pyx_float_1_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 256; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":257
+      /* "pysnobal/libsnobal/snobal.pyx":257
  *                 self.precip.T_snow = FREEZE
  *                 self.precip.h2o_sat_snow = 1.0
  *                 self.precip.T_rain = input1.T_pp             # <<<<<<<<<<<<<<
@@ -3685,7 +3685,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":254
+      /* "pysnobal/libsnobal/snobal.pyx":254
  * 
  *             # Mixed snow and rain
  *             if (pp_info.m_snow > 0) and (pp_info.m_rain > 0):             # <<<<<<<<<<<<<<
@@ -3695,7 +3695,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
       goto __pyx_L14;
     }
 
-    /* "pysnobal/libsnobal/snobal.py":259
+    /* "pysnobal/libsnobal/snobal.pyx":259
  *                 self.precip.T_rain = input1.T_pp
  * 
  *             elif (pp_info.m_snow > 0):             # <<<<<<<<<<<<<<
@@ -3710,7 +3710,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     if (__pyx_t_8) {
 
-      /* "pysnobal/libsnobal/snobal.py":261
+      /* "pysnobal/libsnobal/snobal.pyx":261
  *             elif (pp_info.m_snow > 0):
  *                 # Snow only
  *                 if (input1.T_pp < FREEZE):             # <<<<<<<<<<<<<<
@@ -3728,7 +3728,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_8) {
 
-        /* "pysnobal/libsnobal/snobal.py":263
+        /* "pysnobal/libsnobal/snobal.pyx":263
  *                 if (input1.T_pp < FREEZE):
  *                     # cold snow
  *                     self.precip.T_snow = input1.T_pp             # <<<<<<<<<<<<<<
@@ -3743,7 +3743,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-        /* "pysnobal/libsnobal/snobal.py":264
+        /* "pysnobal/libsnobal/snobal.pyx":264
  *                     # cold snow
  *                     self.precip.T_snow = input1.T_pp
  *                     self.precip.h2o_sat_snow = 0             # <<<<<<<<<<<<<<
@@ -3755,7 +3755,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
         if (__Pyx_PyObject_SetAttrStr(__pyx_t_3, __pyx_n_s_h2o_sat_snow, __pyx_int_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 264; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-        /* "pysnobal/libsnobal/snobal.py":261
+        /* "pysnobal/libsnobal/snobal.pyx":261
  *             elif (pp_info.m_snow > 0):
  *                 # Snow only
  *                 if (input1.T_pp < FREEZE):             # <<<<<<<<<<<<<<
@@ -3765,7 +3765,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
         goto __pyx_L17;
       }
 
-      /* "pysnobal/libsnobal/snobal.py":267
+      /* "pysnobal/libsnobal/snobal.pyx":267
  *                 else:
  *                     # warm snow
  *                     self.precip.T_snow = FREEZE             # <<<<<<<<<<<<<<
@@ -3781,7 +3781,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-        /* "pysnobal/libsnobal/snobal.py":268
+        /* "pysnobal/libsnobal/snobal.pyx":268
  *                     # warm snow
  *                     self.precip.T_snow = FREEZE
  *                     self.precip.h2o_sat_snow = 1             # <<<<<<<<<<<<<<
@@ -3795,7 +3795,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
       }
       __pyx_L17:;
 
-      /* "pysnobal/libsnobal/snobal.py":259
+      /* "pysnobal/libsnobal/snobal.pyx":259
  *                 self.precip.T_rain = input1.T_pp
  * 
  *             elif (pp_info.m_snow > 0):             # <<<<<<<<<<<<<<
@@ -3805,7 +3805,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
       goto __pyx_L14;
     }
 
-    /* "pysnobal/libsnobal/snobal.py":270
+    /* "pysnobal/libsnobal/snobal.pyx":270
  *                     self.precip.h2o_sat_snow = 1
  * 
  *             elif (pp_info.m_rain > 0):             # <<<<<<<<<<<<<<
@@ -3820,7 +3820,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     if (__pyx_t_8) {
 
-      /* "pysnobal/libsnobal/snobal.py":272
+      /* "pysnobal/libsnobal/snobal.pyx":272
  *             elif (pp_info.m_rain > 0):
  *                 # rain only
  *                 self.precip.T_rain = input1.T_pp             # <<<<<<<<<<<<<<
@@ -3835,7 +3835,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":270
+      /* "pysnobal/libsnobal/snobal.pyx":270
  *                     self.precip.h2o_sat_snow = 1
  * 
  *             elif (pp_info.m_rain > 0):             # <<<<<<<<<<<<<<
@@ -3845,7 +3845,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
     }
     __pyx_L14:;
 
-    /* "pysnobal/libsnobal/snobal.py":238
+    /* "pysnobal/libsnobal/snobal.pyx":238
  *         self.precip = Map({key: 0.0 for key in ['T_rain','T_snow','h2o_sat_snow']})
  * 
  *         if input1.m_pp > 0:             # <<<<<<<<<<<<<<
@@ -3854,7 +3854,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
  */
   }
 
-  /* "pysnobal/libsnobal/snobal.py":274
+  /* "pysnobal/libsnobal/snobal.pyx":274
  *                 self.precip.T_rain = input1.T_pp
  * 
  *         self.precip_info[DATA_TSTEP] = pp_info             # <<<<<<<<<<<<<<
@@ -3869,7 +3869,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":277
+  /* "pysnobal/libsnobal/snobal.pyx":277
  * 
  *         # Clear the 'computed' flag at the other timestep levels.
  *         for level in range(DATA_TSTEP, SMALL_TSTEP+1):             # <<<<<<<<<<<<<<
@@ -3937,7 +3937,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
     __Pyx_XDECREF_SET(__pyx_v_level, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":278
+    /* "pysnobal/libsnobal/snobal.pyx":278
  *         # Clear the 'computed' flag at the other timestep levels.
  *         for level in range(DATA_TSTEP, SMALL_TSTEP+1):
  *             self.computed[level] = False             # <<<<<<<<<<<<<<
@@ -3949,7 +3949,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
     if (unlikely(PyObject_SetItem(__pyx_t_2, __pyx_v_level, Py_False) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 278; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":277
+    /* "pysnobal/libsnobal/snobal.pyx":277
  * 
  *         # Clear the 'computed' flag at the other timestep levels.
  *         for level in range(DATA_TSTEP, SMALL_TSTEP+1):             # <<<<<<<<<<<<<<
@@ -3959,7 +3959,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":280
+  /* "pysnobal/libsnobal/snobal.pyx":280
  *             self.computed[level] = False
  * 
  *         if self.current_time/3600.0 > 1036.99:             # <<<<<<<<<<<<<<
@@ -3977,7 +3977,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   if (__pyx_t_8) {
 
-    /* "pysnobal/libsnobal/snobal.py":281
+    /* "pysnobal/libsnobal/snobal.pyx":281
  * 
  *         if self.current_time/3600.0 > 1036.99:
  *             self.curr_level             # <<<<<<<<<<<<<<
@@ -3988,7 +3988,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":280
+    /* "pysnobal/libsnobal/snobal.pyx":280
  *             self.computed[level] = False
  * 
  *         if self.current_time/3600.0 > 1036.99:             # <<<<<<<<<<<<<<
@@ -3997,7 +3997,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
  */
   }
 
-  /* "pysnobal/libsnobal/snobal.py":284
+  /* "pysnobal/libsnobal/snobal.pyx":284
  * 
  *         #Divide the data timestep into normal run timesteps.
  *         self.curr_level = DATA_TSTEP   # keeps track of what time step level the model is on             # <<<<<<<<<<<<<<
@@ -4009,7 +4009,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_curr_level, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 284; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":285
+  /* "pysnobal/libsnobal/snobal.pyx":285
  *         #Divide the data timestep into normal run timesteps.
  *         self.curr_level = DATA_TSTEP   # keeps track of what time step level the model is on
  *         self.divide_tstep()             # <<<<<<<<<<<<<<
@@ -4038,7 +4038,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":170
+  /* "pysnobal/libsnobal/snobal.pyx":170
  * 
  * 
  *     def do_data_tstep(self, input1, input2):             # <<<<<<<<<<<<<<
@@ -4055,7 +4055,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.do_data_tstep", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.do_data_tstep", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_i);
@@ -4068,7 +4068,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":288
+/* "pysnobal/libsnobal/snobal.pyx":288
  * 
  * 
  *     def divide_tstep(self):             # <<<<<<<<<<<<<<
@@ -4077,21 +4077,21 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_2do_data_tstep(CYTHON_UNUSED
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_5divide_tstep(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_8pysnobal_6snobal_6snobal_4divide_tstep[] = "\n        This routine performs the model's calculations for 1 data timestep\n        between 2 input-data records which are in 'input_rec1' and\n        'input_rec2'.\n        \n        If there's precipitation during the data timestep, the flag\n        'precip_now' used be TRUE.  Furthermore, the routine requires\n        that the following precipitation variables have been initialized:\n        \n            m_pp\n            percent_snow\n            rho_snow\n            T_pp\n        \n        This routine divides the data timestep into the appropriate number\n        of normal run timesteps.  The input values for each normal timestep\n        are computed from the two input records by linear interpolation.\n        \n        If output is desired for any of the run timesteps (normal, medium,\n        or small), the appropriate output flags must be set in the proper\n        timestep's record (i.e., the array 'tstep_info').  If any output\n        flag is set, the routine requires that the global variable 'out_func'\n        point to appropriate output function.\n        \n        This routine may return in the middle of a data timestep if:\n        \n            a)  the output function pointed to by 'out_func' is called, and\n            b)  the flag 'run_no_snow' is FALSE, and\n            c)  there is no snow remaining on the ground at the end of\n                timestep\n        \n        In this happens, the flag 'stop_no_snow' is set to TRUE.\n                \n        ";
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_6snobal_5divide_tstep = {"divide_tstep", (PyCFunction)__pyx_pw_8pysnobal_6snobal_6snobal_5divide_tstep, METH_O, __pyx_doc_8pysnobal_6snobal_6snobal_4divide_tstep};
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_5divide_tstep(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_5divide_tstep(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static char __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_4divide_tstep[] = "\n        This routine performs the model's calculations for 1 data timestep\n        between 2 input-data records which are in 'input_rec1' and\n        'input_rec2'.\n        \n        If there's precipitation during the data timestep, the flag\n        'precip_now' used be TRUE.  Furthermore, the routine requires\n        that the following precipitation variables have been initialized:\n        \n            m_pp\n            percent_snow\n            rho_snow\n            T_pp\n        \n        This routine divides the data timestep into the appropriate number\n        of normal run timesteps.  The input values for each normal timestep\n        are computed from the two input records by linear interpolation.\n        \n        If output is desired for any of the run timesteps (normal, medium,\n        or small), the appropriate output flags must be set in the proper\n        timestep's record (i.e., the array 'tstep_info').  If any output\n        flag is set, the routine requires that the global variable 'out_func'\n        point to appropriate output function.\n        \n        This routine may return in the middle of a data timestep if:\n        \n            a)  the output function pointed to by 'out_func' is called, and\n            b)  the flag 'run_no_snow' is FALSE, and\n            c)  there is no snow remaining on the ground at the end of\n                timestep\n        \n        In this happens, the flag 'stop_no_snow' is set to TRUE.\n                \n        ";
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_5divide_tstep = {"divide_tstep", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_5divide_tstep, METH_O, __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_4divide_tstep};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_5divide_tstep(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("divide_tstep (wrapper)", 0);
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(__pyx_self, ((PyObject *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_4divide_tstep(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_v_next_lvl_tstep = NULL;
   PyObject *__pyx_v_curr_lvl_deltas = NULL;
   CYTHON_UNUSED PyObject *__pyx_v_next_lvl_deltas = NULL;
@@ -4117,7 +4117,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("divide_tstep", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":327
+  /* "pysnobal/libsnobal/snobal.pyx":327
  * 
  *         # Fetch the record for the timestep at the next level.
  *         self.next_level = self.curr_level + 1             # <<<<<<<<<<<<<<
@@ -4132,7 +4132,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_next_level, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 327; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":328
+  /* "pysnobal/libsnobal/snobal.pyx":328
  *         # Fetch the record for the timestep at the next level.
  *         self.next_level = self.curr_level + 1
  *         next_lvl_tstep = self.tstep_info[self.next_level]             # <<<<<<<<<<<<<<
@@ -4150,7 +4150,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
   __pyx_v_next_lvl_tstep = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":331
+  /* "pysnobal/libsnobal/snobal.pyx":331
  * 
  *         # get the input deltas
  *         curr_lvl_deltas = self.input_deltas[self.curr_level]             # <<<<<<<<<<<<<<
@@ -4168,7 +4168,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
   __pyx_v_curr_lvl_deltas = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":332
+  /* "pysnobal/libsnobal/snobal.pyx":332
  *         # get the input deltas
  *         curr_lvl_deltas = self.input_deltas[self.curr_level]
  *         next_lvl_deltas = self.input_deltas[self.next_level]             # <<<<<<<<<<<<<<
@@ -4186,7 +4186,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
   __pyx_v_next_lvl_deltas = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":335
+  /* "pysnobal/libsnobal/snobal.pyx":335
  * 
  *         # get the precip info
  *         curr_lvl_precip = self.precip_info[self.curr_level]             # <<<<<<<<<<<<<<
@@ -4204,7 +4204,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
   __pyx_v_curr_lvl_precip = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":336
+  /* "pysnobal/libsnobal/snobal.pyx":336
  *         # get the precip info
  *         curr_lvl_precip = self.precip_info[self.curr_level]
  *         next_lvl_precip = self.precip_info[self.next_level]             # <<<<<<<<<<<<<<
@@ -4222,7 +4222,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
   __pyx_v_next_lvl_precip = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":345
+  /* "pysnobal/libsnobal/snobal.pyx":345
  *         # To-do can get rid of computed and use the None
  * 
  *         if not self.computed[self.next_level]:             # <<<<<<<<<<<<<<
@@ -4242,7 +4242,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
   __pyx_t_5 = ((!__pyx_t_4) != 0);
   if (__pyx_t_5) {
 
-    /* "pysnobal/libsnobal/snobal.py":348
+    /* "pysnobal/libsnobal/snobal.pyx":348
  * #             next_lvl_deltas = curr_lvl_deltas / next_lvl_tstep['intervals']
  * #             self.input_deltas[self.next_level] = next_lvl_deltas.copy()
  *             for k in curr_lvl_deltas.keys():             # <<<<<<<<<<<<<<
@@ -4312,7 +4312,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
       __Pyx_XDECREF_SET(__pyx_v_k, __pyx_t_2);
       __pyx_t_2 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":349
+      /* "pysnobal/libsnobal/snobal.pyx":349
  * #             self.input_deltas[self.next_level] = next_lvl_deltas.copy()
  *             for k in curr_lvl_deltas.keys():
  *                 self.input_deltas[self.next_level][k] = curr_lvl_deltas[k] / next_lvl_tstep['intervals']             # <<<<<<<<<<<<<<
@@ -4339,7 +4339,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":348
+      /* "pysnobal/libsnobal/snobal.pyx":348
  * #             next_lvl_deltas = curr_lvl_deltas / next_lvl_tstep['intervals']
  * #             self.input_deltas[self.next_level] = next_lvl_deltas.copy()
  *             for k in curr_lvl_deltas.keys():             # <<<<<<<<<<<<<<
@@ -4349,7 +4349,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
     }
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":351
+    /* "pysnobal/libsnobal/snobal.pyx":351
  *                 self.input_deltas[self.next_level][k] = curr_lvl_deltas[k] / next_lvl_tstep['intervals']
  * 
  *             if self.precip_now:             # <<<<<<<<<<<<<<
@@ -4362,7 +4362,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (__pyx_t_5) {
 
-      /* "pysnobal/libsnobal/snobal.py":354
+      /* "pysnobal/libsnobal/snobal.pyx":354
  * #                 next_lvl_precip = curr_lvl_precip / next_lvl_tstep['intervals']
  * #                 self.precip_info[self.next_level] = next_lvl_precip.copy()
  *                 for k in curr_lvl_precip.keys():             # <<<<<<<<<<<<<<
@@ -4432,7 +4432,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
         __Pyx_XDECREF_SET(__pyx_v_k, __pyx_t_1);
         __pyx_t_1 = 0;
 
-        /* "pysnobal/libsnobal/snobal.py":355
+        /* "pysnobal/libsnobal/snobal.pyx":355
  * #                 self.precip_info[self.next_level] = next_lvl_precip.copy()
  *                 for k in curr_lvl_precip.keys():
  *                     self.precip_info[self.next_level][k] = curr_lvl_precip[k] / next_lvl_tstep['intervals']             # <<<<<<<<<<<<<<
@@ -4459,7 +4459,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-        /* "pysnobal/libsnobal/snobal.py":354
+        /* "pysnobal/libsnobal/snobal.pyx":354
  * #                 next_lvl_precip = curr_lvl_precip / next_lvl_tstep['intervals']
  * #                 self.precip_info[self.next_level] = next_lvl_precip.copy()
  *                 for k in curr_lvl_precip.keys():             # <<<<<<<<<<<<<<
@@ -4469,7 +4469,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
       }
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":351
+      /* "pysnobal/libsnobal/snobal.pyx":351
  *                 self.input_deltas[self.next_level][k] = curr_lvl_deltas[k] / next_lvl_tstep['intervals']
  * 
  *             if self.precip_now:             # <<<<<<<<<<<<<<
@@ -4478,7 +4478,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
  */
     }
 
-    /* "pysnobal/libsnobal/snobal.py":358
+    /* "pysnobal/libsnobal/snobal.pyx":358
  * 
  * 
  *             self.computed[self.next_level] = True             # <<<<<<<<<<<<<<
@@ -4493,7 +4493,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":345
+    /* "pysnobal/libsnobal/snobal.pyx":345
  *         # To-do can get rid of computed and use the None
  * 
  *         if not self.computed[self.next_level]:             # <<<<<<<<<<<<<<
@@ -4502,7 +4502,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
  */
   }
 
-  /* "pysnobal/libsnobal/snobal.py":362
+  /* "pysnobal/libsnobal/snobal.pyx":362
  *         # For each the new smaller timestep, either subdivide them if
  *         # below their mass threshold, or run the model for them.
  *         interval = next_lvl_tstep['intervals']             # <<<<<<<<<<<<<<
@@ -4514,7 +4514,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
   __pyx_v_interval = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":363
+  /* "pysnobal/libsnobal/snobal.pyx":363
  *         # below their mass threshold, or run the model for them.
  *         interval = next_lvl_tstep['intervals']
  *         for i in range(interval):             # <<<<<<<<<<<<<<
@@ -4572,7 +4572,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_8);
     __pyx_t_8 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":366
+    /* "pysnobal/libsnobal/snobal.pyx":366
  * #             print "Current level --> %i, loop %i" % (next_lvl_tstep['level'], i)
  * 
  *             if (self.next_level != SMALL_TSTEP) and (self.below_thold(next_lvl_tstep['threshold'])):             # <<<<<<<<<<<<<<
@@ -4629,7 +4629,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
     __pyx_L12_bool_binop_done:;
     if (__pyx_t_5) {
 
-      /* "pysnobal/libsnobal/snobal.py":367
+      /* "pysnobal/libsnobal/snobal.pyx":367
  * 
  *             if (self.next_level != SMALL_TSTEP) and (self.below_thold(next_lvl_tstep['threshold'])):
  *                 self.curr_level = copy(self.next_level) # increment the level number             # <<<<<<<<<<<<<<
@@ -4669,7 +4669,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
       if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_curr_level, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 367; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":368
+      /* "pysnobal/libsnobal/snobal.pyx":368
  *             if (self.next_level != SMALL_TSTEP) and (self.below_thold(next_lvl_tstep['threshold'])):
  *                 self.curr_level = copy(self.next_level) # increment the level number
  *                 if not self.divide_tstep():             # <<<<<<<<<<<<<<
@@ -4701,7 +4701,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
       __pyx_t_4 = ((!__pyx_t_5) != 0);
       if (__pyx_t_4) {
 
-        /* "pysnobal/libsnobal/snobal.py":369
+        /* "pysnobal/libsnobal/snobal.pyx":369
  *                 self.curr_level = copy(self.next_level) # increment the level number
  *                 if not self.divide_tstep():
  *                     return False             # <<<<<<<<<<<<<<
@@ -4714,7 +4714,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         goto __pyx_L0;
 
-        /* "pysnobal/libsnobal/snobal.py":368
+        /* "pysnobal/libsnobal/snobal.pyx":368
  *             if (self.next_level != SMALL_TSTEP) and (self.below_thold(next_lvl_tstep['threshold'])):
  *                 self.curr_level = copy(self.next_level) # increment the level number
  *                 if not self.divide_tstep():             # <<<<<<<<<<<<<<
@@ -4723,7 +4723,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
  */
       }
 
-      /* "pysnobal/libsnobal/snobal.py":366
+      /* "pysnobal/libsnobal/snobal.pyx":366
  * #             print "Current level --> %i, loop %i" % (next_lvl_tstep['level'], i)
  * 
  *             if (self.next_level != SMALL_TSTEP) and (self.below_thold(next_lvl_tstep['threshold'])):             # <<<<<<<<<<<<<<
@@ -4733,7 +4733,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
       goto __pyx_L11;
     }
 
-    /* "pysnobal/libsnobal/snobal.py":371
+    /* "pysnobal/libsnobal/snobal.pyx":371
  *                     return False
  *             else:
  *                 if not self.do_tstep(next_lvl_tstep):             # <<<<<<<<<<<<<<
@@ -4773,7 +4773,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
       __pyx_t_5 = ((!__pyx_t_4) != 0);
       if (__pyx_t_5) {
 
-        /* "pysnobal/libsnobal/snobal.py":372
+        /* "pysnobal/libsnobal/snobal.pyx":372
  *             else:
  *                 if not self.do_tstep(next_lvl_tstep):
  *                     return False             # <<<<<<<<<<<<<<
@@ -4786,7 +4786,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         goto __pyx_L0;
 
-        /* "pysnobal/libsnobal/snobal.py":371
+        /* "pysnobal/libsnobal/snobal.pyx":371
  *                     return False
  *             else:
  *                 if not self.do_tstep(next_lvl_tstep):             # <<<<<<<<<<<<<<
@@ -4797,7 +4797,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
     }
     __pyx_L11:;
 
-    /* "pysnobal/libsnobal/snobal.py":363
+    /* "pysnobal/libsnobal/snobal.pyx":363
  *         # below their mass threshold, or run the model for them.
  *         interval = next_lvl_tstep['intervals']
  *         for i in range(interval):             # <<<<<<<<<<<<<<
@@ -4807,7 +4807,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":377
+  /* "pysnobal/libsnobal/snobal.pyx":377
  *         # Output if this timestep is divided?
  *         # does a bitwise AND comparison
  *         if self.tstep_info[self.curr_level]['output'] & DIVIDED_TSTEP:             # <<<<<<<<<<<<<<
@@ -4835,7 +4835,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (__pyx_t_5) {
 
-    /* "pysnobal/libsnobal/snobal.py":379
+    /* "pysnobal/libsnobal/snobal.pyx":379
  *         if self.tstep_info[self.curr_level]['output'] & DIVIDED_TSTEP:
  * #             print '%.2f output divided tstep' % (self.current_time/3600.0)
  *             self.output()             # <<<<<<<<<<<<<<
@@ -4864,7 +4864,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":380
+    /* "pysnobal/libsnobal/snobal.pyx":380
  * #             print '%.2f output divided tstep' % (self.current_time/3600.0)
  *             self.output()
  *             self.time_since_out = 0.0             # <<<<<<<<<<<<<<
@@ -4873,7 +4873,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
  */
     if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_time_since_out, __pyx_float_0_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 380; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "pysnobal/libsnobal/snobal.py":377
+    /* "pysnobal/libsnobal/snobal.pyx":377
  *         # Output if this timestep is divided?
  *         # does a bitwise AND comparison
  *         if self.tstep_info[self.curr_level]['output'] & DIVIDED_TSTEP:             # <<<<<<<<<<<<<<
@@ -4882,7 +4882,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
  */
   }
 
-  /* "pysnobal/libsnobal/snobal.py":382
+  /* "pysnobal/libsnobal/snobal.pyx":382
  *             self.time_since_out = 0.0
  * 
  *         self.curr_level -= 1             # <<<<<<<<<<<<<<
@@ -4897,7 +4897,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_curr_level, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 382; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":383
+  /* "pysnobal/libsnobal/snobal.pyx":383
  * 
  *         self.curr_level -= 1
  *         self.next_level -= 1             # <<<<<<<<<<<<<<
@@ -4912,7 +4912,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_next_level, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 383; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":385
+  /* "pysnobal/libsnobal/snobal.pyx":385
  *         self.next_level -= 1
  * 
  *         return True             # <<<<<<<<<<<<<<
@@ -4924,7 +4924,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
   __pyx_r = Py_True;
   goto __pyx_L0;
 
-  /* "pysnobal/libsnobal/snobal.py":288
+  /* "pysnobal/libsnobal/snobal.pyx":288
  * 
  * 
  *     def divide_tstep(self):             # <<<<<<<<<<<<<<
@@ -4940,7 +4940,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_9);
   __Pyx_XDECREF(__pyx_t_10);
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.divide_tstep", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.divide_tstep", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_next_lvl_tstep);
@@ -4956,7 +4956,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":389
+/* "pysnobal/libsnobal/snobal.pyx":389
  * 
  * #     @profile
  *     def do_tstep(self, tstep):             # <<<<<<<<<<<<<<
@@ -4965,10 +4965,10 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_4divide_tstep(CYTHON_UNUSED 
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_7do_tstep(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_8pysnobal_6snobal_6snobal_6do_tstep[] = "\n        This routine performs the model's calculations for a single timestep.\n        It requires that these climate variables have been initialized:\n        \n            S_n\n            I_lw\n            T_a\n            e_a\n            u\n            T_g\n            \n        The routine also requires the precipitation data have been adjusted\n        for the timestep, and have been stored in the array:\n        \n            precip_info\n        \n        if the flag 'precip_now' is TRUE.  The routine will set the flag\n        'stop_no_snow' to TRUE if\n        \n            a)  the output function pointed to by 'out_func' is called, and\n            b)  the flag 'run_no_snow' is FALSE, and\n            c)  there is no snow remaining on the ground at the end of\n                timestep\n                \n        Args:\n            tstep: tstep_info for the current time step\n            \n        ";
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_6snobal_7do_tstep = {"do_tstep", (PyCFunction)__pyx_pw_8pysnobal_6snobal_6snobal_7do_tstep, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8pysnobal_6snobal_6snobal_6do_tstep};
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_7do_tstep(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_7do_tstep(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_6do_tstep[] = "\n        This routine performs the model's calculations for a single timestep.\n        It requires that these climate variables have been initialized:\n        \n            S_n\n            I_lw\n            T_a\n            e_a\n            u\n            T_g\n            \n        The routine also requires the precipitation data have been adjusted\n        for the timestep, and have been stored in the array:\n        \n            precip_info\n        \n        if the flag 'precip_now' is TRUE.  The routine will set the flag\n        'stop_no_snow' to TRUE if\n        \n            a)  the output function pointed to by 'out_func' is called, and\n            b)  the flag 'run_no_snow' is FALSE, and\n            c)  there is no snow remaining on the ground at the end of\n                timestep\n                \n        Args:\n            tstep: tstep_info for the current time step\n            \n        ";
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_7do_tstep = {"do_tstep", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_7do_tstep, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_6do_tstep};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_7do_tstep(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_tstep = 0;
   int __pyx_lineno = 0;
@@ -5016,18 +5016,18 @@ static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_7do_tstep(PyObject *__pyx_se
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("do_tstep", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 389; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.do_tstep", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.do_tstep", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(__pyx_self, __pyx_v_self, __pyx_v_tstep);
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_6do_tstep(__pyx_self, __pyx_v_self, __pyx_v_tstep);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_tstep) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_tstep) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -5045,7 +5045,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("do_tstep", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":419
+  /* "pysnobal/libsnobal/snobal.pyx":419
  *         """
  * 
  *         if self.current_time/3600.0 > 1197.45:             # <<<<<<<<<<<<<<
@@ -5063,7 +5063,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_3) {
 
-    /* "pysnobal/libsnobal/snobal.py":420
+    /* "pysnobal/libsnobal/snobal.pyx":420
  * 
  *         if self.current_time/3600.0 > 1197.45:
  *             self.curr_level             # <<<<<<<<<<<<<<
@@ -5074,7 +5074,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":419
+    /* "pysnobal/libsnobal/snobal.pyx":419
  *         """
  * 
  *         if self.current_time/3600.0 > 1197.45:             # <<<<<<<<<<<<<<
@@ -5083,7 +5083,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
  */
   }
 
-  /* "pysnobal/libsnobal/snobal.py":422
+  /* "pysnobal/libsnobal/snobal.pyx":422
  *             self.curr_level
  * 
  *         self.time_step = tstep['time_step']             # <<<<<<<<<<<<<<
@@ -5095,7 +5095,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_time_step, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 422; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":423
+  /* "pysnobal/libsnobal/snobal.pyx":423
  * 
  *         self.time_step = tstep['time_step']
  *         self.tstep_level = tstep['level']             # <<<<<<<<<<<<<<
@@ -5107,7 +5107,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_tstep_level, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 423; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":429
+  /* "pysnobal/libsnobal/snobal.pyx":429
  * 
  * 
  *         self.snow.h2o_total = 0             # <<<<<<<<<<<<<<
@@ -5119,7 +5119,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
   if (__Pyx_PyObject_SetAttrStr(__pyx_t_1, __pyx_n_s_h2o_total, __pyx_int_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 429; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":432
+  /* "pysnobal/libsnobal/snobal.pyx":432
  * 
  *         # is there snowcover?
  *         self.snowcover = self.snow.layer_count > 0             # <<<<<<<<<<<<<<
@@ -5136,7 +5136,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_snowcover, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 432; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":435
+  /* "pysnobal/libsnobal/snobal.pyx":435
  * 
  *         # Calculate energy transfer terms
  *         self.e_bal()             # <<<<<<<<<<<<<<
@@ -5165,7 +5165,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":438
+  /* "pysnobal/libsnobal/snobal.pyx":438
  * 
  *         # Adjust mass and calculate runoff
  *         self.mass_bal()             # <<<<<<<<<<<<<<
@@ -5194,7 +5194,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":442
+  /* "pysnobal/libsnobal/snobal.pyx":442
  *         # Update the averages for the energy terms and the totals for mass
  *         # changes since the last output.
  *         if self.time_since_out > 0:             # <<<<<<<<<<<<<<
@@ -5209,7 +5209,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (__pyx_t_3) {
 
-    /* "pysnobal/libsnobal/snobal.py":443
+    /* "pysnobal/libsnobal/snobal.pyx":443
  *         # changes since the last output.
  *         if self.time_since_out > 0:
  *             self.em.R_n_bar = TIME_AVG(self.em.R_n_bar, self.time_since_out, self.em.R_n, self.time_step)             # <<<<<<<<<<<<<<
@@ -5271,7 +5271,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":444
+    /* "pysnobal/libsnobal/snobal.pyx":444
  *         if self.time_since_out > 0:
  *             self.em.R_n_bar = TIME_AVG(self.em.R_n_bar, self.time_since_out, self.em.R_n, self.time_step)
  *             self.em.H_bar = TIME_AVG(self.em.H_bar, self.time_since_out, self.em.H, self.time_step)             # <<<<<<<<<<<<<<
@@ -5333,7 +5333,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":445
+    /* "pysnobal/libsnobal/snobal.pyx":445
  *             self.em.R_n_bar = TIME_AVG(self.em.R_n_bar, self.time_since_out, self.em.R_n, self.time_step)
  *             self.em.H_bar = TIME_AVG(self.em.H_bar, self.time_since_out, self.em.H, self.time_step)
  *             self.em.L_v_E_bar = TIME_AVG(self.em.L_v_E_bar, self.time_since_out, self.em.L_v_E, self.time_step)             # <<<<<<<<<<<<<<
@@ -5395,7 +5395,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":446
+    /* "pysnobal/libsnobal/snobal.pyx":446
  *             self.em.H_bar = TIME_AVG(self.em.H_bar, self.time_since_out, self.em.H, self.time_step)
  *             self.em.L_v_E_bar = TIME_AVG(self.em.L_v_E_bar, self.time_since_out, self.em.L_v_E, self.time_step)
  *             self.em.G_bar = TIME_AVG(self.em.G_bar, self.time_since_out, self.em.G, self.time_step)             # <<<<<<<<<<<<<<
@@ -5457,7 +5457,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":447
+    /* "pysnobal/libsnobal/snobal.pyx":447
  *             self.em.L_v_E_bar = TIME_AVG(self.em.L_v_E_bar, self.time_since_out, self.em.L_v_E, self.time_step)
  *             self.em.G_bar = TIME_AVG(self.em.G_bar, self.time_since_out, self.em.G, self.time_step)
  *             self.em.M_bar = TIME_AVG(self.em.M_bar, self.time_since_out, self.em.M, self.time_step)             # <<<<<<<<<<<<<<
@@ -5519,7 +5519,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":448
+    /* "pysnobal/libsnobal/snobal.pyx":448
  *             self.em.G_bar = TIME_AVG(self.em.G_bar, self.time_since_out, self.em.G, self.time_step)
  *             self.em.M_bar = TIME_AVG(self.em.M_bar, self.time_since_out, self.em.M, self.time_step)
  *             self.em.delta_Q_bar = TIME_AVG(self.em.delta_Q_bar, self.time_since_out, self.em.delta_Q, self.time_step)             # <<<<<<<<<<<<<<
@@ -5581,7 +5581,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":449
+    /* "pysnobal/libsnobal/snobal.pyx":449
  *             self.em.M_bar = TIME_AVG(self.em.M_bar, self.time_since_out, self.em.M, self.time_step)
  *             self.em.delta_Q_bar = TIME_AVG(self.em.delta_Q_bar, self.time_since_out, self.em.delta_Q, self.time_step)
  *             self.em.G_0_bar = TIME_AVG(self.em.G_0_bar, self.time_since_out, self.em.G_0, self.time_step)             # <<<<<<<<<<<<<<
@@ -5643,7 +5643,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":450
+    /* "pysnobal/libsnobal/snobal.pyx":450
  *             self.em.delta_Q_bar = TIME_AVG(self.em.delta_Q_bar, self.time_since_out, self.em.delta_Q, self.time_step)
  *             self.em.G_0_bar = TIME_AVG(self.em.G_0_bar, self.time_since_out, self.em.G_0, self.time_step)
  *             self.em.delta_Q_0_bar = TIME_AVG(self.em.delta_Q_0_bar, self.time_since_out, self.em.delta_Q_0, self.time_step)             # <<<<<<<<<<<<<<
@@ -5705,7 +5705,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":452
+    /* "pysnobal/libsnobal/snobal.pyx":452
  *             self.em.delta_Q_0_bar = TIME_AVG(self.em.delta_Q_0_bar, self.time_since_out, self.em.delta_Q_0, self.time_step)
  * 
  *             self.em.E_s_sum += self.em.E_s             # <<<<<<<<<<<<<<
@@ -5729,7 +5729,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":453
+    /* "pysnobal/libsnobal/snobal.pyx":453
  * 
  *             self.em.E_s_sum += self.em.E_s
  *             self.em.melt_sum += self.em.melt             # <<<<<<<<<<<<<<
@@ -5753,7 +5753,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":454
+    /* "pysnobal/libsnobal/snobal.pyx":454
  *             self.em.E_s_sum += self.em.E_s
  *             self.em.melt_sum += self.em.melt
  *             self.em.ro_pred_sum += self.em.ro_predict             # <<<<<<<<<<<<<<
@@ -5777,7 +5777,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":456
+    /* "pysnobal/libsnobal/snobal.pyx":456
  *             self.em.ro_pred_sum += self.em.ro_predict
  * 
  *             self.time_since_out += self.time_step             # <<<<<<<<<<<<<<
@@ -5795,7 +5795,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
     if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_time_since_out, __pyx_t_8) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 456; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":442
+    /* "pysnobal/libsnobal/snobal.pyx":442
  *         # Update the averages for the energy terms and the totals for mass
  *         # changes since the last output.
  *         if self.time_since_out > 0:             # <<<<<<<<<<<<<<
@@ -5805,7 +5805,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
     goto __pyx_L4;
   }
 
-  /* "pysnobal/libsnobal/snobal.py":459
+  /* "pysnobal/libsnobal/snobal.pyx":459
  * 
  *         else:
  *             self.em.R_n_bar = self.em.R_n             # <<<<<<<<<<<<<<
@@ -5824,7 +5824,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":460
+    /* "pysnobal/libsnobal/snobal.pyx":460
  *         else:
  *             self.em.R_n_bar = self.em.R_n
  *             self.em.H_bar = self.em.H             # <<<<<<<<<<<<<<
@@ -5842,7 +5842,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":461
+    /* "pysnobal/libsnobal/snobal.pyx":461
  *             self.em.R_n_bar = self.em.R_n
  *             self.em.H_bar = self.em.H
  *             self.em.L_v_E_bar = self.em.L_v_E             # <<<<<<<<<<<<<<
@@ -5860,7 +5860,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":462
+    /* "pysnobal/libsnobal/snobal.pyx":462
  *             self.em.H_bar = self.em.H
  *             self.em.L_v_E_bar = self.em.L_v_E
  *             self.em.G_bar = self.em.G             # <<<<<<<<<<<<<<
@@ -5878,7 +5878,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":463
+    /* "pysnobal/libsnobal/snobal.pyx":463
  *             self.em.L_v_E_bar = self.em.L_v_E
  *             self.em.G_bar = self.em.G
  *             self.em.M_bar = self.em.M             # <<<<<<<<<<<<<<
@@ -5896,7 +5896,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":464
+    /* "pysnobal/libsnobal/snobal.pyx":464
  *             self.em.G_bar = self.em.G
  *             self.em.M_bar = self.em.M
  *             self.em.delta_Q_bar = self.em.delta_Q             # <<<<<<<<<<<<<<
@@ -5914,7 +5914,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":465
+    /* "pysnobal/libsnobal/snobal.pyx":465
  *             self.em.M_bar = self.em.M
  *             self.em.delta_Q_bar = self.em.delta_Q
  *             self.em.G_0_bar = self.em.G_0             # <<<<<<<<<<<<<<
@@ -5932,7 +5932,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":466
+    /* "pysnobal/libsnobal/snobal.pyx":466
  *             self.em.delta_Q_bar = self.em.delta_Q
  *             self.em.G_0_bar = self.em.G_0
  *             self.em.delta_Q_0_bar = self.em.delta_Q_0             # <<<<<<<<<<<<<<
@@ -5950,7 +5950,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":468
+    /* "pysnobal/libsnobal/snobal.pyx":468
  *             self.em.delta_Q_0_bar = self.em.delta_Q_0
  * 
  *             self.em.E_s_sum = self.em.E_s             # <<<<<<<<<<<<<<
@@ -5968,7 +5968,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":469
+    /* "pysnobal/libsnobal/snobal.pyx":469
  * 
  *             self.em.E_s_sum = self.em.E_s
  *             self.em.melt_sum = self.em.melt             # <<<<<<<<<<<<<<
@@ -5986,7 +5986,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":470
+    /* "pysnobal/libsnobal/snobal.pyx":470
  *             self.em.E_s_sum = self.em.E_s
  *             self.em.melt_sum = self.em.melt
  *             self.em.ro_pred_sum = self.em.ro_predict             # <<<<<<<<<<<<<<
@@ -6004,7 +6004,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":472
+    /* "pysnobal/libsnobal/snobal.pyx":472
  *             self.em.ro_pred_sum = self.em.ro_predict
  * 
  *             self.time_since_out = self.time_step             # <<<<<<<<<<<<<<
@@ -6018,7 +6018,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
   }
   __pyx_L4:;
 
-  /* "pysnobal/libsnobal/snobal.py":475
+  /* "pysnobal/libsnobal/snobal.pyx":475
  * 
  *         # increment time
  *         self.current_time += self.time_step             # <<<<<<<<<<<<<<
@@ -6036,7 +6036,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_current_time, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 475; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":477
+  /* "pysnobal/libsnobal/snobal.pyx":477
  *         self.current_time += self.time_step
  * 
  *         if tstep['output'] & WHOLE_TSTEP:             # <<<<<<<<<<<<<<
@@ -6055,7 +6055,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   if (__pyx_t_3) {
 
-    /* "pysnobal/libsnobal/snobal.py":479
+    /* "pysnobal/libsnobal/snobal.pyx":479
  *         if tstep['output'] & WHOLE_TSTEP:
  * #             print '%.2f output stuff here' % (self.current_time/3600.0)
  *             self.output()             # <<<<<<<<<<<<<<
@@ -6084,7 +6084,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":480
+    /* "pysnobal/libsnobal/snobal.pyx":480
  * #             print '%.2f output stuff here' % (self.current_time/3600.0)
  *             self.output()
  *             self.time_since_out = 0.0             # <<<<<<<<<<<<<<
@@ -6093,7 +6093,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
  */
     if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_time_since_out, __pyx_float_0_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 480; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "pysnobal/libsnobal/snobal.py":477
+    /* "pysnobal/libsnobal/snobal.pyx":477
  *         self.current_time += self.time_step
  * 
  *         if tstep['output'] & WHOLE_TSTEP:             # <<<<<<<<<<<<<<
@@ -6102,7 +6102,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
  */
   }
 
-  /* "pysnobal/libsnobal/snobal.py":483
+  /* "pysnobal/libsnobal/snobal.pyx":483
  * 
  *         # Update the model's input parameters
  *         self.input1.S_n += self.input_deltas[tstep['level']].S_n             # <<<<<<<<<<<<<<
@@ -6132,7 +6132,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":484
+  /* "pysnobal/libsnobal/snobal.pyx":484
  *         # Update the model's input parameters
  *         self.input1.S_n += self.input_deltas[tstep['level']].S_n
  *         self.input1.I_lw += self.input_deltas[tstep['level']].I_lw             # <<<<<<<<<<<<<<
@@ -6162,7 +6162,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":485
+  /* "pysnobal/libsnobal/snobal.pyx":485
  *         self.input1.S_n += self.input_deltas[tstep['level']].S_n
  *         self.input1.I_lw += self.input_deltas[tstep['level']].I_lw
  *         self.input1.T_a += self.input_deltas[tstep['level']].T_a             # <<<<<<<<<<<<<<
@@ -6192,7 +6192,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":486
+  /* "pysnobal/libsnobal/snobal.pyx":486
  *         self.input1.I_lw += self.input_deltas[tstep['level']].I_lw
  *         self.input1.T_a += self.input_deltas[tstep['level']].T_a
  *         self.input1.e_a += self.input_deltas[tstep['level']].e_a             # <<<<<<<<<<<<<<
@@ -6222,7 +6222,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":487
+  /* "pysnobal/libsnobal/snobal.pyx":487
  *         self.input1.T_a += self.input_deltas[tstep['level']].T_a
  *         self.input1.e_a += self.input_deltas[tstep['level']].e_a
  *         self.input1.u += self.input_deltas[tstep['level']].u             # <<<<<<<<<<<<<<
@@ -6252,7 +6252,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":488
+  /* "pysnobal/libsnobal/snobal.pyx":488
  *         self.input1.e_a += self.input_deltas[tstep['level']].e_a
  *         self.input1.u += self.input_deltas[tstep['level']].u
  *         self.input1.T_g += self.input_deltas[tstep['level']].T_g             # <<<<<<<<<<<<<<
@@ -6282,7 +6282,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":490
+  /* "pysnobal/libsnobal/snobal.pyx":490
  *         self.input1.T_g += self.input_deltas[tstep['level']].T_g
  * 
  *         return True             # <<<<<<<<<<<<<<
@@ -6294,7 +6294,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
   __pyx_r = Py_True;
   goto __pyx_L0;
 
-  /* "pysnobal/libsnobal/snobal.py":389
+  /* "pysnobal/libsnobal/snobal.pyx":389
  * 
  * #     @profile
  *     def do_tstep(self, tstep):             # <<<<<<<<<<<<<<
@@ -6312,7 +6312,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_10);
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.do_tstep", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.do_tstep", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -6320,7 +6320,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":493
+/* "pysnobal/libsnobal/snobal.pyx":493
  * 
  * #     @profile
  *     def mass_bal(self):             # <<<<<<<<<<<<<<
@@ -6329,21 +6329,21 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_6do_tstep(CYTHON_UNUSED PyOb
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_9mass_bal(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_8pysnobal_6snobal_6snobal_8mass_bal[] = "\n        Calculates the point mass budget for 2-layer energy budget snowmelt\n        model.  It then solves for new snow temperatures.\n        ";
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_6snobal_9mass_bal = {"mass_bal", (PyCFunction)__pyx_pw_8pysnobal_6snobal_6snobal_9mass_bal, METH_O, __pyx_doc_8pysnobal_6snobal_6snobal_8mass_bal};
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_9mass_bal(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_9mass_bal(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static char __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_8mass_bal[] = "\n        Calculates the point mass budget for 2-layer energy budget snowmelt\n        model.  It then solves for new snow temperatures.\n        ";
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_9mass_bal = {"mass_bal", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_9mass_bal, METH_O, __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_8mass_bal};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_9mass_bal(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("mass_bal (wrapper)", 0);
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_6snobal_8mass_bal(__pyx_self, ((PyObject *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_8mass_bal(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_8mass_bal(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_8mass_bal(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -6360,7 +6360,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_8mass_bal(CYTHON_UNUSED PyOb
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("mass_bal", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":500
+  /* "pysnobal/libsnobal/snobal.pyx":500
  * 
  *         # age snow by compacting snow due to time passing *[inserted by cython to avoid comment closer]/
  *         self.time_compact()             # <<<<<<<<<<<<<<
@@ -6389,7 +6389,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_8mass_bal(CYTHON_UNUSED PyOb
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":503
+  /* "pysnobal/libsnobal/snobal.pyx":503
  * 
  *         # process precipitation event
  *         self.precip_event()             # <<<<<<<<<<<<<<
@@ -6418,7 +6418,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_8mass_bal(CYTHON_UNUSED PyOb
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":506
+  /* "pysnobal/libsnobal/snobal.pyx":506
  * 
  *         # calculate melt or freezing and adjust cold content
  *         self.snowmelt()             # <<<<<<<<<<<<<<
@@ -6447,7 +6447,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_8mass_bal(CYTHON_UNUSED PyOb
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":509
+  /* "pysnobal/libsnobal/snobal.pyx":509
  * 
  *         # calculate evaporation and adjust snowpack
  *         self.evap_cond()             # <<<<<<<<<<<<<<
@@ -6476,7 +6476,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_8mass_bal(CYTHON_UNUSED PyOb
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":512
+  /* "pysnobal/libsnobal/snobal.pyx":512
  * 
  *         # compact snow due to H2O generated (melt and rain)
  *         self.h2o_compact()             # <<<<<<<<<<<<<<
@@ -6505,7 +6505,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_8mass_bal(CYTHON_UNUSED PyOb
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":515
+  /* "pysnobal/libsnobal/snobal.pyx":515
  * 
  *         # calculate runoff, and adjust snowcover
  *         self.runoff()             # <<<<<<<<<<<<<<
@@ -6534,7 +6534,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_8mass_bal(CYTHON_UNUSED PyOb
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":519
+  /* "pysnobal/libsnobal/snobal.pyx":519
  *         # adjust layer temps if there was a snowcover at start of the
  *         # timestep and there's still snow on the ground
  *         if self.snowcover:             # <<<<<<<<<<<<<<
@@ -6547,7 +6547,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_8mass_bal(CYTHON_UNUSED PyOb
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_4) {
 
-    /* "pysnobal/libsnobal/snobal.py":520
+    /* "pysnobal/libsnobal/snobal.pyx":520
  *         # timestep and there's still snow on the ground
  *         if self.snowcover:
  *             if self.snow.layer_count == 1:             # <<<<<<<<<<<<<<
@@ -6566,7 +6566,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_8mass_bal(CYTHON_UNUSED PyOb
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (__pyx_t_4) {
 
-      /* "pysnobal/libsnobal/snobal.py":521
+      /* "pysnobal/libsnobal/snobal.pyx":521
  *         if self.snowcover:
  *             if self.snow.layer_count == 1:
  *                 self.snow.T_s_0 = self.new_tsno(self.snow.m_s_0, self.snow.T_s_0, self.snow.cc_s_0)             # <<<<<<<<<<<<<<
@@ -6626,7 +6626,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_8mass_bal(CYTHON_UNUSED PyOb
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":522
+      /* "pysnobal/libsnobal/snobal.pyx":522
  *             if self.snow.layer_count == 1:
  *                 self.snow.T_s_0 = self.new_tsno(self.snow.m_s_0, self.snow.T_s_0, self.snow.cc_s_0)
  *                 self.snow.T_s = self.snow.T_s_0             # <<<<<<<<<<<<<<
@@ -6644,7 +6644,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_8mass_bal(CYTHON_UNUSED PyOb
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":520
+      /* "pysnobal/libsnobal/snobal.pyx":520
  *         # timestep and there's still snow on the ground
  *         if self.snowcover:
  *             if self.snow.layer_count == 1:             # <<<<<<<<<<<<<<
@@ -6654,7 +6654,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_8mass_bal(CYTHON_UNUSED PyOb
       goto __pyx_L4;
     }
 
-    /* "pysnobal/libsnobal/snobal.py":524
+    /* "pysnobal/libsnobal/snobal.pyx":524
  *                 self.snow.T_s = self.snow.T_s_0
  * 
  *             elif self.snow.layer_count == 2:             # <<<<<<<<<<<<<<
@@ -6673,7 +6673,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_8mass_bal(CYTHON_UNUSED PyOb
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     if (__pyx_t_4) {
 
-      /* "pysnobal/libsnobal/snobal.py":525
+      /* "pysnobal/libsnobal/snobal.pyx":525
  * 
  *             elif self.snow.layer_count == 2:
  *                 if self.isothermal:             # <<<<<<<<<<<<<<
@@ -6686,7 +6686,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_8mass_bal(CYTHON_UNUSED PyOb
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       if (__pyx_t_4) {
 
-        /* "pysnobal/libsnobal/snobal.py":526
+        /* "pysnobal/libsnobal/snobal.pyx":526
  *             elif self.snow.layer_count == 2:
  *                 if self.isothermal:
  *                     self.snow.T_s = FREEZE             # <<<<<<<<<<<<<<
@@ -6701,7 +6701,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_8mass_bal(CYTHON_UNUSED PyOb
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-        /* "pysnobal/libsnobal/snobal.py":527
+        /* "pysnobal/libsnobal/snobal.pyx":527
  *                 if self.isothermal:
  *                     self.snow.T_s = FREEZE
  *                     self.snow.T_s_l = FREEZE             # <<<<<<<<<<<<<<
@@ -6716,7 +6716,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_8mass_bal(CYTHON_UNUSED PyOb
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-        /* "pysnobal/libsnobal/snobal.py":528
+        /* "pysnobal/libsnobal/snobal.pyx":528
  *                     self.snow.T_s = FREEZE
  *                     self.snow.T_s_l = FREEZE
  *                     self.snow.T_s_0 = FREEZE             # <<<<<<<<<<<<<<
@@ -6731,7 +6731,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_8mass_bal(CYTHON_UNUSED PyOb
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-        /* "pysnobal/libsnobal/snobal.py":525
+        /* "pysnobal/libsnobal/snobal.pyx":525
  * 
  *             elif self.snow.layer_count == 2:
  *                 if self.isothermal:             # <<<<<<<<<<<<<<
@@ -6741,7 +6741,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_8mass_bal(CYTHON_UNUSED PyOb
         goto __pyx_L5;
       }
 
-      /* "pysnobal/libsnobal/snobal.py":530
+      /* "pysnobal/libsnobal/snobal.pyx":530
  *                     self.snow.T_s_0 = FREEZE
  *                 else:
  *                     self.snow.T_s_0 = self.new_tsno(self.snow.m_s_0, self.snow.T_s_0, self.snow.cc_s_0)             # <<<<<<<<<<<<<<
@@ -6802,7 +6802,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_8mass_bal(CYTHON_UNUSED PyOb
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-        /* "pysnobal/libsnobal/snobal.py":531
+        /* "pysnobal/libsnobal/snobal.pyx":531
  *                 else:
  *                     self.snow.T_s_0 = self.new_tsno(self.snow.m_s_0, self.snow.T_s_0, self.snow.cc_s_0)
  *                     self.snow.T_s_l = self.new_tsno (self.snow.m_s_l, self.snow.T_s_l, self.snow.cc_s_l)             # <<<<<<<<<<<<<<
@@ -6862,7 +6862,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_8mass_bal(CYTHON_UNUSED PyOb
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-        /* "pysnobal/libsnobal/snobal.py":532
+        /* "pysnobal/libsnobal/snobal.pyx":532
  *                     self.snow.T_s_0 = self.new_tsno(self.snow.m_s_0, self.snow.T_s_0, self.snow.cc_s_0)
  *                     self.snow.T_s_l = self.new_tsno (self.snow.m_s_l, self.snow.T_s_l, self.snow.cc_s_l)
  *                     self.snow.T_s = self.new_tsno (self.snow.m_s, self.snow.T_s, self.snow.cc_s)             # <<<<<<<<<<<<<<
@@ -6924,7 +6924,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_8mass_bal(CYTHON_UNUSED PyOb
       }
       __pyx_L5:;
 
-      /* "pysnobal/libsnobal/snobal.py":524
+      /* "pysnobal/libsnobal/snobal.pyx":524
  *                 self.snow.T_s = self.snow.T_s_0
  * 
  *             elif self.snow.layer_count == 2:             # <<<<<<<<<<<<<<
@@ -6934,7 +6934,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_8mass_bal(CYTHON_UNUSED PyOb
     }
     __pyx_L4:;
 
-    /* "pysnobal/libsnobal/snobal.py":519
+    /* "pysnobal/libsnobal/snobal.pyx":519
  *         # adjust layer temps if there was a snowcover at start of the
  *         # timestep and there's still snow on the ground
  *         if self.snowcover:             # <<<<<<<<<<<<<<
@@ -6943,7 +6943,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_8mass_bal(CYTHON_UNUSED PyOb
  */
   }
 
-  /* "pysnobal/libsnobal/snobal.py":493
+  /* "pysnobal/libsnobal/snobal.pyx":493
  * 
  * #     @profile
  *     def mass_bal(self):             # <<<<<<<<<<<<<<
@@ -6962,7 +6962,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_8mass_bal(CYTHON_UNUSED PyOb
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_9);
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.mass_bal", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.mass_bal", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -6970,7 +6970,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_8mass_bal(CYTHON_UNUSED PyOb
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":535
+/* "pysnobal/libsnobal/snobal.pyx":535
  * 
  * 
  *     def new_tsno(self, spm, t0, ccon):             # <<<<<<<<<<<<<<
@@ -6979,10 +6979,10 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_8mass_bal(CYTHON_UNUSED PyOb
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_11new_tsno(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_8pysnobal_6snobal_6snobal_10new_tsno[] = "\n        calculates a new temperature for a snow layer from its\n        adjusted cold content, and the layer's last (previous) temperature.\n        \n        The layer's specific mass (the argument <I>spm</I>) can be computed by\n        multiplying the layer's thickness (m) by its density (kg/m^3).\n\n        Args:\n            spm: layer's specific mass (kg/m^2) \n            t0: layer's last temperature (K) \n            ccon: layer's adjusted cold content (J/m^2)\n            \n        Returns:\n            tsno: snow layer's new temperature (K)\n        ";
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_6snobal_11new_tsno = {"new_tsno", (PyCFunction)__pyx_pw_8pysnobal_6snobal_6snobal_11new_tsno, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8pysnobal_6snobal_6snobal_10new_tsno};
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_11new_tsno(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_11new_tsno(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_10new_tsno[] = "\n        calculates a new temperature for a snow layer from its\n        adjusted cold content, and the layer's last (previous) temperature.\n        \n        The layer's specific mass (the argument <I>spm</I>) can be computed by\n        multiplying the layer's thickness (m) by its density (kg/m^3).\n\n        Args:\n            spm: layer's specific mass (kg/m^2) \n            t0: layer's last temperature (K) \n            ccon: layer's adjusted cold content (J/m^2)\n            \n        Returns:\n            tsno: snow layer's new temperature (K)\n        ";
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_11new_tsno = {"new_tsno", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_11new_tsno, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_10new_tsno};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_11new_tsno(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   CYTHON_UNUSED PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_spm = 0;
   PyObject *__pyx_v_t0 = 0;
@@ -7048,18 +7048,18 @@ static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_11new_tsno(PyObject *__pyx_s
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("new_tsno", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 535; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.new_tsno", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.new_tsno", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_6snobal_10new_tsno(__pyx_self, __pyx_v_self, __pyx_v_spm, __pyx_v_t0, __pyx_v_ccon);
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_10new_tsno(__pyx_self, __pyx_v_self, __pyx_v_spm, __pyx_v_t0, __pyx_v_ccon);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_10new_tsno(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self, PyObject *__pyx_v_spm, PyObject *__pyx_v_t0, PyObject *__pyx_v_ccon) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_10new_tsno(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self, PyObject *__pyx_v_spm, PyObject *__pyx_v_t0, PyObject *__pyx_v_ccon) {
   PyObject *__pyx_v_cp = NULL;
   PyObject *__pyx_v_tdif = NULL;
   PyObject *__pyx_v_tsno = NULL;
@@ -7074,7 +7074,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_10new_tsno(CYTHON_UNUSED PyO
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("new_tsno", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":552
+  /* "pysnobal/libsnobal/snobal.pyx":552
  *         """
  * 
  *         cp = CP_ICE(t0)             # <<<<<<<<<<<<<<
@@ -7111,7 +7111,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_10new_tsno(CYTHON_UNUSED PyO
   __pyx_v_cp = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":553
+  /* "pysnobal/libsnobal/snobal.pyx":553
  * 
  *         cp = CP_ICE(t0)
  *         tdif = ccon / (spm * cp)             # <<<<<<<<<<<<<<
@@ -7126,7 +7126,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_10new_tsno(CYTHON_UNUSED PyO
   __pyx_v_tdif = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":554
+  /* "pysnobal/libsnobal/snobal.pyx":554
  *         cp = CP_ICE(t0)
  *         tdif = ccon / (spm * cp)
  *         tsno = tdif + FREEZE             # <<<<<<<<<<<<<<
@@ -7141,7 +7141,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_10new_tsno(CYTHON_UNUSED PyO
   __pyx_v_tsno = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":556
+  /* "pysnobal/libsnobal/snobal.pyx":556
  *         tsno = tdif + FREEZE
  * 
  *         return tsno             # <<<<<<<<<<<<<<
@@ -7153,7 +7153,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_10new_tsno(CYTHON_UNUSED PyO
   __pyx_r = __pyx_v_tsno;
   goto __pyx_L0;
 
-  /* "pysnobal/libsnobal/snobal.py":535
+  /* "pysnobal/libsnobal/snobal.pyx":535
  * 
  * 
  *     def new_tsno(self, spm, t0, ccon):             # <<<<<<<<<<<<<<
@@ -7167,7 +7167,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_10new_tsno(CYTHON_UNUSED PyO
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.new_tsno", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.new_tsno", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_cp);
@@ -7178,7 +7178,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_10new_tsno(CYTHON_UNUSED PyO
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":559
+/* "pysnobal/libsnobal/snobal.pyx":559
  * 
  * 
  *     def runoff(self):             # <<<<<<<<<<<<<<
@@ -7187,21 +7187,21 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_10new_tsno(CYTHON_UNUSED PyO
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_13runoff(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_8pysnobal_6snobal_6snobal_12runoff[] = "\n        Calculates runoff for point energy budget 2-layer snowmelt model\n        ";
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_6snobal_13runoff = {"runoff", (PyCFunction)__pyx_pw_8pysnobal_6snobal_6snobal_13runoff, METH_O, __pyx_doc_8pysnobal_6snobal_6snobal_12runoff};
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_13runoff(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_13runoff(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static char __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_12runoff[] = "\n        Calculates runoff for point energy budget 2-layer snowmelt model\n        ";
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_13runoff = {"runoff", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_13runoff, METH_O, __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_12runoff};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_13runoff(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("runoff (wrapper)", 0);
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_6snobal_12runoff(__pyx_self, ((PyObject *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_12runoff(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_12runoff(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_12runoff(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_v_m_s_dry = NULL;
   PyObject *__pyx_v_rho_dry = NULL;
   PyObject *__pyx_r = NULL;
@@ -7221,7 +7221,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_12runoff(CYTHON_UNUSED PyObj
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("runoff", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":567
+  /* "pysnobal/libsnobal/snobal.pyx":567
  *         # then all water (e.g., rain) is runoff.
  * 
  *         if (not self.snowcover) or (self.snow.layer_count == 0):             # <<<<<<<<<<<<<<
@@ -7252,7 +7252,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_12runoff(CYTHON_UNUSED PyObj
   __pyx_L4_bool_binop_done:;
   if (__pyx_t_1) {
 
-    /* "pysnobal/libsnobal/snobal.py":568
+    /* "pysnobal/libsnobal/snobal.pyx":568
  * 
  *         if (not self.snowcover) or (self.snow.layer_count == 0):
  *             self.em.ro_predict = self.snow.h2o_total             # <<<<<<<<<<<<<<
@@ -7270,7 +7270,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_12runoff(CYTHON_UNUSED PyObj
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":569
+    /* "pysnobal/libsnobal/snobal.pyx":569
  *         if (not self.snowcover) or (self.snow.layer_count == 0):
  *             self.em.ro_predict = self.snow.h2o_total
  *             return             # <<<<<<<<<<<<<<
@@ -7281,7 +7281,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_12runoff(CYTHON_UNUSED PyObj
     __pyx_r = Py_None; __Pyx_INCREF(Py_None);
     goto __pyx_L0;
 
-    /* "pysnobal/libsnobal/snobal.py":567
+    /* "pysnobal/libsnobal/snobal.pyx":567
  *         # then all water (e.g., rain) is runoff.
  * 
  *         if (not self.snowcover) or (self.snow.layer_count == 0):             # <<<<<<<<<<<<<<
@@ -7290,7 +7290,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_12runoff(CYTHON_UNUSED PyObj
  */
   }
 
-  /* "pysnobal/libsnobal/snobal.py":573
+  /* "pysnobal/libsnobal/snobal.pyx":573
  *         # Determine the snow density without any water, and the maximum
  *         # liquid water the snow can hold.
  *         m_s_dry = self.snow.m_s - self.snow.h2o_total             # <<<<<<<<<<<<<<
@@ -7314,7 +7314,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_12runoff(CYTHON_UNUSED PyObj
   __pyx_v_m_s_dry = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":574
+  /* "pysnobal/libsnobal/snobal.pyx":574
  *         # liquid water the snow can hold.
  *         m_s_dry = self.snow.m_s - self.snow.h2o_total
  *         rho_dry = m_s_dry / self.snow.z_s             # <<<<<<<<<<<<<<
@@ -7332,7 +7332,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_12runoff(CYTHON_UNUSED PyObj
   __pyx_v_rho_dry = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":575
+  /* "pysnobal/libsnobal/snobal.pyx":575
  *         m_s_dry = self.snow.m_s - self.snow.h2o_total
  *         rho_dry = m_s_dry / self.snow.z_s
  *         self.snow.h2o_max = H2O_LEFT(self.snow.z_s, rho_dry, self.snow.max_h2o_vol)             # <<<<<<<<<<<<<<
@@ -7387,7 +7387,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_12runoff(CYTHON_UNUSED PyObj
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":578
+  /* "pysnobal/libsnobal/snobal.pyx":578
  * 
  *         # Determine runoff, and water left in the snow
  *         if self.snow.h2o_total > self.snow.h2o_max:             # <<<<<<<<<<<<<<
@@ -7411,7 +7411,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_12runoff(CYTHON_UNUSED PyObj
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   if (__pyx_t_1) {
 
-    /* "pysnobal/libsnobal/snobal.py":579
+    /* "pysnobal/libsnobal/snobal.pyx":579
  *         # Determine runoff, and water left in the snow
  *         if self.snow.h2o_total > self.snow.h2o_max:
  *             self.em.ro_predict = self.snow.h2o_total - self.snow.h2o_max             # <<<<<<<<<<<<<<
@@ -7438,7 +7438,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_12runoff(CYTHON_UNUSED PyObj
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":580
+    /* "pysnobal/libsnobal/snobal.pyx":580
  *         if self.snow.h2o_total > self.snow.h2o_max:
  *             self.em.ro_predict = self.snow.h2o_total - self.snow.h2o_max
  *             self.snow.h2o = self.snow.h2o_max             # <<<<<<<<<<<<<<
@@ -7456,7 +7456,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_12runoff(CYTHON_UNUSED PyObj
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":581
+    /* "pysnobal/libsnobal/snobal.pyx":581
  *             self.em.ro_predict = self.snow.h2o_total - self.snow.h2o_max
  *             self.snow.h2o = self.snow.h2o_max
  *             self.snow.h2o_sat = 1.0             # <<<<<<<<<<<<<<
@@ -7468,7 +7468,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_12runoff(CYTHON_UNUSED PyObj
     if (__Pyx_PyObject_SetAttrStr(__pyx_t_2, __pyx_n_s_h2o_sat, __pyx_float_1_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 581; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":582
+    /* "pysnobal/libsnobal/snobal.pyx":582
  *             self.snow.h2o = self.snow.h2o_max
  *             self.snow.h2o_sat = 1.0
  *             self.snow.h2o_vol = self.snow.max_h2o_vol             # <<<<<<<<<<<<<<
@@ -7486,7 +7486,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_12runoff(CYTHON_UNUSED PyObj
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":585
+    /* "pysnobal/libsnobal/snobal.pyx":585
  * 
  *             # Update the snowcover's mass for the loss of runoff.
  *             self.adj_snow(0.0, -self.em.ro_predict)             # <<<<<<<<<<<<<<
@@ -7532,7 +7532,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_12runoff(CYTHON_UNUSED PyObj
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":578
+    /* "pysnobal/libsnobal/snobal.pyx":578
  * 
  *         # Determine runoff, and water left in the snow
  *         if self.snow.h2o_total > self.snow.h2o_max:             # <<<<<<<<<<<<<<
@@ -7542,7 +7542,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_12runoff(CYTHON_UNUSED PyObj
     goto __pyx_L6;
   }
 
-  /* "pysnobal/libsnobal/snobal.py":588
+  /* "pysnobal/libsnobal/snobal.pyx":588
  * 
  *         else:
  *             self.em.ro_predict = 0.0             # <<<<<<<<<<<<<<
@@ -7555,7 +7555,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_12runoff(CYTHON_UNUSED PyObj
     if (__Pyx_PyObject_SetAttrStr(__pyx_t_2, __pyx_n_s_ro_predict, __pyx_float_0_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 588; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":589
+    /* "pysnobal/libsnobal/snobal.pyx":589
  *         else:
  *             self.em.ro_predict = 0.0
  *             self.snow.h2o = self.snow.h2o_total             # <<<<<<<<<<<<<<
@@ -7573,7 +7573,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_12runoff(CYTHON_UNUSED PyObj
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":590
+    /* "pysnobal/libsnobal/snobal.pyx":590
  *             self.em.ro_predict = 0.0
  *             self.snow.h2o = self.snow.h2o_total
  *             self.snow.h2o_sat = self.snow.h2o / self.snow.h2o_max             # <<<<<<<<<<<<<<
@@ -7600,7 +7600,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_12runoff(CYTHON_UNUSED PyObj
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":591
+    /* "pysnobal/libsnobal/snobal.pyx":591
  *             self.snow.h2o = self.snow.h2o_total
  *             self.snow.h2o_sat = self.snow.h2o / self.snow.h2o_max
  *             self.snow.h2o_vol = self.snow.h2o_sat * self.snow.max_h2o_vol             # <<<<<<<<<<<<<<
@@ -7629,7 +7629,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_12runoff(CYTHON_UNUSED PyObj
   }
   __pyx_L6:;
 
-  /* "pysnobal/libsnobal/snobal.py":559
+  /* "pysnobal/libsnobal/snobal.pyx":559
  * 
  * 
  *     def runoff(self):             # <<<<<<<<<<<<<<
@@ -7647,7 +7647,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_12runoff(CYTHON_UNUSED PyObj
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_10);
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.runoff", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.runoff", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_m_s_dry);
@@ -7657,7 +7657,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_12runoff(CYTHON_UNUSED PyObj
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":594
+/* "pysnobal/libsnobal/snobal.pyx":594
  * 
  * 
  *     def h2o_compact(self):             # <<<<<<<<<<<<<<
@@ -7666,21 +7666,21 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_12runoff(CYTHON_UNUSED PyObj
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_15h2o_compact(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_8pysnobal_6snobal_6snobal_14h2o_compact[] = "\n        This routine compacts or densifies the snowcover based on the\n        amount of liquid H2O that was added to the snowcover from melting\n        and rain.  The snowcover's density is increased using the\n        following \"half-saturation\" function:\n        \n            delta_rho(h2o_added) = A / (1 + B/h2o_added)\n        \n        A = \"saturation-level\" or asymtope which is the difference between\n            the maximum density due to compaction by liquid H2O\n            (approximately 550 kg/m^2) and the current density\n        B = the point for half of the saturation level is reached (5 %)\n            (h2o_added = ratio of mass of liquid h2o added by melting and\n                     rain to the mass of the snowcover)\n        \n                ^\n                |\n                  A + = = = = = = = = = = = = = = = = = =\n        (550 - current  |            *   *\n               density) |           *\n                |           *\n        delta_rho |        *\n        (kg/m^2)  |      *\n              A/2 + . . . *\n                  |     * .\n                  |   *   .\n                  |  *     .\n                  | *     .\n                  |*    .\n                    0 +-------+-----------------------------+      h2o_added\n                  0    B: 5 %                 1.0\n  \n        ";
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_6snobal_15h2o_compact = {"h2o_compact", (PyCFunction)__pyx_pw_8pysnobal_6snobal_6snobal_15h2o_compact, METH_O, __pyx_doc_8pysnobal_6snobal_6snobal_14h2o_compact};
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_15h2o_compact(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_15h2o_compact(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static char __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_14h2o_compact[] = "\n        This routine compacts or densifies the snowcover based on the\n        amount of liquid H2O that was added to the snowcover from melting\n        and rain.  The snowcover's density is increased using the\n        following \"half-saturation\" function:\n        \n            delta_rho(h2o_added) = A / (1 + B/h2o_added)\n        \n        A = \"saturation-level\" or asymtope which is the difference between\n            the maximum density due to compaction by liquid H2O\n            (approximately 550 kg/m^2) and the current density\n        B = the point for half of the saturation level is reached (5 %)\n            (h2o_added = ratio of mass of liquid h2o added by melting and\n                     rain to the mass of the snowcover)\n        \n                ^\n                |\n                  A + = = = = = = = = = = = = = = = = = =\n        (550 - current  |            *   *\n               density) |           *\n                |           *\n        delta_rho |        *\n        (kg/m^2)  |      *\n              A/2 + . . . *\n                  |     * .\n                  |   *   .\n                  |  *     .\n                  | *     .\n                  |*    .\n                    0 +-------+-----------------------------+      h2o_added\n                  0    B: 5 %                 1.0\n  \n        ";
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_15h2o_compact = {"h2o_compact", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_15h2o_compact, METH_O, __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_14h2o_compact};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_15h2o_compact(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("h2o_compact (wrapper)", 0);
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_6snobal_14h2o_compact(__pyx_self, ((PyObject *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_14h2o_compact(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_14h2o_compact(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_14h2o_compact(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_v_MAX_DENSITY = NULL;
   double __pyx_v_B;
   PyObject *__pyx_v_A = NULL;
@@ -7699,7 +7699,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_14h2o_compact(CYTHON_UNUSED 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("h2o_compact", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":629
+  /* "pysnobal/libsnobal/snobal.pyx":629
  *         """
  *         # Maximum density due to compaction by liquid H2O added (kg/m^2)
  *         MAX_DENSITY = 550             # <<<<<<<<<<<<<<
@@ -7709,7 +7709,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_14h2o_compact(CYTHON_UNUSED 
   __Pyx_INCREF(__pyx_int_550);
   __pyx_v_MAX_DENSITY = __pyx_int_550;
 
-  /* "pysnobal/libsnobal/snobal.py":633
+  /* "pysnobal/libsnobal/snobal.pyx":633
  *         # ratio where half the difference between maximum density and
  *         # current density is reached (ratio from 0.0 to 1.0).
  *         B = 0.4             # <<<<<<<<<<<<<<
@@ -7718,7 +7718,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_14h2o_compact(CYTHON_UNUSED 
  */
   __pyx_v_B = 0.4;
 
-  /* "pysnobal/libsnobal/snobal.py":635
+  /* "pysnobal/libsnobal/snobal.pyx":635
  *         B = 0.4
  * 
  *         if (not self.snowcover) or (self.snow.rho > MAX_DENSITY):             # <<<<<<<<<<<<<<
@@ -7748,7 +7748,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_14h2o_compact(CYTHON_UNUSED 
   __pyx_L4_bool_binop_done:;
   if (__pyx_t_1) {
 
-    /* "pysnobal/libsnobal/snobal.py":636
+    /* "pysnobal/libsnobal/snobal.pyx":636
  * 
  *         if (not self.snowcover) or (self.snow.rho > MAX_DENSITY):
  *             return             # <<<<<<<<<<<<<<
@@ -7759,7 +7759,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_14h2o_compact(CYTHON_UNUSED 
     __pyx_r = Py_None; __Pyx_INCREF(Py_None);
     goto __pyx_L0;
 
-    /* "pysnobal/libsnobal/snobal.py":635
+    /* "pysnobal/libsnobal/snobal.pyx":635
  *         B = 0.4
  * 
  *         if (not self.snowcover) or (self.snow.rho > MAX_DENSITY):             # <<<<<<<<<<<<<<
@@ -7768,7 +7768,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_14h2o_compact(CYTHON_UNUSED 
  */
   }
 
-  /* "pysnobal/libsnobal/snobal.py":638
+  /* "pysnobal/libsnobal/snobal.pyx":638
  *             return
  * 
  *         A = MAX_DENSITY - self.snow.rho             # <<<<<<<<<<<<<<
@@ -7786,7 +7786,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_14h2o_compact(CYTHON_UNUSED 
   __pyx_v_A = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":639
+  /* "pysnobal/libsnobal/snobal.pyx":639
  * 
  *         A = MAX_DENSITY - self.snow.rho
  *         if self.precip_now:             # <<<<<<<<<<<<<<
@@ -7799,7 +7799,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_14h2o_compact(CYTHON_UNUSED 
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (__pyx_t_1) {
 
-    /* "pysnobal/libsnobal/snobal.py":640
+    /* "pysnobal/libsnobal/snobal.pyx":640
  *         A = MAX_DENSITY - self.snow.rho
  *         if self.precip_now:
  *             h2o_added = (self.em.melt + self.precip_info[self.tstep_level].m_rain) / self.snow.m_s             # <<<<<<<<<<<<<<
@@ -7838,7 +7838,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_14h2o_compact(CYTHON_UNUSED 
     __pyx_v_h2o_added = __pyx_t_6;
     __pyx_t_6 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":639
+    /* "pysnobal/libsnobal/snobal.pyx":639
  * 
  *         A = MAX_DENSITY - self.snow.rho
  *         if self.precip_now:             # <<<<<<<<<<<<<<
@@ -7848,7 +7848,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_14h2o_compact(CYTHON_UNUSED 
     goto __pyx_L6;
   }
 
-  /* "pysnobal/libsnobal/snobal.py":643
+  /* "pysnobal/libsnobal/snobal.pyx":643
  * 
  *         else:
  *             h2o_added = self.em.melt / self.snow.m_s             # <<<<<<<<<<<<<<
@@ -7875,7 +7875,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_14h2o_compact(CYTHON_UNUSED 
   }
   __pyx_L6:;
 
-  /* "pysnobal/libsnobal/snobal.py":645
+  /* "pysnobal/libsnobal/snobal.pyx":645
  *             h2o_added = self.em.melt / self.snow.m_s
  * 
  *         if h2o_added > 0.000001:             # <<<<<<<<<<<<<<
@@ -7887,7 +7887,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_14h2o_compact(CYTHON_UNUSED 
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   if (__pyx_t_1) {
 
-    /* "pysnobal/libsnobal/snobal.py":646
+    /* "pysnobal/libsnobal/snobal.pyx":646
  * 
  *         if h2o_added > 0.000001:
  *             self.snow.rho += A / (1 + B/h2o_added)             # <<<<<<<<<<<<<<
@@ -7917,7 +7917,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_14h2o_compact(CYTHON_UNUSED 
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":649
+    /* "pysnobal/libsnobal/snobal.pyx":649
  * 
  *             # adjust the snowcover for this new density
  *             self.snow.z_s = self.snow.m_s / self.snow.rho             # <<<<<<<<<<<<<<
@@ -7944,7 +7944,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_14h2o_compact(CYTHON_UNUSED 
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":650
+    /* "pysnobal/libsnobal/snobal.pyx":650
  *             # adjust the snowcover for this new density
  *             self.snow.z_s = self.snow.m_s / self.snow.rho
  *             self.adj_layers()             # <<<<<<<<<<<<<<
@@ -7973,7 +7973,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_14h2o_compact(CYTHON_UNUSED 
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":645
+    /* "pysnobal/libsnobal/snobal.pyx":645
  *             h2o_added = self.em.melt / self.snow.m_s
  * 
  *         if h2o_added > 0.000001:             # <<<<<<<<<<<<<<
@@ -7982,7 +7982,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_14h2o_compact(CYTHON_UNUSED 
  */
   }
 
-  /* "pysnobal/libsnobal/snobal.py":594
+  /* "pysnobal/libsnobal/snobal.pyx":594
  * 
  * 
  *     def h2o_compact(self):             # <<<<<<<<<<<<<<
@@ -7998,7 +7998,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_14h2o_compact(CYTHON_UNUSED 
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.h2o_compact", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.h2o_compact", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_MAX_DENSITY);
@@ -8009,7 +8009,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_14h2o_compact(CYTHON_UNUSED 
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":655
+/* "pysnobal/libsnobal/snobal.pyx":655
  * 
  * 
  *     def evap_cond(self):             # <<<<<<<<<<<<<<
@@ -8018,21 +8018,21 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_14h2o_compact(CYTHON_UNUSED 
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_17evap_cond(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_8pysnobal_6snobal_6snobal_16evap_cond[] = "\n        Calculates mass lost or gained by evaporation/condensation\n        at a point for 2-layer energy balance snowmelt model snobal.c;\n        Also adjusts the liq h2o, mass and depth of the snow layer;\n        Assumes that liq h2o is favored in evap as the ratio of\n        vaporization to sublimation (0.882); Half the ice lost as evap\n        is assumed to be lost depth; the rest reduces the density;\n        \n        Variables calculated:\n            E_s_0: mass of evaporation to air (kg/m^2) \n            E_s_l: mass of evaporation to soil (kg/m^2) \n            E_l: mass flux by evap/cond to soil (kg/m^2/s) \n            e_g: soil vapor press \n            e_s_l: lower snow layer's vapor press \n            k: soil diffusion coef \n            prev_h2o_tot: previous value of h2o_total variable \n            q_delta: difference between snow & soil spec hum's \n            q_g: soil spec hum \n            q_s_l: lower snow layer's spec hum \n            rho_air: air density \n            T_bar: snow-soil mean temp \n        ";
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_6snobal_17evap_cond = {"evap_cond", (PyCFunction)__pyx_pw_8pysnobal_6snobal_6snobal_17evap_cond, METH_O, __pyx_doc_8pysnobal_6snobal_6snobal_16evap_cond};
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_17evap_cond(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_17evap_cond(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static char __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_16evap_cond[] = "\n        Calculates mass lost or gained by evaporation/condensation\n        at a point for 2-layer energy balance snowmelt model snobal.c;\n        Also adjusts the liq h2o, mass and depth of the snow layer;\n        Assumes that liq h2o is favored in evap as the ratio of\n        vaporization to sublimation (0.882); Half the ice lost as evap\n        is assumed to be lost depth; the rest reduces the density;\n        \n        Variables calculated:\n            E_s_0: mass of evaporation to air (kg/m^2) \n            E_s_l: mass of evaporation to soil (kg/m^2) \n            E_l: mass flux by evap/cond to soil (kg/m^2/s) \n            e_g: soil vapor press \n            e_s_l: lower snow layer's vapor press \n            k: soil diffusion coef \n            prev_h2o_tot: previous value of h2o_total variable \n            q_delta: difference between snow & soil spec hum's \n            q_g: soil spec hum \n            q_s_l: lower snow layer's spec hum \n            rho_air: air density \n            T_bar: snow-soil mean temp \n        ";
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_17evap_cond = {"evap_cond", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_17evap_cond, METH_O, __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_16evap_cond};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_17evap_cond(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("evap_cond (wrapper)", 0);
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(__pyx_self, ((PyObject *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_16evap_cond(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_v_E_s_0 = NULL;
   PyObject *__pyx_v_prev_h2o_tot = NULL;
   PyObject *__pyx_v_E_s_l = NULL;
@@ -8061,7 +8061,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("evap_cond", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":682
+  /* "pysnobal/libsnobal/snobal.pyx":682
  * 
  *         # If no snow on ground at start of timestep, then just exit.
  *         if not self.snowcover:             # <<<<<<<<<<<<<<
@@ -8075,7 +8075,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
   __pyx_t_3 = ((!__pyx_t_2) != 0);
   if (__pyx_t_3) {
 
-    /* "pysnobal/libsnobal/snobal.py":683
+    /* "pysnobal/libsnobal/snobal.pyx":683
  *         # If no snow on ground at start of timestep, then just exit.
  *         if not self.snowcover:
  *             self.em.E_s = 0.0             # <<<<<<<<<<<<<<
@@ -8087,7 +8087,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
     if (__Pyx_PyObject_SetAttrStr(__pyx_t_1, __pyx_n_s_E_s, __pyx_float_0_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 683; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":684
+    /* "pysnobal/libsnobal/snobal.pyx":684
  *         if not self.snowcover:
  *             self.em.E_s = 0.0
  *             return             # <<<<<<<<<<<<<<
@@ -8098,7 +8098,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
     __pyx_r = Py_None; __Pyx_INCREF(Py_None);
     goto __pyx_L0;
 
-    /* "pysnobal/libsnobal/snobal.py":682
+    /* "pysnobal/libsnobal/snobal.pyx":682
  * 
  *         # If no snow on ground at start of timestep, then just exit.
  *         if not self.snowcover:             # <<<<<<<<<<<<<<
@@ -8107,7 +8107,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
  */
   }
 
-  /* "pysnobal/libsnobal/snobal.py":687
+  /* "pysnobal/libsnobal/snobal.pyx":687
  * 
  *         # Total mass change due to evap/cond at surface during timestep
  *         E_s_0 = self.em.E * self.time_step             # <<<<<<<<<<<<<<
@@ -8128,7 +8128,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
   __pyx_v_E_s_0 = __pyx_t_5;
   __pyx_t_5 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":690
+  /* "pysnobal/libsnobal/snobal.pyx":690
  * 
  *         # Adjust total h2o for evaporative losses
  *         prev_h2o_tot = self.snow.h2o_total             # <<<<<<<<<<<<<<
@@ -8143,7 +8143,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
   __pyx_v_prev_h2o_tot = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":692
+  /* "pysnobal/libsnobal/snobal.pyx":692
  *         prev_h2o_tot = self.snow.h2o_total
  * 
  *         if self.snow.h2o_total > 0.0:             # <<<<<<<<<<<<<<
@@ -8161,7 +8161,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_3) {
 
-    /* "pysnobal/libsnobal/snobal.py":693
+    /* "pysnobal/libsnobal/snobal.pyx":693
  * 
  *         if self.snow.h2o_total > 0.0:
  *             self.snow.h2o_total += (E_s_0 * VAP_SUB)             # <<<<<<<<<<<<<<
@@ -8185,7 +8185,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":694
+    /* "pysnobal/libsnobal/snobal.pyx":694
  *         if self.snow.h2o_total > 0.0:
  *             self.snow.h2o_total += (E_s_0 * VAP_SUB)
  *             if self.snow.h2o_total <= 0.0:             # <<<<<<<<<<<<<<
@@ -8203,7 +8203,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (__pyx_t_3) {
 
-      /* "pysnobal/libsnobal/snobal.py":695
+      /* "pysnobal/libsnobal/snobal.pyx":695
  *             self.snow.h2o_total += (E_s_0 * VAP_SUB)
  *             if self.snow.h2o_total <= 0.0:
  *                 self.snow.h2o_total = 0.0             # <<<<<<<<<<<<<<
@@ -8215,7 +8215,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
       if (__Pyx_PyObject_SetAttrStr(__pyx_t_1, __pyx_n_s_h2o_total, __pyx_float_0_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 695; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":694
+      /* "pysnobal/libsnobal/snobal.pyx":694
  *         if self.snow.h2o_total > 0.0:
  *             self.snow.h2o_total += (E_s_0 * VAP_SUB)
  *             if self.snow.h2o_total <= 0.0:             # <<<<<<<<<<<<<<
@@ -8224,7 +8224,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
  */
     }
 
-    /* "pysnobal/libsnobal/snobal.py":692
+    /* "pysnobal/libsnobal/snobal.pyx":692
  *         prev_h2o_tot = self.snow.h2o_total
  * 
  *         if self.snow.h2o_total > 0.0:             # <<<<<<<<<<<<<<
@@ -8233,7 +8233,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
  */
   }
 
-  /* "pysnobal/libsnobal/snobal.py":698
+  /* "pysnobal/libsnobal/snobal.pyx":698
  * 
  *         # Determine total mass change due to evap/cond at soil
  *         if self.snow.layer_count == 0:             # <<<<<<<<<<<<<<
@@ -8252,7 +8252,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_3) {
 
-    /* "pysnobal/libsnobal/snobal.py":699
+    /* "pysnobal/libsnobal/snobal.pyx":699
  *         # Determine total mass change due to evap/cond at soil
  *         if self.snow.layer_count == 0:
  *             E_s_l = 0.0             # <<<<<<<<<<<<<<
@@ -8262,7 +8262,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
     __Pyx_INCREF(__pyx_float_0_0);
     __pyx_v_E_s_l = __pyx_float_0_0;
 
-    /* "pysnobal/libsnobal/snobal.py":698
+    /* "pysnobal/libsnobal/snobal.pyx":698
  * 
  *         # Determine total mass change due to evap/cond at soil
  *         if self.snow.layer_count == 0:             # <<<<<<<<<<<<<<
@@ -8272,7 +8272,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
     goto __pyx_L6;
   }
 
-  /* "pysnobal/libsnobal/snobal.py":701
+  /* "pysnobal/libsnobal/snobal.pyx":701
  *             E_s_l = 0.0
  *         else:
  *             if self.snow.layer_count == 2:             # <<<<<<<<<<<<<<
@@ -8292,7 +8292,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (__pyx_t_3) {
 
-      /* "pysnobal/libsnobal/snobal.py":702
+      /* "pysnobal/libsnobal/snobal.pyx":702
  *         else:
  *             if self.snow.layer_count == 2:
  *                 e_s_l = libsnobal.sati(self.snow.T_s_l)             # <<<<<<<<<<<<<<
@@ -8338,7 +8338,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
       __pyx_v_e_s_l = __pyx_t_1;
       __pyx_t_1 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":703
+      /* "pysnobal/libsnobal/snobal.pyx":703
  *             if self.snow.layer_count == 2:
  *                 e_s_l = libsnobal.sati(self.snow.T_s_l)
  *                 T_bar = (self.input1.T_g + self.snow.T_s_l) / 2.0             # <<<<<<<<<<<<<<
@@ -8365,7 +8365,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
       __pyx_v_T_bar = __pyx_t_7;
       __pyx_t_7 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":701
+      /* "pysnobal/libsnobal/snobal.pyx":701
  *             E_s_l = 0.0
  *         else:
  *             if self.snow.layer_count == 2:             # <<<<<<<<<<<<<<
@@ -8375,7 +8375,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
       goto __pyx_L7;
     }
 
-    /* "pysnobal/libsnobal/snobal.py":706
+    /* "pysnobal/libsnobal/snobal.pyx":706
  * 
  *             else:  # layer_count == 1
  *                 e_s_l = libsnobal.sati(self.snow.T_s_0)             # <<<<<<<<<<<<<<
@@ -8422,7 +8422,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
       __pyx_v_e_s_l = __pyx_t_7;
       __pyx_t_7 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":707
+      /* "pysnobal/libsnobal/snobal.pyx":707
  *             else:  # layer_count == 1
  *                 e_s_l = libsnobal.sati(self.snow.T_s_0)
  *                 T_bar = (self.input1.T_g + self.snow.T_s_0) / 2.0             # <<<<<<<<<<<<<<
@@ -8451,7 +8451,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
     }
     __pyx_L7:;
 
-    /* "pysnobal/libsnobal/snobal.py":710
+    /* "pysnobal/libsnobal/snobal.pyx":710
  * 
  * 
  *             q_s_l = libsnobal.spec_hum(e_s_l, self.P_a)             # <<<<<<<<<<<<<<
@@ -8495,7 +8495,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
     __pyx_v_q_s_l = __pyx_t_4;
     __pyx_t_4 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":711
+    /* "pysnobal/libsnobal/snobal.pyx":711
  * 
  *             q_s_l = libsnobal.spec_hum(e_s_l, self.P_a)
  *             e_g = libsnobal.sati(self.input1.T_g)             # <<<<<<<<<<<<<<
@@ -8541,7 +8541,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
     __pyx_v_e_g = __pyx_t_4;
     __pyx_t_4 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":712
+    /* "pysnobal/libsnobal/snobal.pyx":712
  *             q_s_l = libsnobal.spec_hum(e_s_l, self.P_a)
  *             e_g = libsnobal.sati(self.input1.T_g)
  *             q_g = libsnobal.spec_hum(e_g, self.P_a)             # <<<<<<<<<<<<<<
@@ -8585,7 +8585,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
     __pyx_v_q_g = __pyx_t_4;
     __pyx_t_4 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":713
+    /* "pysnobal/libsnobal/snobal.pyx":713
  *             e_g = libsnobal.sati(self.input1.T_g)
  *             q_g = libsnobal.spec_hum(e_g, self.P_a)
  *             q_delta = q_g - q_s_l             # <<<<<<<<<<<<<<
@@ -8597,7 +8597,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
     __pyx_v_q_delta = __pyx_t_4;
     __pyx_t_4 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":714
+    /* "pysnobal/libsnobal/snobal.pyx":714
  *             q_g = libsnobal.spec_hum(e_g, self.P_a)
  *             q_delta = q_g - q_s_l
  *             rho_air = libsnobal.GAS_DEN(self.P_a, libsnobal.MOL_AIR, T_bar)             # <<<<<<<<<<<<<<
@@ -8649,7 +8649,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
     __pyx_v_rho_air = __pyx_t_4;
     __pyx_t_4 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":715
+    /* "pysnobal/libsnobal/snobal.pyx":715
  *             q_delta = q_g - q_s_l
  *             rho_air = libsnobal.GAS_DEN(self.P_a, libsnobal.MOL_AIR, T_bar)
  *             k = libsnobal.DIFFUS(self.P_a, T_bar)             # <<<<<<<<<<<<<<
@@ -8693,7 +8693,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
     __pyx_v_k = __pyx_t_4;
     __pyx_t_4 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":717
+    /* "pysnobal/libsnobal/snobal.pyx":717
  *             k = libsnobal.DIFFUS(self.P_a, T_bar)
  * 
  *             E_l = libsnobal.EVAP(rho_air, k, q_delta, self.z_g)             # <<<<<<<<<<<<<<
@@ -8743,7 +8743,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
     __pyx_v_E_l = __pyx_t_4;
     __pyx_t_4 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":720
+    /* "pysnobal/libsnobal/snobal.pyx":720
  * 
  *             # total mass of evap/cond for time step
  *             E_s_l = E_l * self.time_step             # <<<<<<<<<<<<<<
@@ -8758,7 +8758,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
     __pyx_v_E_s_l = __pyx_t_5;
     __pyx_t_5 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":723
+    /* "pysnobal/libsnobal/snobal.pyx":723
  * 
  *             # adjust h2o_total for evaporative losses
  *             if self.snow.h2o_total > 0.0:             # <<<<<<<<<<<<<<
@@ -8776,7 +8776,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     if (__pyx_t_3) {
 
-      /* "pysnobal/libsnobal/snobal.py":724
+      /* "pysnobal/libsnobal/snobal.pyx":724
  *             # adjust h2o_total for evaporative losses
  *             if self.snow.h2o_total > 0.0:
  *                 self.snow.h2o_total += (E_s_l * VAP_SUB)             # <<<<<<<<<<<<<<
@@ -8800,7 +8800,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":725
+      /* "pysnobal/libsnobal/snobal.pyx":725
  *             if self.snow.h2o_total > 0.0:
  *                 self.snow.h2o_total += (E_s_l * VAP_SUB)
  *                 if self.snow.h2o_total <= 0.0:             # <<<<<<<<<<<<<<
@@ -8818,7 +8818,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       if (__pyx_t_3) {
 
-        /* "pysnobal/libsnobal/snobal.py":726
+        /* "pysnobal/libsnobal/snobal.pyx":726
  *                 self.snow.h2o_total += (E_s_l * VAP_SUB)
  *                 if self.snow.h2o_total <= 0.0:
  *                     self.snow.h2o_total = 0.0             # <<<<<<<<<<<<<<
@@ -8830,7 +8830,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
         if (__Pyx_PyObject_SetAttrStr(__pyx_t_5, __pyx_n_s_h2o_total, __pyx_float_0_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 726; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-        /* "pysnobal/libsnobal/snobal.py":725
+        /* "pysnobal/libsnobal/snobal.pyx":725
  *             if self.snow.h2o_total > 0.0:
  *                 self.snow.h2o_total += (E_s_l * VAP_SUB)
  *                 if self.snow.h2o_total <= 0.0:             # <<<<<<<<<<<<<<
@@ -8839,7 +8839,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
  */
       }
 
-      /* "pysnobal/libsnobal/snobal.py":723
+      /* "pysnobal/libsnobal/snobal.pyx":723
  * 
  *             # adjust h2o_total for evaporative losses
  *             if self.snow.h2o_total > 0.0:             # <<<<<<<<<<<<<<
@@ -8850,7 +8850,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
   }
   __pyx_L6:;
 
-  /* "pysnobal/libsnobal/snobal.py":730
+  /* "pysnobal/libsnobal/snobal.pyx":730
  * 
  * 
  *         self.em.E_s = E_s_0 + E_s_l             # <<<<<<<<<<<<<<
@@ -8865,7 +8865,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":733
+  /* "pysnobal/libsnobal/snobal.pyx":733
  * 
  *         # adj mass and depth for evap/cond
  *         if self.snow.layer_count > 0:             # <<<<<<<<<<<<<<
@@ -8883,7 +8883,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   if (__pyx_t_3) {
 
-    /* "pysnobal/libsnobal/snobal.py":734
+    /* "pysnobal/libsnobal/snobal.pyx":734
  *         # adj mass and depth for evap/cond
  *         if self.snow.layer_count > 0:
  *             self.adj_snow( ((self.em.E_s + (prev_h2o_tot - self.snow.h2o_total)) / self.snow.rho) / 2.0, self.em.E_s)             # <<<<<<<<<<<<<<
@@ -8955,7 +8955,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":733
+    /* "pysnobal/libsnobal/snobal.pyx":733
  * 
  *         # adj mass and depth for evap/cond
  *         if self.snow.layer_count > 0:             # <<<<<<<<<<<<<<
@@ -8964,7 +8964,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
  */
   }
 
-  /* "pysnobal/libsnobal/snobal.py":655
+  /* "pysnobal/libsnobal/snobal.pyx":655
  * 
  * 
  *     def evap_cond(self):             # <<<<<<<<<<<<<<
@@ -8982,7 +8982,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_9);
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.evap_cond", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.evap_cond", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_E_s_0);
@@ -9002,7 +9002,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":738
+/* "pysnobal/libsnobal/snobal.pyx":738
  * 
  * 
  *     def snowmelt(self):             # <<<<<<<<<<<<<<
@@ -9011,21 +9011,21 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_16evap_cond(CYTHON_UNUSED Py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_19snowmelt(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_8pysnobal_6snobal_6snobal_18snowmelt[] = "\n        Calculates melting or re-freezing for point 2-layer energy balance\n        snowmelt model.\n        \n        Variables calculated:\n            Q_0: energy available for surface melt \n            Q_l: energy available for lower layer melt \n            Q_freeze: energy used for re-freezing \n            Q_left: energy left after re_freezing \n            h2o_refrozen: amount of liquid H2O that was refrozen \n        ";
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_6snobal_19snowmelt = {"snowmelt", (PyCFunction)__pyx_pw_8pysnobal_6snobal_6snobal_19snowmelt, METH_O, __pyx_doc_8pysnobal_6snobal_6snobal_18snowmelt};
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_19snowmelt(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_19snowmelt(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static char __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_18snowmelt[] = "\n        Calculates melting or re-freezing for point 2-layer energy balance\n        snowmelt model.\n        \n        Variables calculated:\n            Q_0: energy available for surface melt \n            Q_l: energy available for lower layer melt \n            Q_freeze: energy used for re-freezing \n            Q_left: energy left after re_freezing \n            h2o_refrozen: amount of liquid H2O that was refrozen \n        ";
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_19snowmelt = {"snowmelt", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_19snowmelt, METH_O, __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_18snowmelt};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_19snowmelt(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("snowmelt (wrapper)", 0);
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(__pyx_self, ((PyObject *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_18snowmelt(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_v_Q_0 = NULL;
   PyObject *__pyx_v_Q_l = NULL;
   PyObject *__pyx_v_h2o_refrozen = NULL;
@@ -9047,7 +9047,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("snowmelt", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":751
+  /* "pysnobal/libsnobal/snobal.pyx":751
  *         """
  * 
  *         if not self.snowcover:             # <<<<<<<<<<<<<<
@@ -9061,7 +9061,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
   __pyx_t_3 = ((!__pyx_t_2) != 0);
   if (__pyx_t_3) {
 
-    /* "pysnobal/libsnobal/snobal.py":752
+    /* "pysnobal/libsnobal/snobal.pyx":752
  * 
  *         if not self.snowcover:
  *             self.em.melt = 0             # <<<<<<<<<<<<<<
@@ -9073,7 +9073,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
     if (__Pyx_PyObject_SetAttrStr(__pyx_t_1, __pyx_n_s_melt, __pyx_int_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 752; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":753
+    /* "pysnobal/libsnobal/snobal.pyx":753
  *         if not self.snowcover:
  *             self.em.melt = 0
  *             return             # <<<<<<<<<<<<<<
@@ -9084,7 +9084,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
     __pyx_r = Py_None; __Pyx_INCREF(Py_None);
     goto __pyx_L0;
 
-    /* "pysnobal/libsnobal/snobal.py":751
+    /* "pysnobal/libsnobal/snobal.pyx":751
  *         """
  * 
  *         if not self.snowcover:             # <<<<<<<<<<<<<<
@@ -9093,7 +9093,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
  */
   }
 
-  /* "pysnobal/libsnobal/snobal.py":759
+  /* "pysnobal/libsnobal/snobal.pyx":759
  *         # calculate surface melt
  *         # energy for surface melt
  *         Q_0 = (self.em.delta_Q_0 * self.time_step) + self.snow.cc_s_0             # <<<<<<<<<<<<<<
@@ -9123,7 +9123,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
   __pyx_v_Q_0 = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":761
+  /* "pysnobal/libsnobal/snobal.pyx":761
  *         Q_0 = (self.em.delta_Q_0 * self.time_step) + self.snow.cc_s_0
  * 
  *         if Q_0 > 0:             # <<<<<<<<<<<<<<
@@ -9135,7 +9135,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_3) {
 
-    /* "pysnobal/libsnobal/snobal.py":762
+    /* "pysnobal/libsnobal/snobal.pyx":762
  * 
  *         if Q_0 > 0:
  *             self.em.melt = MELT(Q_0)             # <<<<<<<<<<<<<<
@@ -9175,7 +9175,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":763
+    /* "pysnobal/libsnobal/snobal.pyx":763
  *         if Q_0 > 0:
  *             self.em.melt = MELT(Q_0)
  *             self.snow.cc_s_0 = 0             # <<<<<<<<<<<<<<
@@ -9187,7 +9187,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
     if (__Pyx_PyObject_SetAttrStr(__pyx_t_4, __pyx_n_s_cc_s_0, __pyx_int_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 763; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":761
+    /* "pysnobal/libsnobal/snobal.pyx":761
  *         Q_0 = (self.em.delta_Q_0 * self.time_step) + self.snow.cc_s_0
  * 
  *         if Q_0 > 0:             # <<<<<<<<<<<<<<
@@ -9197,7 +9197,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
     goto __pyx_L4;
   }
 
-  /* "pysnobal/libsnobal/snobal.py":764
+  /* "pysnobal/libsnobal/snobal.pyx":764
  *             self.em.melt = MELT(Q_0)
  *             self.snow.cc_s_0 = 0
  *         elif Q_0 == 0:             # <<<<<<<<<<<<<<
@@ -9210,7 +9210,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   if (__pyx_t_3) {
 
-    /* "pysnobal/libsnobal/snobal.py":765
+    /* "pysnobal/libsnobal/snobal.pyx":765
  *             self.snow.cc_s_0 = 0
  *         elif Q_0 == 0:
  *             self.em.melt = 0             # <<<<<<<<<<<<<<
@@ -9222,7 +9222,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
     if (__Pyx_PyObject_SetAttrStr(__pyx_t_4, __pyx_n_s_melt, __pyx_int_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 765; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":766
+    /* "pysnobal/libsnobal/snobal.pyx":766
  *         elif Q_0 == 0:
  *             self.em.melt = 0
  *             self.snow.cc_s_0 = 0             # <<<<<<<<<<<<<<
@@ -9234,7 +9234,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
     if (__Pyx_PyObject_SetAttrStr(__pyx_t_4, __pyx_n_s_cc_s_0, __pyx_int_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 766; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":764
+    /* "pysnobal/libsnobal/snobal.pyx":764
  *             self.em.melt = MELT(Q_0)
  *             self.snow.cc_s_0 = 0
  *         elif Q_0 == 0:             # <<<<<<<<<<<<<<
@@ -9244,7 +9244,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
     goto __pyx_L4;
   }
 
-  /* "pysnobal/libsnobal/snobal.py":768
+  /* "pysnobal/libsnobal/snobal.pyx":768
  *             self.snow.cc_s_0 = 0
  *         else:
  *             self.em.melt = 0             # <<<<<<<<<<<<<<
@@ -9257,7 +9257,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
     if (__Pyx_PyObject_SetAttrStr(__pyx_t_4, __pyx_n_s_melt, __pyx_int_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 768; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":769
+    /* "pysnobal/libsnobal/snobal.pyx":769
  *         else:
  *             self.em.melt = 0
  *             self.snow.cc_s_0 = Q_0             # <<<<<<<<<<<<<<
@@ -9271,7 +9271,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
   }
   __pyx_L4:;
 
-  /* "pysnobal/libsnobal/snobal.py":772
+  /* "pysnobal/libsnobal/snobal.pyx":772
  * 
  *         # calculate lower layer melt
  *         if self.snow.layer_count == 2:             # <<<<<<<<<<<<<<
@@ -9290,7 +9290,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   if (__pyx_t_3) {
 
-    /* "pysnobal/libsnobal/snobal.py":773
+    /* "pysnobal/libsnobal/snobal.pyx":773
  *         # calculate lower layer melt
  *         if self.snow.layer_count == 2:
  *             Q_l = ((self.em.G - self.em.G_0) * self.time_step) + self.snow.cc_s_l             # <<<<<<<<<<<<<<
@@ -9329,7 +9329,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
     __pyx_v_Q_l = __pyx_t_6;
     __pyx_t_6 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":775
+    /* "pysnobal/libsnobal/snobal.pyx":775
  *             Q_l = ((self.em.G - self.em.G_0) * self.time_step) + self.snow.cc_s_l
  * 
  *             if Q_l > 0:             # <<<<<<<<<<<<<<
@@ -9341,7 +9341,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (__pyx_t_3) {
 
-      /* "pysnobal/libsnobal/snobal.py":776
+      /* "pysnobal/libsnobal/snobal.pyx":776
  * 
  *             if Q_l > 0:
  *                 self.em.melt += MELT(Q_l)             # <<<<<<<<<<<<<<
@@ -9387,7 +9387,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":777
+      /* "pysnobal/libsnobal/snobal.pyx":777
  *             if Q_l > 0:
  *                 self.em.melt += MELT(Q_l)
  *                 self.snow.cc_s_l = 0             # <<<<<<<<<<<<<<
@@ -9399,7 +9399,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
       if (__Pyx_PyObject_SetAttrStr(__pyx_t_6, __pyx_n_s_cc_s_l, __pyx_int_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 777; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":775
+      /* "pysnobal/libsnobal/snobal.pyx":775
  *             Q_l = ((self.em.G - self.em.G_0) * self.time_step) + self.snow.cc_s_l
  * 
  *             if Q_l > 0:             # <<<<<<<<<<<<<<
@@ -9409,7 +9409,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
       goto __pyx_L6;
     }
 
-    /* "pysnobal/libsnobal/snobal.py":778
+    /* "pysnobal/libsnobal/snobal.pyx":778
  *                 self.em.melt += MELT(Q_l)
  *                 self.snow.cc_s_l = 0
  *             elif Q_l == 0:             # <<<<<<<<<<<<<<
@@ -9422,7 +9422,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (__pyx_t_3) {
 
-      /* "pysnobal/libsnobal/snobal.py":779
+      /* "pysnobal/libsnobal/snobal.pyx":779
  *                 self.snow.cc_s_l = 0
  *             elif Q_l == 0:
  *                 self.em.melt += 0             # <<<<<<<<<<<<<<
@@ -9440,7 +9440,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":780
+      /* "pysnobal/libsnobal/snobal.pyx":780
  *             elif Q_l == 0:
  *                 self.em.melt += 0
  *                 self.snow.cc_s_l = 0             # <<<<<<<<<<<<<<
@@ -9452,7 +9452,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
       if (__Pyx_PyObject_SetAttrStr(__pyx_t_6, __pyx_n_s_cc_s_l, __pyx_int_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 780; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":778
+      /* "pysnobal/libsnobal/snobal.pyx":778
  *                 self.em.melt += MELT(Q_l)
  *                 self.snow.cc_s_l = 0
  *             elif Q_l == 0:             # <<<<<<<<<<<<<<
@@ -9462,7 +9462,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
       goto __pyx_L6;
     }
 
-    /* "pysnobal/libsnobal/snobal.py":782
+    /* "pysnobal/libsnobal/snobal.pyx":782
  *                 self.snow.cc_s_l = 0
  *             else:
  *                 self.em.melt += 0             # <<<<<<<<<<<<<<
@@ -9481,7 +9481,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":783
+      /* "pysnobal/libsnobal/snobal.pyx":783
  *             else:
  *                 self.em.melt += 0
  *                 self.snow.cc_s_l = Q_l             # <<<<<<<<<<<<<<
@@ -9495,7 +9495,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
     }
     __pyx_L6:;
 
-    /* "pysnobal/libsnobal/snobal.py":772
+    /* "pysnobal/libsnobal/snobal.pyx":772
  * 
  *         # calculate lower layer melt
  *         if self.snow.layer_count == 2:             # <<<<<<<<<<<<<<
@@ -9505,7 +9505,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
     goto __pyx_L5;
   }
 
-  /* "pysnobal/libsnobal/snobal.py":787
+  /* "pysnobal/libsnobal/snobal.pyx":787
  *         else:
  *             # layer count = 1
  *             Q_l = 0             # <<<<<<<<<<<<<<
@@ -9518,7 +9518,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
   }
   __pyx_L5:;
 
-  /* "pysnobal/libsnobal/snobal.py":790
+  /* "pysnobal/libsnobal/snobal.pyx":790
  * 
  * 
  *         self.snow.h2o_total += self.em.melt             # <<<<<<<<<<<<<<
@@ -9542,7 +9542,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":794
+  /* "pysnobal/libsnobal/snobal.pyx":794
  *         # adjust layers for re-freezing
  *         # adjust surface layer
  *         h2o_refrozen = 0             # <<<<<<<<<<<<<<
@@ -9552,7 +9552,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
   __Pyx_INCREF(__pyx_int_0);
   __pyx_v_h2o_refrozen = __pyx_int_0;
 
-  /* "pysnobal/libsnobal/snobal.py":796
+  /* "pysnobal/libsnobal/snobal.pyx":796
  *         h2o_refrozen = 0
  * 
  *         if self.snow.cc_s_0 < 0:             # <<<<<<<<<<<<<<
@@ -9570,7 +9570,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   if (__pyx_t_3) {
 
-    /* "pysnobal/libsnobal/snobal.py":798
+    /* "pysnobal/libsnobal/snobal.pyx":798
  *         if self.snow.cc_s_0 < 0:
  *             # if liquid h2o present, calc refreezing and adj cc_s_0
  *             if self.snow.h2o_total > 0:             # <<<<<<<<<<<<<<
@@ -9588,7 +9588,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (__pyx_t_3) {
 
-      /* "pysnobal/libsnobal/snobal.py":799
+      /* "pysnobal/libsnobal/snobal.pyx":799
  *             # if liquid h2o present, calc refreezing and adj cc_s_0
  *             if self.snow.h2o_total > 0:
  *                 Q_freeze = self.snow.h2o_total * (self.snow.z_s_0/self.snow.z_s) * libsnobal.LH_FUS(FREEZE)             # <<<<<<<<<<<<<<
@@ -9658,7 +9658,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
       __pyx_v_Q_freeze = __pyx_t_4;
       __pyx_t_4 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":800
+      /* "pysnobal/libsnobal/snobal.pyx":800
  *             if self.snow.h2o_total > 0:
  *                 Q_freeze = self.snow.h2o_total * (self.snow.z_s_0/self.snow.z_s) * libsnobal.LH_FUS(FREEZE)
  *                 Q_left = Q_0 + Q_freeze             # <<<<<<<<<<<<<<
@@ -9670,7 +9670,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
       __pyx_v_Q_left = __pyx_t_4;
       __pyx_t_4 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":802
+      /* "pysnobal/libsnobal/snobal.pyx":802
  *                 Q_left = Q_0 + Q_freeze
  * 
  *                 if Q_left <= 0:             # <<<<<<<<<<<<<<
@@ -9682,7 +9682,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_3) {
 
-        /* "pysnobal/libsnobal/snobal.py":803
+        /* "pysnobal/libsnobal/snobal.pyx":803
  * 
  *                 if Q_left <= 0:
  *                     h2o_refrozen = self.snow.h2o_total * (self.snow.z_s_0/self.snow.z_s)             # <<<<<<<<<<<<<<
@@ -9715,7 +9715,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
         __Pyx_DECREF_SET(__pyx_v_h2o_refrozen, __pyx_t_7);
         __pyx_t_7 = 0;
 
-        /* "pysnobal/libsnobal/snobal.py":804
+        /* "pysnobal/libsnobal/snobal.pyx":804
  *                 if Q_left <= 0:
  *                     h2o_refrozen = self.snow.h2o_total * (self.snow.z_s_0/self.snow.z_s)
  *                     self.snow.cc_s_0 = Q_left             # <<<<<<<<<<<<<<
@@ -9727,7 +9727,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
         if (__Pyx_PyObject_SetAttrStr(__pyx_t_7, __pyx_n_s_cc_s_0, __pyx_v_Q_left) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 804; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-        /* "pysnobal/libsnobal/snobal.py":802
+        /* "pysnobal/libsnobal/snobal.pyx":802
  *                 Q_left = Q_0 + Q_freeze
  * 
  *                 if Q_left <= 0:             # <<<<<<<<<<<<<<
@@ -9737,7 +9737,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
         goto __pyx_L9;
       }
 
-      /* "pysnobal/libsnobal/snobal.py":806
+      /* "pysnobal/libsnobal/snobal.pyx":806
  *                     self.snow.cc_s_0 = Q_left
  *                 else:
  *                     h2o_refrozen = self.snow.h2o_total * (self.snow.z_s_0/self.snow.z_s) - MELT(Q_left)             # <<<<<<<<<<<<<<
@@ -9802,7 +9802,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
         __Pyx_DECREF_SET(__pyx_v_h2o_refrozen, __pyx_t_4);
         __pyx_t_4 = 0;
 
-        /* "pysnobal/libsnobal/snobal.py":807
+        /* "pysnobal/libsnobal/snobal.pyx":807
  *                 else:
  *                     h2o_refrozen = self.snow.h2o_total * (self.snow.z_s_0/self.snow.z_s) - MELT(Q_left)
  *                     self.snow.cc_s_0 = 0             # <<<<<<<<<<<<<<
@@ -9816,7 +9816,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
       }
       __pyx_L9:;
 
-      /* "pysnobal/libsnobal/snobal.py":798
+      /* "pysnobal/libsnobal/snobal.pyx":798
  *         if self.snow.cc_s_0 < 0:
  *             # if liquid h2o present, calc refreezing and adj cc_s_0
  *             if self.snow.h2o_total > 0:             # <<<<<<<<<<<<<<
@@ -9825,7 +9825,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
  */
     }
 
-    /* "pysnobal/libsnobal/snobal.py":796
+    /* "pysnobal/libsnobal/snobal.pyx":796
  *         h2o_refrozen = 0
  * 
  *         if self.snow.cc_s_0 < 0:             # <<<<<<<<<<<<<<
@@ -9834,7 +9834,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
  */
   }
 
-  /* "pysnobal/libsnobal/snobal.py":810
+  /* "pysnobal/libsnobal/snobal.pyx":810
  * 
  *         # adjust lower layer for re-freezing
  *         if (self.snow.layer_count == 2) and (self.snow.cc_s_l < 0.0):             # <<<<<<<<<<<<<<
@@ -9869,7 +9869,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
   __pyx_L11_bool_binop_done:;
   if (__pyx_t_3) {
 
-    /* "pysnobal/libsnobal/snobal.py":812
+    /* "pysnobal/libsnobal/snobal.pyx":812
  *         if (self.snow.layer_count == 2) and (self.snow.cc_s_l < 0.0):
  *             # if liquid h2o, calc re-freezing and adj cc_s_l
  *             if self.snow.h2o_total > 0.0:             # <<<<<<<<<<<<<<
@@ -9887,7 +9887,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     if (__pyx_t_3) {
 
-      /* "pysnobal/libsnobal/snobal.py":813
+      /* "pysnobal/libsnobal/snobal.pyx":813
  *             # if liquid h2o, calc re-freezing and adj cc_s_l
  *             if self.snow.h2o_total > 0.0:
  *                 Q_freeze = self.snow.h2o_total * (self.snow.z_s_l/self.snow.z_s) * libsnobal.LH_FUS(FREEZE)             # <<<<<<<<<<<<<<
@@ -9957,7 +9957,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
       __Pyx_XDECREF_SET(__pyx_v_Q_freeze, __pyx_t_5);
       __pyx_t_5 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":814
+      /* "pysnobal/libsnobal/snobal.pyx":814
  *             if self.snow.h2o_total > 0.0:
  *                 Q_freeze = self.snow.h2o_total * (self.snow.z_s_l/self.snow.z_s) * libsnobal.LH_FUS(FREEZE)
  *                 Q_left = Q_l + Q_freeze             # <<<<<<<<<<<<<<
@@ -9969,7 +9969,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
       __Pyx_XDECREF_SET(__pyx_v_Q_left, __pyx_t_5);
       __pyx_t_5 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":816
+      /* "pysnobal/libsnobal/snobal.pyx":816
  *                 Q_left = Q_l + Q_freeze
  * 
  *                 if Q_left <= 0.0:             # <<<<<<<<<<<<<<
@@ -9981,7 +9981,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       if (__pyx_t_3) {
 
-        /* "pysnobal/libsnobal/snobal.py":817
+        /* "pysnobal/libsnobal/snobal.pyx":817
  * 
  *                 if Q_left <= 0.0:
  *                         h2o_refrozen += self.snow.h2o_total * (self.snow.z_s_l/self.snow.z_s)             # <<<<<<<<<<<<<<
@@ -10017,7 +10017,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
         __Pyx_DECREF_SET(__pyx_v_h2o_refrozen, __pyx_t_5);
         __pyx_t_5 = 0;
 
-        /* "pysnobal/libsnobal/snobal.py":818
+        /* "pysnobal/libsnobal/snobal.pyx":818
  *                 if Q_left <= 0.0:
  *                         h2o_refrozen += self.snow.h2o_total * (self.snow.z_s_l/self.snow.z_s)
  *                         self.snow.cc_s_l = Q_left             # <<<<<<<<<<<<<<
@@ -10029,7 +10029,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
         if (__Pyx_PyObject_SetAttrStr(__pyx_t_5, __pyx_n_s_cc_s_l, __pyx_v_Q_left) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 818; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-        /* "pysnobal/libsnobal/snobal.py":816
+        /* "pysnobal/libsnobal/snobal.pyx":816
  *                 Q_left = Q_l + Q_freeze
  * 
  *                 if Q_left <= 0.0:             # <<<<<<<<<<<<<<
@@ -10039,7 +10039,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
         goto __pyx_L14;
       }
 
-      /* "pysnobal/libsnobal/snobal.py":820
+      /* "pysnobal/libsnobal/snobal.pyx":820
  *                         self.snow.cc_s_l = Q_left
  *                 else:
  *                     h2o_refrozen += ((self.snow.h2o_total * (self.snow.z_s_l/self.snow.z_s)) - MELT(Q_left))             # <<<<<<<<<<<<<<
@@ -10107,7 +10107,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
         __Pyx_DECREF_SET(__pyx_v_h2o_refrozen, __pyx_t_5);
         __pyx_t_5 = 0;
 
-        /* "pysnobal/libsnobal/snobal.py":821
+        /* "pysnobal/libsnobal/snobal.pyx":821
  *                 else:
  *                     h2o_refrozen += ((self.snow.h2o_total * (self.snow.z_s_l/self.snow.z_s)) - MELT(Q_left))
  *                     self.snow.cc_s_l = 0.0             # <<<<<<<<<<<<<<
@@ -10121,7 +10121,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
       }
       __pyx_L14:;
 
-      /* "pysnobal/libsnobal/snobal.py":812
+      /* "pysnobal/libsnobal/snobal.pyx":812
  *         if (self.snow.layer_count == 2) and (self.snow.cc_s_l < 0.0):
  *             # if liquid h2o, calc re-freezing and adj cc_s_l
  *             if self.snow.h2o_total > 0.0:             # <<<<<<<<<<<<<<
@@ -10130,7 +10130,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
  */
     }
 
-    /* "pysnobal/libsnobal/snobal.py":810
+    /* "pysnobal/libsnobal/snobal.pyx":810
  * 
  *         # adjust lower layer for re-freezing
  *         if (self.snow.layer_count == 2) and (self.snow.cc_s_l < 0.0):             # <<<<<<<<<<<<<<
@@ -10139,7 +10139,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
  */
   }
 
-  /* "pysnobal/libsnobal/snobal.py":827
+  /* "pysnobal/libsnobal/snobal.pyx":827
  *         # be exactly the same as h2o_total.  Check for this
  *         # case, and if so, then just zero out h2o_total.
  *         if np.abs(self.snow.h2o_total - h2o_refrozen) <= 1e-8:             # <<<<<<<<<<<<<<
@@ -10191,7 +10191,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_3) {
 
-    /* "pysnobal/libsnobal/snobal.py":828
+    /* "pysnobal/libsnobal/snobal.pyx":828
  *         # case, and if so, then just zero out h2o_total.
  *         if np.abs(self.snow.h2o_total - h2o_refrozen) <= 1e-8:
  *             self.snow.h2o_total = 0             # <<<<<<<<<<<<<<
@@ -10203,7 +10203,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
     if (__Pyx_PyObject_SetAttrStr(__pyx_t_1, __pyx_n_s_h2o_total, __pyx_int_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 828; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":827
+    /* "pysnobal/libsnobal/snobal.pyx":827
  *         # be exactly the same as h2o_total.  Check for this
  *         # case, and if so, then just zero out h2o_total.
  *         if np.abs(self.snow.h2o_total - h2o_refrozen) <= 1e-8:             # <<<<<<<<<<<<<<
@@ -10213,7 +10213,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
     goto __pyx_L15;
   }
 
-  /* "pysnobal/libsnobal/snobal.py":830
+  /* "pysnobal/libsnobal/snobal.pyx":830
  *             self.snow.h2o_total = 0
  *         else:
  *             self.snow.h2o_total -= h2o_refrozen             # <<<<<<<<<<<<<<
@@ -10234,7 +10234,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
   }
   __pyx_L15:;
 
-  /* "pysnobal/libsnobal/snobal.py":833
+  /* "pysnobal/libsnobal/snobal.pyx":833
  * 
  *         # determine if snowcover is isothermal
  *         if (self.snow.layer_count == 2) and (self.snow.cc_s_0 == 0.0) and (self.snow.cc_s_l == 0.0):             # <<<<<<<<<<<<<<
@@ -10285,7 +10285,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
   __pyx_L17_bool_binop_done:;
   if (__pyx_t_3) {
 
-    /* "pysnobal/libsnobal/snobal.py":834
+    /* "pysnobal/libsnobal/snobal.pyx":834
  *         # determine if snowcover is isothermal
  *         if (self.snow.layer_count == 2) and (self.snow.cc_s_0 == 0.0) and (self.snow.cc_s_l == 0.0):
  *             self.isothermal = True             # <<<<<<<<<<<<<<
@@ -10294,7 +10294,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
  */
     if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_isothermal, Py_True) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 834; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "pysnobal/libsnobal/snobal.py":833
+    /* "pysnobal/libsnobal/snobal.pyx":833
  * 
  *         # determine if snowcover is isothermal
  *         if (self.snow.layer_count == 2) and (self.snow.cc_s_0 == 0.0) and (self.snow.cc_s_l == 0.0):             # <<<<<<<<<<<<<<
@@ -10304,7 +10304,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
     goto __pyx_L16;
   }
 
-  /* "pysnobal/libsnobal/snobal.py":835
+  /* "pysnobal/libsnobal/snobal.pyx":835
  *         if (self.snow.layer_count == 2) and (self.snow.cc_s_0 == 0.0) and (self.snow.cc_s_l == 0.0):
  *             self.isothermal = True
  *         elif (self.snow.layer_count == 1) and (self.snow.cc_s_0 == 0.0):             # <<<<<<<<<<<<<<
@@ -10340,7 +10340,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
   __pyx_L20_bool_binop_done:;
   if (__pyx_t_3) {
 
-    /* "pysnobal/libsnobal/snobal.py":836
+    /* "pysnobal/libsnobal/snobal.pyx":836
  *             self.isothermal = True
  *         elif (self.snow.layer_count == 1) and (self.snow.cc_s_0 == 0.0):
  *             self.isothermal = True             # <<<<<<<<<<<<<<
@@ -10349,7 +10349,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
  */
     if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_isothermal, Py_True) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 836; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "pysnobal/libsnobal/snobal.py":835
+    /* "pysnobal/libsnobal/snobal.pyx":835
  *         if (self.snow.layer_count == 2) and (self.snow.cc_s_0 == 0.0) and (self.snow.cc_s_l == 0.0):
  *             self.isothermal = True
  *         elif (self.snow.layer_count == 1) and (self.snow.cc_s_0 == 0.0):             # <<<<<<<<<<<<<<
@@ -10359,7 +10359,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
     goto __pyx_L16;
   }
 
-  /* "pysnobal/libsnobal/snobal.py":838
+  /* "pysnobal/libsnobal/snobal.pyx":838
  *             self.isothermal = True
  *         else:
  *             self.isothermal = False             # <<<<<<<<<<<<<<
@@ -10371,7 +10371,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
   }
   __pyx_L16:;
 
-  /* "pysnobal/libsnobal/snobal.py":841
+  /* "pysnobal/libsnobal/snobal.pyx":841
  * 
  *         # adjust depth and density for melt
  *         if self.em.melt > 0:             # <<<<<<<<<<<<<<
@@ -10389,7 +10389,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_3) {
 
-    /* "pysnobal/libsnobal/snobal.py":842
+    /* "pysnobal/libsnobal/snobal.pyx":842
  *         # adjust depth and density for melt
  *         if self.em.melt > 0:
  *             self.adj_snow((-1)*self.em.melt/self.snow.rho, 0)             # <<<<<<<<<<<<<<
@@ -10444,7 +10444,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":841
+    /* "pysnobal/libsnobal/snobal.pyx":841
  * 
  *         # adjust depth and density for melt
  *         if self.em.melt > 0:             # <<<<<<<<<<<<<<
@@ -10453,7 +10453,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
  */
   }
 
-  /* "pysnobal/libsnobal/snobal.py":845
+  /* "pysnobal/libsnobal/snobal.pyx":845
  * 
  *         # set total cold content
  *         if self.snow.layer_count == 2:             # <<<<<<<<<<<<<<
@@ -10472,7 +10472,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_3) {
 
-    /* "pysnobal/libsnobal/snobal.py":846
+    /* "pysnobal/libsnobal/snobal.pyx":846
  *         # set total cold content
  *         if self.snow.layer_count == 2:
  *             self.snow.cc_s = self.snow.cc_s_0 + self.snow.cc_s_l             # <<<<<<<<<<<<<<
@@ -10499,7 +10499,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":845
+    /* "pysnobal/libsnobal/snobal.pyx":845
  * 
  *         # set total cold content
  *         if self.snow.layer_count == 2:             # <<<<<<<<<<<<<<
@@ -10509,7 +10509,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
     goto __pyx_L23;
   }
 
-  /* "pysnobal/libsnobal/snobal.py":847
+  /* "pysnobal/libsnobal/snobal.pyx":847
  *         if self.snow.layer_count == 2:
  *             self.snow.cc_s = self.snow.cc_s_0 + self.snow.cc_s_l
  *         elif self.snow.layer_count == 1:             # <<<<<<<<<<<<<<
@@ -10528,7 +10528,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   if (__pyx_t_3) {
 
-    /* "pysnobal/libsnobal/snobal.py":848
+    /* "pysnobal/libsnobal/snobal.pyx":848
  *             self.snow.cc_s = self.snow.cc_s_0 + self.snow.cc_s_l
  *         elif self.snow.layer_count == 1:
  *             self.snow.cc_s = self.snow.cc_s_0             # <<<<<<<<<<<<<<
@@ -10546,7 +10546,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":847
+    /* "pysnobal/libsnobal/snobal.pyx":847
  *         if self.snow.layer_count == 2:
  *             self.snow.cc_s = self.snow.cc_s_0 + self.snow.cc_s_l
  *         elif self.snow.layer_count == 1:             # <<<<<<<<<<<<<<
@@ -10556,7 +10556,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
   }
   __pyx_L23:;
 
-  /* "pysnobal/libsnobal/snobal.py":738
+  /* "pysnobal/libsnobal/snobal.pyx":738
  * 
  * 
  *     def snowmelt(self):             # <<<<<<<<<<<<<<
@@ -10574,7 +10574,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.snowmelt", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.snowmelt", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_Q_0);
@@ -10587,7 +10587,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":852
+/* "pysnobal/libsnobal/snobal.pyx":852
  * 
  * 
  *     def precip_event(self):             # <<<<<<<<<<<<<<
@@ -10596,21 +10596,21 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_18snowmelt(CYTHON_UNUSED PyO
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_21precip_event(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_8pysnobal_6snobal_6snobal_20precip_event[] = "\n        This routine processes a precipitation event, i.e., the current\n        precip record, if there's one for the current timestep.  It\n        determines if the precip is rain or snow which increases the\n        snowcover.\n        ";
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_6snobal_21precip_event = {"precip_event", (PyCFunction)__pyx_pw_8pysnobal_6snobal_6snobal_21precip_event, METH_O, __pyx_doc_8pysnobal_6snobal_6snobal_20precip_event};
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_21precip_event(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_21precip_event(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static char __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_20precip_event[] = "\n        This routine processes a precipitation event, i.e., the current\n        precip record, if there's one for the current timestep.  It\n        determines if the precip is rain or snow which increases the\n        snowcover.\n        ";
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_21precip_event = {"precip_event", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_21precip_event, METH_O, __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_20precip_event};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_21precip_event(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("precip_event (wrapper)", 0);
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_6snobal_20precip_event(__pyx_self, ((PyObject *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_20precip_event(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_20precip_event(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_20precip_event(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_v_h2o_vol_snow = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -10629,7 +10629,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_20precip_event(CYTHON_UNUSED
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("precip_event", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":860
+  /* "pysnobal/libsnobal/snobal.pyx":860
  *         """
  * 
  *         if self.precip_now:             # <<<<<<<<<<<<<<
@@ -10642,7 +10642,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_20precip_event(CYTHON_UNUSED
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_2) {
 
-    /* "pysnobal/libsnobal/snobal.py":861
+    /* "pysnobal/libsnobal/snobal.pyx":861
  * 
  *         if self.precip_now:
  *             if self.snowcover:             # <<<<<<<<<<<<<<
@@ -10655,7 +10655,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_20precip_event(CYTHON_UNUSED
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (__pyx_t_2) {
 
-      /* "pysnobal/libsnobal/snobal.py":864
+      /* "pysnobal/libsnobal/snobal.pyx":864
  *                 # Adjust snowcover's depth and mass by snowfall's
  *                 # depth and the total precipitation mass.
  *                 self.adj_snow(self.precip_info[self.tstep_level].z_snow, self.precip_info[self.tstep_level].m_pp)             # <<<<<<<<<<<<<<
@@ -10715,7 +10715,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_20precip_event(CYTHON_UNUSED
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":869
+      /* "pysnobal/libsnobal/snobal.pyx":869
  *                 # the snowfall, and then add its mass to liquid
  *                 # water in the whole snowcover.
  *                 h2o_vol_snow = self.precip.h2o_sat_snow * self.snow.max_h2o_vol             # <<<<<<<<<<<<<<
@@ -10739,7 +10739,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_20precip_event(CYTHON_UNUSED
       __pyx_v_h2o_vol_snow = __pyx_t_1;
       __pyx_t_1 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":870
+      /* "pysnobal/libsnobal/snobal.pyx":870
  *                 # water in the whole snowcover.
  *                 h2o_vol_snow = self.precip.h2o_sat_snow * self.snow.max_h2o_vol
  *                 self.snow.h2o += H2O_LEFT(self.precip_info[self.tstep_level].z_snow,             # <<<<<<<<<<<<<<
@@ -10764,7 +10764,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_20precip_event(CYTHON_UNUSED
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":871
+      /* "pysnobal/libsnobal/snobal.pyx":871
  *                 h2o_vol_snow = self.precip.h2o_sat_snow * self.snow.max_h2o_vol
  *                 self.snow.h2o += H2O_LEFT(self.precip_info[self.tstep_level].z_snow,
  *                                           self.input1.rho_snow,             # <<<<<<<<<<<<<<
@@ -10777,7 +10777,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_20precip_event(CYTHON_UNUSED
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":872
+      /* "pysnobal/libsnobal/snobal.pyx":872
  *                 self.snow.h2o += H2O_LEFT(self.precip_info[self.tstep_level].z_snow,
  *                                           self.input1.rho_snow,
  *                                           h2o_vol_snow)             # <<<<<<<<<<<<<<
@@ -10815,7 +10815,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_20precip_event(CYTHON_UNUSED
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":870
+      /* "pysnobal/libsnobal/snobal.pyx":870
  *                 # water in the whole snowcover.
  *                 h2o_vol_snow = self.precip.h2o_sat_snow * self.snow.max_h2o_vol
  *                 self.snow.h2o += H2O_LEFT(self.precip_info[self.tstep_level].z_snow,             # <<<<<<<<<<<<<<
@@ -10830,7 +10830,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_20precip_event(CYTHON_UNUSED
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":861
+      /* "pysnobal/libsnobal/snobal.pyx":861
  * 
  *         if self.precip_now:
  *             if self.snowcover:             # <<<<<<<<<<<<<<
@@ -10840,7 +10840,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_20precip_event(CYTHON_UNUSED
       goto __pyx_L4;
     }
 
-    /* "pysnobal/libsnobal/snobal.py":877
+    /* "pysnobal/libsnobal/snobal.pyx":877
  * 
  *                 # set the values from the initial snow properties
  *                 self.snow.z_s = self.precip_info[self.tstep_level].z_snow             # <<<<<<<<<<<<<<
@@ -10865,7 +10865,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_20precip_event(CYTHON_UNUSED
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":878
+      /* "pysnobal/libsnobal/snobal.pyx":878
  *                 # set the values from the initial snow properties
  *                 self.snow.z_s = self.precip_info[self.tstep_level].z_snow
  *                 self.snow.rho = self.input1.rho_snow             # <<<<<<<<<<<<<<
@@ -10883,7 +10883,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_20precip_event(CYTHON_UNUSED
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":879
+      /* "pysnobal/libsnobal/snobal.pyx":879
  *                 self.snow.z_s = self.precip_info[self.tstep_level].z_snow
  *                 self.snow.rho = self.input1.rho_snow
  *                 self.snow.T_s = self.precip.T_snow             # <<<<<<<<<<<<<<
@@ -10901,7 +10901,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_20precip_event(CYTHON_UNUSED
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":880
+      /* "pysnobal/libsnobal/snobal.pyx":880
  *                 self.snow.rho = self.input1.rho_snow
  *                 self.snow.T_s = self.precip.T_snow
  *                 self.snow.T_s_0 = self.precip.T_snow             # <<<<<<<<<<<<<<
@@ -10919,7 +10919,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_20precip_event(CYTHON_UNUSED
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":881
+      /* "pysnobal/libsnobal/snobal.pyx":881
  *                 self.snow.T_s = self.precip.T_snow
  *                 self.snow.T_s_0 = self.precip.T_snow
  *                 self.snow.T_s_l = self.precip.T_snow             # <<<<<<<<<<<<<<
@@ -10937,7 +10937,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_20precip_event(CYTHON_UNUSED
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":882
+      /* "pysnobal/libsnobal/snobal.pyx":882
  *                 self.snow.T_s_0 = self.precip.T_snow
  *                 self.snow.T_s_l = self.precip.T_snow
  *                 self.snow.h2o_sat = self.precip.h2o_sat_snow             # <<<<<<<<<<<<<<
@@ -10955,7 +10955,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_20precip_event(CYTHON_UNUSED
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":884
+      /* "pysnobal/libsnobal/snobal.pyx":884
  *                 self.snow.h2o_sat = self.precip.h2o_sat_snow
  * 
  *                 self.init_snow()             # <<<<<<<<<<<<<<
@@ -10986,7 +10986,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_20precip_event(CYTHON_UNUSED
     }
     __pyx_L4:;
 
-    /* "pysnobal/libsnobal/snobal.py":887
+    /* "pysnobal/libsnobal/snobal.pyx":887
  * 
  *             # Add rainfall and water in the snowcover to the total liquid water
  *             self.snow.h2o_total += self.snow.h2o + self.precip_info[self.tstep_level].m_rain             # <<<<<<<<<<<<<<
@@ -11025,7 +11025,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_20precip_event(CYTHON_UNUSED
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":860
+    /* "pysnobal/libsnobal/snobal.pyx":860
  *         """
  * 
  *         if self.precip_now:             # <<<<<<<<<<<<<<
@@ -11035,7 +11035,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_20precip_event(CYTHON_UNUSED
     goto __pyx_L3;
   }
 
-  /* "pysnobal/libsnobal/snobal.py":891
+  /* "pysnobal/libsnobal/snobal.pyx":891
  *         else:
  *             # Add water in the snowcover to total liquid water
  *             self.snow.h2o_total += self.snow.h2o             # <<<<<<<<<<<<<<
@@ -11062,7 +11062,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_20precip_event(CYTHON_UNUSED
   }
   __pyx_L3:;
 
-  /* "pysnobal/libsnobal/snobal.py":852
+  /* "pysnobal/libsnobal/snobal.pyx":852
  * 
  * 
  *     def precip_event(self):             # <<<<<<<<<<<<<<
@@ -11082,7 +11082,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_20precip_event(CYTHON_UNUSED
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_9);
   __Pyx_XDECREF(__pyx_t_10);
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.precip_event", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.precip_event", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_h2o_vol_snow);
@@ -11091,7 +11091,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_20precip_event(CYTHON_UNUSED
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":894
+/* "pysnobal/libsnobal/snobal.pyx":894
  * 
  * #     @profile
  *     def adj_snow(self, delta_z_s, delta_m_s):             # <<<<<<<<<<<<<<
@@ -11100,10 +11100,10 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_20precip_event(CYTHON_UNUSED
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_23adj_snow(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_8pysnobal_6snobal_6snobal_22adj_snow[] = "\n        This routine adjusts the snowcover for a change in its depth or\n        its mass or both.  The snowcover's density is updated.  If there\n        is a change in the snowcover's depth, the # of layers is recomputed.\n        If there's just a change in the snowcover's mass with no change in\n        its depth, then just the specific masses for the layers are updated.\n        \n        The routine ensures that the snowcover's density does NOT exceed\n        a maximum density (currently 750 kg/m^3).  If the adjustments to\n        the snowcover, for some reason, lead to an excessive density, the\n        density is clipped at the maximum, and the depth re-adjusted\n        accordingly.\n        \n        Args:\n            delta_z_s: change in snowcover depth\n            delta_m_s: change in snowcover mass\n        ";
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_6snobal_23adj_snow = {"adj_snow", (PyCFunction)__pyx_pw_8pysnobal_6snobal_6snobal_23adj_snow, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8pysnobal_6snobal_6snobal_22adj_snow};
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_23adj_snow(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_23adj_snow(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_22adj_snow[] = "\n        This routine adjusts the snowcover for a change in its depth or\n        its mass or both.  The snowcover's density is updated.  If there\n        is a change in the snowcover's depth, the # of layers is recomputed.\n        If there's just a change in the snowcover's mass with no change in\n        its depth, then just the specific masses for the layers are updated.\n        \n        The routine ensures that the snowcover's density does NOT exceed\n        a maximum density (currently 750 kg/m^3).  If the adjustments to\n        the snowcover, for some reason, lead to an excessive density, the\n        density is clipped at the maximum, and the depth re-adjusted\n        accordingly.\n        \n        Args:\n            delta_z_s: change in snowcover depth\n            delta_m_s: change in snowcover mass\n        ";
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_23adj_snow = {"adj_snow", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_23adj_snow, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_22adj_snow};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_23adj_snow(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_delta_z_s = 0;
   PyObject *__pyx_v_delta_m_s = 0;
@@ -11160,18 +11160,18 @@ static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_23adj_snow(PyObject *__pyx_s
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("adj_snow", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 894; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.adj_snow", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.adj_snow", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_6snobal_22adj_snow(__pyx_self, __pyx_v_self, __pyx_v_delta_z_s, __pyx_v_delta_m_s);
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_22adj_snow(__pyx_self, __pyx_v_self, __pyx_v_delta_z_s, __pyx_v_delta_m_s);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_22adj_snow(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_delta_z_s, PyObject *__pyx_v_delta_m_s) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_22adj_snow(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_delta_z_s, PyObject *__pyx_v_delta_m_s) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -11183,7 +11183,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_22adj_snow(CYTHON_UNUSED PyO
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("adj_snow", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":914
+  /* "pysnobal/libsnobal/snobal.pyx":914
  * 
  *         # Update depth, mass, and then recompute density
  *         self.snow.z_s += delta_z_s             # <<<<<<<<<<<<<<
@@ -11201,7 +11201,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_22adj_snow(CYTHON_UNUSED PyO
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":915
+  /* "pysnobal/libsnobal/snobal.pyx":915
  *         # Update depth, mass, and then recompute density
  *         self.snow.z_s += delta_z_s
  *         self.snow.m_s += delta_m_s             # <<<<<<<<<<<<<<
@@ -11219,7 +11219,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_22adj_snow(CYTHON_UNUSED PyO
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":917
+  /* "pysnobal/libsnobal/snobal.pyx":917
  *         self.snow.m_s += delta_m_s
  * 
  *         if self.snow.z_s != 0.0:             # <<<<<<<<<<<<<<
@@ -11237,7 +11237,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_22adj_snow(CYTHON_UNUSED PyO
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_4) {
 
-    /* "pysnobal/libsnobal/snobal.py":918
+    /* "pysnobal/libsnobal/snobal.pyx":918
  * 
  *         if self.snow.z_s != 0.0:
  *             self.snow.rho = self.snow.m_s / self.snow.z_s             # <<<<<<<<<<<<<<
@@ -11264,7 +11264,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_22adj_snow(CYTHON_UNUSED PyO
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":917
+    /* "pysnobal/libsnobal/snobal.pyx":917
  *         self.snow.m_s += delta_m_s
  * 
  *         if self.snow.z_s != 0.0:             # <<<<<<<<<<<<<<
@@ -11274,7 +11274,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_22adj_snow(CYTHON_UNUSED PyO
     goto __pyx_L3;
   }
 
-  /* "pysnobal/libsnobal/snobal.py":920
+  /* "pysnobal/libsnobal/snobal.pyx":920
  *             self.snow.rho = self.snow.m_s / self.snow.z_s
  *         else:
  *             self.snow.rho = 0             # <<<<<<<<<<<<<<
@@ -11289,7 +11289,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_22adj_snow(CYTHON_UNUSED PyO
   }
   __pyx_L3:;
 
-  /* "pysnobal/libsnobal/snobal.py":923
+  /* "pysnobal/libsnobal/snobal.pyx":923
  * 
  *         # clip ensity at maximum density if necessary
  *         if self.snow.rho > MAX_SNOW_DENSITY:             # <<<<<<<<<<<<<<
@@ -11310,7 +11310,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_22adj_snow(CYTHON_UNUSED PyO
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (__pyx_t_4) {
 
-    /* "pysnobal/libsnobal/snobal.py":924
+    /* "pysnobal/libsnobal/snobal.pyx":924
  *         # clip ensity at maximum density if necessary
  *         if self.snow.rho > MAX_SNOW_DENSITY:
  *             self.snow.rho = MAX_SNOW_DENSITY             # <<<<<<<<<<<<<<
@@ -11325,7 +11325,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_22adj_snow(CYTHON_UNUSED PyO
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":925
+    /* "pysnobal/libsnobal/snobal.pyx":925
  *         if self.snow.rho > MAX_SNOW_DENSITY:
  *             self.snow.rho = MAX_SNOW_DENSITY
  *             self.snow.z_s = self.snow.m_s / self.snow.rho             # <<<<<<<<<<<<<<
@@ -11352,7 +11352,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_22adj_snow(CYTHON_UNUSED PyO
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":926
+    /* "pysnobal/libsnobal/snobal.pyx":926
  *             self.snow.rho = MAX_SNOW_DENSITY
  *             self.snow.z_s = self.snow.m_s / self.snow.rho
  *             self.adj_layers()             # <<<<<<<<<<<<<<
@@ -11381,7 +11381,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_22adj_snow(CYTHON_UNUSED PyO
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":923
+    /* "pysnobal/libsnobal/snobal.pyx":923
  * 
  *         # clip ensity at maximum density if necessary
  *         if self.snow.rho > MAX_SNOW_DENSITY:             # <<<<<<<<<<<<<<
@@ -11391,7 +11391,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_22adj_snow(CYTHON_UNUSED PyO
     goto __pyx_L4;
   }
 
-  /* "pysnobal/libsnobal/snobal.py":930
+  /* "pysnobal/libsnobal/snobal.pyx":930
  *         else:
  *             # If a change in depth, adjust the layers' depths and masses
  *             if delta_z_s != 0.0:             # <<<<<<<<<<<<<<
@@ -11404,7 +11404,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_22adj_snow(CYTHON_UNUSED PyO
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (__pyx_t_4) {
 
-      /* "pysnobal/libsnobal/snobal.py":931
+      /* "pysnobal/libsnobal/snobal.pyx":931
  *             # If a change in depth, adjust the layers' depths and masses
  *             if delta_z_s != 0.0:
  *                 self.adj_layers()             # <<<<<<<<<<<<<<
@@ -11433,7 +11433,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_22adj_snow(CYTHON_UNUSED PyO
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":930
+      /* "pysnobal/libsnobal/snobal.pyx":930
  *         else:
  *             # If a change in depth, adjust the layers' depths and masses
  *             if delta_z_s != 0.0:             # <<<<<<<<<<<<<<
@@ -11443,7 +11443,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_22adj_snow(CYTHON_UNUSED PyO
       goto __pyx_L5;
     }
 
-    /* "pysnobal/libsnobal/snobal.py":934
+    /* "pysnobal/libsnobal/snobal.pyx":934
  *             else:
  *                 # Just change in the snowcover's mass, so update the layer masses
  *                 self.layer_mass()             # <<<<<<<<<<<<<<
@@ -11477,7 +11477,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_22adj_snow(CYTHON_UNUSED PyO
   }
   __pyx_L4:;
 
-  /* "pysnobal/libsnobal/snobal.py":894
+  /* "pysnobal/libsnobal/snobal.pyx":894
  * 
  * #     @profile
  *     def adj_snow(self, delta_z_s, delta_m_s):             # <<<<<<<<<<<<<<
@@ -11492,7 +11492,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_22adj_snow(CYTHON_UNUSED PyO
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.adj_snow", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.adj_snow", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -11500,7 +11500,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_22adj_snow(CYTHON_UNUSED PyO
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":937
+/* "pysnobal/libsnobal/snobal.pyx":937
  * 
  * 
  *     def time_compact(self):             # <<<<<<<<<<<<<<
@@ -11509,21 +11509,21 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_22adj_snow(CYTHON_UNUSED PyO
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_25time_compact(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_8pysnobal_6snobal_6snobal_24time_compact[] = "\n        This routine \"ages\" the snowcover by accounting for the compaction\n        or densification by gravity as time passes.  The snowcover's\n        density is increased using the following \"half-saturation\" function:\n        \n            rho(time) = A / (1 + B/time)\n        \n        A = \"saturation-level\" or asymtope which is the maximum density\n            due to compaction by gravity (approximately 350 kg/m^2)\n        B = the point for half of the saturation level is reached (10 days)\n        \n                ^\n                |\n             A: 350 + = = = = = = = = = = = = = = = = = =\n                |            *   *\n                |           *\n        rho     |           *\n        (kg/m^2)    |        *\n                |      *\n               A/2: 175 + . . . *\n                  |     * .\n                  |   *   .\n                  |  *    .\n                  | *     .\n                  |*    .\n                    0 +-------+----------------------------->\n                  0    B: 10 days        time\n        ";
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_6snobal_25time_compact = {"time_compact", (PyCFunction)__pyx_pw_8pysnobal_6snobal_6snobal_25time_compact, METH_O, __pyx_doc_8pysnobal_6snobal_6snobal_24time_compact};
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_25time_compact(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_25time_compact(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static char __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_24time_compact[] = "\n        This routine \"ages\" the snowcover by accounting for the compaction\n        or densification by gravity as time passes.  The snowcover's\n        density is increased using the following \"half-saturation\" function:\n        \n            rho(time) = A / (1 + B/time)\n        \n        A = \"saturation-level\" or asymtope which is the maximum density\n            due to compaction by gravity (approximately 350 kg/m^2)\n        B = the point for half of the saturation level is reached (10 days)\n        \n                ^\n                |\n             A: 350 + = = = = = = = = = = = = = = = = = =\n                |            *   *\n                |           *\n        rho     |           *\n        (kg/m^2)    |        *\n                |      *\n               A/2: 175 + . . . *\n                  |     * .\n                  |   *   .\n                  |  *    .\n                  | *     .\n                  |*    .\n                    0 +-------+----------------------------->\n                  0    B: 10 days        time\n        ";
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_25time_compact = {"time_compact", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_25time_compact, METH_O, __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_24time_compact};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_25time_compact(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("time_compact (wrapper)", 0);
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_6snobal_24time_compact(__pyx_self, ((PyObject *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_24time_compact(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_24time_compact(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_24time_compact(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_v_A = NULL;
   PyObject *__pyx_v_B = NULL;
   PyObject *__pyx_v_time = NULL;
@@ -11540,7 +11540,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_24time_compact(CYTHON_UNUSED
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("time_compact", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":968
+  /* "pysnobal/libsnobal/snobal.pyx":968
  * 
  *         # Maximum density due to compaction by gravity (kg/m^2)
  *         A = 350             # <<<<<<<<<<<<<<
@@ -11550,7 +11550,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_24time_compact(CYTHON_UNUSED
   __Pyx_INCREF(__pyx_int_350);
   __pyx_v_A = __pyx_int_350;
 
-  /* "pysnobal/libsnobal/snobal.py":972
+  /* "pysnobal/libsnobal/snobal.pyx":972
  *         # Time when half "saturation", i.e., maximum density is reached (seconds)
  *         # (864000 = 10 days * 24 hours/day * 60 mins/hr * 60 secs/min)
  *         B = 864000             # <<<<<<<<<<<<<<
@@ -11560,7 +11560,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_24time_compact(CYTHON_UNUSED
   __Pyx_INCREF(__pyx_int_864000);
   __pyx_v_B = __pyx_int_864000;
 
-  /* "pysnobal/libsnobal/snobal.py":976
+  /* "pysnobal/libsnobal/snobal.pyx":976
  *         # If the snow is already at or above the maximum density due
  *         # compaction by gravity, then just leave.
  *         if (not self.snowcover) or (self.snow.rho > A):             # <<<<<<<<<<<<<<
@@ -11590,7 +11590,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_24time_compact(CYTHON_UNUSED
   __pyx_L4_bool_binop_done:;
   if (__pyx_t_1) {
 
-    /* "pysnobal/libsnobal/snobal.py":977
+    /* "pysnobal/libsnobal/snobal.pyx":977
  *         # compaction by gravity, then just leave.
  *         if (not self.snowcover) or (self.snow.rho > A):
  *             return             # <<<<<<<<<<<<<<
@@ -11601,7 +11601,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_24time_compact(CYTHON_UNUSED
     __pyx_r = Py_None; __Pyx_INCREF(Py_None);
     goto __pyx_L0;
 
-    /* "pysnobal/libsnobal/snobal.py":976
+    /* "pysnobal/libsnobal/snobal.pyx":976
  *         # If the snow is already at or above the maximum density due
  *         # compaction by gravity, then just leave.
  *         if (not self.snowcover) or (self.snow.rho > A):             # <<<<<<<<<<<<<<
@@ -11610,7 +11610,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_24time_compact(CYTHON_UNUSED
  */
   }
 
-  /* "pysnobal/libsnobal/snobal.py":981
+  /* "pysnobal/libsnobal/snobal.pyx":981
  *         # Given the current density, determine where on the time axis
  *         # we are (i.e., solve the function above for "time").
  *         time = B / ((A / self.snow.rho) - 1)             # <<<<<<<<<<<<<<
@@ -11634,7 +11634,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_24time_compact(CYTHON_UNUSED
   __pyx_v_time = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":985
+  /* "pysnobal/libsnobal/snobal.pyx":985
  *         # Move along the time axis by the time step, and calculate the
  *         # density at this new time.
  *         self.snow.rho = A / (1 + B/(time + self.time_step))             # <<<<<<<<<<<<<<
@@ -11661,7 +11661,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_24time_compact(CYTHON_UNUSED
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":988
+  /* "pysnobal/libsnobal/snobal.pyx":988
  * 
  *         # Adjust the snowcover for this new density
  *         self.snow.z_s = self.snow.m_s / self.snow.rho             # <<<<<<<<<<<<<<
@@ -11688,7 +11688,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_24time_compact(CYTHON_UNUSED
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":990
+  /* "pysnobal/libsnobal/snobal.pyx":990
  *         self.snow.z_s = self.snow.m_s / self.snow.rho
  * 
  *         self.adj_layers()             # <<<<<<<<<<<<<<
@@ -11717,7 +11717,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_24time_compact(CYTHON_UNUSED
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":937
+  /* "pysnobal/libsnobal/snobal.pyx":937
  * 
  * 
  *     def time_compact(self):             # <<<<<<<<<<<<<<
@@ -11732,7 +11732,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_24time_compact(CYTHON_UNUSED
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.time_compact", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.time_compact", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_A);
@@ -11743,7 +11743,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_24time_compact(CYTHON_UNUSED
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":994
+/* "pysnobal/libsnobal/snobal.pyx":994
  * 
  * #     @profile
  *     def adj_layers(self):             # <<<<<<<<<<<<<<
@@ -11752,21 +11752,21 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_24time_compact(CYTHON_UNUSED
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_27adj_layers(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_8pysnobal_6snobal_6snobal_26adj_layers[] = "\n        This routine adjusts the layers of the snowcover because the\n        snowcover's depth has changed.  It is assumed that the snowcover's\n        density has already been updated.  The # of layers are recomputed\n        based on the overall snowcover depth.  Their depths and masses\n        are updated as well.  If a layer has been created due to an\n        increase in the snowcover's depth, its temperature and cold content\n        are initialized. \n        \n        Recompute then number of layers and see if there's been\n        a change in the # of layers.  Note:  since this routine\n        is called to adjust an existing snowcover, the current # of\n        layers must be either 1 or 2 while the new # of layers may\n        either be 0, 1 or 2.\n        \n          current #    new #\n          of layers    of layers\n        \n             1       -->       0\n             1       -->       1    (no change)\n             1       -->       2\n             2       -->       0\n             2       -->       1\n             2       -->       2    (no change)\n\n        ";
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_6snobal_27adj_layers = {"adj_layers", (PyCFunction)__pyx_pw_8pysnobal_6snobal_6snobal_27adj_layers, METH_O, __pyx_doc_8pysnobal_6snobal_6snobal_26adj_layers};
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_27adj_layers(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_27adj_layers(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static char __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_26adj_layers[] = "\n        This routine adjusts the layers of the snowcover because the\n        snowcover's depth has changed.  It is assumed that the snowcover's\n        density has already been updated.  The # of layers are recomputed\n        based on the overall snowcover depth.  Their depths and masses\n        are updated as well.  If a layer has been created due to an\n        increase in the snowcover's depth, its temperature and cold content\n        are initialized. \n        \n        Recompute then number of layers and see if there's been\n        a change in the # of layers.  Note:  since this routine\n        is called to adjust an existing snowcover, the current # of\n        layers must be either 1 or 2 while the new # of layers may\n        either be 0, 1 or 2.\n        \n          current #    new #\n          of layers    of layers\n        \n             1       -->       0\n             1       -->       1    (no change)\n             1       -->       2\n             2       -->       0\n             2       -->       1\n             2       -->       2    (no change)\n\n        ";
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_27adj_layers = {"adj_layers", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_27adj_layers, METH_O, __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_26adj_layers};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_27adj_layers(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("adj_layers (wrapper)", 0);
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(__pyx_self, ((PyObject *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_26adj_layers(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_v_prev_layer_count = NULL;
   PyObject *__pyx_v_index = NULL;
   PyObject *__pyx_v_i = NULL;
@@ -11786,7 +11786,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("adj_layers", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":1022
+  /* "pysnobal/libsnobal/snobal.pyx":1022
  *         """
  * 
  *         prev_layer_count = self.snow.layer_count             # <<<<<<<<<<<<<<
@@ -11801,7 +11801,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
   __pyx_v_prev_layer_count = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1024
+  /* "pysnobal/libsnobal/snobal.pyx":1024
  *         prev_layer_count = self.snow.layer_count
  * 
  *         self.calc_layers()             # <<<<<<<<<<<<<<
@@ -11830,7 +11830,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1026
+  /* "pysnobal/libsnobal/snobal.pyx":1026
  *         self.calc_layers()
  * 
  *         if self.snow.layer_count == 0:             # <<<<<<<<<<<<<<
@@ -11849,7 +11849,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (__pyx_t_4) {
 
-    /* "pysnobal/libsnobal/snobal.py":1028
+    /* "pysnobal/libsnobal/snobal.pyx":1028
  *         if self.snow.layer_count == 0:
  *             # 1 or 2 layers ---> 0
  *             self.snow.rho = 0             # <<<<<<<<<<<<<<
@@ -11861,7 +11861,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
     if (__Pyx_PyObject_SetAttrStr(__pyx_t_2, __pyx_n_s_rho, __pyx_int_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1028; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1032
+    /* "pysnobal/libsnobal/snobal.pyx":1032
  *             # if mass > 0, then it must be velow threshold.
  *             # So turn this little bit of mass into water
  *             if self.snow.m_s > 0:             # <<<<<<<<<<<<<<
@@ -11879,7 +11879,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     if (__pyx_t_4) {
 
-      /* "pysnobal/libsnobal/snobal.py":1033
+      /* "pysnobal/libsnobal/snobal.pyx":1033
  *             # So turn this little bit of mass into water
  *             if self.snow.m_s > 0:
  *                 self.snow.h2o_total += self.snow.m_s             # <<<<<<<<<<<<<<
@@ -11903,7 +11903,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":1032
+      /* "pysnobal/libsnobal/snobal.pyx":1032
  *             # if mass > 0, then it must be velow threshold.
  *             # So turn this little bit of mass into water
  *             if self.snow.m_s > 0:             # <<<<<<<<<<<<<<
@@ -11912,7 +11912,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
  */
     }
 
-    /* "pysnobal/libsnobal/snobal.py":1036
+    /* "pysnobal/libsnobal/snobal.pyx":1036
  * 
  *             # set a bunch of values to 0
  *             index = ['h2o', 'h2o_max', 'h2o_total', 'h2o_vol', 'm_s', 'cc_s', 'm_s_0', 'cc_s_0']             # <<<<<<<<<<<<<<
@@ -11948,7 +11948,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
     __pyx_v_index = ((PyObject*)__pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1037
+    /* "pysnobal/libsnobal/snobal.pyx":1037
  *             # set a bunch of values to 0
  *             index = ['h2o', 'h2o_max', 'h2o_total', 'h2o_vol', 'm_s', 'cc_s', 'm_s_0', 'cc_s_0']
  *             for i in index:             # <<<<<<<<<<<<<<
@@ -11967,7 +11967,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
       __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_3);
       __pyx_t_3 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":1038
+      /* "pysnobal/libsnobal/snobal.pyx":1038
  *             index = ['h2o', 'h2o_max', 'h2o_total', 'h2o_vol', 'm_s', 'cc_s', 'm_s_0', 'cc_s_0']
  *             for i in index:
  *                 self.snow[i] = 0             # <<<<<<<<<<<<<<
@@ -11979,7 +11979,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
       if (unlikely(PyObject_SetItem(__pyx_t_3, __pyx_v_i, __pyx_int_0) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1038; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":1037
+      /* "pysnobal/libsnobal/snobal.pyx":1037
  *             # set a bunch of values to 0
  *             index = ['h2o', 'h2o_max', 'h2o_total', 'h2o_vol', 'm_s', 'cc_s', 'm_s_0', 'cc_s_0']
  *             for i in index:             # <<<<<<<<<<<<<<
@@ -11989,7 +11989,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1044
+    /* "pysnobal/libsnobal/snobal.pyx":1044
  *             # range in output image smaller.
  * 
  *             self.snow.T_s = MIN_SNOW_TEMP + FREEZE             # <<<<<<<<<<<<<<
@@ -12010,7 +12010,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1045
+    /* "pysnobal/libsnobal/snobal.pyx":1045
  * 
  *             self.snow.T_s = MIN_SNOW_TEMP + FREEZE
  *             self.snow.T_s_0 = MIN_SNOW_TEMP + FREEZE             # <<<<<<<<<<<<<<
@@ -12031,7 +12031,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1047
+    /* "pysnobal/libsnobal/snobal.pyx":1047
  *             self.snow.T_s_0 = MIN_SNOW_TEMP + FREEZE
  * 
  *             if prev_layer_count == 2:             # <<<<<<<<<<<<<<
@@ -12044,7 +12044,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     if (__pyx_t_4) {
 
-      /* "pysnobal/libsnobal/snobal.py":1048
+      /* "pysnobal/libsnobal/snobal.pyx":1048
  * 
  *             if prev_layer_count == 2:
  *                 self.snow.m_s_l = 0             # <<<<<<<<<<<<<<
@@ -12056,7 +12056,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
       if (__Pyx_PyObject_SetAttrStr(__pyx_t_5, __pyx_n_s_m_s_l, __pyx_int_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1048; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":1049
+      /* "pysnobal/libsnobal/snobal.pyx":1049
  *             if prev_layer_count == 2:
  *                 self.snow.m_s_l = 0
  *                 self.snow.cc_s_l = 0             # <<<<<<<<<<<<<<
@@ -12068,7 +12068,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
       if (__Pyx_PyObject_SetAttrStr(__pyx_t_5, __pyx_n_s_cc_s_l, __pyx_int_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1049; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":1050
+      /* "pysnobal/libsnobal/snobal.pyx":1050
  *                 self.snow.m_s_l = 0
  *                 self.snow.cc_s_l = 0
  *                 self.snow.T_s_l = MIN_SNOW_TEMP + FREEZE             # <<<<<<<<<<<<<<
@@ -12089,7 +12089,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":1047
+      /* "pysnobal/libsnobal/snobal.pyx":1047
  *             self.snow.T_s_0 = MIN_SNOW_TEMP + FREEZE
  * 
  *             if prev_layer_count == 2:             # <<<<<<<<<<<<<<
@@ -12098,7 +12098,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
  */
     }
 
-    /* "pysnobal/libsnobal/snobal.py":1052
+    /* "pysnobal/libsnobal/snobal.pyx":1052
  *                 self.snow.T_s_l = MIN_SNOW_TEMP + FREEZE
  * 
  *             self.snowcover = False             # <<<<<<<<<<<<<<
@@ -12107,7 +12107,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
  */
     if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_snowcover, Py_False) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1052; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "pysnobal/libsnobal/snobal.py":1026
+    /* "pysnobal/libsnobal/snobal.pyx":1026
  *         self.calc_layers()
  * 
  *         if self.snow.layer_count == 0:             # <<<<<<<<<<<<<<
@@ -12117,7 +12117,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
     goto __pyx_L3;
   }
 
-  /* "pysnobal/libsnobal/snobal.py":1055
+  /* "pysnobal/libsnobal/snobal.pyx":1055
  * 
  *         else:
  *             self.layer_mass()             # <<<<<<<<<<<<<<
@@ -12147,7 +12147,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1057
+    /* "pysnobal/libsnobal/snobal.pyx":1057
  *             self.layer_mass()
  * 
  *             if (prev_layer_count == 1) and (self.snow.layer_count == 2):             # <<<<<<<<<<<<<<
@@ -12177,7 +12177,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
     __pyx_L9_bool_binop_done:;
     if (__pyx_t_4) {
 
-      /* "pysnobal/libsnobal/snobal.py":1059
+      /* "pysnobal/libsnobal/snobal.pyx":1059
  *             if (prev_layer_count == 1) and (self.snow.layer_count == 2):
  *                 # 1 layer --> 2 layers, add lower layer
  *                 self.snow.T_s_l = self.snow.T_s             # <<<<<<<<<<<<<<
@@ -12195,7 +12195,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":1060
+      /* "pysnobal/libsnobal/snobal.pyx":1060
  *                 # 1 layer --> 2 layers, add lower layer
  *                 self.snow.T_s_l = self.snow.T_s
  *                 self.snow.cc_s_l = self.cold_content(self.snow.T_s_l, self.snow.m_s_l)             # <<<<<<<<<<<<<<
@@ -12247,7 +12247,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":1057
+      /* "pysnobal/libsnobal/snobal.pyx":1057
  *             self.layer_mass()
  * 
  *             if (prev_layer_count == 1) and (self.snow.layer_count == 2):             # <<<<<<<<<<<<<<
@@ -12257,7 +12257,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
       goto __pyx_L8;
     }
 
-    /* "pysnobal/libsnobal/snobal.py":1062
+    /* "pysnobal/libsnobal/snobal.pyx":1062
  *                 self.snow.cc_s_l = self.cold_content(self.snow.T_s_l, self.snow.m_s_l)
  * 
  *             elif (prev_layer_count == 2) and (self.snow.layer_count == 1):             # <<<<<<<<<<<<<<
@@ -12287,7 +12287,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
     __pyx_L11_bool_binop_done:;
     if (__pyx_t_4) {
 
-      /* "pysnobal/libsnobal/snobal.py":1064
+      /* "pysnobal/libsnobal/snobal.pyx":1064
  *             elif (prev_layer_count == 2) and (self.snow.layer_count == 1):
  *                 # 2 layers --> 1 layer, remove lower layer
  *                 self.snow.T_s_l = MIN_SNOW_TEMP + FREEZE             # <<<<<<<<<<<<<<
@@ -12308,7 +12308,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":1065
+      /* "pysnobal/libsnobal/snobal.pyx":1065
  *                 # 2 layers --> 1 layer, remove lower layer
  *                 self.snow.T_s_l = MIN_SNOW_TEMP + FREEZE
  *                 self.snow.cc_s_l = 0             # <<<<<<<<<<<<<<
@@ -12320,7 +12320,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
       if (__Pyx_PyObject_SetAttrStr(__pyx_t_2, __pyx_n_s_cc_s_l, __pyx_int_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1065; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":1062
+      /* "pysnobal/libsnobal/snobal.pyx":1062
  *                 self.snow.cc_s_l = self.cold_content(self.snow.T_s_l, self.snow.m_s_l)
  * 
  *             elif (prev_layer_count == 2) and (self.snow.layer_count == 1):             # <<<<<<<<<<<<<<
@@ -12332,7 +12332,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
   }
   __pyx_L3:;
 
-  /* "pysnobal/libsnobal/snobal.py":994
+  /* "pysnobal/libsnobal/snobal.pyx":994
  * 
  * #     @profile
  *     def adj_layers(self):             # <<<<<<<<<<<<<<
@@ -12350,7 +12350,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_9);
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.adj_layers", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.adj_layers", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_prev_layer_count);
@@ -12361,7 +12361,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":1069
+/* "pysnobal/libsnobal/snobal.pyx":1069
  * 
  * #     @profile
  *     def e_bal(self):             # <<<<<<<<<<<<<<
@@ -12370,21 +12370,21 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_26adj_layers(CYTHON_UNUSED P
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_29e_bal(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_8pysnobal_6snobal_6snobal_28e_bal[] = "\n        Calculates point energy budget for 2-layer snowcover.\n        ";
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_6snobal_29e_bal = {"e_bal", (PyCFunction)__pyx_pw_8pysnobal_6snobal_6snobal_29e_bal, METH_O, __pyx_doc_8pysnobal_6snobal_6snobal_28e_bal};
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_29e_bal(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_29e_bal(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static char __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_28e_bal[] = "\n        Calculates point energy budget for 2-layer snowcover.\n        ";
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_29e_bal = {"e_bal", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_29e_bal, METH_O, __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_28e_bal};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_29e_bal(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("e_bal (wrapper)", 0);
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_6snobal_28e_bal(__pyx_self, ((PyObject *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_28e_bal(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_28e_bal(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_28e_bal(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -12403,7 +12403,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_28e_bal(CYTHON_UNUSED PyObje
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("e_bal", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":1075
+  /* "pysnobal/libsnobal/snobal.pyx":1075
  * 
  *         # if there is a snowcover
  *         if self.snow.layer_count > 0:             # <<<<<<<<<<<<<<
@@ -12421,7 +12421,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_28e_bal(CYTHON_UNUSED PyObje
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_3) {
 
-    /* "pysnobal/libsnobal/snobal.py":1081
+    /* "pysnobal/libsnobal/snobal.pyx":1081
  *             # temperature.
  *             # replaces _net_rad()
  *             self.em.R_n = self.input1.S_n + (SNOW_EMISSIVITY * (self.input1.I_lw - STEF_BOLTZ * np.power(self.snow.T_s_0, 4)))             # <<<<<<<<<<<<<<
@@ -12501,7 +12501,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_28e_bal(CYTHON_UNUSED PyObje
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1084
+    /* "pysnobal/libsnobal/snobal.pyx":1084
  * 
  *             # calculate H & L_v_E (and E as well)
  *             self.h_le()             # <<<<<<<<<<<<<<
@@ -12530,7 +12530,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_28e_bal(CYTHON_UNUSED PyObje
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1087
+    /* "pysnobal/libsnobal/snobal.pyx":1087
  * 
  *             # calculate G & G_0 (conduction/diffusion heat xfr)
  *             if self.snow.layer_count == 1:             # <<<<<<<<<<<<<<
@@ -12549,7 +12549,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_28e_bal(CYTHON_UNUSED PyObje
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     if (__pyx_t_3) {
 
-      /* "pysnobal/libsnobal/snobal.py":1088
+      /* "pysnobal/libsnobal/snobal.pyx":1088
  *             # calculate G & G_0 (conduction/diffusion heat xfr)
  *             if self.snow.layer_count == 1:
  *                 self.g_soil('surface')             # <<<<<<<<<<<<<<
@@ -12563,7 +12563,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_28e_bal(CYTHON_UNUSED PyObje
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":1089
+      /* "pysnobal/libsnobal/snobal.pyx":1089
  *             if self.snow.layer_count == 1:
  *                 self.g_soil('surface')
  *                 self.em.G_0 = self.em.G             # <<<<<<<<<<<<<<
@@ -12581,7 +12581,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_28e_bal(CYTHON_UNUSED PyObje
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":1087
+      /* "pysnobal/libsnobal/snobal.pyx":1087
  * 
  *             # calculate G & G_0 (conduction/diffusion heat xfr)
  *             if self.snow.layer_count == 1:             # <<<<<<<<<<<<<<
@@ -12591,7 +12591,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_28e_bal(CYTHON_UNUSED PyObje
       goto __pyx_L4;
     }
 
-    /* "pysnobal/libsnobal/snobal.py":1091
+    /* "pysnobal/libsnobal/snobal.pyx":1091
  *                 self.em.G_0 = self.em.G
  *             else:  # layer_count == 2
  *                 self.g_soil ('lower')             # <<<<<<<<<<<<<<
@@ -12606,7 +12606,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_28e_bal(CYTHON_UNUSED PyObje
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":1092
+      /* "pysnobal/libsnobal/snobal.pyx":1092
  *             else:  # layer_count == 2
  *                 self.g_soil ('lower')
  *                 self.g_snow()             # <<<<<<<<<<<<<<
@@ -12637,7 +12637,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_28e_bal(CYTHON_UNUSED PyObje
     }
     __pyx_L4:;
 
-    /* "pysnobal/libsnobal/snobal.py":1095
+    /* "pysnobal/libsnobal/snobal.pyx":1095
  * 
  *             # calculate advection
  *             self.advec()             # <<<<<<<<<<<<<<
@@ -12666,7 +12666,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_28e_bal(CYTHON_UNUSED PyObje
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1099
+    /* "pysnobal/libsnobal/snobal.pyx":1099
  *             # sum E.B. terms
  *             # surface energy budget
  *             self.em.delta_Q_0 = self.em.R_n + self.em.H + self.em.L_v_E + self.em.G_0 + self.em.M             # <<<<<<<<<<<<<<
@@ -12720,7 +12720,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_28e_bal(CYTHON_UNUSED PyObje
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1102
+    /* "pysnobal/libsnobal/snobal.pyx":1102
  * 
  *             # total snowpck energy budget
  *             if self.snow.layer_count == 1:             # <<<<<<<<<<<<<<
@@ -12739,7 +12739,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_28e_bal(CYTHON_UNUSED PyObje
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     if (__pyx_t_3) {
 
-      /* "pysnobal/libsnobal/snobal.py":1103
+      /* "pysnobal/libsnobal/snobal.pyx":1103
  *             # total snowpck energy budget
  *             if self.snow.layer_count == 1:
  *                 self.em.delta_Q = self.em.delta_Q_0             # <<<<<<<<<<<<<<
@@ -12757,7 +12757,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_28e_bal(CYTHON_UNUSED PyObje
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":1102
+      /* "pysnobal/libsnobal/snobal.pyx":1102
  * 
  *             # total snowpck energy budget
  *             if self.snow.layer_count == 1:             # <<<<<<<<<<<<<<
@@ -12767,7 +12767,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_28e_bal(CYTHON_UNUSED PyObje
       goto __pyx_L5;
     }
 
-    /* "pysnobal/libsnobal/snobal.py":1105
+    /* "pysnobal/libsnobal/snobal.pyx":1105
  *                 self.em.delta_Q = self.em.delta_Q_0
  *             else:
  *                 self.em.delta_Q = self.em.delta_Q_0 + self.em.G - self.em.G_0             # <<<<<<<<<<<<<<
@@ -12806,7 +12806,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_28e_bal(CYTHON_UNUSED PyObje
     }
     __pyx_L5:;
 
-    /* "pysnobal/libsnobal/snobal.py":1075
+    /* "pysnobal/libsnobal/snobal.pyx":1075
  * 
  *         # if there is a snowcover
  *         if self.snow.layer_count > 0:             # <<<<<<<<<<<<<<
@@ -12816,7 +12816,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_28e_bal(CYTHON_UNUSED PyObje
     goto __pyx_L3;
   }
 
-  /* "pysnobal/libsnobal/snobal.py":1108
+  /* "pysnobal/libsnobal/snobal.pyx":1108
  * 
  *         else:
  *             self.em.R_n = 0             # <<<<<<<<<<<<<<
@@ -12829,7 +12829,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_28e_bal(CYTHON_UNUSED PyObje
     if (__Pyx_PyObject_SetAttrStr(__pyx_t_8, __pyx_n_s_R_n, __pyx_int_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1109
+    /* "pysnobal/libsnobal/snobal.pyx":1109
  *         else:
  *             self.em.R_n = 0
  *             self.em.H = 0             # <<<<<<<<<<<<<<
@@ -12841,7 +12841,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_28e_bal(CYTHON_UNUSED PyObje
     if (__Pyx_PyObject_SetAttrStr(__pyx_t_8, __pyx_n_s_H, __pyx_int_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1110
+    /* "pysnobal/libsnobal/snobal.pyx":1110
  *             self.em.R_n = 0
  *             self.em.H = 0
  *             self.em.L_v_E = 0             # <<<<<<<<<<<<<<
@@ -12853,7 +12853,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_28e_bal(CYTHON_UNUSED PyObje
     if (__Pyx_PyObject_SetAttrStr(__pyx_t_8, __pyx_n_s_L_v_E, __pyx_int_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1111
+    /* "pysnobal/libsnobal/snobal.pyx":1111
  *             self.em.H = 0
  *             self.em.L_v_E = 0
  *             self.em.E = 0             # <<<<<<<<<<<<<<
@@ -12865,7 +12865,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_28e_bal(CYTHON_UNUSED PyObje
     if (__Pyx_PyObject_SetAttrStr(__pyx_t_8, __pyx_n_s_E, __pyx_int_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1112
+    /* "pysnobal/libsnobal/snobal.pyx":1112
  *             self.em.L_v_E = 0
  *             self.em.E = 0
  *             self.em.G = 0             # <<<<<<<<<<<<<<
@@ -12877,7 +12877,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_28e_bal(CYTHON_UNUSED PyObje
     if (__Pyx_PyObject_SetAttrStr(__pyx_t_8, __pyx_n_s_G, __pyx_int_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1112; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1113
+    /* "pysnobal/libsnobal/snobal.pyx":1113
  *             self.em.E = 0
  *             self.em.G = 0
  *             self.em.G_0 = 0             # <<<<<<<<<<<<<<
@@ -12889,7 +12889,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_28e_bal(CYTHON_UNUSED PyObje
     if (__Pyx_PyObject_SetAttrStr(__pyx_t_8, __pyx_n_s_G_0, __pyx_int_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1114
+    /* "pysnobal/libsnobal/snobal.pyx":1114
  *             self.em.G = 0
  *             self.em.G_0 = 0
  *             self.em.delta_Q = 0             # <<<<<<<<<<<<<<
@@ -12901,7 +12901,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_28e_bal(CYTHON_UNUSED PyObje
     if (__Pyx_PyObject_SetAttrStr(__pyx_t_8, __pyx_n_s_delta_Q, __pyx_int_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1115
+    /* "pysnobal/libsnobal/snobal.pyx":1115
  *             self.em.G_0 = 0
  *             self.em.delta_Q = 0
  *             self.em.delta_Q_0 = 0             # <<<<<<<<<<<<<<
@@ -12915,7 +12915,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_28e_bal(CYTHON_UNUSED PyObje
   }
   __pyx_L3:;
 
-  /* "pysnobal/libsnobal/snobal.py":1069
+  /* "pysnobal/libsnobal/snobal.pyx":1069
  * 
  * #     @profile
  *     def e_bal(self):             # <<<<<<<<<<<<<<
@@ -12936,7 +12936,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_28e_bal(CYTHON_UNUSED PyObje
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_9);
   __Pyx_XDECREF(__pyx_t_11);
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.e_bal", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.e_bal", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -12944,7 +12944,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_28e_bal(CYTHON_UNUSED PyObje
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":1119
+/* "pysnobal/libsnobal/snobal.pyx":1119
  * 
  * 
  *     def advec(self):             # <<<<<<<<<<<<<<
@@ -12953,21 +12953,21 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_28e_bal(CYTHON_UNUSED PyObje
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_31advec(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_8pysnobal_6snobal_6snobal_30advec[] = "\n        This routine calculates the advected energy for a 2-layer snowcover\n        if there's precipitation for the current timestep.\n        ";
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_6snobal_31advec = {"advec", (PyCFunction)__pyx_pw_8pysnobal_6snobal_6snobal_31advec, METH_O, __pyx_doc_8pysnobal_6snobal_6snobal_30advec};
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_31advec(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_31advec(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static char __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_30advec[] = "\n        This routine calculates the advected energy for a 2-layer snowcover\n        if there's precipitation for the current timestep.\n        ";
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_31advec = {"advec", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_31advec, METH_O, __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_30advec};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_31advec(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("advec (wrapper)", 0);
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_6snobal_30advec(__pyx_self, ((PyObject *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_30advec(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_30advec(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_30advec(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_v_M = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -12986,7 +12986,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_30advec(CYTHON_UNUSED PyObje
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("advec", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":1125
+  /* "pysnobal/libsnobal/snobal.pyx":1125
  *         """
  * 
  *         if self.precip_now:             # <<<<<<<<<<<<<<
@@ -12999,7 +12999,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_30advec(CYTHON_UNUSED PyObje
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_2) {
 
-    /* "pysnobal/libsnobal/snobal.py":1127
+    /* "pysnobal/libsnobal/snobal.pyx":1127
  *         if self.precip_now:
  * 
  *             M = self.heat_stor(CP_WATER(self.precip.T_rain), \             # <<<<<<<<<<<<<<
@@ -13042,7 +13042,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_30advec(CYTHON_UNUSED PyObje
     }
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1128
+    /* "pysnobal/libsnobal/snobal.pyx":1128
  * 
  *             M = self.heat_stor(CP_WATER(self.precip.T_rain), \
  *                                self.precip_info[self.tstep_level].m_rain, \             # <<<<<<<<<<<<<<
@@ -13061,7 +13061,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_30advec(CYTHON_UNUSED PyObje
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1129
+    /* "pysnobal/libsnobal/snobal.pyx":1129
  *             M = self.heat_stor(CP_WATER(self.precip.T_rain), \
  *                                self.precip_info[self.tstep_level].m_rain, \
  *                                self.precip.T_rain - self.snow.T_s_0) + \             # <<<<<<<<<<<<<<
@@ -13113,7 +13113,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_30advec(CYTHON_UNUSED PyObje
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1130
+    /* "pysnobal/libsnobal/snobal.pyx":1130
  *                                self.precip_info[self.tstep_level].m_rain, \
  *                                self.precip.T_rain - self.snow.T_s_0) + \
  *                  self.heat_stor(CP_ICE(self.precip.T_snow), \             # <<<<<<<<<<<<<<
@@ -13156,7 +13156,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_30advec(CYTHON_UNUSED PyObje
     }
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1131
+    /* "pysnobal/libsnobal/snobal.pyx":1131
  *                                self.precip.T_rain - self.snow.T_s_0) + \
  *                  self.heat_stor(CP_ICE(self.precip.T_snow), \
  *                                 self.precip_info[self.tstep_level].m_snow, \             # <<<<<<<<<<<<<<
@@ -13175,7 +13175,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_30advec(CYTHON_UNUSED PyObje
     __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1132
+    /* "pysnobal/libsnobal/snobal.pyx":1132
  *                  self.heat_stor(CP_ICE(self.precip.T_snow), \
  *                                 self.precip_info[self.tstep_level].m_snow, \
  *                                 self.precip.T_snow - self.snow.T_s_0)             # <<<<<<<<<<<<<<
@@ -13227,7 +13227,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_30advec(CYTHON_UNUSED PyObje
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1129
+    /* "pysnobal/libsnobal/snobal.pyx":1129
  *             M = self.heat_stor(CP_WATER(self.precip.T_rain), \
  *                                self.precip_info[self.tstep_level].m_rain, \
  *                                self.precip.T_rain - self.snow.T_s_0) + \             # <<<<<<<<<<<<<<
@@ -13241,7 +13241,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_30advec(CYTHON_UNUSED PyObje
     __pyx_v_M = __pyx_t_5;
     __pyx_t_5 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1134
+    /* "pysnobal/libsnobal/snobal.pyx":1134
  *                                 self.precip.T_snow - self.snow.T_s_0)
  * 
  *             M /= self.time_step             # <<<<<<<<<<<<<<
@@ -13256,7 +13256,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_30advec(CYTHON_UNUSED PyObje
     __Pyx_DECREF_SET(__pyx_v_M, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1125
+    /* "pysnobal/libsnobal/snobal.pyx":1125
  *         """
  * 
  *         if self.precip_now:             # <<<<<<<<<<<<<<
@@ -13266,7 +13266,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_30advec(CYTHON_UNUSED PyObje
     goto __pyx_L3;
   }
 
-  /* "pysnobal/libsnobal/snobal.py":1137
+  /* "pysnobal/libsnobal/snobal.pyx":1137
  * 
  *         else:
  *             M = 0             # <<<<<<<<<<<<<<
@@ -13279,7 +13279,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_30advec(CYTHON_UNUSED PyObje
   }
   __pyx_L3:;
 
-  /* "pysnobal/libsnobal/snobal.py":1139
+  /* "pysnobal/libsnobal/snobal.pyx":1139
  *             M = 0
  * 
  *         self.em.M = M             # <<<<<<<<<<<<<<
@@ -13291,7 +13291,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_30advec(CYTHON_UNUSED PyObje
   if (__Pyx_PyObject_SetAttrStr(__pyx_t_3, __pyx_n_s_M, __pyx_v_M) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1139; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1119
+  /* "pysnobal/libsnobal/snobal.pyx":1119
  * 
  * 
  *     def advec(self):             # <<<<<<<<<<<<<<
@@ -13311,7 +13311,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_30advec(CYTHON_UNUSED PyObje
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_10);
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.advec", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.advec", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_M);
@@ -13320,7 +13320,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_30advec(CYTHON_UNUSED PyObje
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":1143
+/* "pysnobal/libsnobal/snobal.pyx":1143
  * 
  * 
  *     def g_soil(self, layer):             # <<<<<<<<<<<<<<
@@ -13329,10 +13329,10 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_30advec(CYTHON_UNUSED PyObje
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_33g_soil(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_8pysnobal_6snobal_6snobal_32g_soil[] = "\n        conduction heat flow between snow and soil\n        ";
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_6snobal_33g_soil = {"g_soil", (PyCFunction)__pyx_pw_8pysnobal_6snobal_6snobal_33g_soil, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8pysnobal_6snobal_6snobal_32g_soil};
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_33g_soil(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_33g_soil(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_32g_soil[] = "\n        conduction heat flow between snow and soil\n        ";
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_33g_soil = {"g_soil", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_33g_soil, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_32g_soil};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_33g_soil(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_layer = 0;
   int __pyx_lineno = 0;
@@ -13380,18 +13380,18 @@ static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_33g_soil(PyObject *__pyx_sel
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("g_soil", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1143; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.g_soil", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.g_soil", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_6snobal_32g_soil(__pyx_self, __pyx_v_self, __pyx_v_layer);
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_32g_soil(__pyx_self, __pyx_v_self, __pyx_v_layer);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_32g_soil(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_layer) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_32g_soil(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_layer) {
   PyObject *__pyx_v_tsno = NULL;
   PyObject *__pyx_v_ds = NULL;
   PyObject *__pyx_v_k_g = NULL;
@@ -13414,7 +13414,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_32g_soil(CYTHON_UNUSED PyObj
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("g_soil", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":1148
+  /* "pysnobal/libsnobal/snobal.pyx":1148
  *         """
  * 
  *         if layer == 'surface':             # <<<<<<<<<<<<<<
@@ -13424,7 +13424,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_32g_soil(CYTHON_UNUSED PyObj
   __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_layer, __pyx_n_s_surface, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1148; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (__pyx_t_1) {
 
-    /* "pysnobal/libsnobal/snobal.py":1149
+    /* "pysnobal/libsnobal/snobal.pyx":1149
  * 
  *         if layer == 'surface':
  *             tsno = self.snow.T_s_0             # <<<<<<<<<<<<<<
@@ -13439,7 +13439,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_32g_soil(CYTHON_UNUSED PyObj
     __pyx_v_tsno = __pyx_t_3;
     __pyx_t_3 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1150
+    /* "pysnobal/libsnobal/snobal.pyx":1150
  *         if layer == 'surface':
  *             tsno = self.snow.T_s_0
  *             ds = self.snow.z_s_0             # <<<<<<<<<<<<<<
@@ -13454,7 +13454,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_32g_soil(CYTHON_UNUSED PyObj
     __pyx_v_ds = __pyx_t_2;
     __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1148
+    /* "pysnobal/libsnobal/snobal.pyx":1148
  *         """
  * 
  *         if layer == 'surface':             # <<<<<<<<<<<<<<
@@ -13464,7 +13464,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_32g_soil(CYTHON_UNUSED PyObj
     goto __pyx_L3;
   }
 
-  /* "pysnobal/libsnobal/snobal.py":1153
+  /* "pysnobal/libsnobal/snobal.pyx":1153
  * 
  *         else:
  *             tsno = self.snow.T_s_l             # <<<<<<<<<<<<<<
@@ -13480,7 +13480,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_32g_soil(CYTHON_UNUSED PyObj
     __pyx_v_tsno = __pyx_t_3;
     __pyx_t_3 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1154
+    /* "pysnobal/libsnobal/snobal.pyx":1154
  *         else:
  *             tsno = self.snow.T_s_l
  *             ds = self.snow.z_s_l             # <<<<<<<<<<<<<<
@@ -13497,7 +13497,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_32g_soil(CYTHON_UNUSED PyObj
   }
   __pyx_L3:;
 
-  /* "pysnobal/libsnobal/snobal.py":1156
+  /* "pysnobal/libsnobal/snobal.pyx":1156
  *             ds = self.snow.z_s_l
  * 
  *         if tsno > FREEZE:             # <<<<<<<<<<<<<<
@@ -13512,7 +13512,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_32g_soil(CYTHON_UNUSED PyObj
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (__pyx_t_1) {
 
-    /* "pysnobal/libsnobal/snobal.py":1157
+    /* "pysnobal/libsnobal/snobal.pyx":1157
  * 
  *         if tsno > FREEZE:
  *             warnings.warn('g_soil: tsno = %8.2f; set to %8.2f\n' % (tsno, FREEZE))             # <<<<<<<<<<<<<<
@@ -13565,7 +13565,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_32g_soil(CYTHON_UNUSED PyObj
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1158
+    /* "pysnobal/libsnobal/snobal.pyx":1158
  *         if tsno > FREEZE:
  *             warnings.warn('g_soil: tsno = %8.2f; set to %8.2f\n' % (tsno, FREEZE))
  *             tsno = FREEZE             # <<<<<<<<<<<<<<
@@ -13577,7 +13577,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_32g_soil(CYTHON_UNUSED PyObj
     __Pyx_DECREF_SET(__pyx_v_tsno, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1156
+    /* "pysnobal/libsnobal/snobal.pyx":1156
  *             ds = self.snow.z_s_l
  * 
  *         if tsno > FREEZE:             # <<<<<<<<<<<<<<
@@ -13586,7 +13586,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_32g_soil(CYTHON_UNUSED PyObj
  */
   }
 
-  /* "pysnobal/libsnobal/snobal.py":1165
+  /* "pysnobal/libsnobal/snobal.pyx":1165
  *         # /[inserted by cython to avoid comment start]***    note: Kt should be passed as an argument        ***[inserted by cython to avoid comment closer]/
  *         # /[inserted by cython to avoid comment start]***    k_g = efcon(KT_WETSAND, tg, pa);            ***[inserted by cython to avoid comment closer]/
  *         k_g = libsnobal.efcon(KT_MOISTSAND, self.input1.T_g, self.P_a)             # <<<<<<<<<<<<<<
@@ -13640,7 +13640,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_32g_soil(CYTHON_UNUSED PyObj
   __pyx_v_k_g = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1169
+  /* "pysnobal/libsnobal/snobal.pyx":1169
  *         # calculate G
  *         # set snow conductivity
  *         kcs = KTS(self.snow.rho)             # <<<<<<<<<<<<<<
@@ -13683,7 +13683,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_32g_soil(CYTHON_UNUSED PyObj
   __pyx_v_kcs = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1170
+  /* "pysnobal/libsnobal/snobal.pyx":1170
  *         # set snow conductivity
  *         kcs = KTS(self.snow.rho)
  *         k_s = libsnobal.efcon(kcs, tsno, self.P_a)             # <<<<<<<<<<<<<<
@@ -13730,7 +13730,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_32g_soil(CYTHON_UNUSED PyObj
   __pyx_v_k_s = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1171
+  /* "pysnobal/libsnobal/snobal.pyx":1171
  *         kcs = KTS(self.snow.rho)
  *         k_s = libsnobal.efcon(kcs, tsno, self.P_a)
  *         g = libsnobal.ssxfr(k_s, k_g, tsno, self.input1.T_g, ds, self.z_g)             # <<<<<<<<<<<<<<
@@ -13791,7 +13791,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_32g_soil(CYTHON_UNUSED PyObj
   __pyx_v_g = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1173
+  /* "pysnobal/libsnobal/snobal.pyx":1173
  *         g = libsnobal.ssxfr(k_s, k_g, tsno, self.input1.T_g, ds, self.z_g)
  * 
  *         self.em.G = g             # <<<<<<<<<<<<<<
@@ -13803,7 +13803,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_32g_soil(CYTHON_UNUSED PyObj
   if (__Pyx_PyObject_SetAttrStr(__pyx_t_3, __pyx_n_s_G, __pyx_v_g) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1173; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1143
+  /* "pysnobal/libsnobal/snobal.pyx":1143
  * 
  * 
  *     def g_soil(self, layer):             # <<<<<<<<<<<<<<
@@ -13822,7 +13822,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_32g_soil(CYTHON_UNUSED PyObj
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_9);
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.g_soil", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.g_soil", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_tsno);
@@ -13836,7 +13836,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_32g_soil(CYTHON_UNUSED PyObj
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":1175
+/* "pysnobal/libsnobal/snobal.pyx":1175
  *         self.em.G = g
  * 
  *     def g_snow(self):             # <<<<<<<<<<<<<<
@@ -13845,21 +13845,21 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_32g_soil(CYTHON_UNUSED PyObj
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_35g_snow(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_8pysnobal_6snobal_6snobal_34g_snow[] = "\n        conduction heat flow between snow layers\n        ";
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_6snobal_35g_snow = {"g_snow", (PyCFunction)__pyx_pw_8pysnobal_6snobal_6snobal_35g_snow, METH_O, __pyx_doc_8pysnobal_6snobal_6snobal_34g_snow};
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_35g_snow(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_35g_snow(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static char __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_34g_snow[] = "\n        conduction heat flow between snow layers\n        ";
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_35g_snow = {"g_snow", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_35g_snow, METH_O, __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_34g_snow};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_35g_snow(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("g_snow (wrapper)", 0);
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_6snobal_34g_snow(__pyx_self, ((PyObject *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_34g_snow(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_34g_snow(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_34g_snow(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_v_g = NULL;
   PyObject *__pyx_v_kcs1 = NULL;
   PyObject *__pyx_v_kcs2 = NULL;
@@ -13882,7 +13882,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_34g_snow(CYTHON_UNUSED PyObj
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("g_snow", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":1181
+  /* "pysnobal/libsnobal/snobal.pyx":1181
  * 
  *         # calculate g
  *         if self.snow.T_s_0 == self.snow.T_s_l:             # <<<<<<<<<<<<<<
@@ -13906,7 +13906,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_34g_snow(CYTHON_UNUSED PyObj
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_4) {
 
-    /* "pysnobal/libsnobal/snobal.py":1182
+    /* "pysnobal/libsnobal/snobal.pyx":1182
  *         # calculate g
  *         if self.snow.T_s_0 == self.snow.T_s_l:
  *             g = 0             # <<<<<<<<<<<<<<
@@ -13916,7 +13916,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_34g_snow(CYTHON_UNUSED PyObj
     __Pyx_INCREF(__pyx_int_0);
     __pyx_v_g = __pyx_int_0;
 
-    /* "pysnobal/libsnobal/snobal.py":1181
+    /* "pysnobal/libsnobal/snobal.pyx":1181
  * 
  *         # calculate g
  *         if self.snow.T_s_0 == self.snow.T_s_l:             # <<<<<<<<<<<<<<
@@ -13926,7 +13926,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_34g_snow(CYTHON_UNUSED PyObj
     goto __pyx_L3;
   }
 
-  /* "pysnobal/libsnobal/snobal.py":1184
+  /* "pysnobal/libsnobal/snobal.pyx":1184
  *             g = 0
  *         else:
  *             kcs1 = KTS(self.snow.rho)             # <<<<<<<<<<<<<<
@@ -13970,7 +13970,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_34g_snow(CYTHON_UNUSED PyObj
     __pyx_v_kcs1 = __pyx_t_1;
     __pyx_t_1 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1185
+    /* "pysnobal/libsnobal/snobal.pyx":1185
  *         else:
  *             kcs1 = KTS(self.snow.rho)
  *             kcs2 = KTS(self.snow.rho)             # <<<<<<<<<<<<<<
@@ -14013,7 +14013,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_34g_snow(CYTHON_UNUSED PyObj
     __pyx_v_kcs2 = __pyx_t_1;
     __pyx_t_1 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1186
+    /* "pysnobal/libsnobal/snobal.pyx":1186
  *             kcs1 = KTS(self.snow.rho)
  *             kcs2 = KTS(self.snow.rho)
  *             k_s1 = libsnobal.efcon(kcs1, self.snow.T_s_0, self.P_a)             # <<<<<<<<<<<<<<
@@ -14065,7 +14065,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_34g_snow(CYTHON_UNUSED PyObj
     __pyx_v_k_s1 = __pyx_t_1;
     __pyx_t_1 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1187
+    /* "pysnobal/libsnobal/snobal.pyx":1187
  *             kcs2 = KTS(self.snow.rho)
  *             k_s1 = libsnobal.efcon(kcs1, self.snow.T_s_0, self.P_a)
  *             k_s2 = libsnobal.efcon(kcs2, self.snow.T_s_l, self.P_a)             # <<<<<<<<<<<<<<
@@ -14117,7 +14117,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_34g_snow(CYTHON_UNUSED PyObj
     __pyx_v_k_s2 = __pyx_t_1;
     __pyx_t_1 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1189
+    /* "pysnobal/libsnobal/snobal.pyx":1189
  *             k_s2 = libsnobal.efcon(kcs2, self.snow.T_s_l, self.P_a)
  * 
  *             g = libsnobal.ssxfr(k_s1, k_s2, self.snow.T_s_0, self.snow.T_s_l, self.snow.z_s_0, self.snow.z_s_l)             # <<<<<<<<<<<<<<
@@ -14193,7 +14193,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_34g_snow(CYTHON_UNUSED PyObj
   }
   __pyx_L3:;
 
-  /* "pysnobal/libsnobal/snobal.py":1191
+  /* "pysnobal/libsnobal/snobal.pyx":1191
  *             g = libsnobal.ssxfr(k_s1, k_s2, self.snow.T_s_0, self.snow.T_s_l, self.snow.z_s_0, self.snow.z_s_l)
  * 
  *         self.em.G_0 = g             # <<<<<<<<<<<<<<
@@ -14205,7 +14205,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_34g_snow(CYTHON_UNUSED PyObj
   if (__Pyx_PyObject_SetAttrStr(__pyx_t_1, __pyx_n_s_G_0, __pyx_v_g) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1191; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1175
+  /* "pysnobal/libsnobal/snobal.pyx":1175
  *         self.em.G = g
  * 
  *     def g_snow(self):             # <<<<<<<<<<<<<<
@@ -14225,7 +14225,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_34g_snow(CYTHON_UNUSED PyObj
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_9);
   __Pyx_XDECREF(__pyx_t_10);
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.g_snow", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.g_snow", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_g);
@@ -14238,7 +14238,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_34g_snow(CYTHON_UNUSED PyObj
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":1194
+/* "pysnobal/libsnobal/snobal.pyx":1194
  * 
  * 
  *     def h_le(self):             # <<<<<<<<<<<<<<
@@ -14247,21 +14247,21 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_34g_snow(CYTHON_UNUSED PyObj
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_37h_le(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_8pysnobal_6snobal_6snobal_36h_le[] = "\n        Calculates point turbulent transfer (H and L_v_E) for a 2-layer snowcover\n        ";
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_6snobal_37h_le = {"h_le", (PyCFunction)__pyx_pw_8pysnobal_6snobal_6snobal_37h_le, METH_O, __pyx_doc_8pysnobal_6snobal_6snobal_36h_le};
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_37h_le(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_37h_le(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static char __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_36h_le[] = "\n        Calculates point turbulent transfer (H and L_v_E) for a 2-layer snowcover\n        ";
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_37h_le = {"h_le", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_37h_le, METH_O, __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_36h_le};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_37h_le(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("h_le (wrapper)", 0);
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_6snobal_36h_le(__pyx_self, ((PyObject *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_36h_le(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_36h_le(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_36h_le(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_v_e_s = NULL;
   PyObject *__pyx_v_sat_vp = NULL;
   PyObject *__pyx_v_rel_z_T = NULL;
@@ -14290,7 +14290,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_36h_le(CYTHON_UNUSED PyObjec
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("h_le", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":1205
+  /* "pysnobal/libsnobal/snobal.pyx":1205
  * 
  *         # calculate saturation vapor pressure
  *         e_s = libsnobal.sati(self.snow.T_s_0)             # <<<<<<<<<<<<<<
@@ -14336,7 +14336,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_36h_le(CYTHON_UNUSED PyObjec
   __pyx_v_e_s = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1208
+  /* "pysnobal/libsnobal/snobal.pyx":1208
  * 
  *         # error check for bad vapor pressures
  *         sat_vp = libsnobal.sati(self.input1.T_a)             # <<<<<<<<<<<<<<
@@ -14382,7 +14382,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_36h_le(CYTHON_UNUSED PyObjec
   __pyx_v_sat_vp = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1210
+  /* "pysnobal/libsnobal/snobal.pyx":1210
  *         sat_vp = libsnobal.sati(self.input1.T_a)
  * 
  *         if self.input1.e_a > sat_vp:             # <<<<<<<<<<<<<<
@@ -14400,7 +14400,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_36h_le(CYTHON_UNUSED PyObjec
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_6) {
 
-    /* "pysnobal/libsnobal/snobal.py":1211
+    /* "pysnobal/libsnobal/snobal.pyx":1211
  * 
  *         if self.input1.e_a > sat_vp:
  *             self.input1.e_a = sat_vp             # <<<<<<<<<<<<<<
@@ -14412,7 +14412,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_36h_le(CYTHON_UNUSED PyObjec
     if (__Pyx_PyObject_SetAttrStr(__pyx_t_1, __pyx_n_s_e_a, __pyx_v_sat_vp) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1211; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1210
+    /* "pysnobal/libsnobal/snobal.pyx":1210
  *         sat_vp = libsnobal.sati(self.input1.T_a)
  * 
  *         if self.input1.e_a > sat_vp:             # <<<<<<<<<<<<<<
@@ -14421,7 +14421,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_36h_le(CYTHON_UNUSED PyObjec
  */
   }
 
-  /* "pysnobal/libsnobal/snobal.py":1214
+  /* "pysnobal/libsnobal/snobal.pyx":1214
  * 
  *         # determine relative measurement heights
  *         if self.relative_hts:             # <<<<<<<<<<<<<<
@@ -14434,7 +14434,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_36h_le(CYTHON_UNUSED PyObjec
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_6) {
 
-    /* "pysnobal/libsnobal/snobal.py":1215
+    /* "pysnobal/libsnobal/snobal.pyx":1215
  *         # determine relative measurement heights
  *         if self.relative_hts:
  *             rel_z_T = self.z_T             # <<<<<<<<<<<<<<
@@ -14446,7 +14446,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_36h_le(CYTHON_UNUSED PyObjec
     __pyx_v_rel_z_T = __pyx_t_1;
     __pyx_t_1 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1216
+    /* "pysnobal/libsnobal/snobal.pyx":1216
  *         if self.relative_hts:
  *             rel_z_T = self.z_T
  *             rel_z_u = self.z_u             # <<<<<<<<<<<<<<
@@ -14458,7 +14458,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_36h_le(CYTHON_UNUSED PyObjec
     __pyx_v_rel_z_u = __pyx_t_1;
     __pyx_t_1 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1214
+    /* "pysnobal/libsnobal/snobal.pyx":1214
  * 
  *         # determine relative measurement heights
  *         if self.relative_hts:             # <<<<<<<<<<<<<<
@@ -14468,7 +14468,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_36h_le(CYTHON_UNUSED PyObjec
     goto __pyx_L4;
   }
 
-  /* "pysnobal/libsnobal/snobal.py":1218
+  /* "pysnobal/libsnobal/snobal.pyx":1218
  *             rel_z_u = self.z_u
  *         else:
  *             rel_z_T = self.z_T - self.snow.z_s             # <<<<<<<<<<<<<<
@@ -14490,7 +14490,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_36h_le(CYTHON_UNUSED PyObjec
     __pyx_v_rel_z_T = __pyx_t_5;
     __pyx_t_5 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1219
+    /* "pysnobal/libsnobal/snobal.pyx":1219
  *         else:
  *             rel_z_T = self.z_T - self.snow.z_s
  *             rel_z_u = self.z_u - self.snow.z_s             # <<<<<<<<<<<<<<
@@ -14513,7 +14513,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_36h_le(CYTHON_UNUSED PyObjec
   }
   __pyx_L4:;
 
-  /* "pysnobal/libsnobal/snobal.py":1222
+  /* "pysnobal/libsnobal/snobal.pyx":1222
  * 
  *         # calculate H & L_v_E
  *         H, L_v_E, E, status = libsnobal.hle1(self.P_a, self.input1.T_a, self.snow.T_s_0, rel_z_T, \             # <<<<<<<<<<<<<<
@@ -14538,7 +14538,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_36h_le(CYTHON_UNUSED PyObjec
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1223
+  /* "pysnobal/libsnobal/snobal.pyx":1223
  *         # calculate H & L_v_E
  *         H, L_v_E, E, status = libsnobal.hle1(self.P_a, self.input1.T_a, self.snow.T_s_0, rel_z_T, \
  *                                              self.input1.e_a, e_s, rel_z_T, self.input1.u, rel_z_u, self.z_0)             # <<<<<<<<<<<<<<
@@ -14672,7 +14672,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_36h_le(CYTHON_UNUSED PyObjec
     __pyx_L6_unpacking_done:;
   }
 
-  /* "pysnobal/libsnobal/snobal.py":1222
+  /* "pysnobal/libsnobal/snobal.pyx":1222
  * 
  *         # calculate H & L_v_E
  *         H, L_v_E, E, status = libsnobal.hle1(self.P_a, self.input1.T_a, self.snow.T_s_0, rel_z_T, \             # <<<<<<<<<<<<<<
@@ -14688,7 +14688,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_36h_le(CYTHON_UNUSED PyObjec
   __pyx_v_status = __pyx_t_9;
   __pyx_t_9 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1224
+  /* "pysnobal/libsnobal/snobal.pyx":1224
  *         H, L_v_E, E, status = libsnobal.hle1(self.P_a, self.input1.T_a, self.snow.T_s_0, rel_z_T, \
  *                                              self.input1.e_a, e_s, rel_z_T, self.input1.u, rel_z_u, self.z_0)
  *         if status != 0:             # <<<<<<<<<<<<<<
@@ -14700,7 +14700,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_36h_le(CYTHON_UNUSED PyObjec
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (__pyx_t_6) {
 
-    /* "pysnobal/libsnobal/snobal.py":1226
+    /* "pysnobal/libsnobal/snobal.pyx":1226
  *         if status != 0:
  *             raise Exception("hle1 did not converge\nP_a %f, T_a %f, T_s_0 %f\nrelative z_T %f, e_a %f, e_s %f\nu %f, relative z_u %f, z_0 %f\n" % \
  *                             (self.P_a, self.input1.T_a, self.snow.T_s_0, rel_z_T, \             # <<<<<<<<<<<<<<
@@ -14720,7 +14720,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_36h_le(CYTHON_UNUSED PyObjec
     __Pyx_GOTREF(__pyx_t_12);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1227
+    /* "pysnobal/libsnobal/snobal.pyx":1227
  *             raise Exception("hle1 did not converge\nP_a %f, T_a %f, T_s_0 %f\nrelative z_T %f, e_a %f, e_s %f\nu %f, relative z_u %f, z_0 %f\n" % \
  *                             (self.P_a, self.input1.T_a, self.snow.T_s_0, rel_z_T, \
  *                             self.input1.e_a, e_s, self.input1.u, rel_z_u, self.z_0))             # <<<<<<<<<<<<<<
@@ -14740,7 +14740,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_36h_le(CYTHON_UNUSED PyObjec
     __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_z_0); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1227; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_9);
 
-    /* "pysnobal/libsnobal/snobal.py":1226
+    /* "pysnobal/libsnobal/snobal.pyx":1226
  *         if status != 0:
  *             raise Exception("hle1 did not converge\nP_a %f, T_a %f, T_s_0 %f\nrelative z_T %f, e_a %f, e_s %f\nu %f, relative z_u %f, z_0 %f\n" % \
  *                             (self.P_a, self.input1.T_a, self.snow.T_s_0, rel_z_T, \             # <<<<<<<<<<<<<<
@@ -14777,7 +14777,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_36h_le(CYTHON_UNUSED PyObjec
     __pyx_t_8 = 0;
     __pyx_t_9 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1225
+    /* "pysnobal/libsnobal/snobal.pyx":1225
  *                                              self.input1.e_a, e_s, rel_z_T, self.input1.u, rel_z_u, self.z_0)
  *         if status != 0:
  *             raise Exception("hle1 did not converge\nP_a %f, T_a %f, T_s_0 %f\nrelative z_T %f, e_a %f, e_s %f\nu %f, relative z_u %f, z_0 %f\n" % \             # <<<<<<<<<<<<<<
@@ -14799,7 +14799,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_36h_le(CYTHON_UNUSED PyObjec
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1225; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "pysnobal/libsnobal/snobal.py":1224
+    /* "pysnobal/libsnobal/snobal.pyx":1224
  *         H, L_v_E, E, status = libsnobal.hle1(self.P_a, self.input1.T_a, self.snow.T_s_0, rel_z_T, \
  *                                              self.input1.e_a, e_s, rel_z_T, self.input1.u, rel_z_u, self.z_0)
  *         if status != 0:             # <<<<<<<<<<<<<<
@@ -14808,7 +14808,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_36h_le(CYTHON_UNUSED PyObjec
  */
   }
 
-  /* "pysnobal/libsnobal/snobal.py":1229
+  /* "pysnobal/libsnobal/snobal.pyx":1229
  *                             self.input1.e_a, e_s, self.input1.u, rel_z_u, self.z_0))
  * 
  *         self.em.H = H             # <<<<<<<<<<<<<<
@@ -14820,7 +14820,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_36h_le(CYTHON_UNUSED PyObjec
   if (__Pyx_PyObject_SetAttrStr(__pyx_t_9, __pyx_n_s_H, __pyx_v_H) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1229; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1230
+  /* "pysnobal/libsnobal/snobal.pyx":1230
  * 
  *         self.em.H = H
  *         self.em.L_v_E = L_v_E             # <<<<<<<<<<<<<<
@@ -14832,7 +14832,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_36h_le(CYTHON_UNUSED PyObjec
   if (__Pyx_PyObject_SetAttrStr(__pyx_t_9, __pyx_n_s_L_v_E, __pyx_v_L_v_E) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1230; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1231
+  /* "pysnobal/libsnobal/snobal.pyx":1231
  *         self.em.H = H
  *         self.em.L_v_E = L_v_E
  *         self.em.E = E             # <<<<<<<<<<<<<<
@@ -14844,7 +14844,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_36h_le(CYTHON_UNUSED PyObjec
   if (__Pyx_PyObject_SetAttrStr(__pyx_t_9, __pyx_n_s_E, __pyx_v_E) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1231; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1194
+  /* "pysnobal/libsnobal/snobal.pyx":1194
  * 
  * 
  *     def h_le(self):             # <<<<<<<<<<<<<<
@@ -14866,7 +14866,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_36h_le(CYTHON_UNUSED PyObjec
   __Pyx_XDECREF(__pyx_t_9);
   __Pyx_XDECREF(__pyx_t_10);
   __Pyx_XDECREF(__pyx_t_12);
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.h_le", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.h_le", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_e_s);
@@ -14882,7 +14882,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_36h_le(CYTHON_UNUSED PyObjec
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":1234
+/* "pysnobal/libsnobal/snobal.pyx":1234
  * 
  * 
  *     def below_thold(self, threshold):             # <<<<<<<<<<<<<<
@@ -14891,10 +14891,10 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_36h_le(CYTHON_UNUSED PyObjec
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_39below_thold(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_8pysnobal_6snobal_6snobal_38below_thold[] = "\n        This routine determines if any individual layer's mass is below\n        a given threshold for the current timestep.\n\n        Args:\n            threshold: current timestep's threshold for a \n                   layer's mass\n\n        Returns:\n            True    A layer's mass is less than the threshold.\n            False    All layers' masses are greater than the threshold.\n        ";
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_6snobal_39below_thold = {"below_thold", (PyCFunction)__pyx_pw_8pysnobal_6snobal_6snobal_39below_thold, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8pysnobal_6snobal_6snobal_38below_thold};
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_39below_thold(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_39below_thold(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_38below_thold[] = "\n        This routine determines if any individual layer's mass is below\n        a given threshold for the current timestep.\n\n        Args:\n            threshold: current timestep's threshold for a \n                   layer's mass\n\n        Returns:\n            True    A layer's mass is less than the threshold.\n            False    All layers' masses are greater than the threshold.\n        ";
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_39below_thold = {"below_thold", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_39below_thold, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_38below_thold};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_39below_thold(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_threshold = 0;
   int __pyx_lineno = 0;
@@ -14942,18 +14942,18 @@ static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_39below_thold(PyObject *__py
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("below_thold", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1234; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.below_thold", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.below_thold", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_6snobal_38below_thold(__pyx_self, __pyx_v_self, __pyx_v_threshold);
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_38below_thold(__pyx_self, __pyx_v_self, __pyx_v_threshold);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_38below_thold(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_threshold) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_38below_thold(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_threshold) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -14965,7 +14965,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_38below_thold(CYTHON_UNUSED 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("below_thold", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":1248
+  /* "pysnobal/libsnobal/snobal.pyx":1248
  *         """
  * 
  *         if self.snow.layer_count == 0:             # <<<<<<<<<<<<<<
@@ -14984,7 +14984,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_38below_thold(CYTHON_UNUSED 
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_3) {
 
-    /* "pysnobal/libsnobal/snobal.py":1249
+    /* "pysnobal/libsnobal/snobal.pyx":1249
  * 
  *         if self.snow.layer_count == 0:
  *             return False             # <<<<<<<<<<<<<<
@@ -14996,7 +14996,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_38below_thold(CYTHON_UNUSED 
     __pyx_r = Py_False;
     goto __pyx_L0;
 
-    /* "pysnobal/libsnobal/snobal.py":1248
+    /* "pysnobal/libsnobal/snobal.pyx":1248
  *         """
  * 
  *         if self.snow.layer_count == 0:             # <<<<<<<<<<<<<<
@@ -15005,7 +15005,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_38below_thold(CYTHON_UNUSED 
  */
   }
 
-  /* "pysnobal/libsnobal/snobal.py":1250
+  /* "pysnobal/libsnobal/snobal.pyx":1250
  *         if self.snow.layer_count == 0:
  *             return False
  *         if self.snow.layer_count == 1:             # <<<<<<<<<<<<<<
@@ -15024,7 +15024,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_38below_thold(CYTHON_UNUSED 
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_3) {
 
-    /* "pysnobal/libsnobal/snobal.py":1251
+    /* "pysnobal/libsnobal/snobal.pyx":1251
  *             return False
  *         if self.snow.layer_count == 1:
  *             return self.snow.m_s < threshold             # <<<<<<<<<<<<<<
@@ -15043,7 +15043,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_38below_thold(CYTHON_UNUSED 
     __pyx_t_1 = 0;
     goto __pyx_L0;
 
-    /* "pysnobal/libsnobal/snobal.py":1250
+    /* "pysnobal/libsnobal/snobal.pyx":1250
  *         if self.snow.layer_count == 0:
  *             return False
  *         if self.snow.layer_count == 1:             # <<<<<<<<<<<<<<
@@ -15052,7 +15052,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_38below_thold(CYTHON_UNUSED 
  */
   }
 
-  /* "pysnobal/libsnobal/snobal.py":1253
+  /* "pysnobal/libsnobal/snobal.pyx":1253
  *             return self.snow.m_s < threshold
  *         else:
  *             return (self.snow.m_s_0 < threshold) or (self.snow.m_s_l < threshold)             # <<<<<<<<<<<<<<
@@ -15093,7 +15093,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_38below_thold(CYTHON_UNUSED 
     goto __pyx_L0;
   }
 
-  /* "pysnobal/libsnobal/snobal.py":1234
+  /* "pysnobal/libsnobal/snobal.pyx":1234
  * 
  * 
  *     def below_thold(self, threshold):             # <<<<<<<<<<<<<<
@@ -15106,7 +15106,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_38below_thold(CYTHON_UNUSED 
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.below_thold", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.below_thold", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -15114,7 +15114,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_38below_thold(CYTHON_UNUSED 
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":1256
+/* "pysnobal/libsnobal/snobal.pyx":1256
  * 
  * 
  *     def get_sn_rec(self, first_rec=False):             # <<<<<<<<<<<<<<
@@ -15123,10 +15123,10 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_38below_thold(CYTHON_UNUSED 
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_41get_sn_rec(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_8pysnobal_6snobal_6snobal_40get_sn_rec[] = "\n        This routine loads the next snow-properties record into the\n        proper snow variables.  Before loading the next record though,\n        it computes the difference between the current snow properties\n        (predicted) and those in the next record (measured).  It then\n        reads next record from either the corresponding input file or\n        standard input.  If there are no more records are available, the\n        global variable \"more_sn_recs\" is set to FALSE.\n        \n        Args:\n            first_rec: whether or not it's the first record\n        ";
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_6snobal_41get_sn_rec = {"get_sn_rec", (PyCFunction)__pyx_pw_8pysnobal_6snobal_6snobal_41get_sn_rec, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8pysnobal_6snobal_6snobal_40get_sn_rec};
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_41get_sn_rec(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_41get_sn_rec(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_40get_sn_rec[] = "\n        This routine loads the next snow-properties record into the\n        proper snow variables.  Before loading the next record though,\n        it computes the difference between the current snow properties\n        (predicted) and those in the next record (measured).  It then\n        reads next record from either the corresponding input file or\n        standard input.  If there are no more records are available, the\n        global variable \"more_sn_recs\" is set to FALSE.\n        \n        Args:\n            first_rec: whether or not it's the first record\n        ";
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_41get_sn_rec = {"get_sn_rec", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_41get_sn_rec, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_40get_sn_rec};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_41get_sn_rec(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_first_rec = 0;
   int __pyx_lineno = 0;
@@ -15177,18 +15177,18 @@ static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_41get_sn_rec(PyObject *__pyx
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("get_sn_rec", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1256; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.get_sn_rec", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.get_sn_rec", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_6snobal_40get_sn_rec(__pyx_self, __pyx_v_self, __pyx_v_first_rec);
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_40get_sn_rec(__pyx_self, __pyx_v_self, __pyx_v_first_rec);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_40get_sn_rec(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_first_rec) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_40get_sn_rec(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_first_rec) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -15200,7 +15200,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_40get_sn_rec(CYTHON_UNUSED P
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_sn_rec", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":1270
+  /* "pysnobal/libsnobal/snobal.pyx":1270
  *         """
  * 
  *         if first_rec:             # <<<<<<<<<<<<<<
@@ -15210,7 +15210,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_40get_sn_rec(CYTHON_UNUSED P
   __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_first_rec); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1270; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (__pyx_t_1) {
 
-    /* "pysnobal/libsnobal/snobal.py":1272
+    /* "pysnobal/libsnobal/snobal.pyx":1272
  *         if first_rec:
  * 
  *             self.snow_prop_index = 0    # keep track of which snow property to read             # <<<<<<<<<<<<<<
@@ -15219,7 +15219,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_40get_sn_rec(CYTHON_UNUSED P
  */
     if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_snow_prop_index, __pyx_int_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1272; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "pysnobal/libsnobal/snobal.py":1274
+    /* "pysnobal/libsnobal/snobal.pyx":1274
  *             self.snow_prop_index = 0    # keep track of which snow property to read
  * 
  *             self.time_s = self.snow_records.iloc[self.snow_prop_index].name * HR_TO_SEC             # <<<<<<<<<<<<<<
@@ -15249,7 +15249,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_40get_sn_rec(CYTHON_UNUSED P
     if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_time_s, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1274; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1275
+    /* "pysnobal/libsnobal/snobal.pyx":1275
  * 
  *             self.time_s = self.snow_records.iloc[self.snow_prop_index].name * HR_TO_SEC
  *             self.curr_time_hrs = self.snow_records.iloc[self.snow_prop_index].name * HR_TO_SEC             # <<<<<<<<<<<<<<
@@ -15279,7 +15279,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_40get_sn_rec(CYTHON_UNUSED P
     if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_curr_time_hrs, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1275; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1276
+    /* "pysnobal/libsnobal/snobal.pyx":1276
  *             self.time_s = self.snow_records.iloc[self.snow_prop_index].name * HR_TO_SEC
  *             self.curr_time_hrs = self.snow_records.iloc[self.snow_prop_index].name * HR_TO_SEC
  *             self.start_time = self.snow_records.iloc[self.snow_prop_index].name * HR_TO_SEC             # <<<<<<<<<<<<<<
@@ -15309,7 +15309,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_40get_sn_rec(CYTHON_UNUSED P
     if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_start_time, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1276; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1277
+    /* "pysnobal/libsnobal/snobal.pyx":1277
  *             self.curr_time_hrs = self.snow_records.iloc[self.snow_prop_index].name * HR_TO_SEC
  *             self.start_time = self.snow_records.iloc[self.snow_prop_index].name * HR_TO_SEC
  *             self.more_sn_recs = True             # <<<<<<<<<<<<<<
@@ -15318,7 +15318,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_40get_sn_rec(CYTHON_UNUSED P
  */
     if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_more_sn_recs, Py_True) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1277; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "pysnobal/libsnobal/snobal.py":1279
+    /* "pysnobal/libsnobal/snobal.pyx":1279
  *             self.more_sn_recs = True
  * 
  *             self.current_time = self.time_s             # <<<<<<<<<<<<<<
@@ -15330,7 +15330,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_40get_sn_rec(CYTHON_UNUSED P
     if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_current_time, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1279; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1270
+    /* "pysnobal/libsnobal/snobal.pyx":1270
  *         """
  * 
  *         if first_rec:             # <<<<<<<<<<<<<<
@@ -15340,7 +15340,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_40get_sn_rec(CYTHON_UNUSED P
     goto __pyx_L3;
   }
 
-  /* "pysnobal/libsnobal/snobal.py":1285
+  /* "pysnobal/libsnobal/snobal.pyx":1285
  *             # haven't ever seen this used so not entirly sure now this works
  *             # increase the index if there are more than one record
  *             self.snow_prop_index += 1             # <<<<<<<<<<<<<<
@@ -15358,7 +15358,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_40get_sn_rec(CYTHON_UNUSED P
   }
   __pyx_L3:;
 
-  /* "pysnobal/libsnobal/snobal.py":1287
+  /* "pysnobal/libsnobal/snobal.pyx":1287
  *             self.snow_prop_index += 1
  * 
  *         self.more_sn_recs = False             # <<<<<<<<<<<<<<
@@ -15367,7 +15367,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_40get_sn_rec(CYTHON_UNUSED P
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_more_sn_recs, Py_False) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1287; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":1256
+  /* "pysnobal/libsnobal/snobal.pyx":1256
  * 
  * 
  *     def get_sn_rec(self, first_rec=False):             # <<<<<<<<<<<<<<
@@ -15382,7 +15382,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_40get_sn_rec(CYTHON_UNUSED P
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.get_sn_rec", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.get_sn_rec", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -15390,7 +15390,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_40get_sn_rec(CYTHON_UNUSED P
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":1290
+/* "pysnobal/libsnobal/snobal.pyx":1290
  * 
  * 
  *     def get_mh_rec(self, first_rec=False):             # <<<<<<<<<<<<<<
@@ -15399,10 +15399,10 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_40get_sn_rec(CYTHON_UNUSED P
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_43get_mh_rec(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_8pysnobal_6snobal_6snobal_42get_mh_rec[] = "\n        This routine loads the next measurement-heights record into\n        the proper mh variables.  It then reads the next record from\n        either the corresponding input file or standard input.  If\n        there are no more records are available, the global variable\n        \"more_mh_recs\" is set to FALSE.\n        \n        Args:\n            first_rec: whether or not it's the first record\n        ";
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_6snobal_43get_mh_rec = {"get_mh_rec", (PyCFunction)__pyx_pw_8pysnobal_6snobal_6snobal_43get_mh_rec, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8pysnobal_6snobal_6snobal_42get_mh_rec};
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_43get_mh_rec(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_43get_mh_rec(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_42get_mh_rec[] = "\n        This routine loads the next measurement-heights record into\n        the proper mh variables.  It then reads the next record from\n        either the corresponding input file or standard input.  If\n        there are no more records are available, the global variable\n        \"more_mh_recs\" is set to FALSE.\n        \n        Args:\n            first_rec: whether or not it's the first record\n        ";
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_43get_mh_rec = {"get_mh_rec", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_43get_mh_rec, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_42get_mh_rec};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_43get_mh_rec(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_first_rec = 0;
   int __pyx_lineno = 0;
@@ -15453,18 +15453,18 @@ static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_43get_mh_rec(PyObject *__pyx
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("get_mh_rec", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1290; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.get_mh_rec", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.get_mh_rec", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_6snobal_42get_mh_rec(__pyx_self, __pyx_v_self, __pyx_v_first_rec);
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_42get_mh_rec(__pyx_self, __pyx_v_self, __pyx_v_first_rec);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_42get_mh_rec(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_first_rec) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_42get_mh_rec(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_first_rec) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -15476,7 +15476,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_42get_mh_rec(CYTHON_UNUSED P
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_mh_rec", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":1302
+  /* "pysnobal/libsnobal/snobal.pyx":1302
  *         """
  * 
  *         if first_rec:             # <<<<<<<<<<<<<<
@@ -15486,7 +15486,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_42get_mh_rec(CYTHON_UNUSED P
   __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_first_rec); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1302; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (__pyx_t_1) {
 
-    /* "pysnobal/libsnobal/snobal.py":1303
+    /* "pysnobal/libsnobal/snobal.pyx":1303
  * 
  *         if first_rec:
  *             self.mh_prop_index = 0    # keep track of which mh property to read             # <<<<<<<<<<<<<<
@@ -15495,7 +15495,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_42get_mh_rec(CYTHON_UNUSED P
  */
     if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_mh_prop_index, __pyx_int_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1303; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "pysnobal/libsnobal/snobal.py":1305
+    /* "pysnobal/libsnobal/snobal.pyx":1305
  *             self.mh_prop_index = 0    # keep track of which mh property to read
  * 
  *             self.time_z = self.mh_prop.iloc[self.mh_prop_index].name * HR_TO_SEC             # <<<<<<<<<<<<<<
@@ -15525,7 +15525,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_42get_mh_rec(CYTHON_UNUSED P
     if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_time_z, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1305; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1306
+    /* "pysnobal/libsnobal/snobal.pyx":1306
  * 
  *             self.time_z = self.mh_prop.iloc[self.mh_prop_index].name * HR_TO_SEC
  *             self.z_u = self.mh_prop.iloc[self.mh_prop_index].z_u             # <<<<<<<<<<<<<<
@@ -15549,7 +15549,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_42get_mh_rec(CYTHON_UNUSED P
     if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_z_u, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1306; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1307
+    /* "pysnobal/libsnobal/snobal.pyx":1307
  *             self.time_z = self.mh_prop.iloc[self.mh_prop_index].name * HR_TO_SEC
  *             self.z_u = self.mh_prop.iloc[self.mh_prop_index].z_u
  *             self.z_T = self.mh_prop.iloc[self.mh_prop_index].z_T             # <<<<<<<<<<<<<<
@@ -15573,7 +15573,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_42get_mh_rec(CYTHON_UNUSED P
     if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_z_T, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1307; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1308
+    /* "pysnobal/libsnobal/snobal.pyx":1308
  *             self.z_u = self.mh_prop.iloc[self.mh_prop_index].z_u
  *             self.z_T = self.mh_prop.iloc[self.mh_prop_index].z_T
  *             self.z_0 = self.mh_prop.iloc[self.mh_prop_index].z_0             # <<<<<<<<<<<<<<
@@ -15597,7 +15597,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_42get_mh_rec(CYTHON_UNUSED P
     if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_z_0, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1308; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1309
+    /* "pysnobal/libsnobal/snobal.pyx":1309
  *             self.z_T = self.mh_prop.iloc[self.mh_prop_index].z_T
  *             self.z_0 = self.mh_prop.iloc[self.mh_prop_index].z_0
  *             self.z_g = self.mh_prop.iloc[self.mh_prop_index].z_g             # <<<<<<<<<<<<<<
@@ -15621,7 +15621,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_42get_mh_rec(CYTHON_UNUSED P
     if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_z_g, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1309; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1302
+    /* "pysnobal/libsnobal/snobal.pyx":1302
  *         """
  * 
  *         if first_rec:             # <<<<<<<<<<<<<<
@@ -15631,7 +15631,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_42get_mh_rec(CYTHON_UNUSED P
     goto __pyx_L3;
   }
 
-  /* "pysnobal/libsnobal/snobal.py":1312
+  /* "pysnobal/libsnobal/snobal.pyx":1312
  * 
  *         else:
  *             self.mh_prop_index += 1             # <<<<<<<<<<<<<<
@@ -15649,7 +15649,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_42get_mh_rec(CYTHON_UNUSED P
   }
   __pyx_L3:;
 
-  /* "pysnobal/libsnobal/snobal.py":1314
+  /* "pysnobal/libsnobal/snobal.pyx":1314
  *             self.mh_prop_index += 1
  * 
  *         self.more_mh_recs = False             # <<<<<<<<<<<<<<
@@ -15658,7 +15658,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_42get_mh_rec(CYTHON_UNUSED P
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_more_mh_recs, Py_False) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1314; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":1290
+  /* "pysnobal/libsnobal/snobal.pyx":1290
  * 
  * 
  *     def get_mh_rec(self, first_rec=False):             # <<<<<<<<<<<<<<
@@ -15673,7 +15673,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_42get_mh_rec(CYTHON_UNUSED P
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.get_mh_rec", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.get_mh_rec", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -15681,7 +15681,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_42get_mh_rec(CYTHON_UNUSED P
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":1317
+/* "pysnobal/libsnobal/snobal.pyx":1317
  * 
  * 
  *     def init_precip(self):             # <<<<<<<<<<<<<<
@@ -15690,21 +15690,21 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_42get_mh_rec(CYTHON_UNUSED P
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_45init_precip(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_8pysnobal_6snobal_6snobal_44init_precip[] = "\n        Returns a Pandas series that will contain all information about\n        current time step precip\n            \n        ";
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_6snobal_45init_precip = {"init_precip", (PyCFunction)__pyx_pw_8pysnobal_6snobal_6snobal_45init_precip, METH_O, __pyx_doc_8pysnobal_6snobal_6snobal_44init_precip};
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_45init_precip(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_45init_precip(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static char __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_44init_precip[] = "\n        Returns a Pandas series that will contain all information about\n        current time step precip\n            \n        ";
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_45init_precip = {"init_precip", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_45init_precip, METH_O, __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_44init_precip};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_45init_precip(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("init_precip (wrapper)", 0);
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_6snobal_44init_precip(__pyx_self, ((PyObject *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_44init_precip(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_44init_precip(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_44init_precip(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -15718,7 +15718,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_44init_precip(CYTHON_UNUSED 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("init_precip", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":1325
+  /* "pysnobal/libsnobal/snobal.pyx":1325
  * 
  * #         return pd.Series(index=['m_pp','m_snow','m_rain','z_snow'])
  *         return Map({key: 0.0 for key in ['m_pp','m_snow','m_rain','z_snow']})             # <<<<<<<<<<<<<<
@@ -15783,7 +15783,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_44init_precip(CYTHON_UNUSED 
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pysnobal/libsnobal/snobal.py":1317
+  /* "pysnobal/libsnobal/snobal.pyx":1317
  * 
  * 
  *     def init_precip(self):             # <<<<<<<<<<<<<<
@@ -15798,7 +15798,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_44init_precip(CYTHON_UNUSED 
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.init_precip", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.init_precip", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -15806,7 +15806,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_44init_precip(CYTHON_UNUSED 
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":1328
+/* "pysnobal/libsnobal/snobal.pyx":1328
  * 
  * 
  *     def init_snow(self, from_record=False):             # <<<<<<<<<<<<<<
@@ -15815,10 +15815,10 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_44init_precip(CYTHON_UNUSED 
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_47init_snow(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_8pysnobal_6snobal_6snobal_46init_snow[] = "\n        This routine initializes the properties for the snowcover.  It\n        determines the number of layers, their individual properties,\n        the cold content for the snowcover and its layers, and the\n        snowcover's water content.\n        \n        Initialize all the following values\n        h2o_sat, layer_count, max_h2o_vol, rho, T_s, T_s_0, T_s_l,\n        z_s, cc_s, cc_s_0, cc_s_l, h2o, h2o_max, h2o_total, h2o_vol, m_s, m_s_0, m_s_l\n        \n        Args:\n            from_record: whether or not to read from the snow.properties file,\n                else it will reinitialize based on \n        \n            z_s: depth of snowcover (m)\n            rho: density of snowcover (kg/m^3)\n            T_s: average temperature of snowcover (K)\n            T_s_0: temperature of surface layer of snowcover (K)\n            T_s_l: temperature of lower layer of snowcover (K)\n            h2o_sat:  % of liquid h2o saturation (0 to 1.0)\n            max_h2o_vol: maximum liquid h2o content as volume ratio:\n                        V_water/(V_snow - V_ice) (unitless)\n                        \n        ";
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_6snobal_47init_snow = {"init_snow", (PyCFunction)__pyx_pw_8pysnobal_6snobal_6snobal_47init_snow, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8pysnobal_6snobal_6snobal_46init_snow};
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_47init_snow(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_47init_snow(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_46init_snow[] = "\n        This routine initializes the properties for the snowcover.  It\n        determines the number of layers, their individual properties,\n        the cold content for the snowcover and its layers, and the\n        snowcover's water content.\n        \n        Initialize all the following values\n        h2o_sat, layer_count, max_h2o_vol, rho, T_s, T_s_0, T_s_l,\n        z_s, cc_s, cc_s_0, cc_s_l, h2o, h2o_max, h2o_total, h2o_vol, m_s, m_s_0, m_s_l\n        \n        Args:\n            from_record: whether or not to read from the snow.properties file,\n                else it will reinitialize based on \n        \n            z_s: depth of snowcover (m)\n            rho: density of snowcover (kg/m^3)\n            T_s: average temperature of snowcover (K)\n            T_s_0: temperature of surface layer of snowcover (K)\n            T_s_l: temperature of lower layer of snowcover (K)\n            h2o_sat:  % of liquid h2o saturation (0 to 1.0)\n            max_h2o_vol: maximum liquid h2o content as volume ratio:\n                        V_water/(V_snow - V_ice) (unitless)\n                        \n        ";
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_47init_snow = {"init_snow", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_47init_snow, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_46init_snow};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_47init_snow(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_from_record = 0;
   int __pyx_lineno = 0;
@@ -15869,18 +15869,18 @@ static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_47init_snow(PyObject *__pyx_
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("init_snow", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1328; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.init_snow", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.init_snow", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(__pyx_self, __pyx_v_self, __pyx_v_from_record);
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_46init_snow(__pyx_self, __pyx_v_self, __pyx_v_from_record);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_from_record) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_from_record) {
   PyObject *__pyx_v_cols = NULL;
   PyObject *__pyx_v_col = NULL;
   PyObject *__pyx_v_rho_dry = NULL;
@@ -15902,7 +15902,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("init_snow", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":1354
+  /* "pysnobal/libsnobal/snobal.pyx":1354
  *         """
  * 
  *         cols = ['h2o_sat', 'layer_count', 'max_h2o_vol', 'rho',             # <<<<<<<<<<<<<<
@@ -15974,7 +15974,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
   __pyx_v_cols = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1362
+  /* "pysnobal/libsnobal/snobal.pyx":1362
  * 
  *         # set the values from the initial snow properties
  *         if from_record:             # <<<<<<<<<<<<<<
@@ -15984,7 +15984,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
   __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_from_record); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1362; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (__pyx_t_2) {
 
-    /* "pysnobal/libsnobal/snobal.py":1368
+    /* "pysnobal/libsnobal/snobal.pyx":1368
  * 
  *             # create a dict instead
  *             self.snow = Map({key: 0.0 for key in cols})             # <<<<<<<<<<<<<<
@@ -16047,7 +16047,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
     if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_snow, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1368; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1370
+    /* "pysnobal/libsnobal/snobal.pyx":1370
  *             self.snow = Map({key: 0.0 for key in cols})
  * 
  *             self.snow.z_s = self.snow_records.iloc[self.snow_prop_index].z_s             # <<<<<<<<<<<<<<
@@ -16074,7 +16074,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1371
+    /* "pysnobal/libsnobal/snobal.pyx":1371
  * 
  *             self.snow.z_s = self.snow_records.iloc[self.snow_prop_index].z_s
  *             self.snow.rho = self.snow_records.iloc[self.snow_prop_index].rho             # <<<<<<<<<<<<<<
@@ -16101,7 +16101,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1372
+    /* "pysnobal/libsnobal/snobal.pyx":1372
  *             self.snow.z_s = self.snow_records.iloc[self.snow_prop_index].z_s
  *             self.snow.rho = self.snow_records.iloc[self.snow_prop_index].rho
  *             self.snow.T_s_0 = self.snow_records.iloc[self.snow_prop_index].T_s_0             # <<<<<<<<<<<<<<
@@ -16128,7 +16128,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1373
+    /* "pysnobal/libsnobal/snobal.pyx":1373
  *             self.snow.rho = self.snow_records.iloc[self.snow_prop_index].rho
  *             self.snow.T_s_0 = self.snow_records.iloc[self.snow_prop_index].T_s_0
  *             self.snow.T_s = self.snow_records.iloc[self.snow_prop_index].T_s             # <<<<<<<<<<<<<<
@@ -16155,7 +16155,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1374
+    /* "pysnobal/libsnobal/snobal.pyx":1374
  *             self.snow.T_s_0 = self.snow_records.iloc[self.snow_prop_index].T_s_0
  *             self.snow.T_s = self.snow_records.iloc[self.snow_prop_index].T_s
  *             self.snow.h2o_sat = self.snow_records.iloc[self.snow_prop_index].h2o_sat             # <<<<<<<<<<<<<<
@@ -16182,7 +16182,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1375
+    /* "pysnobal/libsnobal/snobal.pyx":1375
  *             self.snow.T_s = self.snow_records.iloc[self.snow_prop_index].T_s
  *             self.snow.h2o_sat = self.snow_records.iloc[self.snow_prop_index].h2o_sat
  *             self.snow.max_h2o_vol = self.params['max_h2o_vol']             # <<<<<<<<<<<<<<
@@ -16200,7 +16200,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1362
+    /* "pysnobal/libsnobal/snobal.pyx":1362
  * 
  *         # set the values from the initial snow properties
  *         if from_record:             # <<<<<<<<<<<<<<
@@ -16210,7 +16210,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
     goto __pyx_L3;
   }
 
-  /* "pysnobal/libsnobal/snobal.py":1378
+  /* "pysnobal/libsnobal/snobal.pyx":1378
  * 
  *         else:
  *             try:             # <<<<<<<<<<<<<<
@@ -16225,7 +16225,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
       __Pyx_XGOTREF(__pyx_t_10);
       /*try:*/ {
 
-        /* "pysnobal/libsnobal/snobal.py":1379
+        /* "pysnobal/libsnobal/snobal.pyx":1379
  *         else:
  *             try:
  *                 getattr(self, 'snow')             # <<<<<<<<<<<<<<
@@ -16236,7 +16236,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-        /* "pysnobal/libsnobal/snobal.py":1378
+        /* "pysnobal/libsnobal/snobal.pyx":1378
  * 
  *         else:
  *             try:             # <<<<<<<<<<<<<<
@@ -16255,7 +16255,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":1380
+      /* "pysnobal/libsnobal/snobal.pyx":1380
  *             try:
  *                 getattr(self, 'snow')
  *             except:             # <<<<<<<<<<<<<<
@@ -16263,13 +16263,13 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
  * 
  */
       /*except:*/ {
-        __Pyx_AddTraceback("pysnobal.snobal.snobal.init_snow", __pyx_clineno, __pyx_lineno, __pyx_filename);
+        __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.init_snow", __pyx_clineno, __pyx_lineno, __pyx_filename);
         if (__Pyx_GetException(&__pyx_t_3, &__pyx_t_7, &__pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1380; __pyx_clineno = __LINE__; goto __pyx_L12_except_error;}
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_GOTREF(__pyx_t_1);
 
-        /* "pysnobal/libsnobal/snobal.py":1381
+        /* "pysnobal/libsnobal/snobal.pyx":1381
  *                 getattr(self, 'snow')
  *             except:
  *                 raise Exception('The snow has not been intitialized')             # <<<<<<<<<<<<<<
@@ -16284,7 +16284,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
       }
       __pyx_L12_except_error:;
 
-      /* "pysnobal/libsnobal/snobal.py":1378
+      /* "pysnobal/libsnobal/snobal.pyx":1378
  * 
  *         else:
  *             try:             # <<<<<<<<<<<<<<
@@ -16301,7 +16301,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
   }
   __pyx_L3:;
 
-  /* "pysnobal/libsnobal/snobal.py":1384
+  /* "pysnobal/libsnobal/snobal.pyx":1384
  * 
  *         # initialize the snowpack
  *         self.snow.m_s = self.snow.rho * self.snow.z_s             # <<<<<<<<<<<<<<
@@ -16328,7 +16328,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1387
+  /* "pysnobal/libsnobal/snobal.pyx":1387
  * 
  *         # determine the number of layers
  *         self.calc_layers()             # <<<<<<<<<<<<<<
@@ -16357,7 +16357,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1389
+  /* "pysnobal/libsnobal/snobal.pyx":1389
  *         self.calc_layers()
  * 
  *         if self.snow.layer_count == 0:             # <<<<<<<<<<<<<<
@@ -16376,7 +16376,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (__pyx_t_2) {
 
-    /* "pysnobal/libsnobal/snobal.py":1393
+    /* "pysnobal/libsnobal/snobal.pyx":1393
  *             # So turn this little bit of mass into water
  * 
  *             if self.snow.m_s > 0.0:             # <<<<<<<<<<<<<<
@@ -16394,7 +16394,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     if (__pyx_t_2) {
 
-      /* "pysnobal/libsnobal/snobal.py":1394
+      /* "pysnobal/libsnobal/snobal.pyx":1394
  * 
  *             if self.snow.m_s > 0.0:
  *                 self.snow.h2o_total += self.snow.m_s             # <<<<<<<<<<<<<<
@@ -16418,7 +16418,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":1393
+      /* "pysnobal/libsnobal/snobal.pyx":1393
  *             # So turn this little bit of mass into water
  * 
  *             if self.snow.m_s > 0.0:             # <<<<<<<<<<<<<<
@@ -16427,7 +16427,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
  */
     }
 
-    /* "pysnobal/libsnobal/snobal.py":1396
+    /* "pysnobal/libsnobal/snobal.pyx":1396
  *                 self.snow.h2o_total += self.snow.m_s
  * 
  *             for col in ['rho','m_s','cc_s','m_s_0','cc_s_0','m_s_l','cc_s_l','h2o_vol','h2o','h2o_max','h2o_sat']:             # <<<<<<<<<<<<<<
@@ -16446,7 +16446,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
       __Pyx_XDECREF_SET(__pyx_v_col, __pyx_t_7);
       __pyx_t_7 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":1397
+      /* "pysnobal/libsnobal/snobal.pyx":1397
  * 
  *             for col in ['rho','m_s','cc_s','m_s_0','cc_s_0','m_s_l','cc_s_l','h2o_vol','h2o','h2o_max','h2o_sat']:
  *                 self.snow[col] = 0             # <<<<<<<<<<<<<<
@@ -16458,7 +16458,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
       if (unlikely(PyObject_SetItem(__pyx_t_7, __pyx_v_col, __pyx_int_0) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1397; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":1396
+      /* "pysnobal/libsnobal/snobal.pyx":1396
  *                 self.snow.h2o_total += self.snow.m_s
  * 
  *             for col in ['rho','m_s','cc_s','m_s_0','cc_s_0','m_s_l','cc_s_l','h2o_vol','h2o','h2o_max','h2o_sat']:             # <<<<<<<<<<<<<<
@@ -16468,7 +16468,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1402
+    /* "pysnobal/libsnobal/snobal.pyx":1402
  *             # (as degrees K) instead of 0 K to keep quantization
  *             # range in output image smaller.
  *             for col in ['T_s', 'T_s_0', 'T_s_l']:             # <<<<<<<<<<<<<<
@@ -16487,7 +16487,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
       __Pyx_XDECREF_SET(__pyx_v_col, __pyx_t_7);
       __pyx_t_7 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":1403
+      /* "pysnobal/libsnobal/snobal.pyx":1403
  *             # range in output image smaller.
  *             for col in ['T_s', 'T_s_0', 'T_s_l']:
  *                 self.snow[col] = MIN_SNOW_TEMP + FREEZE             # <<<<<<<<<<<<<<
@@ -16508,7 +16508,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":1402
+      /* "pysnobal/libsnobal/snobal.pyx":1402
  *             # (as degrees K) instead of 0 K to keep quantization
  *             # range in output image smaller.
  *             for col in ['T_s', 'T_s_0', 'T_s_l']:             # <<<<<<<<<<<<<<
@@ -16518,7 +16518,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1389
+    /* "pysnobal/libsnobal/snobal.pyx":1389
  *         self.calc_layers()
  * 
  *         if self.snow.layer_count == 0:             # <<<<<<<<<<<<<<
@@ -16528,7 +16528,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
     goto __pyx_L20;
   }
 
-  /* "pysnobal/libsnobal/snobal.py":1407
+  /* "pysnobal/libsnobal/snobal.pyx":1407
  *         else:
  *             # Compute the specific mass and cold content for each layer
  *             self.layer_mass()             # <<<<<<<<<<<<<<
@@ -16558,7 +16558,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1408
+    /* "pysnobal/libsnobal/snobal.pyx":1408
  *             # Compute the specific mass and cold content for each layer
  *             self.layer_mass()
  *             self.snow.cc_s_0 = self.cold_content(self.snow.T_s_0, self.snow.m_s_0)             # <<<<<<<<<<<<<<
@@ -16610,7 +16610,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1410
+    /* "pysnobal/libsnobal/snobal.pyx":1410
  *             self.snow.cc_s_0 = self.cold_content(self.snow.T_s_0, self.snow.m_s_0)
  * 
  *             if self.snow.layer_count == 2:             # <<<<<<<<<<<<<<
@@ -16629,7 +16629,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (__pyx_t_2) {
 
-      /* "pysnobal/libsnobal/snobal.py":1411
+      /* "pysnobal/libsnobal/snobal.pyx":1411
  * 
  *             if self.snow.layer_count == 2:
  *                 self.snow.cc_s_l = self.cold_content(self.snow.T_s_l, self.snow.m_s_l)             # <<<<<<<<<<<<<<
@@ -16681,7 +16681,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":1410
+      /* "pysnobal/libsnobal/snobal.pyx":1410
  *             self.snow.cc_s_0 = self.cold_content(self.snow.T_s_0, self.snow.m_s_0)
  * 
  *             if self.snow.layer_count == 2:             # <<<<<<<<<<<<<<
@@ -16691,7 +16691,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
       goto __pyx_L26;
     }
 
-    /* "pysnobal/libsnobal/snobal.py":1413
+    /* "pysnobal/libsnobal/snobal.pyx":1413
  *                 self.snow.cc_s_l = self.cold_content(self.snow.T_s_l, self.snow.m_s_l)
  *             else:
  *                 self.snow.T_s_l = MIN_SNOW_TEMP + FREEZE             # <<<<<<<<<<<<<<
@@ -16713,7 +16713,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":1414
+      /* "pysnobal/libsnobal/snobal.pyx":1414
  *             else:
  *                 self.snow.T_s_l = MIN_SNOW_TEMP + FREEZE
  *                 self.snow.cc_s_l = 0             # <<<<<<<<<<<<<<
@@ -16727,7 +16727,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
     }
     __pyx_L26:;
 
-    /* "pysnobal/libsnobal/snobal.py":1418
+    /* "pysnobal/libsnobal/snobal.pyx":1418
  *             # Compute liquid water content as volume ratio, and
  *             # snow density without water
  *             self.snow.h2o_vol = self.snow.h2o_sat * self.snow.max_h2o_vol             # <<<<<<<<<<<<<<
@@ -16754,7 +16754,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1419
+    /* "pysnobal/libsnobal/snobal.pyx":1419
  *             # snow density without water
  *             self.snow.h2o_vol = self.snow.h2o_sat * self.snow.max_h2o_vol
  *             rho_dry = DRY_SNO_RHO(self.snow.rho, self.snow.h2o_vol)             # <<<<<<<<<<<<<<
@@ -16803,7 +16803,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
     __pyx_v_rho_dry = __pyx_t_3;
     __pyx_t_3 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1423
+    /* "pysnobal/libsnobal/snobal.pyx":1423
  *             # Determine the maximum liquid water content (as specific mass)
  *             # and the actual liquid water content (as specific mass)
  *             self.snow.h2o_max = H2O_LEFT(self.snow.z_s, rho_dry, self.snow.max_h2o_vol)             # <<<<<<<<<<<<<<
@@ -16858,7 +16858,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1424
+    /* "pysnobal/libsnobal/snobal.pyx":1424
  *             # and the actual liquid water content (as specific mass)
  *             self.snow.h2o_max = H2O_LEFT(self.snow.z_s, rho_dry, self.snow.max_h2o_vol)
  *             self.snow.h2o = self.snow.h2o_sat * self.snow.h2o_max             # <<<<<<<<<<<<<<
@@ -16887,7 +16887,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
   }
   __pyx_L20:;
 
-  /* "pysnobal/libsnobal/snobal.py":1328
+  /* "pysnobal/libsnobal/snobal.pyx":1328
  * 
  * 
  *     def init_snow(self, from_record=False):             # <<<<<<<<<<<<<<
@@ -16905,7 +16905,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_11);
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.init_snow", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.init_snow", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_cols);
@@ -16916,7 +16916,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":1427
+/* "pysnobal/libsnobal/snobal.pyx":1427
  * 
  * 
  *     def init_em(self):             # <<<<<<<<<<<<<<
@@ -16925,21 +16925,21 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_46init_snow(CYTHON_UNUSED Py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_49init_em(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_8pysnobal_6snobal_6snobal_48init_em[] = "\n        Initialize a Pandas Series for the energy and max fluxes\n        ";
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_6snobal_49init_em = {"init_em", (PyCFunction)__pyx_pw_8pysnobal_6snobal_6snobal_49init_em, METH_O, __pyx_doc_8pysnobal_6snobal_6snobal_48init_em};
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_49init_em(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_49init_em(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static char __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_48init_em[] = "\n        Initialize a Pandas Series for the energy and max fluxes\n        ";
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_49init_em = {"init_em", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_49init_em, METH_O, __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_48init_em};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_49init_em(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("init_em (wrapper)", 0);
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_6snobal_48init_em(__pyx_self, ((PyObject *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_48init_em(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_48init_em(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_48init_em(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_v_col = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -16954,7 +16954,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_48init_em(CYTHON_UNUSED PyOb
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("init_em", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":1432
+  /* "pysnobal/libsnobal/snobal.pyx":1432
  *         """
  * 
  *         col = [             # <<<<<<<<<<<<<<
@@ -17032,7 +17032,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_48init_em(CYTHON_UNUSED PyOb
   __pyx_v_col = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1465
+  /* "pysnobal/libsnobal/snobal.pyx":1465
  * 
  * #         self.em = pd.Series(data=np.zeros(len(col)), index=col)
  *         self.em = Map({key: 0.0 for key in col})             # <<<<<<<<<<<<<<
@@ -17095,7 +17095,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_48init_em(CYTHON_UNUSED PyOb
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_em, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1465; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1427
+  /* "pysnobal/libsnobal/snobal.pyx":1427
  * 
  * 
  *     def init_em(self):             # <<<<<<<<<<<<<<
@@ -17112,7 +17112,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_48init_em(CYTHON_UNUSED PyOb
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.init_em", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.init_em", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_col);
@@ -17121,7 +17121,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_48init_em(CYTHON_UNUSED PyOb
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":1471
+/* "pysnobal/libsnobal/snobal.pyx":1471
  * 
  * #     @profile
  *     def calc_layers(self):             # <<<<<<<<<<<<<<
@@ -17130,21 +17130,21 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_48init_em(CYTHON_UNUSED PyOb
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_51calc_layers(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_8pysnobal_6snobal_6snobal_50calc_layers[] = "\n        This routine determines the # of layers in the snowcover based its\n        depth and mass.  Usually, there are are 2 layers: the surface (active)\n        and the lower layer.  The depth of the surface layer is set to the\n        maximum depth for the surface layer (variable \"max_z_s_0\").  The\n        remaining depth constitutes the lower layer.  The routine checks\n        to see if the mass of this lower layer is above the minimum threshold\n        (i.e., the mass threshold for the small run timestep).  If not,\n        the surface layer is the whole snowcover, and there's no lower\n        layer.\n        \n        ";
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_6snobal_51calc_layers = {"calc_layers", (PyCFunction)__pyx_pw_8pysnobal_6snobal_6snobal_51calc_layers, METH_O, __pyx_doc_8pysnobal_6snobal_6snobal_50calc_layers};
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_51calc_layers(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_51calc_layers(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static char __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_50calc_layers[] = "\n        This routine determines the # of layers in the snowcover based its\n        depth and mass.  Usually, there are are 2 layers: the surface (active)\n        and the lower layer.  The depth of the surface layer is set to the\n        maximum depth for the surface layer (variable \"max_z_s_0\").  The\n        remaining depth constitutes the lower layer.  The routine checks\n        to see if the mass of this lower layer is above the minimum threshold\n        (i.e., the mass threshold for the small run timestep).  If not,\n        the surface layer is the whole snowcover, and there's no lower\n        layer.\n        \n        ";
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_51calc_layers = {"calc_layers", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_51calc_layers, METH_O, __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_50calc_layers};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_51calc_layers(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("calc_layers (wrapper)", 0);
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_6snobal_50calc_layers(__pyx_self, ((PyObject *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_50calc_layers(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_50calc_layers(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_50calc_layers(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   long __pyx_v_layer_count;
   PyObject *__pyx_v_z_s = NULL;
   PyObject *__pyx_v_z_s_0 = NULL;
@@ -17161,7 +17161,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_50calc_layers(CYTHON_UNUSED 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("calc_layers", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":1485
+  /* "pysnobal/libsnobal/snobal.pyx":1485
  *         """
  * 
  *         if self.snow.m_s <= self.tstep_info[SMALL_TSTEP]['threshold']:             # <<<<<<<<<<<<<<
@@ -17191,7 +17191,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_50calc_layers(CYTHON_UNUSED 
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   if (__pyx_t_5) {
 
-    /* "pysnobal/libsnobal/snobal.py":1488
+    /* "pysnobal/libsnobal/snobal.pyx":1488
  *             # less than minimum layer mass, so treat as no snowcover
  * 
  *             layer_count = 0             # <<<<<<<<<<<<<<
@@ -17200,7 +17200,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_50calc_layers(CYTHON_UNUSED 
  */
     __pyx_v_layer_count = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1489
+    /* "pysnobal/libsnobal/snobal.pyx":1489
  * 
  *             layer_count = 0
  *             z_s = z_s_0 = z_s_l = 0             # <<<<<<<<<<<<<<
@@ -17214,7 +17214,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_50calc_layers(CYTHON_UNUSED 
     __Pyx_INCREF(__pyx_int_0);
     __pyx_v_z_s_l = __pyx_int_0;
 
-    /* "pysnobal/libsnobal/snobal.py":1485
+    /* "pysnobal/libsnobal/snobal.pyx":1485
  *         """
  * 
  *         if self.snow.m_s <= self.tstep_info[SMALL_TSTEP]['threshold']:             # <<<<<<<<<<<<<<
@@ -17224,7 +17224,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_50calc_layers(CYTHON_UNUSED 
     goto __pyx_L3;
   }
 
-  /* "pysnobal/libsnobal/snobal.py":1491
+  /* "pysnobal/libsnobal/snobal.pyx":1491
  *             z_s = z_s_0 = z_s_l = 0
  * 
  *         elif self.snow.z_s < self.params['max_z_s_0']:             # <<<<<<<<<<<<<<
@@ -17248,7 +17248,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_50calc_layers(CYTHON_UNUSED 
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   if (__pyx_t_5) {
 
-    /* "pysnobal/libsnobal/snobal.py":1495
+    /* "pysnobal/libsnobal/snobal.pyx":1495
  *             # so just 1 layer: surface layer
  * 
  *             layer_count = 1             # <<<<<<<<<<<<<<
@@ -17257,7 +17257,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_50calc_layers(CYTHON_UNUSED 
  */
     __pyx_v_layer_count = 1;
 
-    /* "pysnobal/libsnobal/snobal.py":1496
+    /* "pysnobal/libsnobal/snobal.pyx":1496
  * 
  *             layer_count = 1
  *             z_s_0 = self.snow.z_s             # <<<<<<<<<<<<<<
@@ -17272,7 +17272,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_50calc_layers(CYTHON_UNUSED 
     __pyx_v_z_s_0 = __pyx_t_2;
     __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1497
+    /* "pysnobal/libsnobal/snobal.pyx":1497
  *             layer_count = 1
  *             z_s_0 = self.snow.z_s
  *             z_s_l = 0             # <<<<<<<<<<<<<<
@@ -17282,7 +17282,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_50calc_layers(CYTHON_UNUSED 
     __Pyx_INCREF(__pyx_int_0);
     __pyx_v_z_s_l = __pyx_int_0;
 
-    /* "pysnobal/libsnobal/snobal.py":1498
+    /* "pysnobal/libsnobal/snobal.pyx":1498
  *             z_s_0 = self.snow.z_s
  *             z_s_l = 0
  *             z_s = z_s_0             # <<<<<<<<<<<<<<
@@ -17292,7 +17292,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_50calc_layers(CYTHON_UNUSED 
     __Pyx_INCREF(__pyx_v_z_s_0);
     __pyx_v_z_s = __pyx_v_z_s_0;
 
-    /* "pysnobal/libsnobal/snobal.py":1491
+    /* "pysnobal/libsnobal/snobal.pyx":1491
  *             z_s = z_s_0 = z_s_l = 0
  * 
  *         elif self.snow.z_s < self.params['max_z_s_0']:             # <<<<<<<<<<<<<<
@@ -17302,7 +17302,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_50calc_layers(CYTHON_UNUSED 
     goto __pyx_L3;
   }
 
-  /* "pysnobal/libsnobal/snobal.py":1503
+  /* "pysnobal/libsnobal/snobal.pyx":1503
  *             # enough depth for both layers
  * 
  *             layer_count = 2             # <<<<<<<<<<<<<<
@@ -17312,7 +17312,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_50calc_layers(CYTHON_UNUSED 
   /*else*/ {
     __pyx_v_layer_count = 2;
 
-    /* "pysnobal/libsnobal/snobal.py":1504
+    /* "pysnobal/libsnobal/snobal.pyx":1504
  * 
  *             layer_count = 2
  *             z_s_0 = self.params['max_z_s_0']             # <<<<<<<<<<<<<<
@@ -17327,7 +17327,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_50calc_layers(CYTHON_UNUSED 
     __pyx_v_z_s_0 = __pyx_t_4;
     __pyx_t_4 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1505
+    /* "pysnobal/libsnobal/snobal.pyx":1505
  *             layer_count = 2
  *             z_s_0 = self.params['max_z_s_0']
  *             z_s_l = self.snow.z_s - z_s_0             # <<<<<<<<<<<<<<
@@ -17345,7 +17345,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_50calc_layers(CYTHON_UNUSED 
     __pyx_v_z_s_l = __pyx_t_4;
     __pyx_t_4 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1506
+    /* "pysnobal/libsnobal/snobal.pyx":1506
  *             z_s_0 = self.params['max_z_s_0']
  *             z_s_l = self.snow.z_s - z_s_0
  *             z_s = z_s_0 + z_s_l # not really needed but needed for below             # <<<<<<<<<<<<<<
@@ -17357,7 +17357,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_50calc_layers(CYTHON_UNUSED 
     __pyx_v_z_s = __pyx_t_4;
     __pyx_t_4 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1510
+    /* "pysnobal/libsnobal/snobal.pyx":1510
  *             # However, make sure there's enough MASS for the lower
  *             # layer.  If not, then there's only 1 layer
  *             if z_s_l * self.snow.rho < self.tstep_info[SMALL_TSTEP]['threshold']:             # <<<<<<<<<<<<<<
@@ -17390,7 +17390,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_50calc_layers(CYTHON_UNUSED 
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (__pyx_t_5) {
 
-      /* "pysnobal/libsnobal/snobal.py":1511
+      /* "pysnobal/libsnobal/snobal.pyx":1511
  *             # layer.  If not, then there's only 1 layer
  *             if z_s_l * self.snow.rho < self.tstep_info[SMALL_TSTEP]['threshold']:
  *                 layer_count = 1             # <<<<<<<<<<<<<<
@@ -17399,7 +17399,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_50calc_layers(CYTHON_UNUSED 
  */
       __pyx_v_layer_count = 1;
 
-      /* "pysnobal/libsnobal/snobal.py":1512
+      /* "pysnobal/libsnobal/snobal.pyx":1512
  *             if z_s_l * self.snow.rho < self.tstep_info[SMALL_TSTEP]['threshold']:
  *                 layer_count = 1
  *                 z_s_0 = self.snow.z_s             # <<<<<<<<<<<<<<
@@ -17414,7 +17414,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_50calc_layers(CYTHON_UNUSED 
       __Pyx_DECREF_SET(__pyx_v_z_s_0, __pyx_t_3);
       __pyx_t_3 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":1513
+      /* "pysnobal/libsnobal/snobal.pyx":1513
  *                 layer_count = 1
  *                 z_s_0 = self.snow.z_s
  *                 z_s_l = 0             # <<<<<<<<<<<<<<
@@ -17424,7 +17424,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_50calc_layers(CYTHON_UNUSED 
       __Pyx_INCREF(__pyx_int_0);
       __Pyx_DECREF_SET(__pyx_v_z_s_l, __pyx_int_0);
 
-      /* "pysnobal/libsnobal/snobal.py":1510
+      /* "pysnobal/libsnobal/snobal.pyx":1510
  *             # However, make sure there's enough MASS for the lower
  *             # layer.  If not, then there's only 1 layer
  *             if z_s_l * self.snow.rho < self.tstep_info[SMALL_TSTEP]['threshold']:             # <<<<<<<<<<<<<<
@@ -17435,7 +17435,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_50calc_layers(CYTHON_UNUSED 
   }
   __pyx_L3:;
 
-  /* "pysnobal/libsnobal/snobal.py":1516
+  /* "pysnobal/libsnobal/snobal.pyx":1516
  * 
  * 
  *         self.snow.layer_count = layer_count             # <<<<<<<<<<<<<<
@@ -17450,7 +17450,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_50calc_layers(CYTHON_UNUSED 
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1517
+  /* "pysnobal/libsnobal/snobal.pyx":1517
  * 
  *         self.snow.layer_count = layer_count
  *         self.snow.z_s = z_s             # <<<<<<<<<<<<<<
@@ -17462,7 +17462,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_50calc_layers(CYTHON_UNUSED 
   if (__Pyx_PyObject_SetAttrStr(__pyx_t_1, __pyx_n_s_z_s, __pyx_v_z_s) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1517; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1518
+  /* "pysnobal/libsnobal/snobal.pyx":1518
  *         self.snow.layer_count = layer_count
  *         self.snow.z_s = z_s
  *         self.snow.z_s_0 = z_s_0             # <<<<<<<<<<<<<<
@@ -17474,7 +17474,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_50calc_layers(CYTHON_UNUSED 
   if (__Pyx_PyObject_SetAttrStr(__pyx_t_1, __pyx_n_s_z_s_0, __pyx_v_z_s_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1518; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1519
+  /* "pysnobal/libsnobal/snobal.pyx":1519
  *         self.snow.z_s = z_s
  *         self.snow.z_s_0 = z_s_0
  *         self.snow.z_s_l = z_s_l             # <<<<<<<<<<<<<<
@@ -17486,7 +17486,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_50calc_layers(CYTHON_UNUSED 
   if (__Pyx_PyObject_SetAttrStr(__pyx_t_1, __pyx_n_s_z_s_l, __pyx_v_z_s_l) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1519; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1471
+  /* "pysnobal/libsnobal/snobal.pyx":1471
  * 
  * #     @profile
  *     def calc_layers(self):             # <<<<<<<<<<<<<<
@@ -17502,7 +17502,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_50calc_layers(CYTHON_UNUSED 
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.calc_layers", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.calc_layers", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_z_s);
@@ -17513,7 +17513,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_50calc_layers(CYTHON_UNUSED 
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":1523
+/* "pysnobal/libsnobal/snobal.pyx":1523
  * 
  * #     @profile
  *     def layer_mass(self):             # <<<<<<<<<<<<<<
@@ -17522,21 +17522,21 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_50calc_layers(CYTHON_UNUSED 
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_53layer_mass(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_8pysnobal_6snobal_6snobal_52layer_mass[] = "\n        This routine computes the specific mass for each snow layer in\n        the snowcover.  A layer's mass is based its depth and the\n        average snowcover density.\n        ";
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_6snobal_53layer_mass = {"layer_mass", (PyCFunction)__pyx_pw_8pysnobal_6snobal_6snobal_53layer_mass, METH_O, __pyx_doc_8pysnobal_6snobal_6snobal_52layer_mass};
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_53layer_mass(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_53layer_mass(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static char __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_52layer_mass[] = "\n        This routine computes the specific mass for each snow layer in\n        the snowcover.  A layer's mass is based its depth and the\n        average snowcover density.\n        ";
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_53layer_mass = {"layer_mass", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_53layer_mass, METH_O, __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_52layer_mass};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_53layer_mass(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("layer_mass (wrapper)", 0);
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_6snobal_52layer_mass(__pyx_self, ((PyObject *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_52layer_mass(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_52layer_mass(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_52layer_mass(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -17548,7 +17548,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_52layer_mass(CYTHON_UNUSED P
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("layer_mass", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":1530
+  /* "pysnobal/libsnobal/snobal.pyx":1530
  *         """
  * 
  *         if self.snow.layer_count == 0:             # <<<<<<<<<<<<<<
@@ -17567,7 +17567,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_52layer_mass(CYTHON_UNUSED P
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_3) {
 
-    /* "pysnobal/libsnobal/snobal.py":1531
+    /* "pysnobal/libsnobal/snobal.pyx":1531
  * 
  *         if self.snow.layer_count == 0:
  *             self.snow.m_s_0 = 0             # <<<<<<<<<<<<<<
@@ -17579,7 +17579,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_52layer_mass(CYTHON_UNUSED P
     if (__Pyx_PyObject_SetAttrStr(__pyx_t_1, __pyx_n_s_m_s_0, __pyx_int_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1531; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1532
+    /* "pysnobal/libsnobal/snobal.pyx":1532
  *         if self.snow.layer_count == 0:
  *             self.snow.m_s_0 = 0
  *             self.snow.m_s_l = 0             # <<<<<<<<<<<<<<
@@ -17591,7 +17591,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_52layer_mass(CYTHON_UNUSED P
     if (__Pyx_PyObject_SetAttrStr(__pyx_t_1, __pyx_n_s_m_s_l, __pyx_int_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1532; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1530
+    /* "pysnobal/libsnobal/snobal.pyx":1530
  *         """
  * 
  *         if self.snow.layer_count == 0:             # <<<<<<<<<<<<<<
@@ -17601,7 +17601,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_52layer_mass(CYTHON_UNUSED P
     goto __pyx_L3;
   }
 
-  /* "pysnobal/libsnobal/snobal.py":1536
+  /* "pysnobal/libsnobal/snobal.pyx":1536
  *         else:
  *             # layer count is 1 or 2
  *             self.snow.m_s_0 = self.snow.rho * self.snow.z_s_0             # <<<<<<<<<<<<<<
@@ -17629,7 +17629,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_52layer_mass(CYTHON_UNUSED P
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1538
+    /* "pysnobal/libsnobal/snobal.pyx":1538
  *             self.snow.m_s_0 = self.snow.rho * self.snow.z_s_0
  * 
  *             if self.snow.layer_count == 2:             # <<<<<<<<<<<<<<
@@ -17648,7 +17648,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_52layer_mass(CYTHON_UNUSED P
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     if (__pyx_t_3) {
 
-      /* "pysnobal/libsnobal/snobal.py":1539
+      /* "pysnobal/libsnobal/snobal.pyx":1539
  * 
  *             if self.snow.layer_count == 2:
  *                 self.snow.m_s_l = self.snow.rho * self.snow.z_s_l             # <<<<<<<<<<<<<<
@@ -17675,7 +17675,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_52layer_mass(CYTHON_UNUSED P
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":1538
+      /* "pysnobal/libsnobal/snobal.pyx":1538
  *             self.snow.m_s_0 = self.snow.rho * self.snow.z_s_0
  * 
  *             if self.snow.layer_count == 2:             # <<<<<<<<<<<<<<
@@ -17685,7 +17685,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_52layer_mass(CYTHON_UNUSED P
       goto __pyx_L4;
     }
 
-    /* "pysnobal/libsnobal/snobal.py":1541
+    /* "pysnobal/libsnobal/snobal.pyx":1541
  *                 self.snow.m_s_l = self.snow.rho * self.snow.z_s_l
  *             else:
  *                 self.snow.m_s_l = 0             # <<<<<<<<<<<<<<
@@ -17702,7 +17702,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_52layer_mass(CYTHON_UNUSED P
   }
   __pyx_L3:;
 
-  /* "pysnobal/libsnobal/snobal.py":1523
+  /* "pysnobal/libsnobal/snobal.pyx":1523
  * 
  * #     @profile
  *     def layer_mass(self):             # <<<<<<<<<<<<<<
@@ -17717,7 +17717,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_52layer_mass(CYTHON_UNUSED P
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.layer_mass", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.layer_mass", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -17725,7 +17725,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_52layer_mass(CYTHON_UNUSED P
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":1544
+/* "pysnobal/libsnobal/snobal.pyx":1544
  * 
  * 
  *     def cold_content(self, temp, mass):             # <<<<<<<<<<<<<<
@@ -17734,10 +17734,10 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_52layer_mass(CYTHON_UNUSED P
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_55cold_content(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_8pysnobal_6snobal_6snobal_54cold_content[] = "\n        This routine calculates the cold content for a layer (i.e., the\n        energy required to bring its temperature to freezing) from the\n        layer's temperature and specific mass.\n        \n        Args:\n            temp: temperature of layer \n            mass: specific mass of layer\n            \n        Returns:\n            cc: cold content of layer\n        ";
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_6snobal_55cold_content = {"cold_content", (PyCFunction)__pyx_pw_8pysnobal_6snobal_6snobal_55cold_content, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8pysnobal_6snobal_6snobal_54cold_content};
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_55cold_content(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_55cold_content(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_54cold_content[] = "\n        This routine calculates the cold content for a layer (i.e., the\n        energy required to bring its temperature to freezing) from the\n        layer's temperature and specific mass.\n        \n        Args:\n            temp: temperature of layer \n            mass: specific mass of layer\n            \n        Returns:\n            cc: cold content of layer\n        ";
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_55cold_content = {"cold_content", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_55cold_content, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_54cold_content};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_55cold_content(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_temp = 0;
   PyObject *__pyx_v_mass = 0;
@@ -17794,18 +17794,18 @@ static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_55cold_content(PyObject *__p
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("cold_content", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1544; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.cold_content", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.cold_content", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_6snobal_54cold_content(__pyx_self, __pyx_v_self, __pyx_v_temp, __pyx_v_mass);
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_54cold_content(__pyx_self, __pyx_v_self, __pyx_v_temp, __pyx_v_mass);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_54cold_content(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_temp, PyObject *__pyx_v_mass) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_54cold_content(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_temp, PyObject *__pyx_v_mass) {
   PyObject *__pyx_v_cc = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -17822,7 +17822,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_54cold_content(CYTHON_UNUSED
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("cold_content", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":1558
+  /* "pysnobal/libsnobal/snobal.pyx":1558
  *         """
  * 
  *         cc = 0             # <<<<<<<<<<<<<<
@@ -17832,7 +17832,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_54cold_content(CYTHON_UNUSED
   __Pyx_INCREF(__pyx_int_0);
   __pyx_v_cc = __pyx_int_0;
 
-  /* "pysnobal/libsnobal/snobal.py":1559
+  /* "pysnobal/libsnobal/snobal.pyx":1559
  * 
  *         cc = 0
  *         if temp < FREEZE:             # <<<<<<<<<<<<<<
@@ -17847,7 +17847,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_54cold_content(CYTHON_UNUSED
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (__pyx_t_3) {
 
-    /* "pysnobal/libsnobal/snobal.py":1560
+    /* "pysnobal/libsnobal/snobal.pyx":1560
  *         cc = 0
  *         if temp < FREEZE:
  *             cc = self.heat_stor(CP_ICE(temp), mass, temp-FREEZE)             # <<<<<<<<<<<<<<
@@ -17921,7 +17921,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_54cold_content(CYTHON_UNUSED
     __Pyx_DECREF_SET(__pyx_v_cc, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1559
+    /* "pysnobal/libsnobal/snobal.pyx":1559
  * 
  *         cc = 0
  *         if temp < FREEZE:             # <<<<<<<<<<<<<<
@@ -17930,7 +17930,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_54cold_content(CYTHON_UNUSED
  */
   }
 
-  /* "pysnobal/libsnobal/snobal.py":1561
+  /* "pysnobal/libsnobal/snobal.pyx":1561
  *         if temp < FREEZE:
  *             cc = self.heat_stor(CP_ICE(temp), mass, temp-FREEZE)
  *         return cc             # <<<<<<<<<<<<<<
@@ -17942,7 +17942,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_54cold_content(CYTHON_UNUSED
   __pyx_r = __pyx_v_cc;
   goto __pyx_L0;
 
-  /* "pysnobal/libsnobal/snobal.py":1544
+  /* "pysnobal/libsnobal/snobal.pyx":1544
  * 
  * 
  *     def cold_content(self, temp, mass):             # <<<<<<<<<<<<<<
@@ -17958,7 +17958,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_54cold_content(CYTHON_UNUSED
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.cold_content", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.cold_content", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_cc);
@@ -17967,7 +17967,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_54cold_content(CYTHON_UNUSED
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":1564
+/* "pysnobal/libsnobal/snobal.pyx":1564
  * 
  * 
  *     def heat_stor(self, cp, spm, tdif):             # <<<<<<<<<<<<<<
@@ -17976,10 +17976,10 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_54cold_content(CYTHON_UNUSED
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_57heat_stor(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_8pysnobal_6snobal_6snobal_56heat_stor[] = "\n        Calculate the heat storage\n        Args:\n            cp: specific heat of layer (J/kg K)\n            spm: layer specific mass (kg/m^2)\n            tdif: temperature change (K)\n        ";
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_6snobal_57heat_stor = {"heat_stor", (PyCFunction)__pyx_pw_8pysnobal_6snobal_6snobal_57heat_stor, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8pysnobal_6snobal_6snobal_56heat_stor};
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_57heat_stor(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_57heat_stor(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_56heat_stor[] = "\n        Calculate the heat storage\n        Args:\n            cp: specific heat of layer (J/kg K)\n            spm: layer specific mass (kg/m^2)\n            tdif: temperature change (K)\n        ";
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_57heat_stor = {"heat_stor", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_57heat_stor, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_56heat_stor};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_57heat_stor(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   CYTHON_UNUSED PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_cp = 0;
   PyObject *__pyx_v_spm = 0;
@@ -18045,18 +18045,18 @@ static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_57heat_stor(PyObject *__pyx_
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("heat_stor", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1564; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.heat_stor", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.heat_stor", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_6snobal_56heat_stor(__pyx_self, __pyx_v_self, __pyx_v_cp, __pyx_v_spm, __pyx_v_tdif);
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_56heat_stor(__pyx_self, __pyx_v_self, __pyx_v_cp, __pyx_v_spm, __pyx_v_tdif);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_56heat_stor(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self, PyObject *__pyx_v_cp, PyObject *__pyx_v_spm, PyObject *__pyx_v_tdif) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_56heat_stor(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self, PyObject *__pyx_v_cp, PyObject *__pyx_v_spm, PyObject *__pyx_v_tdif) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -18066,7 +18066,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_56heat_stor(CYTHON_UNUSED Py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("heat_stor", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":1573
+  /* "pysnobal/libsnobal/snobal.pyx":1573
  *         """
  * 
  *         return cp * spm * tdif             # <<<<<<<<<<<<<<
@@ -18083,7 +18083,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_56heat_stor(CYTHON_UNUSED Py
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "pysnobal/libsnobal/snobal.py":1564
+  /* "pysnobal/libsnobal/snobal.pyx":1564
  * 
  * 
  *     def heat_stor(self, cp, spm, tdif):             # <<<<<<<<<<<<<<
@@ -18095,7 +18095,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_56heat_stor(CYTHON_UNUSED Py
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.heat_stor", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.heat_stor", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -18103,7 +18103,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_56heat_stor(CYTHON_UNUSED Py
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":1576
+/* "pysnobal/libsnobal/snobal.pyx":1576
  * 
  * 
  *     def output(self):             # <<<<<<<<<<<<<<
@@ -18112,21 +18112,21 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_56heat_stor(CYTHON_UNUSED Py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_59output(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_8pysnobal_6snobal_6snobal_58output[] = "\n        Specify where the model output should go\n        ";
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_6snobal_59output = {"output", (PyCFunction)__pyx_pw_8pysnobal_6snobal_6snobal_59output, METH_O, __pyx_doc_8pysnobal_6snobal_6snobal_58output};
-static PyObject *__pyx_pw_8pysnobal_6snobal_6snobal_59output(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_59output(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static char __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_58output[] = "\n        Specify where the model output should go\n        ";
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_59output = {"output", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_59output, METH_O, __pyx_doc_8pysnobal_9libsnobal_6snobal_6snobal_58output};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_6snobal_59output(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("output (wrapper)", 0);
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_6snobal_58output(__pyx_self, ((PyObject *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_58output(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_v_curr_time_hrs = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -18146,7 +18146,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("output", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":1582
+  /* "pysnobal/libsnobal/snobal.pyx":1582
  * 
  *         # write out to a file
  *         if self.params['out_filename'] is not None:             # <<<<<<<<<<<<<<
@@ -18163,7 +18163,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
   __pyx_t_4 = (__pyx_t_3 != 0);
   if (__pyx_t_4) {
 
-    /* "pysnobal/libsnobal/snobal.py":1584
+    /* "pysnobal/libsnobal/snobal.pyx":1584
  *         if self.params['out_filename'] is not None:
  * 
  *             curr_time_hrs = SEC_TO_HR(self.current_time)             # <<<<<<<<<<<<<<
@@ -18203,7 +18203,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
     __pyx_v_curr_time_hrs = __pyx_t_2;
     __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1587
+    /* "pysnobal/libsnobal/snobal.pyx":1587
  * 
  *             # time
  *             self.params['out_file'].write('%g' % curr_time_hrs)             # <<<<<<<<<<<<<<
@@ -18248,7 +18248,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1590
+    /* "pysnobal/libsnobal/snobal.pyx":1590
  * 
  *             # energy budget terms
  *             self.params['out_file'].write(" %.1f %.1f %.1f %.1f %.1f %.1f" % \             # <<<<<<<<<<<<<<
@@ -18264,7 +18264,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1591
+    /* "pysnobal/libsnobal/snobal.pyx":1591
  *             # energy budget terms
  *             self.params['out_file'].write(" %.1f %.1f %.1f %.1f %.1f %.1f" % \
  *                     (self.em.R_n_bar, self.em.H_bar, self.em.L_v_E_bar, \             # <<<<<<<<<<<<<<
@@ -18287,7 +18287,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1592
+    /* "pysnobal/libsnobal/snobal.pyx":1592
  *             self.params['out_file'].write(" %.1f %.1f %.1f %.1f %.1f %.1f" % \
  *                     (self.em.R_n_bar, self.em.H_bar, self.em.L_v_E_bar, \
  *                     self.em.G_bar, self.em.M_bar, self.em.delta_Q_bar))             # <<<<<<<<<<<<<<
@@ -18310,7 +18310,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
     __Pyx_GOTREF(__pyx_t_11);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1591
+    /* "pysnobal/libsnobal/snobal.pyx":1591
  *             # energy budget terms
  *             self.params['out_file'].write(" %.1f %.1f %.1f %.1f %.1f %.1f" % \
  *                     (self.em.R_n_bar, self.em.H_bar, self.em.L_v_E_bar, \             # <<<<<<<<<<<<<<
@@ -18338,7 +18338,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
     __pyx_t_10 = 0;
     __pyx_t_11 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1590
+    /* "pysnobal/libsnobal/snobal.pyx":1590
  * 
  *             # energy budget terms
  *             self.params['out_file'].write(" %.1f %.1f %.1f %.1f %.1f %.1f" % \             # <<<<<<<<<<<<<<
@@ -18376,7 +18376,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1595
+    /* "pysnobal/libsnobal/snobal.pyx":1595
  * 
  *             # layer terms
  *             self.params['out_file'].write(" %.1f %.1f" % \             # <<<<<<<<<<<<<<
@@ -18392,7 +18392,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1596
+    /* "pysnobal/libsnobal/snobal.pyx":1596
  *             # layer terms
  *             self.params['out_file'].write(" %.1f %.1f" % \
  *                     (self.em.G_0_bar, self.em.delta_Q_0_bar))             # <<<<<<<<<<<<<<
@@ -18418,7 +18418,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
     __pyx_t_11 = 0;
     __pyx_t_6 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1595
+    /* "pysnobal/libsnobal/snobal.pyx":1595
  * 
  *             # layer terms
  *             self.params['out_file'].write(" %.1f %.1f" % \             # <<<<<<<<<<<<<<
@@ -18456,7 +18456,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1599
+    /* "pysnobal/libsnobal/snobal.pyx":1599
  * 
  *             # heat storage and mass changes
  *             self.params['out_file'].write(" %.6e %.6e %.6e" % \             # <<<<<<<<<<<<<<
@@ -18472,7 +18472,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1600
+    /* "pysnobal/libsnobal/snobal.pyx":1600
  *             # heat storage and mass changes
  *             self.params['out_file'].write(" %.6e %.6e %.6e" % \
  *                     (self.snow.cc_s_0, self.snow.cc_s_l, self.snow.cc_s))             # <<<<<<<<<<<<<<
@@ -18506,7 +18506,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
     __pyx_t_10 = 0;
     __pyx_t_9 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1599
+    /* "pysnobal/libsnobal/snobal.pyx":1599
  * 
  *             # heat storage and mass changes
  *             self.params['out_file'].write(" %.6e %.6e %.6e" % \             # <<<<<<<<<<<<<<
@@ -18544,7 +18544,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1601
+    /* "pysnobal/libsnobal/snobal.pyx":1601
  *             self.params['out_file'].write(" %.6e %.6e %.6e" % \
  *                     (self.snow.cc_s_0, self.snow.cc_s_l, self.snow.cc_s))
  *             self.params['out_file'].write(" %.5f %.5f %.5f" % \             # <<<<<<<<<<<<<<
@@ -18560,7 +18560,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1602
+    /* "pysnobal/libsnobal/snobal.pyx":1602
  *                     (self.snow.cc_s_0, self.snow.cc_s_l, self.snow.cc_s))
  *             self.params['out_file'].write(" %.5f %.5f %.5f" % \
  *                     (self.em.E_s_sum, self.em.melt_sum, self.em.ro_pred_sum))             # <<<<<<<<<<<<<<
@@ -18594,7 +18594,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
     __pyx_t_11 = 0;
     __pyx_t_6 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1601
+    /* "pysnobal/libsnobal/snobal.pyx":1601
  *             self.params['out_file'].write(" %.6e %.6e %.6e" % \
  *                     (self.snow.cc_s_0, self.snow.cc_s_l, self.snow.cc_s))
  *             self.params['out_file'].write(" %.5f %.5f %.5f" % \             # <<<<<<<<<<<<<<
@@ -18632,7 +18632,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1610
+    /* "pysnobal/libsnobal/snobal.pyx":1610
  * 
  *             # sno properties *[inserted by cython to avoid comment closer]/
  *             self.params['out_file'].write(" %.3f %.3f %.3f %.1f" % \             # <<<<<<<<<<<<<<
@@ -18648,7 +18648,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1611
+    /* "pysnobal/libsnobal/snobal.pyx":1611
  *             # sno properties *[inserted by cython to avoid comment closer]/
  *             self.params['out_file'].write(" %.3f %.3f %.3f %.1f" % \
  *                     (self.snow.z_s_0, self.snow.z_s_l, self.snow.z_s, self.snow.rho))             # <<<<<<<<<<<<<<
@@ -18690,7 +18690,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
     __pyx_t_9 = 0;
     __pyx_t_8 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1610
+    /* "pysnobal/libsnobal/snobal.pyx":1610
  * 
  *             # sno properties *[inserted by cython to avoid comment closer]/
  *             self.params['out_file'].write(" %.3f %.3f %.3f %.1f" % \             # <<<<<<<<<<<<<<
@@ -18728,7 +18728,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1612
+    /* "pysnobal/libsnobal/snobal.pyx":1612
  *             self.params['out_file'].write(" %.3f %.3f %.3f %.1f" % \
  *                     (self.snow.z_s_0, self.snow.z_s_l, self.snow.z_s, self.snow.rho))
  *             self.params['out_file'].write(" %.1f %.1f %.1f %.1f" % \             # <<<<<<<<<<<<<<
@@ -18744,7 +18744,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1613
+    /* "pysnobal/libsnobal/snobal.pyx":1613
  *                     (self.snow.z_s_0, self.snow.z_s_l, self.snow.z_s, self.snow.rho))
  *             self.params['out_file'].write(" %.1f %.1f %.1f %.1f" % \
  *                     (self.snow.m_s_0, self.snow.m_s_l, self.snow.m_s, self.snow.h2o))             # <<<<<<<<<<<<<<
@@ -18786,7 +18786,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
     __pyx_t_10 = 0;
     __pyx_t_6 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1612
+    /* "pysnobal/libsnobal/snobal.pyx":1612
  *             self.params['out_file'].write(" %.3f %.3f %.3f %.1f" % \
  *                     (self.snow.z_s_0, self.snow.z_s_l, self.snow.z_s, self.snow.rho))
  *             self.params['out_file'].write(" %.1f %.1f %.1f %.1f" % \             # <<<<<<<<<<<<<<
@@ -18824,7 +18824,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1614
+    /* "pysnobal/libsnobal/snobal.pyx":1614
  *             self.params['out_file'].write(" %.1f %.1f %.1f %.1f" % \
  *                     (self.snow.m_s_0, self.snow.m_s_l, self.snow.m_s, self.snow.h2o))
  *             if self.params['temps_in_C']:             # <<<<<<<<<<<<<<
@@ -18840,7 +18840,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (__pyx_t_4) {
 
-      /* "pysnobal/libsnobal/snobal.py":1615
+      /* "pysnobal/libsnobal/snobal.pyx":1615
  *                     (self.snow.m_s_0, self.snow.m_s_l, self.snow.m_s, self.snow.h2o))
  *             if self.params['temps_in_C']:
  *                 self.params['out_file'].write(" %.2f %.2f %.2f\n" %             # <<<<<<<<<<<<<<
@@ -18856,7 +18856,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":1616
+      /* "pysnobal/libsnobal/snobal.pyx":1616
  *             if self.params['temps_in_C']:
  *                 self.params['out_file'].write(" %.2f %.2f %.2f\n" %
  *                         (K_TO_C(self.snow.T_s_0), K_TO_C(self.snow.T_s_l), K_TO_C(self.snow.T_s)))             # <<<<<<<<<<<<<<
@@ -18974,7 +18974,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
       __pyx_t_6 = 0;
       __pyx_t_8 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":1615
+      /* "pysnobal/libsnobal/snobal.pyx":1615
  *                     (self.snow.m_s_0, self.snow.m_s_l, self.snow.m_s, self.snow.h2o))
  *             if self.params['temps_in_C']:
  *                 self.params['out_file'].write(" %.2f %.2f %.2f\n" %             # <<<<<<<<<<<<<<
@@ -19012,7 +19012,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":1614
+      /* "pysnobal/libsnobal/snobal.pyx":1614
  *             self.params['out_file'].write(" %.1f %.1f %.1f %.1f" % \
  *                     (self.snow.m_s_0, self.snow.m_s_l, self.snow.m_s, self.snow.h2o))
  *             if self.params['temps_in_C']:             # <<<<<<<<<<<<<<
@@ -19022,7 +19022,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
       goto __pyx_L4;
     }
 
-    /* "pysnobal/libsnobal/snobal.py":1618
+    /* "pysnobal/libsnobal/snobal.pyx":1618
  *                         (K_TO_C(self.snow.T_s_0), K_TO_C(self.snow.T_s_l), K_TO_C(self.snow.T_s)))
  *             else:
  *                 self.params['out_file'].write(" %.2f %.2f %.2f\n" % \             # <<<<<<<<<<<<<<
@@ -19039,7 +19039,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":1619
+      /* "pysnobal/libsnobal/snobal.pyx":1619
  *             else:
  *                 self.params['out_file'].write(" %.2f %.2f %.2f\n" % \
  *                         (self.snow.T_s_0, self.snow.T_s_l, self.snow.T_s))             # <<<<<<<<<<<<<<
@@ -19073,7 +19073,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
       __pyx_t_5 = 0;
       __pyx_t_10 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":1618
+      /* "pysnobal/libsnobal/snobal.pyx":1618
  *                         (K_TO_C(self.snow.T_s_0), K_TO_C(self.snow.T_s_l), K_TO_C(self.snow.T_s)))
  *             else:
  *                 self.params['out_file'].write(" %.2f %.2f %.2f\n" % \             # <<<<<<<<<<<<<<
@@ -19113,7 +19113,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
     }
     __pyx_L4:;
 
-    /* "pysnobal/libsnobal/snobal.py":1582
+    /* "pysnobal/libsnobal/snobal.pyx":1582
  * 
  *         # write out to a file
  *         if self.params['out_filename'] is not None:             # <<<<<<<<<<<<<<
@@ -19122,7 +19122,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
  */
   }
 
-  /* "pysnobal/libsnobal/snobal.py":1576
+  /* "pysnobal/libsnobal/snobal.pyx":1576
  * 
  * 
  *     def output(self):             # <<<<<<<<<<<<<<
@@ -19143,7 +19143,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
   __Pyx_XDECREF(__pyx_t_9);
   __Pyx_XDECREF(__pyx_t_10);
   __Pyx_XDECREF(__pyx_t_11);
-  __Pyx_AddTraceback("pysnobal.snobal.snobal.output", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.snobal.output", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_curr_time_hrs);
@@ -19152,7 +19152,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":1627
+/* "pysnobal/libsnobal/snobal.pyx":1627
  *     m = Map({'first_name': 'Eduardo'}, last_name='Pool', age=24, sports=['Soccer'])
  *     """
  *     def __init__(self, *args, **kwargs):             # <<<<<<<<<<<<<<
@@ -19161,9 +19161,9 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_6snobal_58output(CYTHON_UNUSED PyObj
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_3Map_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_3Map_1__init__ = {"__init__", (PyCFunction)__pyx_pw_8pysnobal_6snobal_3Map_1__init__, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_8pysnobal_6snobal_3Map_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_3Map_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_3Map_1__init__ = {"__init__", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_3Map_1__init__, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_3Map_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_args = 0;
   PyObject *__pyx_v_kwargs = 0;
@@ -19220,11 +19220,11 @@ static PyObject *__pyx_pw_8pysnobal_6snobal_3Map_1__init__(PyObject *__pyx_self,
   __pyx_L3_error:;
   __Pyx_DECREF(__pyx_v_args); __pyx_v_args = 0;
   __Pyx_DECREF(__pyx_v_kwargs); __pyx_v_kwargs = 0;
-  __Pyx_AddTraceback("pysnobal.snobal.Map.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.Map.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_3Map___init__(__pyx_self, __pyx_v_self, __pyx_v_args, __pyx_v_kwargs);
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_3Map___init__(__pyx_self, __pyx_v_self, __pyx_v_args, __pyx_v_kwargs);
 
   /* function exit code */
   __Pyx_XDECREF(__pyx_v_args);
@@ -19233,7 +19233,7 @@ static PyObject *__pyx_pw_8pysnobal_6snobal_3Map_1__init__(PyObject *__pyx_self,
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_3Map___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_args, PyObject *__pyx_v_kwargs) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_3Map___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_args, PyObject *__pyx_v_kwargs) {
   PyObject *__pyx_v_arg = NULL;
   PyObject *__pyx_v_k = NULL;
   PyObject *__pyx_v_v = NULL;
@@ -19255,7 +19255,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map___init__(CYTHON_UNUSED PyObject
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":1628
+  /* "pysnobal/libsnobal/snobal.pyx":1628
  *     """
  *     def __init__(self, *args, **kwargs):
  *         super(Map, self).__init__(*args, **kwargs)             # <<<<<<<<<<<<<<
@@ -19283,7 +19283,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map___init__(CYTHON_UNUSED PyObject
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1629
+  /* "pysnobal/libsnobal/snobal.pyx":1629
  *     def __init__(self, *args, **kwargs):
  *         super(Map, self).__init__(*args, **kwargs)
  *         for arg in args:             # <<<<<<<<<<<<<<
@@ -19302,7 +19302,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map___init__(CYTHON_UNUSED PyObject
     __Pyx_XDECREF_SET(__pyx_v_arg, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1630
+    /* "pysnobal/libsnobal/snobal.pyx":1630
  *         super(Map, self).__init__(*args, **kwargs)
  *         for arg in args:
  *             if isinstance(arg, dict):             # <<<<<<<<<<<<<<
@@ -19313,7 +19313,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map___init__(CYTHON_UNUSED PyObject
     __pyx_t_5 = (__pyx_t_4 != 0);
     if (__pyx_t_5) {
 
-      /* "pysnobal/libsnobal/snobal.py":1631
+      /* "pysnobal/libsnobal/snobal.pyx":1631
  *         for arg in args:
  *             if isinstance(arg, dict):
  *                 for k, v in arg.iteritems():             # <<<<<<<<<<<<<<
@@ -19341,7 +19341,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map___init__(CYTHON_UNUSED PyObject
         __Pyx_XDECREF_SET(__pyx_v_v, __pyx_t_10);
         __pyx_t_10 = 0;
 
-        /* "pysnobal/libsnobal/snobal.py":1632
+        /* "pysnobal/libsnobal/snobal.pyx":1632
  *             if isinstance(arg, dict):
  *                 for k, v in arg.iteritems():
  *                     self[k] = v             # <<<<<<<<<<<<<<
@@ -19352,7 +19352,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map___init__(CYTHON_UNUSED PyObject
       }
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":1630
+      /* "pysnobal/libsnobal/snobal.pyx":1630
  *         super(Map, self).__init__(*args, **kwargs)
  *         for arg in args:
  *             if isinstance(arg, dict):             # <<<<<<<<<<<<<<
@@ -19361,7 +19361,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map___init__(CYTHON_UNUSED PyObject
  */
     }
 
-    /* "pysnobal/libsnobal/snobal.py":1629
+    /* "pysnobal/libsnobal/snobal.pyx":1629
  *     def __init__(self, *args, **kwargs):
  *         super(Map, self).__init__(*args, **kwargs)
  *         for arg in args:             # <<<<<<<<<<<<<<
@@ -19371,7 +19371,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map___init__(CYTHON_UNUSED PyObject
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1634
+  /* "pysnobal/libsnobal/snobal.pyx":1634
  *                     self[k] = v
  * 
  *         if kwargs:             # <<<<<<<<<<<<<<
@@ -19381,7 +19381,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map___init__(CYTHON_UNUSED PyObject
   __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_v_kwargs); if (unlikely(__pyx_t_5 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1634; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (__pyx_t_5) {
 
-    /* "pysnobal/libsnobal/snobal.py":1635
+    /* "pysnobal/libsnobal/snobal.pyx":1635
  * 
  *         if kwargs:
  *             for k, v in kwargs.iteritems():             # <<<<<<<<<<<<<<
@@ -19405,7 +19405,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map___init__(CYTHON_UNUSED PyObject
       __Pyx_XDECREF_SET(__pyx_v_v, __pyx_t_10);
       __pyx_t_10 = 0;
 
-      /* "pysnobal/libsnobal/snobal.py":1636
+      /* "pysnobal/libsnobal/snobal.pyx":1636
  *         if kwargs:
  *             for k, v in kwargs.iteritems():
  *                 self[k] = v             # <<<<<<<<<<<<<<
@@ -19416,7 +19416,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map___init__(CYTHON_UNUSED PyObject
     }
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "pysnobal/libsnobal/snobal.py":1634
+    /* "pysnobal/libsnobal/snobal.pyx":1634
  *                     self[k] = v
  * 
  *         if kwargs:             # <<<<<<<<<<<<<<
@@ -19425,7 +19425,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map___init__(CYTHON_UNUSED PyObject
  */
   }
 
-  /* "pysnobal/libsnobal/snobal.py":1627
+  /* "pysnobal/libsnobal/snobal.pyx":1627
  *     m = Map({'first_name': 'Eduardo'}, last_name='Pool', age=24, sports=['Soccer'])
  *     """
  *     def __init__(self, *args, **kwargs):             # <<<<<<<<<<<<<<
@@ -19441,7 +19441,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map___init__(CYTHON_UNUSED PyObject
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_9);
   __Pyx_XDECREF(__pyx_t_10);
-  __Pyx_AddTraceback("pysnobal.snobal.Map.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.Map.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_arg);
@@ -19452,7 +19452,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map___init__(CYTHON_UNUSED PyObject
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":1638
+/* "pysnobal/libsnobal/snobal.pyx":1638
  *                 self[k] = v
  * 
  *     def __getattr__(self, attr):             # <<<<<<<<<<<<<<
@@ -19461,9 +19461,9 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map___init__(CYTHON_UNUSED PyObject
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_3Map_3__getattr__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_3Map_3__getattr__ = {"__getattr__", (PyCFunction)__pyx_pw_8pysnobal_6snobal_3Map_3__getattr__, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_8pysnobal_6snobal_3Map_3__getattr__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_3Map_3__getattr__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_3Map_3__getattr__ = {"__getattr__", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_3Map_3__getattr__, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_3Map_3__getattr__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_attr = 0;
   int __pyx_lineno = 0;
@@ -19511,18 +19511,18 @@ static PyObject *__pyx_pw_8pysnobal_6snobal_3Map_3__getattr__(PyObject *__pyx_se
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("__getattr__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1638; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pysnobal.snobal.Map.__getattr__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.Map.__getattr__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_3Map_2__getattr__(__pyx_self, __pyx_v_self, __pyx_v_attr);
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_3Map_2__getattr__(__pyx_self, __pyx_v_self, __pyx_v_attr);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_2__getattr__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_attr) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_3Map_2__getattr__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_attr) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -19534,7 +19534,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_2__getattr__(CYTHON_UNUSED PyOb
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__getattr__", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":1639
+  /* "pysnobal/libsnobal/snobal.pyx":1639
  * 
  *     def __getattr__(self, attr):
  *         return self.get(attr)             # <<<<<<<<<<<<<<
@@ -19573,7 +19573,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_2__getattr__(CYTHON_UNUSED PyOb
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pysnobal/libsnobal/snobal.py":1638
+  /* "pysnobal/libsnobal/snobal.pyx":1638
  *                 self[k] = v
  * 
  *     def __getattr__(self, attr):             # <<<<<<<<<<<<<<
@@ -19587,7 +19587,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_2__getattr__(CYTHON_UNUSED PyOb
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("pysnobal.snobal.Map.__getattr__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.Map.__getattr__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -19595,7 +19595,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_2__getattr__(CYTHON_UNUSED PyOb
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":1641
+/* "pysnobal/libsnobal/snobal.pyx":1641
  *         return self.get(attr)
  * 
  *     def __setattr__(self, key, value):             # <<<<<<<<<<<<<<
@@ -19604,9 +19604,9 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_2__getattr__(CYTHON_UNUSED PyOb
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_3Map_5__setattr__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_3Map_5__setattr__ = {"__setattr__", (PyCFunction)__pyx_pw_8pysnobal_6snobal_3Map_5__setattr__, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_8pysnobal_6snobal_3Map_5__setattr__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_3Map_5__setattr__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_3Map_5__setattr__ = {"__setattr__", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_3Map_5__setattr__, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_3Map_5__setattr__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_key = 0;
   PyObject *__pyx_v_value = 0;
@@ -19663,18 +19663,18 @@ static PyObject *__pyx_pw_8pysnobal_6snobal_3Map_5__setattr__(PyObject *__pyx_se
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("__setattr__", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1641; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pysnobal.snobal.Map.__setattr__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.Map.__setattr__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_3Map_4__setattr__(__pyx_self, __pyx_v_self, __pyx_v_key, __pyx_v_value);
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_3Map_4__setattr__(__pyx_self, __pyx_v_self, __pyx_v_key, __pyx_v_value);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_4__setattr__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_key, PyObject *__pyx_v_value) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_3Map_4__setattr__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_key, PyObject *__pyx_v_value) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -19687,7 +19687,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_4__setattr__(CYTHON_UNUSED PyOb
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setattr__", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":1642
+  /* "pysnobal/libsnobal/snobal.pyx":1642
  * 
  *     def __setattr__(self, key, value):
  *         self.__setitem__(key, value)             # <<<<<<<<<<<<<<
@@ -19725,7 +19725,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_4__setattr__(CYTHON_UNUSED PyOb
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1641
+  /* "pysnobal/libsnobal/snobal.pyx":1641
  *         return self.get(attr)
  * 
  *     def __setattr__(self, key, value):             # <<<<<<<<<<<<<<
@@ -19741,7 +19741,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_4__setattr__(CYTHON_UNUSED PyOb
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("pysnobal.snobal.Map.__setattr__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.Map.__setattr__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -19749,7 +19749,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_4__setattr__(CYTHON_UNUSED PyOb
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":1644
+/* "pysnobal/libsnobal/snobal.pyx":1644
  *         self.__setitem__(key, value)
  * 
  *     def __setitem__(self, key, value):             # <<<<<<<<<<<<<<
@@ -19758,9 +19758,9 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_4__setattr__(CYTHON_UNUSED PyOb
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_3Map_7__setitem__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_3Map_7__setitem__ = {"__setitem__", (PyCFunction)__pyx_pw_8pysnobal_6snobal_3Map_7__setitem__, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_8pysnobal_6snobal_3Map_7__setitem__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_3Map_7__setitem__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_3Map_7__setitem__ = {"__setitem__", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_3Map_7__setitem__, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_3Map_7__setitem__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_key = 0;
   PyObject *__pyx_v_value = 0;
@@ -19817,18 +19817,18 @@ static PyObject *__pyx_pw_8pysnobal_6snobal_3Map_7__setitem__(PyObject *__pyx_se
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("__setitem__", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1644; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pysnobal.snobal.Map.__setitem__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.Map.__setitem__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_3Map_6__setitem__(__pyx_self, __pyx_v_self, __pyx_v_key, __pyx_v_value);
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_3Map_6__setitem__(__pyx_self, __pyx_v_self, __pyx_v_key, __pyx_v_value);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_6__setitem__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_key, PyObject *__pyx_v_value) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_3Map_6__setitem__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_key, PyObject *__pyx_v_value) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -19842,7 +19842,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_6__setitem__(CYTHON_UNUSED PyOb
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setitem__", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":1645
+  /* "pysnobal/libsnobal/snobal.pyx":1645
  * 
  *     def __setitem__(self, key, value):
  *         super(Map, self).__setitem__(key, value)             # <<<<<<<<<<<<<<
@@ -19894,7 +19894,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_6__setitem__(CYTHON_UNUSED PyOb
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1646
+  /* "pysnobal/libsnobal/snobal.pyx":1646
  *     def __setitem__(self, key, value):
  *         super(Map, self).__setitem__(key, value)
  *         self.__dict__.update({key: value})             # <<<<<<<<<<<<<<
@@ -19937,7 +19937,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_6__setitem__(CYTHON_UNUSED PyOb
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1644
+  /* "pysnobal/libsnobal/snobal.pyx":1644
  *         self.__setitem__(key, value)
  * 
  *     def __setitem__(self, key, value):             # <<<<<<<<<<<<<<
@@ -19954,7 +19954,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_6__setitem__(CYTHON_UNUSED PyOb
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_AddTraceback("pysnobal.snobal.Map.__setitem__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.Map.__setitem__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -19962,7 +19962,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_6__setitem__(CYTHON_UNUSED PyOb
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":1648
+/* "pysnobal/libsnobal/snobal.pyx":1648
  *         self.__dict__.update({key: value})
  * 
  *     def __delattr__(self, item):             # <<<<<<<<<<<<<<
@@ -19971,9 +19971,9 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_6__setitem__(CYTHON_UNUSED PyOb
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_3Map_9__delattr__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_3Map_9__delattr__ = {"__delattr__", (PyCFunction)__pyx_pw_8pysnobal_6snobal_3Map_9__delattr__, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_8pysnobal_6snobal_3Map_9__delattr__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_3Map_9__delattr__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_3Map_9__delattr__ = {"__delattr__", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_3Map_9__delattr__, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_3Map_9__delattr__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_item = 0;
   int __pyx_lineno = 0;
@@ -20021,18 +20021,18 @@ static PyObject *__pyx_pw_8pysnobal_6snobal_3Map_9__delattr__(PyObject *__pyx_se
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("__delattr__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1648; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pysnobal.snobal.Map.__delattr__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.Map.__delattr__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_3Map_8__delattr__(__pyx_self, __pyx_v_self, __pyx_v_item);
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_3Map_8__delattr__(__pyx_self, __pyx_v_self, __pyx_v_item);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_8__delattr__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_item) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_3Map_8__delattr__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_item) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -20044,7 +20044,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_8__delattr__(CYTHON_UNUSED PyOb
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__delattr__", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":1649
+  /* "pysnobal/libsnobal/snobal.pyx":1649
  * 
  *     def __delattr__(self, item):
  *         self.__delitem__(item)             # <<<<<<<<<<<<<<
@@ -20080,7 +20080,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_8__delattr__(CYTHON_UNUSED PyOb
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1648
+  /* "pysnobal/libsnobal/snobal.pyx":1648
  *         self.__dict__.update({key: value})
  * 
  *     def __delattr__(self, item):             # <<<<<<<<<<<<<<
@@ -20096,7 +20096,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_8__delattr__(CYTHON_UNUSED PyOb
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("pysnobal.snobal.Map.__delattr__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.Map.__delattr__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -20104,7 +20104,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_8__delattr__(CYTHON_UNUSED PyOb
   return __pyx_r;
 }
 
-/* "pysnobal/libsnobal/snobal.py":1651
+/* "pysnobal/libsnobal/snobal.pyx":1651
  *         self.__delitem__(item)
  * 
  *     def __delitem__(self, key):             # <<<<<<<<<<<<<<
@@ -20113,9 +20113,9 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_8__delattr__(CYTHON_UNUSED PyOb
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pysnobal_6snobal_3Map_11__delitem__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_8pysnobal_6snobal_3Map_11__delitem__ = {"__delitem__", (PyCFunction)__pyx_pw_8pysnobal_6snobal_3Map_11__delitem__, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_8pysnobal_6snobal_3Map_11__delitem__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_3Map_11__delitem__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_8pysnobal_9libsnobal_6snobal_3Map_11__delitem__ = {"__delitem__", (PyCFunction)__pyx_pw_8pysnobal_9libsnobal_6snobal_3Map_11__delitem__, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_8pysnobal_9libsnobal_6snobal_3Map_11__delitem__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_key = 0;
   int __pyx_lineno = 0;
@@ -20163,18 +20163,18 @@ static PyObject *__pyx_pw_8pysnobal_6snobal_3Map_11__delitem__(PyObject *__pyx_s
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("__delitem__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1651; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pysnobal.snobal.Map.__delitem__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.Map.__delitem__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8pysnobal_6snobal_3Map_10__delitem__(__pyx_self, __pyx_v_self, __pyx_v_key);
+  __pyx_r = __pyx_pf_8pysnobal_9libsnobal_6snobal_3Map_10__delitem__(__pyx_self, __pyx_v_self, __pyx_v_key);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_10__delitem__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_key) {
+static PyObject *__pyx_pf_8pysnobal_9libsnobal_6snobal_3Map_10__delitem__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_key) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -20186,7 +20186,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_10__delitem__(CYTHON_UNUSED PyO
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__delitem__", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":1652
+  /* "pysnobal/libsnobal/snobal.pyx":1652
  * 
  *     def __delitem__(self, key):
  *         super(Map, self).__delitem__(key)             # <<<<<<<<<<<<<<
@@ -20236,7 +20236,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_10__delitem__(CYTHON_UNUSED PyO
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1653
+  /* "pysnobal/libsnobal/snobal.pyx":1653
  *     def __delitem__(self, key):
  *         super(Map, self).__delitem__(key)
  *         del self.__dict__[key]             # <<<<<<<<<<<<<<
@@ -20247,7 +20247,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_10__delitem__(CYTHON_UNUSED PyO
   if (PyObject_DelItem(__pyx_t_1, __pyx_v_key) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1653; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1651
+  /* "pysnobal/libsnobal/snobal.pyx":1651
  *         self.__delitem__(item)
  * 
  *     def __delitem__(self, key):             # <<<<<<<<<<<<<<
@@ -20263,7 +20263,7 @@ static PyObject *__pyx_pf_8pysnobal_6snobal_3Map_10__delitem__(CYTHON_UNUSED PyO
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("pysnobal.snobal.Map.__delitem__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.libsnobal.snobal.Map.__delitem__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -20542,7 +20542,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_prepare, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
   {&__pyx_n_s_prev_h2o_tot, __pyx_k_prev_h2o_tot, sizeof(__pyx_k_prev_h2o_tot), 0, 0, 1, 1},
   {&__pyx_n_s_prev_layer_count, __pyx_k_prev_layer_count, sizeof(__pyx_k_prev_layer_count), 0, 0, 1, 1},
-  {&__pyx_n_s_pysnobal_snobal, __pyx_k_pysnobal_snobal, sizeof(__pyx_k_pysnobal_snobal), 0, 0, 1, 1},
+  {&__pyx_n_s_pysnobal_libsnobal_snobal, __pyx_k_pysnobal_libsnobal_snobal, sizeof(__pyx_k_pysnobal_libsnobal_snobal), 0, 0, 1, 1},
   {&__pyx_n_s_q_delta, __pyx_k_q_delta, sizeof(__pyx_k_q_delta), 0, 0, 1, 1},
   {&__pyx_n_s_q_g, __pyx_k_q_g, sizeof(__pyx_k_q_g), 0, 0, 1, 1},
   {&__pyx_n_s_q_s_l, __pyx_k_q_s_l, sizeof(__pyx_k_q_s_l), 0, 0, 1, 1},
@@ -20661,7 +20661,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "pysnobal/libsnobal/snobal.py":131
+  /* "pysnobal/libsnobal/snobal.pyx":131
  *         # get the intial snowcover properties
  *         self.snow_records = snow_prop
  *         self.get_sn_rec(True)             # <<<<<<<<<<<<<<
@@ -20672,7 +20672,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
-  /* "pysnobal/libsnobal/snobal.py":134
+  /* "pysnobal/libsnobal/snobal.pyx":134
  * 
  *         # initialize the snowcover
  *         self.init_snow(True)             # <<<<<<<<<<<<<<
@@ -20683,7 +20683,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
-  /* "pysnobal/libsnobal/snobal.py":144
+  /* "pysnobal/libsnobal/snobal.pyx":144
  *         # get measurement-height record
  *         self.mh_prop = meas_heights
  *         self.get_mh_rec(True)             # <<<<<<<<<<<<<<
@@ -20694,7 +20694,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
-  /* "pysnobal/libsnobal/snobal.py":236
+  /* "pysnobal/libsnobal/snobal.pyx":236
  *         # this precip will hold the temperatures and such, set to zero initially
  * #         self.precip = pd.Series(0.0, index=['T_rain','T_snow','h2o_sat_snow'])
  *         self.precip = Map({key: 0.0 for key in ['T_rain','T_snow','h2o_sat_snow']})             # <<<<<<<<<<<<<<
@@ -20705,7 +20705,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
-  /* "pysnobal/libsnobal/snobal.py":249
+  /* "pysnobal/libsnobal/snobal.pyx":249
  *                     pp_info.z_snow = pp_info.m_snow / input1.rho_snow
  *                 else:
  *                     raise ValueError('input1.rho_snow is <= 0.0 with input1.percent_snow > 0.0')             # <<<<<<<<<<<<<<
@@ -20716,7 +20716,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
-  /* "pysnobal/libsnobal/snobal.py":1088
+  /* "pysnobal/libsnobal/snobal.pyx":1088
  *             # calculate G & G_0 (conduction/diffusion heat xfr)
  *             if self.snow.layer_count == 1:
  *                 self.g_soil('surface')             # <<<<<<<<<<<<<<
@@ -20727,7 +20727,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
 
-  /* "pysnobal/libsnobal/snobal.py":1091
+  /* "pysnobal/libsnobal/snobal.pyx":1091
  *                 self.em.G_0 = self.em.G
  *             else:  # layer_count == 2
  *                 self.g_soil ('lower')             # <<<<<<<<<<<<<<
@@ -20738,7 +20738,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
 
-  /* "pysnobal/libsnobal/snobal.py":1325
+  /* "pysnobal/libsnobal/snobal.pyx":1325
  * 
  * #         return pd.Series(index=['m_pp','m_snow','m_rain','z_snow'])
  *         return Map({key: 0.0 for key in ['m_pp','m_snow','m_rain','z_snow']})             # <<<<<<<<<<<<<<
@@ -20749,7 +20749,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__8);
   __Pyx_GIVEREF(__pyx_tuple__8);
 
-  /* "pysnobal/libsnobal/snobal.py":1381
+  /* "pysnobal/libsnobal/snobal.pyx":1381
  *                 getattr(self, 'snow')
  *             except:
  *                 raise Exception('The snow has not been intitialized')             # <<<<<<<<<<<<<<
@@ -20760,7 +20760,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
 
-  /* "pysnobal/libsnobal/snobal.py":1396
+  /* "pysnobal/libsnobal/snobal.pyx":1396
  *                 self.snow.h2o_total += self.snow.m_s
  * 
  *             for col in ['rho','m_s','cc_s','m_s_0','cc_s_0','m_s_l','cc_s_l','h2o_vol','h2o','h2o_max','h2o_sat']:             # <<<<<<<<<<<<<<
@@ -20771,7 +20771,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__10);
   __Pyx_GIVEREF(__pyx_tuple__10);
 
-  /* "pysnobal/libsnobal/snobal.py":1402
+  /* "pysnobal/libsnobal/snobal.pyx":1402
  *             # (as degrees K) instead of 0 K to keep quantization
  *             # range in output image smaller.
  *             for col in ['T_s', 'T_s_0', 'T_s_l']:             # <<<<<<<<<<<<<<
@@ -20782,7 +20782,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
 
-  /* "pysnobal/libsnobal/snobal.py":107
+  /* "pysnobal/libsnobal/snobal.pyx":107
  * 
  * 
  *     def __init__(self, params, tstep_info, snow_prop, meas_heights):             # <<<<<<<<<<<<<<
@@ -20794,7 +20794,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__12);
   __pyx_codeobj__13 = (PyObject*)__Pyx_PyCode_New(5, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_init, 107, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":170
+  /* "pysnobal/libsnobal/snobal.pyx":170
  * 
  * 
  *     def do_data_tstep(self, input1, input2):             # <<<<<<<<<<<<<<
@@ -20806,7 +20806,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__14);
   __pyx_codeobj__15 = (PyObject*)__Pyx_PyCode_New(3, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__14, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_do_data_tstep, 170, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 170; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":288
+  /* "pysnobal/libsnobal/snobal.pyx":288
  * 
  * 
  *     def divide_tstep(self):             # <<<<<<<<<<<<<<
@@ -20818,7 +20818,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__16);
   __pyx_codeobj__17 = (PyObject*)__Pyx_PyCode_New(1, 0, 9, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__16, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_divide_tstep, 288, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__17)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 288; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":389
+  /* "pysnobal/libsnobal/snobal.pyx":389
  * 
  * #     @profile
  *     def do_tstep(self, tstep):             # <<<<<<<<<<<<<<
@@ -20830,7 +20830,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__18);
   __pyx_codeobj__19 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__18, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_do_tstep, 389, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__19)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 389; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":493
+  /* "pysnobal/libsnobal/snobal.pyx":493
  * 
  * #     @profile
  *     def mass_bal(self):             # <<<<<<<<<<<<<<
@@ -20842,7 +20842,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__20);
   __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__20, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_mass_bal, 493, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 493; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":535
+  /* "pysnobal/libsnobal/snobal.pyx":535
  * 
  * 
  *     def new_tsno(self, spm, t0, ccon):             # <<<<<<<<<<<<<<
@@ -20854,7 +20854,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__22);
   __pyx_codeobj__23 = (PyObject*)__Pyx_PyCode_New(4, 0, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__22, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_new_tsno, 535, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__23)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 535; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":559
+  /* "pysnobal/libsnobal/snobal.pyx":559
  * 
  * 
  *     def runoff(self):             # <<<<<<<<<<<<<<
@@ -20866,7 +20866,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__24);
   __pyx_codeobj__25 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__24, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_runoff, 559, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__25)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 559; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":594
+  /* "pysnobal/libsnobal/snobal.pyx":594
  * 
  * 
  *     def h2o_compact(self):             # <<<<<<<<<<<<<<
@@ -20878,7 +20878,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__26);
   __pyx_codeobj__27 = (PyObject*)__Pyx_PyCode_New(1, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__26, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_h2o_compact, 594, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__27)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 594; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":655
+  /* "pysnobal/libsnobal/snobal.pyx":655
  * 
  * 
  *     def evap_cond(self):             # <<<<<<<<<<<<<<
@@ -20890,7 +20890,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__28);
   __pyx_codeobj__29 = (PyObject*)__Pyx_PyCode_New(1, 0, 13, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__28, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_evap_cond, 655, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__29)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":738
+  /* "pysnobal/libsnobal/snobal.pyx":738
  * 
  * 
  *     def snowmelt(self):             # <<<<<<<<<<<<<<
@@ -20902,7 +20902,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__30);
   __pyx_codeobj__31 = (PyObject*)__Pyx_PyCode_New(1, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__30, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_snowmelt, 738, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__31)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 738; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":852
+  /* "pysnobal/libsnobal/snobal.pyx":852
  * 
  * 
  *     def precip_event(self):             # <<<<<<<<<<<<<<
@@ -20914,7 +20914,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__32);
   __pyx_codeobj__33 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__32, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_precip_event, 852, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__33)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 852; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":894
+  /* "pysnobal/libsnobal/snobal.pyx":894
  * 
  * #     @profile
  *     def adj_snow(self, delta_z_s, delta_m_s):             # <<<<<<<<<<<<<<
@@ -20926,7 +20926,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__34);
   __pyx_codeobj__35 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__34, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_adj_snow, 894, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__35)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 894; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":937
+  /* "pysnobal/libsnobal/snobal.pyx":937
  * 
  * 
  *     def time_compact(self):             # <<<<<<<<<<<<<<
@@ -20938,7 +20938,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__36);
   __pyx_codeobj__37 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__36, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_time_compact, 937, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__37)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 937; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":994
+  /* "pysnobal/libsnobal/snobal.pyx":994
  * 
  * #     @profile
  *     def adj_layers(self):             # <<<<<<<<<<<<<<
@@ -20950,7 +20950,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__38);
   __pyx_codeobj__39 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__38, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_adj_layers, 994, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__39)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 994; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":1069
+  /* "pysnobal/libsnobal/snobal.pyx":1069
  * 
  * #     @profile
  *     def e_bal(self):             # <<<<<<<<<<<<<<
@@ -20962,7 +20962,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__40);
   __pyx_codeobj__41 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__40, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_e_bal, 1069, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__41)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1069; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":1119
+  /* "pysnobal/libsnobal/snobal.pyx":1119
  * 
  * 
  *     def advec(self):             # <<<<<<<<<<<<<<
@@ -20974,7 +20974,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__42);
   __pyx_codeobj__43 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__42, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_advec, 1119, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__43)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1119; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":1143
+  /* "pysnobal/libsnobal/snobal.pyx":1143
  * 
  * 
  *     def g_soil(self, layer):             # <<<<<<<<<<<<<<
@@ -20986,7 +20986,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__44);
   __pyx_codeobj__45 = (PyObject*)__Pyx_PyCode_New(2, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__44, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_g_soil, 1143, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__45)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1143; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":1175
+  /* "pysnobal/libsnobal/snobal.pyx":1175
  *         self.em.G = g
  * 
  *     def g_snow(self):             # <<<<<<<<<<<<<<
@@ -20998,7 +20998,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__46);
   __pyx_codeobj__47 = (PyObject*)__Pyx_PyCode_New(1, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__46, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_g_snow, 1175, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__47)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1175; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":1194
+  /* "pysnobal/libsnobal/snobal.pyx":1194
  * 
  * 
  *     def h_le(self):             # <<<<<<<<<<<<<<
@@ -21010,7 +21010,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__48);
   __pyx_codeobj__49 = (PyObject*)__Pyx_PyCode_New(1, 0, 9, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__48, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_h_le, 1194, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__49)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1194; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":1234
+  /* "pysnobal/libsnobal/snobal.pyx":1234
  * 
  * 
  *     def below_thold(self, threshold):             # <<<<<<<<<<<<<<
@@ -21022,7 +21022,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__50);
   __pyx_codeobj__51 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__50, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_below_thold, 1234, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__51)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1234; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":1256
+  /* "pysnobal/libsnobal/snobal.pyx":1256
  * 
  * 
  *     def get_sn_rec(self, first_rec=False):             # <<<<<<<<<<<<<<
@@ -21037,7 +21037,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__54);
   __Pyx_GIVEREF(__pyx_tuple__54);
 
-  /* "pysnobal/libsnobal/snobal.py":1290
+  /* "pysnobal/libsnobal/snobal.pyx":1290
  * 
  * 
  *     def get_mh_rec(self, first_rec=False):             # <<<<<<<<<<<<<<
@@ -21052,7 +21052,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__57);
   __Pyx_GIVEREF(__pyx_tuple__57);
 
-  /* "pysnobal/libsnobal/snobal.py":1317
+  /* "pysnobal/libsnobal/snobal.pyx":1317
  * 
  * 
  *     def init_precip(self):             # <<<<<<<<<<<<<<
@@ -21064,7 +21064,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__58);
   __pyx_codeobj__59 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__58, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_init_precip, 1317, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__59)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1317; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":1328
+  /* "pysnobal/libsnobal/snobal.pyx":1328
  * 
  * 
  *     def init_snow(self, from_record=False):             # <<<<<<<<<<<<<<
@@ -21079,7 +21079,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__62);
   __Pyx_GIVEREF(__pyx_tuple__62);
 
-  /* "pysnobal/libsnobal/snobal.py":1427
+  /* "pysnobal/libsnobal/snobal.pyx":1427
  * 
  * 
  *     def init_em(self):             # <<<<<<<<<<<<<<
@@ -21091,7 +21091,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__63);
   __pyx_codeobj__64 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__63, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_init_em, 1427, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__64)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1427; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":1471
+  /* "pysnobal/libsnobal/snobal.pyx":1471
  * 
  * #     @profile
  *     def calc_layers(self):             # <<<<<<<<<<<<<<
@@ -21103,7 +21103,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__65);
   __pyx_codeobj__66 = (PyObject*)__Pyx_PyCode_New(1, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__65, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_calc_layers, 1471, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__66)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1471; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":1523
+  /* "pysnobal/libsnobal/snobal.pyx":1523
  * 
  * #     @profile
  *     def layer_mass(self):             # <<<<<<<<<<<<<<
@@ -21115,7 +21115,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__67);
   __pyx_codeobj__68 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__67, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_layer_mass, 1523, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__68)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1523; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":1544
+  /* "pysnobal/libsnobal/snobal.pyx":1544
  * 
  * 
  *     def cold_content(self, temp, mass):             # <<<<<<<<<<<<<<
@@ -21127,7 +21127,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__69);
   __pyx_codeobj__70 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__69, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_cold_content, 1544, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__70)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1544; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":1564
+  /* "pysnobal/libsnobal/snobal.pyx":1564
  * 
  * 
  *     def heat_stor(self, cp, spm, tdif):             # <<<<<<<<<<<<<<
@@ -21139,7 +21139,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__71);
   __pyx_codeobj__72 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__71, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_heat_stor, 1564, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__72)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1564; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":1576
+  /* "pysnobal/libsnobal/snobal.pyx":1576
  * 
  * 
  *     def output(self):             # <<<<<<<<<<<<<<
@@ -21151,7 +21151,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__73);
   __pyx_codeobj__74 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__73, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_output, 1576, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__74)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1576; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":1627
+  /* "pysnobal/libsnobal/snobal.pyx":1627
  *     m = Map({'first_name': 'Eduardo'}, last_name='Pool', age=24, sports=['Soccer'])
  *     """
  *     def __init__(self, *args, **kwargs):             # <<<<<<<<<<<<<<
@@ -21163,7 +21163,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__75);
   __pyx_codeobj__76 = (PyObject*)__Pyx_PyCode_New(1, 0, 6, 0, CO_VARARGS|CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__75, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_init, 1627, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__76)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1627; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":1638
+  /* "pysnobal/libsnobal/snobal.pyx":1638
  *                 self[k] = v
  * 
  *     def __getattr__(self, attr):             # <<<<<<<<<<<<<<
@@ -21175,7 +21175,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__77);
   __pyx_codeobj__78 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__77, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_getattr, 1638, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__78)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1638; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":1641
+  /* "pysnobal/libsnobal/snobal.pyx":1641
  *         return self.get(attr)
  * 
  *     def __setattr__(self, key, value):             # <<<<<<<<<<<<<<
@@ -21187,7 +21187,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__79);
   __pyx_codeobj__80 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__79, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_setattr, 1641, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__80)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1641; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":1644
+  /* "pysnobal/libsnobal/snobal.pyx":1644
  *         self.__setitem__(key, value)
  * 
  *     def __setitem__(self, key, value):             # <<<<<<<<<<<<<<
@@ -21199,7 +21199,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__81);
   __pyx_codeobj__82 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__81, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_setitem, 1644, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__82)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1644; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":1648
+  /* "pysnobal/libsnobal/snobal.pyx":1648
  *         self.__dict__.update({key: value})
  * 
  *     def __delattr__(self, item):             # <<<<<<<<<<<<<<
@@ -21211,7 +21211,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__83);
   __pyx_codeobj__84 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__83, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_delattr, 1648, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__84)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1648; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":1651
+  /* "pysnobal/libsnobal/snobal.pyx":1651
  *         self.__delitem__(item)
  * 
  *     def __delitem__(self, key):             # <<<<<<<<<<<<<<
@@ -21339,14 +21339,14 @@ PyMODINIT_FUNC PyInit_snobal(void)
   #if PY_MAJOR_VERSION < 3 && (__PYX_DEFAULT_STRING_ENCODING_IS_ASCII || __PYX_DEFAULT_STRING_ENCODING_IS_DEFAULT)
   if (__Pyx_init_sys_getdefaultencoding_params() < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   #endif
-  if (__pyx_module_is_main_pysnobal__snobal) {
+  if (__pyx_module_is_main_pysnobal__libsnobal__snobal) {
     if (PyObject_SetAttrString(__pyx_m, "__name__", __pyx_n_s_main) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   #if PY_MAJOR_VERSION >= 3
   {
     PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    if (!PyDict_GetItemString(modules, "pysnobal.snobal")) {
-      if (unlikely(PyDict_SetItemString(modules, "pysnobal.snobal", __pyx_m) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (!PyDict_GetItemString(modules, "pysnobal.libsnobal.snobal")) {
+      if (unlikely(PyDict_SetItemString(modules, "pysnobal.libsnobal.snobal", __pyx_m) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
   }
   #endif
@@ -21366,7 +21366,7 @@ PyMODINIT_FUNC PyInit_snobal(void)
   if (__Pyx_patch_abc() < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   #endif
 
-  /* "pysnobal/libsnobal/snobal.py":7
+  /* "pysnobal/libsnobal/snobal.pyx":7
  * """
  * 
  * import libsnobal             # <<<<<<<<<<<<<<
@@ -21378,7 +21378,7 @@ PyMODINIT_FUNC PyInit_snobal(void)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_libsnobal, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":8
+  /* "pysnobal/libsnobal/snobal.pyx":8
  * 
  * import libsnobal
  * import numpy as np             # <<<<<<<<<<<<<<
@@ -21390,7 +21390,7 @@ PyMODINIT_FUNC PyInit_snobal(void)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":10
+  /* "pysnobal/libsnobal/snobal.pyx":10
  * import numpy as np
  * # import pandas as pd
  * import warnings             # <<<<<<<<<<<<<<
@@ -21402,7 +21402,7 @@ PyMODINIT_FUNC PyInit_snobal(void)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_warnings, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":11
+  /* "pysnobal/libsnobal/snobal.pyx":11
  * # import pandas as pd
  * import warnings
  * from copy import copy             # <<<<<<<<<<<<<<
@@ -21423,7 +21423,7 @@ PyMODINIT_FUNC PyInit_snobal(void)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":14
+  /* "pysnobal/libsnobal/snobal.pyx":14
  * 
  * # Some constants and equations
  * WHOLE_TSTEP = 0x1 # output when tstep is not divided             # <<<<<<<<<<<<<<
@@ -21432,7 +21432,7 @@ PyMODINIT_FUNC PyInit_snobal(void)
  */
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_WHOLE_TSTEP, __pyx_int_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":15
+  /* "pysnobal/libsnobal/snobal.pyx":15
  * # Some constants and equations
  * WHOLE_TSTEP = 0x1 # output when tstep is not divided
  * DIVIDED_TSTEP = 0x2  # output when timestep is divided             # <<<<<<<<<<<<<<
@@ -21441,7 +21441,7 @@ PyMODINIT_FUNC PyInit_snobal(void)
  */
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_DIVIDED_TSTEP, __pyx_int_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":17
+  /* "pysnobal/libsnobal/snobal.pyx":17
  * DIVIDED_TSTEP = 0x2  # output when timestep is divided
  * 
  * HR_TO_SEC = 3600.0             # <<<<<<<<<<<<<<
@@ -21450,19 +21450,19 @@ PyMODINIT_FUNC PyInit_snobal(void)
  */
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_HR_TO_SEC, __pyx_float_3600_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":18
+  /* "pysnobal/libsnobal/snobal.pyx":18
  * 
  * HR_TO_SEC = 3600.0
  * SEC_TO_HR = lambda x: x / 3600.0             # <<<<<<<<<<<<<<
  * DATA_TSTEP = 0
  * NORMAL_TSTEP = 1
  */
-  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_lambda, 0, __pyx_n_s_lambda, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_lambda, 0, __pyx_n_s_lambda, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_SEC_TO_HR, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":19
+  /* "pysnobal/libsnobal/snobal.pyx":19
  * HR_TO_SEC = 3600.0
  * SEC_TO_HR = lambda x: x / 3600.0
  * DATA_TSTEP = 0             # <<<<<<<<<<<<<<
@@ -21471,7 +21471,7 @@ PyMODINIT_FUNC PyInit_snobal(void)
  */
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_DATA_TSTEP, __pyx_int_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":20
+  /* "pysnobal/libsnobal/snobal.pyx":20
  * SEC_TO_HR = lambda x: x / 3600.0
  * DATA_TSTEP = 0
  * NORMAL_TSTEP = 1             # <<<<<<<<<<<<<<
@@ -21480,7 +21480,7 @@ PyMODINIT_FUNC PyInit_snobal(void)
  */
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_NORMAL_TSTEP, __pyx_int_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 20; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":21
+  /* "pysnobal/libsnobal/snobal.pyx":21
  * DATA_TSTEP = 0
  * NORMAL_TSTEP = 1
  * MEDIUM_TSTEP = 2             # <<<<<<<<<<<<<<
@@ -21489,7 +21489,7 @@ PyMODINIT_FUNC PyInit_snobal(void)
  */
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_MEDIUM_TSTEP, __pyx_int_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":22
+  /* "pysnobal/libsnobal/snobal.pyx":22
  * NORMAL_TSTEP = 1
  * MEDIUM_TSTEP = 2
  * SMALL_TSTEP = 3             # <<<<<<<<<<<<<<
@@ -21498,7 +21498,7 @@ PyMODINIT_FUNC PyInit_snobal(void)
  */
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_SMALL_TSTEP, __pyx_int_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":24
+  /* "pysnobal/libsnobal/snobal.pyx":24
  * SMALL_TSTEP = 3
  * 
  * MIN_SNOW_TEMP = -75             # <<<<<<<<<<<<<<
@@ -21507,7 +21507,7 @@ PyMODINIT_FUNC PyInit_snobal(void)
  */
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_MIN_SNOW_TEMP, __pyx_int_neg_75) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":25
+  /* "pysnobal/libsnobal/snobal.pyx":25
  * 
  * MIN_SNOW_TEMP = -75
  * FREEZE = 273.16             # <<<<<<<<<<<<<<
@@ -21516,7 +21516,7 @@ PyMODINIT_FUNC PyInit_snobal(void)
  */
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_FREEZE, __pyx_float_273_16) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":26
+  /* "pysnobal/libsnobal/snobal.pyx":26
  * MIN_SNOW_TEMP = -75
  * FREEZE = 273.16
  * KT_MOISTSAND = 1.65             # <<<<<<<<<<<<<<
@@ -21525,7 +21525,7 @@ PyMODINIT_FUNC PyInit_snobal(void)
  */
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_KT_MOISTSAND, __pyx_float_1_65) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":27
+  /* "pysnobal/libsnobal/snobal.pyx":27
  * FREEZE = 273.16
  * KT_MOISTSAND = 1.65
  * MAX_SNOW_DENSITY = 600             # <<<<<<<<<<<<<<
@@ -21534,7 +21534,7 @@ PyMODINIT_FUNC PyInit_snobal(void)
  */
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_MAX_SNOW_DENSITY, __pyx_int_600) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":30
+  /* "pysnobal/libsnobal/snobal.pyx":30
  * 
  * # density of water at 0C (kg/m^3) (from CRC handbook pg F-11)
  * RHO_W0 = 999.87             # <<<<<<<<<<<<<<
@@ -21543,7 +21543,7 @@ PyMODINIT_FUNC PyInit_snobal(void)
  */
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_RHO_W0, __pyx_float_999_87) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":33
+  /* "pysnobal/libsnobal/snobal.pyx":33
  * 
  * # specific heat of water at 0C (J / (kg K))
  * CP_W0 = 4217.7             # <<<<<<<<<<<<<<
@@ -21552,7 +21552,7 @@ PyMODINIT_FUNC PyInit_snobal(void)
  */
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_CP_W0, __pyx_float_4217_7) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":36
+  /* "pysnobal/libsnobal/snobal.pyx":36
  * 
  * # density of ice - no air (kg/m^3) (from CRC handbook pg F-1)
  * RHO_ICE = 917.0             # <<<<<<<<<<<<<<
@@ -21561,7 +21561,7 @@ PyMODINIT_FUNC PyInit_snobal(void)
  */
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_RHO_ICE, __pyx_float_917_0) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":39
+  /* "pysnobal/libsnobal/snobal.pyx":39
  * 
  * # ratio vaporization to sublimation
  * VAP_SUB  = 2.501 / 2.835             # <<<<<<<<<<<<<<
@@ -21573,67 +21573,67 @@ PyMODINIT_FUNC PyInit_snobal(void)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_VAP_SUB, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":42
+  /* "pysnobal/libsnobal/snobal.pyx":42
  * 
  * # Kelvin to Celcius
  * K_TO_C = lambda x: x - FREEZE             # <<<<<<<<<<<<<<
  * 
  * # specific heat of ice (J/(kg K)) (from CRC table D-159; most accurate from 0 to -10 C)
  */
-  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_1lambda1, 0, __pyx_n_s_lambda, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 42; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_1lambda1, 0, __pyx_n_s_lambda, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 42; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_K_TO_C, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 42; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":46
+  /* "pysnobal/libsnobal/snobal.pyx":46
  * # specific heat of ice (J/(kg K)) (from CRC table D-159; most accurate from 0 to -10 C)
  * # t - temperature in K
  * CP_ICE = lambda t: CAL_TO_J * (0.024928 + (0.00176 * t)) / 0.001             # <<<<<<<<<<<<<<
  * 
  * # specific heat of water (J/(kg K))
  */
-  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_2lambda2, 0, __pyx_n_s_lambda, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 46; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_2lambda2, 0, __pyx_n_s_lambda, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 46; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_CP_ICE, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 46; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":51
+  /* "pysnobal/libsnobal/snobal.pyx":51
  * #    (from CRC table D-158; most accurate from 0 to +10 C)
  * #    (incorrect at temperatures above 25 C)
  * CP_WATER = lambda t: CP_W0 - 2.55 * (t - FREEZE)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_3lambda3, 0, __pyx_n_s_lambda, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 51; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_3lambda3, 0, __pyx_n_s_lambda, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 51; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_CP_WATER, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 51; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":57
+  /* "pysnobal/libsnobal/snobal.pyx":57
  * # rhos = total density of snow (kg/m^3)
  * # sat  = snow saturation (see SNO_SAT)
  * DRY_SNO_RHO = lambda rhos,sat: ( ((rhos) - (sat) * RHO_W0) / (1 - (sat) * RHO_W0 / RHO_ICE) )             # <<<<<<<<<<<<<<
  * 
  * # water retained by snow at given saturation (see SNO_SAT)
  */
-  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_4lambda4, 0, __pyx_n_s_lambda, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_4lambda4, 0, __pyx_n_s_lambda, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_DRY_SNO_RHO, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":63
+  /* "pysnobal/libsnobal/snobal.pyx":63
  * #    rhos = density of snow (kg/m^3)
  * #    sat  = snow saturation (see SNO_SAT)
  * H2O_LEFT = lambda d,rhos,sat: ( (sat * d * RHO_W0 * (RHO_ICE - rhos)) / RHO_ICE )             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_5lambda5, 0, __pyx_n_s_lambda, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_5lambda5, 0, __pyx_n_s_lambda, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_H2O_LEFT, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":67
+  /* "pysnobal/libsnobal/snobal.pyx":67
  * 
  * # Convert calories to Joules
  * CAL_TO_J = 4.186798188             # <<<<<<<<<<<<<<
@@ -21642,31 +21642,31 @@ PyMODINIT_FUNC PyInit_snobal(void)
  */
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_CAL_TO_J, __pyx_float_4_186798188) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":72
+  /* "pysnobal/libsnobal/snobal.pyx":72
  * # (after Yen, 1965, see Anderson, 1976, pg. 31)
  * #     rho = snow density (kg/m^3)
  * KTS = lambda rho: CAL_TO_J * 0.0077 * (rho/1000.0) * (rho/1000.0)             # <<<<<<<<<<<<<<
  * 
  * # melt (kg/m^2), Q = available energy (J/m^2)
  */
-  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_6lambda6, 0, __pyx_n_s_lambda, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_6lambda6, 0, __pyx_n_s_lambda, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_KTS, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":75
+  /* "pysnobal/libsnobal/snobal.pyx":75
  * 
  * # melt (kg/m^2), Q = available energy (J/m^2)
  * MELT = lambda Q: Q / libsnobal.LH_FUS(FREEZE)             # <<<<<<<<<<<<<<
  * 
  * SNOW_EMISSIVITY = 0.98
  */
-  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_7lambda7, 0, __pyx_n_s_lambda, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_7lambda7, 0, __pyx_n_s_lambda, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_MELT, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":77
+  /* "pysnobal/libsnobal/snobal.pyx":77
  * MELT = lambda Q: Q / libsnobal.LH_FUS(FREEZE)
  * 
  * SNOW_EMISSIVITY = 0.98             # <<<<<<<<<<<<<<
@@ -21675,7 +21675,7 @@ PyMODINIT_FUNC PyInit_snobal(void)
  */
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_SNOW_EMISSIVITY, __pyx_float_0_98) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 77; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":78
+  /* "pysnobal/libsnobal/snobal.pyx":78
  * 
  * SNOW_EMISSIVITY = 0.98
  * STEF_BOLTZ = 5.67032e-8     # Stefan-Boltzmann constant (W / m^2 / deg^4)             # <<<<<<<<<<<<<<
@@ -21684,19 +21684,19 @@ PyMODINIT_FUNC PyInit_snobal(void)
  */
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_STEF_BOLTZ, __pyx_float_5_67032eneg_8) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 78; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "pysnobal/libsnobal/snobal.py":85
+  /* "pysnobal/libsnobal/snobal.pyx":85
  * #    value        new value to be averaged in
  * #    time_incr    the time interval the new value applies to
  * TIME_AVG = lambda avg,total_time,value,time_incr: (avg * total_time + value * time_incr) / (total_time + time_incr)             # <<<<<<<<<<<<<<
  * 
  * class snobal(object):
  */
-  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_8lambda8, 0, __pyx_n_s_lambda, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_8lambda8, 0, __pyx_n_s_lambda, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_TIME_AVG, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":87
+  /* "pysnobal/libsnobal/snobal.pyx":87
  * TIME_AVG = lambda avg,total_time,value,time_incr: (avg * total_time + value * time_incr) / (total_time + time_incr)
  * 
  * class snobal(object):             # <<<<<<<<<<<<<<
@@ -21710,10 +21710,10 @@ PyMODINIT_FUNC PyInit_snobal(void)
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_builtin_object);
   __pyx_t_1 = __Pyx_CalculateMetaclass(NULL, __pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_t_2, __pyx_n_s_snobal, __pyx_n_s_snobal, (PyObject *) NULL, __pyx_n_s_pysnobal_snobal, __pyx_kp_s_To_do_self_snow_is_the_working); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_t_2, __pyx_n_s_snobal, __pyx_n_s_snobal, (PyObject *) NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_kp_s_To_do_self_snow_is_the_working); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
 
-  /* "pysnobal/libsnobal/snobal.py":98
+  /* "pysnobal/libsnobal/snobal.pyx":98
  *     # came from self.__dict__.keys()
  *     # slots will help with memory when multiple instances of snobal are used
  *     __slots__ = ['em', 'input2', 'input1', 'z_T', 'computed', 'precip_now',             # <<<<<<<<<<<<<<
@@ -21836,370 +21836,370 @@ PyMODINIT_FUNC PyInit_snobal(void)
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_slots, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 98; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":107
+  /* "pysnobal/libsnobal/snobal.pyx":107
  * 
  * 
  *     def __init__(self, params, tstep_info, snow_prop, meas_heights):             # <<<<<<<<<<<<<<
  *         """
  *         Initialize the snobal() class with the parameters,
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_6snobal_1__init__, 0, __pyx_n_s_snobal___init, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__13)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_1__init__, 0, __pyx_n_s_snobal___init, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__13)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_init, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":170
+  /* "pysnobal/libsnobal/snobal.pyx":170
  * 
  * 
  *     def do_data_tstep(self, input1, input2):             # <<<<<<<<<<<<<<
  *         """
  *         This routine performs the model's calculations for 1 data timestep
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_6snobal_3do_data_tstep, 0, __pyx_n_s_snobal_do_data_tstep, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__15)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 170; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_3do_data_tstep, 0, __pyx_n_s_snobal_do_data_tstep, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__15)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 170; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_do_data_tstep, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 170; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":288
+  /* "pysnobal/libsnobal/snobal.pyx":288
  * 
  * 
  *     def divide_tstep(self):             # <<<<<<<<<<<<<<
  *         """
  *         This routine performs the model's calculations for 1 data timestep
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_6snobal_5divide_tstep, 0, __pyx_n_s_snobal_divide_tstep, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__17)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 288; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_5divide_tstep, 0, __pyx_n_s_snobal_divide_tstep, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__17)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 288; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_divide_tstep, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 288; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":389
+  /* "pysnobal/libsnobal/snobal.pyx":389
  * 
  * #     @profile
  *     def do_tstep(self, tstep):             # <<<<<<<<<<<<<<
  *         """
  *         This routine performs the model's calculations for a single timestep.
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_6snobal_7do_tstep, 0, __pyx_n_s_snobal_do_tstep, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__19)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 389; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_7do_tstep, 0, __pyx_n_s_snobal_do_tstep, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__19)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 389; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_do_tstep, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 389; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":493
+  /* "pysnobal/libsnobal/snobal.pyx":493
  * 
  * #     @profile
  *     def mass_bal(self):             # <<<<<<<<<<<<<<
  *         """
  *         Calculates the point mass budget for 2-layer energy budget snowmelt
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_6snobal_9mass_bal, 0, __pyx_n_s_snobal_mass_bal, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__21)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 493; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_9mass_bal, 0, __pyx_n_s_snobal_mass_bal, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__21)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 493; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_mass_bal, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 493; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":535
+  /* "pysnobal/libsnobal/snobal.pyx":535
  * 
  * 
  *     def new_tsno(self, spm, t0, ccon):             # <<<<<<<<<<<<<<
  *         """
  *         calculates a new temperature for a snow layer from its
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_6snobal_11new_tsno, 0, __pyx_n_s_snobal_new_tsno, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__23)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 535; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_11new_tsno, 0, __pyx_n_s_snobal_new_tsno, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__23)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 535; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_new_tsno, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 535; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":559
+  /* "pysnobal/libsnobal/snobal.pyx":559
  * 
  * 
  *     def runoff(self):             # <<<<<<<<<<<<<<
  *         """
  *         Calculates runoff for point energy budget 2-layer snowmelt model
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_6snobal_13runoff, 0, __pyx_n_s_snobal_runoff, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__25)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 559; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_13runoff, 0, __pyx_n_s_snobal_runoff, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__25)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 559; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_runoff, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 559; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":594
+  /* "pysnobal/libsnobal/snobal.pyx":594
  * 
  * 
  *     def h2o_compact(self):             # <<<<<<<<<<<<<<
  *         """
  *         This routine compacts or densifies the snowcover based on the
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_6snobal_15h2o_compact, 0, __pyx_n_s_snobal_h2o_compact, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__27)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 594; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_15h2o_compact, 0, __pyx_n_s_snobal_h2o_compact, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__27)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 594; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_h2o_compact, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 594; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":655
+  /* "pysnobal/libsnobal/snobal.pyx":655
  * 
  * 
  *     def evap_cond(self):             # <<<<<<<<<<<<<<
  *         """
  *         Calculates mass lost or gained by evaporation/condensation
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_6snobal_17evap_cond, 0, __pyx_n_s_snobal_evap_cond, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__29)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_17evap_cond, 0, __pyx_n_s_snobal_evap_cond, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__29)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_evap_cond, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":738
+  /* "pysnobal/libsnobal/snobal.pyx":738
  * 
  * 
  *     def snowmelt(self):             # <<<<<<<<<<<<<<
  *         """
  *         Calculates melting or re-freezing for point 2-layer energy balance
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_6snobal_19snowmelt, 0, __pyx_n_s_snobal_snowmelt, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__31)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 738; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_19snowmelt, 0, __pyx_n_s_snobal_snowmelt, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__31)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 738; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_snowmelt, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 738; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":852
+  /* "pysnobal/libsnobal/snobal.pyx":852
  * 
  * 
  *     def precip_event(self):             # <<<<<<<<<<<<<<
  *         """
  *         This routine processes a precipitation event, i.e., the current
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_6snobal_21precip_event, 0, __pyx_n_s_snobal_precip_event, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__33)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 852; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_21precip_event, 0, __pyx_n_s_snobal_precip_event, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__33)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 852; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_precip_event, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 852; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":894
+  /* "pysnobal/libsnobal/snobal.pyx":894
  * 
  * #     @profile
  *     def adj_snow(self, delta_z_s, delta_m_s):             # <<<<<<<<<<<<<<
  *         """
  *         This routine adjusts the snowcover for a change in its depth or
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_6snobal_23adj_snow, 0, __pyx_n_s_snobal_adj_snow, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__35)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 894; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_23adj_snow, 0, __pyx_n_s_snobal_adj_snow, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__35)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 894; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_adj_snow, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 894; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":937
+  /* "pysnobal/libsnobal/snobal.pyx":937
  * 
  * 
  *     def time_compact(self):             # <<<<<<<<<<<<<<
  *         """
  *         This routine "ages" the snowcover by accounting for the compaction
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_6snobal_25time_compact, 0, __pyx_n_s_snobal_time_compact, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__37)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 937; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_25time_compact, 0, __pyx_n_s_snobal_time_compact, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__37)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 937; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_time_compact, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 937; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":994
+  /* "pysnobal/libsnobal/snobal.pyx":994
  * 
  * #     @profile
  *     def adj_layers(self):             # <<<<<<<<<<<<<<
  *         """
  *         This routine adjusts the layers of the snowcover because the
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_6snobal_27adj_layers, 0, __pyx_n_s_snobal_adj_layers, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__39)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 994; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_27adj_layers, 0, __pyx_n_s_snobal_adj_layers, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__39)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 994; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_adj_layers, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 994; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1069
+  /* "pysnobal/libsnobal/snobal.pyx":1069
  * 
  * #     @profile
  *     def e_bal(self):             # <<<<<<<<<<<<<<
  *         """
  *         Calculates point energy budget for 2-layer snowcover.
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_6snobal_29e_bal, 0, __pyx_n_s_snobal_e_bal, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__41)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1069; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_29e_bal, 0, __pyx_n_s_snobal_e_bal, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__41)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1069; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_e_bal, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1069; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1119
+  /* "pysnobal/libsnobal/snobal.pyx":1119
  * 
  * 
  *     def advec(self):             # <<<<<<<<<<<<<<
  *         """
  *         This routine calculates the advected energy for a 2-layer snowcover
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_6snobal_31advec, 0, __pyx_n_s_snobal_advec, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__43)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1119; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_31advec, 0, __pyx_n_s_snobal_advec, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__43)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1119; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_advec, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1119; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1143
+  /* "pysnobal/libsnobal/snobal.pyx":1143
  * 
  * 
  *     def g_soil(self, layer):             # <<<<<<<<<<<<<<
  *         """
  *         conduction heat flow between snow and soil
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_6snobal_33g_soil, 0, __pyx_n_s_snobal_g_soil, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__45)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1143; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_33g_soil, 0, __pyx_n_s_snobal_g_soil, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__45)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1143; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_g_soil, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1143; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1175
+  /* "pysnobal/libsnobal/snobal.pyx":1175
  *         self.em.G = g
  * 
  *     def g_snow(self):             # <<<<<<<<<<<<<<
  *         """
  *         conduction heat flow between snow layers
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_6snobal_35g_snow, 0, __pyx_n_s_snobal_g_snow, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__47)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1175; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_35g_snow, 0, __pyx_n_s_snobal_g_snow, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__47)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1175; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_g_snow, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1175; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1194
+  /* "pysnobal/libsnobal/snobal.pyx":1194
  * 
  * 
  *     def h_le(self):             # <<<<<<<<<<<<<<
  *         """
  *         Calculates point turbulent transfer (H and L_v_E) for a 2-layer snowcover
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_6snobal_37h_le, 0, __pyx_n_s_snobal_h_le, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__49)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1194; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_37h_le, 0, __pyx_n_s_snobal_h_le, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__49)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1194; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_h_le, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1194; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1234
+  /* "pysnobal/libsnobal/snobal.pyx":1234
  * 
  * 
  *     def below_thold(self, threshold):             # <<<<<<<<<<<<<<
  *         """
  *         This routine determines if any individual layer's mass is below
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_6snobal_39below_thold, 0, __pyx_n_s_snobal_below_thold, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__51)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1234; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_39below_thold, 0, __pyx_n_s_snobal_below_thold, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__51)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1234; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_below_thold, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1234; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1256
+  /* "pysnobal/libsnobal/snobal.pyx":1256
  * 
  * 
  *     def get_sn_rec(self, first_rec=False):             # <<<<<<<<<<<<<<
  *         """
  *         This routine loads the next snow-properties record into the
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_6snobal_41get_sn_rec, 0, __pyx_n_s_snobal_get_sn_rec, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__53)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1256; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_41get_sn_rec, 0, __pyx_n_s_snobal_get_sn_rec, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__53)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1256; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_4, __pyx_tuple__54);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_get_sn_rec, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1256; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1290
+  /* "pysnobal/libsnobal/snobal.pyx":1290
  * 
  * 
  *     def get_mh_rec(self, first_rec=False):             # <<<<<<<<<<<<<<
  *         """
  *         This routine loads the next measurement-heights record into
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_6snobal_43get_mh_rec, 0, __pyx_n_s_snobal_get_mh_rec, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__56)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1290; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_43get_mh_rec, 0, __pyx_n_s_snobal_get_mh_rec, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__56)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1290; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_4, __pyx_tuple__57);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_get_mh_rec, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1290; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1317
+  /* "pysnobal/libsnobal/snobal.pyx":1317
  * 
  * 
  *     def init_precip(self):             # <<<<<<<<<<<<<<
  *         """
  *         Returns a Pandas series that will contain all information about
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_6snobal_45init_precip, 0, __pyx_n_s_snobal_init_precip, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__59)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1317; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_45init_precip, 0, __pyx_n_s_snobal_init_precip, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__59)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1317; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_init_precip, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1317; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1328
+  /* "pysnobal/libsnobal/snobal.pyx":1328
  * 
  * 
  *     def init_snow(self, from_record=False):             # <<<<<<<<<<<<<<
  *         """
  *         This routine initializes the properties for the snowcover.  It
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_6snobal_47init_snow, 0, __pyx_n_s_snobal_init_snow, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__61)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1328; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_47init_snow, 0, __pyx_n_s_snobal_init_snow, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__61)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1328; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_4, __pyx_tuple__62);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_init_snow, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1328; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1427
+  /* "pysnobal/libsnobal/snobal.pyx":1427
  * 
  * 
  *     def init_em(self):             # <<<<<<<<<<<<<<
  *         """
  *         Initialize a Pandas Series for the energy and max fluxes
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_6snobal_49init_em, 0, __pyx_n_s_snobal_init_em, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__64)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1427; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_49init_em, 0, __pyx_n_s_snobal_init_em, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__64)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1427; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_init_em, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1427; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1471
+  /* "pysnobal/libsnobal/snobal.pyx":1471
  * 
  * #     @profile
  *     def calc_layers(self):             # <<<<<<<<<<<<<<
  *         """
  *         This routine determines the # of layers in the snowcover based its
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_6snobal_51calc_layers, 0, __pyx_n_s_snobal_calc_layers, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__66)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1471; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_51calc_layers, 0, __pyx_n_s_snobal_calc_layers, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__66)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1471; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_calc_layers, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1471; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1523
+  /* "pysnobal/libsnobal/snobal.pyx":1523
  * 
  * #     @profile
  *     def layer_mass(self):             # <<<<<<<<<<<<<<
  *         """
  *         This routine computes the specific mass for each snow layer in
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_6snobal_53layer_mass, 0, __pyx_n_s_snobal_layer_mass, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__68)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1523; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_53layer_mass, 0, __pyx_n_s_snobal_layer_mass, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__68)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1523; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_layer_mass, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1523; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1544
+  /* "pysnobal/libsnobal/snobal.pyx":1544
  * 
  * 
  *     def cold_content(self, temp, mass):             # <<<<<<<<<<<<<<
  *         """
  *         This routine calculates the cold content for a layer (i.e., the
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_6snobal_55cold_content, 0, __pyx_n_s_snobal_cold_content, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__70)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1544; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_55cold_content, 0, __pyx_n_s_snobal_cold_content, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__70)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1544; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_cold_content, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1544; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1564
+  /* "pysnobal/libsnobal/snobal.pyx":1564
  * 
  * 
  *     def heat_stor(self, cp, spm, tdif):             # <<<<<<<<<<<<<<
  *         """
  *         Calculate the heat storage
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_6snobal_57heat_stor, 0, __pyx_n_s_snobal_heat_stor, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__72)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1564; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_57heat_stor, 0, __pyx_n_s_snobal_heat_stor, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__72)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1564; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_heat_stor, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1564; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1576
+  /* "pysnobal/libsnobal/snobal.pyx":1576
  * 
  * 
  *     def output(self):             # <<<<<<<<<<<<<<
  *         """
  *         Specify where the model output should go
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_6snobal_59output, 0, __pyx_n_s_snobal_output, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__74)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1576; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_6snobal_59output, 0, __pyx_n_s_snobal_output, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__74)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1576; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_output, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1576; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":87
+  /* "pysnobal/libsnobal/snobal.pyx":87
  * TIME_AVG = lambda avg,total_time,value,time_incr: (avg * total_time + value * time_incr) / (total_time + time_incr)
  * 
  * class snobal(object):             # <<<<<<<<<<<<<<
@@ -22214,7 +22214,7 @@ PyMODINIT_FUNC PyInit_snobal(void)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1622
+  /* "pysnobal/libsnobal/snobal.pyx":1622
  * 
  * 
  * class Map(dict):             # <<<<<<<<<<<<<<
@@ -22228,82 +22228,82 @@ PyMODINIT_FUNC PyInit_snobal(void)
   PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)(&PyDict_Type)));
   __pyx_t_1 = __Pyx_CalculateMetaclass(NULL, __pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1622; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_t_2, __pyx_n_s_Map, __pyx_n_s_Map, (PyObject *) NULL, __pyx_n_s_pysnobal_snobal, __pyx_kp_s_Example_m_Map_first_name_Eduard); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1622; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_t_2, __pyx_n_s_Map, __pyx_n_s_Map, (PyObject *) NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_kp_s_Example_m_Map_first_name_Eduard); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1622; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
 
-  /* "pysnobal/libsnobal/snobal.py":1627
+  /* "pysnobal/libsnobal/snobal.pyx":1627
  *     m = Map({'first_name': 'Eduardo'}, last_name='Pool', age=24, sports=['Soccer'])
  *     """
  *     def __init__(self, *args, **kwargs):             # <<<<<<<<<<<<<<
  *         super(Map, self).__init__(*args, **kwargs)
  *         for arg in args:
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_3Map_1__init__, 0, __pyx_n_s_Map___init, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__76)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1627; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_3Map_1__init__, 0, __pyx_n_s_Map___init, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__76)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1627; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_init, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1627; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1638
+  /* "pysnobal/libsnobal/snobal.pyx":1638
  *                 self[k] = v
  * 
  *     def __getattr__(self, attr):             # <<<<<<<<<<<<<<
  *         return self.get(attr)
  * 
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_3Map_3__getattr__, 0, __pyx_n_s_Map___getattr, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__78)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1638; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_3Map_3__getattr__, 0, __pyx_n_s_Map___getattr, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__78)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1638; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_getattr, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1638; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1641
+  /* "pysnobal/libsnobal/snobal.pyx":1641
  *         return self.get(attr)
  * 
  *     def __setattr__(self, key, value):             # <<<<<<<<<<<<<<
  *         self.__setitem__(key, value)
  * 
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_3Map_5__setattr__, 0, __pyx_n_s_Map___setattr, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__80)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1641; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_3Map_5__setattr__, 0, __pyx_n_s_Map___setattr, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__80)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1641; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_setattr, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1641; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1644
+  /* "pysnobal/libsnobal/snobal.pyx":1644
  *         self.__setitem__(key, value)
  * 
  *     def __setitem__(self, key, value):             # <<<<<<<<<<<<<<
  *         super(Map, self).__setitem__(key, value)
  *         self.__dict__.update({key: value})
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_3Map_7__setitem__, 0, __pyx_n_s_Map___setitem, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__82)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1644; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_3Map_7__setitem__, 0, __pyx_n_s_Map___setitem, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__82)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1644; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_setitem, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1644; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1648
+  /* "pysnobal/libsnobal/snobal.pyx":1648
  *         self.__dict__.update({key: value})
  * 
  *     def __delattr__(self, item):             # <<<<<<<<<<<<<<
  *         self.__delitem__(item)
  * 
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_3Map_9__delattr__, 0, __pyx_n_s_Map___delattr, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__84)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1648; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_3Map_9__delattr__, 0, __pyx_n_s_Map___delattr, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__84)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1648; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_delattr, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1648; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1651
+  /* "pysnobal/libsnobal/snobal.pyx":1651
  *         self.__delitem__(item)
  * 
  *     def __delitem__(self, key):             # <<<<<<<<<<<<<<
  *         super(Map, self).__delitem__(key)
  *         del self.__dict__[key]
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_3Map_11__delitem__, 0, __pyx_n_s_Map___delitem, NULL, __pyx_n_s_pysnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__86)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1651; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8pysnobal_9libsnobal_6snobal_3Map_11__delitem__, 0, __pyx_n_s_Map___delitem, NULL, __pyx_n_s_pysnobal_libsnobal_snobal, __pyx_d, ((PyObject *)__pyx_codeobj__86)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1651; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_delitem, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1651; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1622
+  /* "pysnobal/libsnobal/snobal.pyx":1622
  * 
  * 
  * class Map(dict):             # <<<<<<<<<<<<<<
@@ -22318,7 +22318,7 @@ PyMODINIT_FUNC PyInit_snobal(void)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "pysnobal/libsnobal/snobal.py":1
+  /* "pysnobal/libsnobal/snobal.pyx":1
  * """             # <<<<<<<<<<<<<<
  * Class snobal() that will hold all the modeling components
  * 
@@ -22338,11 +22338,11 @@ PyMODINIT_FUNC PyInit_snobal(void)
   __Pyx_XDECREF(__pyx_t_4);
   if (__pyx_m) {
     if (__pyx_d) {
-      __Pyx_AddTraceback("init pysnobal.snobal", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("init pysnobal.libsnobal.snobal", __pyx_clineno, __pyx_lineno, __pyx_filename);
     }
     Py_DECREF(__pyx_m); __pyx_m = 0;
   } else if (!PyErr_Occurred()) {
-    PyErr_SetString(PyExc_ImportError, "init pysnobal.snobal");
+    PyErr_SetString(PyExc_ImportError, "init pysnobal.libsnobal.snobal");
   }
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
