@@ -9,7 +9,8 @@ snobal -z 2061 -t 60 -m 0.01 -s snow.properties.input
 20160118 Scott Havens
 """
 
-from libsnobal import libsnobal, snobal
+from libsnobal import libsnobal
+from libsnobal.py_snobal import snobal
 
 import sys, getopt
 import numpy as np
@@ -267,6 +268,7 @@ def run(data):
     Acutally run the model
     """
 
+@profile
 def main(argv):
     """
     mimic the main.c from the Snobal model
