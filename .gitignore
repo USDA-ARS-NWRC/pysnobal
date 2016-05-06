@@ -4,6 +4,7 @@
 .pydevproject
 .settings/
 
+test_data_spatial/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

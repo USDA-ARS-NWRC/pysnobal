@@ -113,11 +113,11 @@ def get_args(argv):
         't': 60,
         'm': 0.01,
         'd': DEFAULT_MAX_Z_S_0,
-        's': '../test_data_point/snow.properties.input',
-        'h': '../test_data_point/inheight.input',
-        'p': '../test_data_point/snobal.ppt.input',
-        'i': '../test_data_point/snobal.data.input.short',
-        'o': '../test_data_point/snobal.out',
+        's': '../test_data/snow.properties.input',
+        'h': '../test_data/inheight.input',
+        'p': '../test_data/snobal.ppt.input',
+        'i': '../test_data/snobal.data.input.short',
+        'o': '../test_data/snobal.out',
         'O': 'data',
         'c': True,
         'K': True,
@@ -221,13 +221,6 @@ def open_files(params):
     sn_prop = ['time_s', 'z_s', 'rho', 'T_s_0', 'T_s', 'h2o_sat']
     sn = pd.read_csv(params['sn_filename'], sep=' ', header=None, names=sn_prop, index_col='time_s')
         
-    # since I haven't seen multiple snow records before,
-    # change the snow record to a dict and only keep the first 
-    # or initial value
-    time_s = sn.iloc[0].name
-    sn = sn.iloc[0].to_dict()
-    sn['time_s'] = time_s
-        
     # read the measurements height file
     ht_prop = ['time_s', 'z_u', 'z_T', 'z_0', 'z_g']
     mh = pd.read_csv(params['mh_filename'], sep=' ', header=None, names=ht_prop, index_col='time_s')
@@ -242,8 +235,8 @@ def open_files(params):
     
     # convert to Kelvin
     if params['temps_in_C']:
-        sn['T_s_0'] += C_TO_K
-        sn['T_s'] += C_TO_K
+        sn.T_s_0 += C_TO_K
+        sn.T_s += C_TO_K
         pr.T_pp += C_TO_K
         force.T_a += C_TO_K
         force.T_g += C_TO_K
@@ -275,7 +268,7 @@ def run(data):
     Acutally run the model
     """
 
-#@profile
+@profile
 def main(argv):
     """
     mimic the main.c from the Snobal model
