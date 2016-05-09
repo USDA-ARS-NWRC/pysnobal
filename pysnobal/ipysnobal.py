@@ -18,10 +18,11 @@ import numpy as np
 import pandas as pd
 from datetime import timedelta
 import netCDF4 as nc
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 import progressbar
 from multiprocessing import Pool
 from functools import partial
+import itertools
 
 
 DEFAULT_MAX_Z_S_0 = 0.25
@@ -364,6 +365,10 @@ def open_files(options):
     
     i.close()
     
+    # convert temperatures to K
+    init['T_s'] += FREEZE
+    init['T_s_0'] += FREEZE
+    
     
     #------------------------------------------------------------------------------ 
     # get the forcing data and open the file
@@ -504,8 +509,8 @@ def output_timestep(s, tstep, options):
 #             sbuf[sbuf_start++] = T_s   - FREEZE;
     
     # preallocate
-    em = {key: np.empty(s.shape) for key in em_out.keys()}
-    snow = {key: np.empty(s.shape) for key in snow_out.keys()}
+    em = {key: np.zeros(s.shape) for key in em_out.keys()}
+    snow = {key: np.zeros(s.shape) for key in snow_out.keys()}
     
     # gather all the data together
     for index, si in np.ndenumerate(s):
@@ -516,6 +521,11 @@ def output_timestep(s, tstep, options):
                 
             for key,value in snow_out.iteritems():
                 snow[key][index] = si.snow[value]
+    
+    # convert from K to C
+    snow['temp_snowcover'] -= FREEZE
+    snow['temp_surf'] -= FREEZE
+    snow['temp_lower'] -= FREEZE
         
             
     # now find the correct index
@@ -573,7 +583,12 @@ def get_timestep(force, tstep):
         
         # pull out the value        
         inpt[map_val[f]] = force[f].variables[f][t,:]
-        
+    
+    # convert from C to K
+    inpt['T_a'] += FREEZE
+    inpt['T_pp'] += FREEZE
+    inpt['T_g'] += FREEZE
+    
     return inpt
     
         
@@ -601,6 +616,7 @@ def initialize(params, tstep_info, mh, init):
     # allocate an empty numpy array to hold all the snobal objects
     s = np.empty_like(init['z'], dtype=object)
     
+    
     for index, x in np.ndenumerate(init['z']):
         
         if init['mask'][index]:
@@ -612,40 +628,43 @@ def initialize(params, tstep_info, mh, init):
             # add to the parameters
             params['elevation'] = init['z'][index]
             
+            # add to the measurement heights
+            mh['z_0'] = init['z_0'][index]
+            
             # initialize snobal
             s[index] = snobal(params, tstep_info, sn, mh)
             
     return s
     
     
-class parallel_helper(object):
-    """
-    Simple class to aid in parallelizing the loop over the
-    snobal instances
-    """
-    def __init__(self, input1, input2, s):
-        self.input1 = input1
-        self.input2 = input2
-        self.s = s
-        
-    def run(self, index=None):
-        """
-        Args: index - tuple for the index to be ran, from iterator object
-        """
-        
-        if self.s[index] is not None:
-        
-            in1 = {key: self.input1[key][index] for key in self.input1.keys()}
-            in2 = {key: self.input2[key][index] for key in self.input2.keys()}
-            
-            self.s[index].do_data_tstep(in1, in2)
-            
-    def go(self):
-        
-        pool = Pool(8)
-#         it = np.nditer(self.input1, flags=['multi_index','refs_ok'])
-        it = np.ndenumerate(self.s)
-        pool.map(self.run, it)
+# class parallel_helper(object):
+#     """
+#     Simple class to aid in parallelizing the loop over the
+#     snobal instances
+#     """
+#     def __init__(self, input1, input2, s):
+#         self.input1 = input1
+#         self.input2 = input2
+#         self.s = s
+#         
+#     def run(self, index=None):
+#         """
+#         Args: index - tuple for the index to be ran, from iterator object
+#         """
+#         
+#         if self.s[index] is not None:
+#         
+#             in1 = {key: self.input1[key][index] for key in self.input1.keys()}
+#             in2 = {key: self.input2[key][index] for key in self.input2.keys()}
+#             
+#             self.s[index].do_data_tstep(in1, in2)
+#             
+#     def go(self):
+#         
+#         pool = Pool(8)
+# #         it = np.nditer(self.input1, flags=['multi_index','refs_ok'])
+#         it = np.ndenumerate(self.s)
+#         pool.map(self.run, it)
 
     
 
@@ -653,7 +672,7 @@ class parallel_helper(object):
 # @profile
 def run(s, input1, input2):
     """
-    Acutally run the model
+    Acutally run the model for a single processor
     """
     
     for index, si in np.ndenumerate(s):
@@ -664,7 +683,91 @@ def run(s, input1, input2):
             in2 = {key: input2[key][index] for key in input2.keys()}
             
             s[index].do_data_tstep(in1, in2)
+
+
+def run_map(input):
+    """
+    Run a single point, input is a list
+    [snobal instance, input1, input2]
+    """    
+    if input[1] is not None:
+        input[1].do_data_tstep(input[2], input[3])
+        
+    return input[0]
+        
+        
+
+class MyIterator:
+    """
+    Simple iterator class that will iterate through
+    the snobal classes and inputs
+    """
+    def __init__(self, obj, max_value):
+        self.obj = obj
+        self.cnt = 0
+        self.max_value = max_value
+       
+    def __iter__(self):
+        return self
     
+    def next(self):
+        """
+        Return the next value from the object
+        """
+        while self.cnt < self.max_value:
+            result = self.obj.get(self.cnt)
+            self.cnt += 1
+            return result
+        
+        raise StopIteration
+    
+    
+      
+class SnobalIterator:
+    def __init__(self, s, input1, input2):
+        self.s = s
+        self.input1 = input1
+        self.input2 = input2
+        
+        self.max_value = s.size
+        self.cnt = 0
+
+    def __iter__(self):
+        return self  #MyIterator(self, self.s.size)
+    
+    def next(self):
+        """
+        Return the next value from the object
+        """
+        while self.cnt < self.max_value:
+            result = self.get(self.cnt)
+            self.cnt += 1
+            return result
+        
+        raise StopIteration
+    
+
+    def get(self, index):
+        # most likely will have to return the values for s,input1/2
+        # then will have to pass to another function
+       
+        # get the index to subindex
+        i = np.unravel_index(index, self.s.shape)
+
+        if self.s[i] is not None:
+       
+            # get the input values
+            in1 = {key: self.input1[key][i] for key in self.input1.keys()}
+            in2 = {key: self.input2[key][i] for key in self.input2.keys()}
+            
+            # run the model     
+#             self.s[i].do_data_tstep(in1, in2)
+            
+            return [index, self.s[i], in1, in2]
+        
+        else:
+            return [index, None]
+        
 
 
 # @profile
@@ -694,7 +797,7 @@ def main(configFile):
     # create a pool if needed
     pool = None
     if options['output']['nthreads'] is not None:
-        pool = Pool(processes=8)
+        pool = Pool(processes=2)
     
     
     # loop through the input
@@ -709,13 +812,17 @@ def main(configFile):
         
         input2 = get_timestep(force, tstep)
     
-        if pool is not None:
-#             it = np.nditer(input1, flags=['multi_index','refs_ok'])
-            filled_s = parallel_helper(input1, input2, s)
-            filled_s.go()
-#             pool.map(filled_s, it)
-        else:
-            run(s, input1, input2)
+        m = list(itertools.imap(run_map, SnobalIterator(s, input1, input2)))
+        
+
+    
+#         if pool is not None:
+# #             it = np.nditer(input1, flags=['multi_index','refs_ok'])
+#             filled_s = parallel_helper(input1, input2, s)
+#             filled_s.go()
+# #             pool.map(filled_s, it)
+#         else:
+#             run(s, input1, input2)
         
         input1 = input2.copy()
         

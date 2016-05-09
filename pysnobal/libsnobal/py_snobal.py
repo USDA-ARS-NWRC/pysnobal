@@ -95,7 +95,7 @@ class snobal(object):
     
     # came from self.__dict__.keys()
     # slots will help with memory when multiple instances of snobal are used
-    __slots__ = ['em', 'input2', 'input1', 'z_T', 'computed', 'precip_now', 
+    __slots__ = ['em', 'input2', 'input1', 'z_t', 'computed', 'precip_now', 
                  'snow_records', 'time_step', 'precip_info', 'tstep_level', 
                  'current_time', 'z_u', 'time_since_out', 'time_s', 'snow_prop_index', 
                  'input_deltas', 'ro_data', 'snow', 'time_z', 'P_a', 'params', 'z_g', 
@@ -1213,18 +1213,18 @@ class snobal(object):
             
         # determine relative measurement heights
         if self.relative_hts:
-            rel_z_T = self.z_T
+            rel_z_t = self.z_t
             rel_z_u = self.z_u
         else:
-            rel_z_T = self.z_T - self.snow.z_s
+            rel_z_t = self.z_t - self.snow.z_s
             rel_z_u = self.z_u - self.snow.z_s
         
         # calculate H & L_v_E
-        H, L_v_E, E, status = libsnobal.hle1(self.P_a, self.input1.T_a, self.snow.T_s_0, rel_z_T, \
-                                             self.input1.e_a, e_s, rel_z_T, self.input1.u, rel_z_u, self.z_0)
+        H, L_v_E, E, status = libsnobal.hle1(self.P_a, self.input1.T_a, self.snow.T_s_0, rel_z_t, \
+                                             self.input1.e_a, e_s, rel_z_t, self.input1.u, rel_z_u, self.z_0)
         if status != 0:
-            raise Exception("hle1 did not converge\nP_a %f, T_a %f, T_s_0 %f\nrelative z_T %f, e_a %f, e_s %f\nu %f, relative z_u %f, z_0 %f\n" % \
-                            (self.P_a, self.input1.T_a, self.snow.T_s_0, rel_z_T, \
+            raise Exception("hle1 did not converge\nP_a %f, T_a %f, T_s_0 %f\nrelative z_t %f, e_a %f, e_s %f\nu %f, relative z_u %f, z_0 %f\n" % \
+                            (self.P_a, self.input1.T_a, self.snow.T_s_0, rel_z_t, \
                             self.input1.e_a, e_s, self.input1.u, rel_z_u, self.z_0))
             
         self.em.H = H
@@ -1305,7 +1305,7 @@ class snobal(object):
             
             self.time_z = self.mh_prop.time_z * HR_TO_SEC
             self.z_u = self.mh_prop.z_u
-            self.z_T = self.mh_prop.z_T
+            self.z_t = self.mh_prop.z_t
             self.z_0 = self.mh_prop.z_0
             self.z_g = self.mh_prop.z_g
             
