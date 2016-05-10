@@ -24,6 +24,13 @@ test_requirements = [
     # TODO: put package test requirements here
 ]
 
+ext_isnobal = Extension(
+                        "pysnobal.libsnobal.isnobal",
+                        [ "pysnobal/libsnobal/isnobal.pyx" ],
+                        extra_compile_args=['-fopenmp'],
+                        extra_link_args=['-fopenmp'],
+                        )
+
 setup(
     name='pysnobal',
     version='0.1.0',
@@ -61,5 +68,6 @@ setup(
     ext_modules= [
         Extension("pysnobal.libsnobal.libsnobal", [ "pysnobal/libsnobal/libsnobal.pyx" ]),
         Extension("pysnobal.libsnobal.snobal", [ "pysnobal/libsnobal/snobal.pyx" ]),
+        ext_isnobal,
     ]
 )

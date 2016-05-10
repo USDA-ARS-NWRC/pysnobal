@@ -9,8 +9,9 @@ interpretation
 20160118 Scott Havens
 """
 
-from libsnobal import libsnobal
-from libsnobal.py_snobal import snobal
+# from libsnobal import libsnobal
+from libsnobal.snobal import snobal
+from libsnobal.isnobal import isnobal
 
 import ConfigParser
 import sys, os
@@ -21,9 +22,10 @@ import netCDF4 as nc
 import matplotlib.pyplot as plt
 import progressbar
 from multiprocessing import Pool
-from functools import partial
+# from functools import partial
 import itertools
 
+# os.system("taskset -p 0xff %d" % os.getpid())
 
 DEFAULT_MAX_Z_S_0 = 0.25
 DEFAULT_MAX_H2O_VOL = 0.01
@@ -46,28 +48,28 @@ C_TO_K = 273.16
 FREEZE = C_TO_K
 
 
-def _pickle_method(method):
-    func_name = method.im_func.__name__
-    obj = method.im_self
-    cls = method.im_class
-    if func_name.startswith('__') and not func_name.endswith('__'): #deal with mangled names
-        cls_name = cls.__name__.lstrip('_')
-        func_name = '_' + cls_name + func_name
-    return _unpickle_method, (func_name, obj, cls)
-
-def _unpickle_method(func_name, obj, cls):
-    for cls in cls.__mro__:
-        try:
-            func = cls.__dict__[func_name]
-        except KeyError:
-            pass
-        else:
-            break
-    return func.__get__(obj, cls)
-
-import copy_reg
-import types
-copy_reg.pickle(types.MethodType, _pickle_method, _unpickle_method)
+# def _pickle_method(method):
+#     func_name = method.im_func.__name__
+#     obj = method.im_self
+#     cls = method.im_class
+#     if func_name.startswith('__') and not func_name.endswith('__'): #deal with mangled names
+#         cls_name = cls.__name__.lstrip('_')
+#         func_name = '_' + cls_name + func_name
+#     return _unpickle_method, (func_name, obj, cls)
+# 
+# def _unpickle_method(func_name, obj, cls):
+#     for cls in cls.__mro__:
+#         try:
+#             func = cls.__dict__[func_name]
+#         except KeyError:
+#             pass
+#         else:
+#             break
+#     return func.__get__(obj, cls)
+# 
+# import copy_reg
+# import types
+# copy_reg.pickle(types.MethodType, _pickle_method, _unpickle_method)
 
 # parse configuration file
 class MyParser(ConfigParser.ConfigParser):
@@ -517,10 +519,10 @@ def output_timestep(s, tstep, options):
         
         if si is not None:
             for key,value in em_out.iteritems():
-                em[key][index] = si.em[value]
+                em[key][index] = getattr(si.em, value)
                 
             for key,value in snow_out.iteritems():
-                snow[key][index] = si.snow[value]
+                snow[key][index] = getattr(si.snow, value)
     
     # convert from K to C
     snow['temp_snowcover'] -= FREEZE
@@ -685,15 +687,15 @@ def run(s, input1, input2):
             s[index].do_data_tstep(in1, in2)
 
 
-def run_map(input):
+def run_map(inpt):
     """
     Run a single point, input is a list
     [snobal instance, input1, input2]
     """    
-    if input[1] is not None:
-        input[1].do_data_tstep(input[2], input[3])
+    if inpt[1] is not None:
+        inpt[1].do_data_tstep(inpt[2], inpt[3])
         
-    return input[0]
+    return inpt[1]
         
         
 
@@ -770,7 +772,7 @@ class SnobalIterator:
         
 
 
-# @profile
+#@profile
 def main(configFile):
     """
     mimic the main.c from the Snobal model
@@ -797,7 +799,7 @@ def main(configFile):
     # create a pool if needed
     pool = None
     if options['output']['nthreads'] is not None:
-        pool = Pool(processes=2)
+        pool = Pool(processes=options['output']['nthreads'])
     
     
     # loop through the input
@@ -812,17 +814,19 @@ def main(configFile):
         
         input2 = get_timestep(force, tstep)
     
-        m = list(itertools.imap(run_map, SnobalIterator(s, input1, input2)))
         
+#         isnobal(s, input1, input2)
 
     
 #         if pool is not None:
-# #             it = np.nditer(input1, flags=['multi_index','refs_ok'])
-#             filled_s = parallel_helper(input1, input2, s)
-#             filled_s.go()
-# #             pool.map(filled_s, it)
+#             m = list(pool.imap(run_map, SnobalIterator(s, input1, input2), chunksize=100))
+#             s = np.array(m)
+#             s = s.reshape(init['z'].shape)
+#             
 #         else:
-#             run(s, input1, input2)
+        
+        m = list(itertools.imap(run_map, SnobalIterator(s, input1, input2)))
+# #             run(s, input1, input2)
         
         input1 = input2.copy()
         
@@ -837,7 +841,7 @@ def main(configFile):
           
     
     # output
-    params['out_file'].close()
+#     params['out_file'].close()
     close_files(force)
 #     app = MyApplication()
 #     app.run()
