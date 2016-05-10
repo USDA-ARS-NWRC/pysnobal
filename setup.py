@@ -24,12 +24,14 @@ test_requirements = [
     # TODO: put package test requirements here
 ]
 
-ext_isnobal = Extension(
-                        "pysnobal.libsnobal.isnobal",
-                        [ "pysnobal/libsnobal/isnobal.pyx" ],
-                        extra_compile_args=['-fopenmp'],
-                        extra_link_args=['-fopenmp'],
-                        )
+
+# sources=[os.path.join(loc, val) for val in ["detrended_kriging.pyx", "krige.c", "lusolv.c", "array.c"]]
+# ext_isnobal = Extension(
+#                         "pysnobal.c_libsnobal.c_snobal",
+#                         [ "pysnobal/c_libsnobal/c_snobal.pyx" ],
+#                         extra_compile_args=['-fopenmp'],
+#                         extra_link_args=['-fopenmp'],
+#                         )
 
 setup(
     name='pysnobal',
@@ -67,7 +69,6 @@ setup(
     cmdclass = {'build_ext': build_ext},
     ext_modules= [
         Extension("pysnobal.libsnobal.libsnobal", [ "pysnobal/libsnobal/libsnobal.pyx" ]),
-        Extension("pysnobal.libsnobal.snobal", [ "pysnobal/libsnobal/snobal.pyx" ]),
-        ext_isnobal,
+        Extension("pysnobal.libsnobal.snobal", [ "pysnobal/libsnobal/snobal.pyx" ])
     ]
 )
