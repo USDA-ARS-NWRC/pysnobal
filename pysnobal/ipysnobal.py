@@ -10,8 +10,7 @@ interpretation
 """
 
 # from libsnobal import libsnobal
-from libsnobal.snobal import snobal
-from libsnobal.isnobal import isnobal
+from libsnobal.py_snobal import snobal
 
 import ConfigParser
 import sys, os
@@ -616,25 +615,35 @@ def initialize(params, tstep_info, mh, init):
     sn = {key: 0.0 for key in v}
     
     # allocate an empty numpy array to hold all the snobal objects
-    s = np.empty_like(init['z'], dtype=object)
+#     s = np.empty_like(init['z'], dtype=object)
     
     
-    for index, x in np.ndenumerate(init['z']):
-        
-        if init['mask'][index]:
-        
-            # fill the initial snow record properties
-            for vi in v[1:]:
-                sn[vi] = init[vi][index]
-            
-            # add to the parameters
-            params['elevation'] = init['z'][index]
-            
-            # add to the measurement heights
-            mh['z_0'] = init['z_0'][index]
-            
-            # initialize snobal
-            s[index] = snobal(params, tstep_info, sn, mh)
+    # add to the parameters
+#     params['elevation'] = init['z']
+    
+    # add to the measurement heights
+#     mh['z_0'] = init['z_0']
+    
+    init['time_s'] = 0.0
+    
+    s = snobal(params, tstep_info, init, mh)
+    
+#     for index, x in np.ndenumerate(init['z']):
+#         
+#         if init['mask'][index]:
+#         
+#             # fill the initial snow record properties
+#             for vi in v[1:]:
+#                 sn[vi] = init[vi][index]
+#             
+#             # add to the parameters
+#             params['elevation'] = init['z'][index]
+#             
+#             # add to the measurement heights
+#             mh['z_0'] = init['z_0'][index]
+#             
+#             # initialize snobal
+#             s[index] = snobal(params, tstep_info, sn, mh)
             
     return s
     
@@ -797,9 +806,9 @@ def main(configFile):
     output_files(options, init)
     
     # create a pool if needed
-    pool = None
-    if options['output']['nthreads'] is not None:
-        pool = Pool(processes=options['output']['nthreads'])
+#     pool = None
+#     if options['output']['nthreads'] is not None:
+#         pool = Pool(processes=options['output']['nthreads'])
     
     
     # loop through the input
@@ -809,10 +818,12 @@ def main(configFile):
     input1 = get_timestep(force, options['time']['date_time'][0])
     
     pbar = progressbar.ProgressBar(max_value=len(options['time']['date_time'])-1)
-    j = 1
+    j = 0
     for tstep in options['time']['date_time'][1:-1]:
         
         input2 = get_timestep(force, tstep)
+    
+        s.do_data_tstep(input1, input2)
     
         
 #         isnobal(s, input1, input2)
@@ -825,7 +836,7 @@ def main(configFile):
 #             
 #         else:
         
-        m = list(itertools.imap(run_map, SnobalIterator(s, input1, input2)))
+#         m = list(itertools.imap(run_map, SnobalIterator(s, input1, input2)))
 # #             run(s, input1, input2)
         
         input1 = input2.copy()
