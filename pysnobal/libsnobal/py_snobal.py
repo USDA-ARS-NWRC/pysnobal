@@ -1640,7 +1640,8 @@ class snobal(object):
         ind = self.snow.layer_count == 0
         if np.any(ind):
             self.snow.h2o_total[ind] += self.snow.m_s[ind]
-            self.snow.set_zeros(ind)
+            self.snow.set_value(['rho','m_s','m_s_0','m_s_l','h2o_vol','h2o','h2o_max','h2o_sat'], 
+                                ind, 0)
             
             # Note: Snow temperatures are set to MIN_SNOW_TEMP
             # (as degrees K) instead of 0 K to keep quantization
