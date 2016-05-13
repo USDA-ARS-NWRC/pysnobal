@@ -5,6 +5,8 @@ The Snobal 'library' which is a collection of functions to run the model
 """
 
 import numpy as np
+import numpy.ma as ma
+
 import matplotlib.pyplot as plt
 
 FREEZE = 273.16         # freezing temp K
@@ -324,7 +326,7 @@ def psi(zeta, code):
     return result
 
 # @profile
-def hle1 (press, ta, ts, za, ea, es, zq, u, zu, z0):
+def hle1 (press, ta, ts, za, ea, es, zq, u, zu, z0, mask=None):
     """
     computes sensible and latent heat flux and mass flux given
     measurements of temperature and specific humidity at surface
@@ -342,7 +344,8 @@ def hle1 (press, ta, ts, za, ea, es, zq, u, zu, z0):
         zq height of spec hum measurement (m)    
         u wind speed (m/s) at height zu    
         zu height of wind speed measurement (m)    
-        z0 roughness length (m)            
+        z0 roughness length (m)    
+        mask only calculate where this is true        
 
     Outputs
         h sens heat flux (+ to surf) (W/m^2)    
@@ -362,6 +365,17 @@ def hle1 (press, ta, ts, za, ea, es, zq, u, zu, z0):
     cp = CP_AIR
     g = GRAVITY
     
+    # apply the mask
+    if mask is not None:
+        ta = ma.masked_array(ta, mask)
+        za = ma.masked_array(za, mask)
+        ea = ma.masked_array(ea, mask)
+        es = ma.masked_array(es, mask)
+        zq = ma.masked_array(zq, mask)
+        u = ma.masked_array(u, mask)
+        zu = ma.masked_array(zu, mask)
+        z0 = ma.masked_array(z0, mask)
+                
     
     # Check for bad inputs
     
@@ -466,6 +480,11 @@ def hle1 (press, ta, ts, za, ea, es, zq, u, zu, z0):
     # latent heat flux (- away from surf)
     le = xlh * e
 
+    # convert back
+    if mask is not None:
+        h = ma.filled(h, 0)
+        le = ma.filled(le, 0)
+        e = ma.filled(e, 0)
     
     return h, le, e, ier
     
