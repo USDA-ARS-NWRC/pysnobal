@@ -84,7 +84,10 @@ STEF_BOLTZ = 5.67032e-8     # Stefan-Boltzmann constant (W / m^2 / deg^4)
 #    total_time    the time interval the current average applies to
 #    value        new value to be averaged in
 #    time_incr    the time interval the new value applies to
-TIME_AVG = lambda avg,total_time,value,time_incr: (avg * total_time + value * time_incr) / (total_time + time_incr) 
+# TIME_AVG = lambda avg,total_time,value,time_incr: (avg * total_time + value * time_incr) / (total_time + time_incr)
+
+def TIME_AVG(avg,total_time,value,time_incr):
+    return (avg * total_time + value * time_incr) / (total_time + time_incr)
 
 class snobal(object):
     """
@@ -396,19 +399,20 @@ class snobal(object):
         # and precipitation values.
         
         # To-do can get rid of computed and use the None
+        # float(interval) ensures that a float value will be returned always
         
         if not self.computed[self.next_level]:
 #             next_lvl_deltas = curr_lvl_deltas / next_lvl_tstep['intervals']
 #             self.input_deltas[self.next_level] = next_lvl_deltas.copy()
             for k in curr_lvl_deltas.keys():
-                self.input_deltas[self.next_level][k] = curr_lvl_deltas[k] / next_lvl_tstep['intervals']
+                self.input_deltas[self.next_level][k] = curr_lvl_deltas[k] / float(next_lvl_tstep['intervals'])
             
             if np.any(self.precip_now):
 #                 next_lvl_precip = curr_lvl_precip / next_lvl_tstep['intervals']
 #                 self.precip_info[self.next_level] = next_lvl_precip.copy()
                 for k in curr_lvl_precip.keys:
                     setattr(self.precip_info[self.next_level], k, 
-                            getattr(curr_lvl_precip, k) / next_lvl_tstep['intervals'])
+                            getattr(curr_lvl_precip, k) / float(next_lvl_tstep['intervals']))
 #                     self.precip_info[self.next_level][k] = curr_lvl_precip[k] / next_lvl_tstep['intervals']
                 
             
@@ -498,14 +502,14 @@ class snobal(object):
         # Update the averages for the energy terms and the totals for mass
         # changes since the last output.
         if self.time_since_out > 0:
-            self.em.R_n_bar = TIME_AVG(self.em.R_n_bar, self.time_since_out, self.em.R_n, self.time_step)
-            self.em.H_bar = TIME_AVG(self.em.H_bar, self.time_since_out, self.em.H, self.time_step)
-            self.em.L_v_E_bar = TIME_AVG(self.em.L_v_E_bar, self.time_since_out, self.em.L_v_E, self.time_step)
-            self.em.G_bar = TIME_AVG(self.em.G_bar, self.time_since_out, self.em.G, self.time_step)
-            self.em.M_bar = TIME_AVG(self.em.M_bar, self.time_since_out, self.em.M, self.time_step)
-            self.em.delta_Q_bar = TIME_AVG(self.em.delta_Q_bar, self.time_since_out, self.em.delta_Q, self.time_step)
-            self.em.G_0_bar = TIME_AVG(self.em.G_0_bar, self.time_since_out, self.em.G_0, self.time_step)
-            self.em.delta_Q_0_bar = TIME_AVG(self.em.delta_Q_0_bar, self.time_since_out, self.em.delta_Q_0, self.time_step)
+            self.em.R_n_bar[:] = TIME_AVG(self.em.R_n_bar, self.time_since_out, self.em.R_n, self.time_step)
+            self.em.H_bar[:] = TIME_AVG(self.em.H_bar, self.time_since_out, self.em.H, self.time_step)
+            self.em.L_v_E_bar[:] = TIME_AVG(self.em.L_v_E_bar, self.time_since_out, self.em.L_v_E, self.time_step)
+            self.em.G_bar[:] = TIME_AVG(self.em.G_bar, self.time_since_out, self.em.G, self.time_step)
+            self.em.M_bar[:] = TIME_AVG(self.em.M_bar, self.time_since_out, self.em.M, self.time_step)
+            self.em.delta_Q_bar[:] = TIME_AVG(self.em.delta_Q_bar, self.time_since_out, self.em.delta_Q, self.time_step)
+            self.em.G_0_bar[:] = TIME_AVG(self.em.G_0_bar, self.time_since_out, self.em.G_0, self.time_step)
+            self.em.delta_Q_0_bar[:] = TIME_AVG(self.em.delta_Q_0_bar, self.time_since_out, self.em.delta_Q_0, self.time_step)
 
             self.em.E_s_sum += self.em.E_s
             self.em.melt_sum += self.em.melt
@@ -514,18 +518,18 @@ class snobal(object):
             self.time_since_out += self.time_step
             
         else:
-            self.em.R_n_bar = self.em.R_n
-            self.em.H_bar = self.em.H
-            self.em.L_v_E_bar = self.em.L_v_E
-            self.em.G_bar = self.em.G
-            self.em.M_bar = self.em.M
-            self.em.delta_Q_bar = self.em.delta_Q
-            self.em.G_0_bar = self.em.G_0
-            self.em.delta_Q_0_bar = self.em.delta_Q_0
+            self.em.R_n_bar[:] = self.em.R_n
+            self.em.H_bar[:] = self.em.H
+            self.em.L_v_E_bar[:] = self.em.L_v_E
+            self.em.G_bar[:] = self.em.G
+            self.em.M_bar[:] = self.em.M
+            self.em.delta_Q_bar[:] = self.em.delta_Q
+            self.em.G_0_bar[:] = self.em.G_0
+            self.em.delta_Q_0_bar[:] = self.em.delta_Q_0
 
-            self.em.E_s_sum = self.em.E_s
-            self.em.melt_sum = self.em.melt
-            self.em.ro_pred_sum = self.em.ro_predict
+            self.em.E_s_sum[:] = self.em.E_s
+            self.em.melt_sum[:] = self.em.melt
+            self.em.ro_pred_sum[:] = self.em.ro_predict
     
             self.time_since_out = self.time_step
             
@@ -1311,6 +1315,8 @@ class snobal(object):
             #incoming thermal/longwave radiation, and the snow surface
             # temperature.
             # replaces _net_rad()
+            lw_out = STEF_BOLTZ * np.power(self.snow.T_s_0, 4)
+            lw = SNOW_EMISSIVITY * (self.input1['I_lw'] - lw_out)
             self.em.R_n = self.input1['S_n'] + (SNOW_EMISSIVITY * (self.input1['I_lw'] - STEF_BOLTZ * np.power(self.snow.T_s_0, 4)))
             
             # calculate H & L_v_E (and E as well)
@@ -1500,7 +1506,7 @@ class snobal(object):
 #         if self.snow.layer_count == 1:
 #             return self.snow.m_s < threshold
 #         else:
-        return np.any(self.snow.m_s_0[self.snowcover] < threshold) or \
+        return np.any(self.snow.m_s_0[self.snow.m_s_0 > 0] < threshold) or \
             np.any(self.snow.m_s_l[self.snow.z_s_l > 0] < threshold)
             
            
@@ -1765,6 +1771,7 @@ class snobal(object):
                 #   sums of mass balance vars since last output record   
                 'melt_sum',
                 'E_s_sum',
+                'ro_pred_sum',
                 
                 # cold content values
                 'cc_s', 

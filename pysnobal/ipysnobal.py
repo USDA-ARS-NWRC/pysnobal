@@ -34,9 +34,9 @@ NORMAL_TSTEP = 1
 MEDIUM_TSTEP = 2
 SMALL_TSTEP = 3
 
-DEFAULT_NORMAL_THRESHOLD = 60
-DEFAULT_MEDIUM_TSTEP = 15
-DEFAULT_SMALL_TSTEP = 1
+DEFAULT_NORMAL_THRESHOLD = 60.0
+DEFAULT_MEDIUM_TSTEP = 15.0
+DEFAULT_SMALL_TSTEP = 1.0
 
 WHOLE_TSTEP = 0x1 # output when tstep is not divided
 DIVIDED_TSTEP = 0x2  # output when timestep is divided
@@ -270,20 +270,20 @@ def get_tstep_info(options):
     # If it is greater than 1 hour, it must be a multiple of 1 hour, e.g.
     # 2 hours, 3 hours, etc.
      
-    data_tstep_min = options['time_step'];
-    tstep_info[DATA_TSTEP]['time_step'] = min2sec(data_tstep_min);
+    data_tstep_min = float(options['time_step'])
+    tstep_info[DATA_TSTEP]['time_step'] = min2sec(data_tstep_min)
     
-    norm_tstep_min = 60
-    tstep_info[NORMAL_TSTEP]['time_step'] = min2sec(norm_tstep_min);
-    tstep_info[NORMAL_TSTEP]['intervals'] = data_tstep_min / norm_tstep_min;
+    norm_tstep_min = 60.0
+    tstep_info[NORMAL_TSTEP]['time_step'] = min2sec(norm_tstep_min)
+    tstep_info[NORMAL_TSTEP]['intervals'] = int(data_tstep_min / norm_tstep_min)
     
     med_tstep_min = DEFAULT_MEDIUM_TSTEP
-    tstep_info[MEDIUM_TSTEP]['time_step'] = min2sec(med_tstep_min);
-    tstep_info[MEDIUM_TSTEP]['intervals'] = norm_tstep_min / med_tstep_min;
+    tstep_info[MEDIUM_TSTEP]['time_step'] = min2sec(med_tstep_min)
+    tstep_info[MEDIUM_TSTEP]['intervals'] = int(norm_tstep_min / med_tstep_min)
     
     small_tstep_min = DEFAULT_SMALL_TSTEP
-    tstep_info[SMALL_TSTEP]['time_step'] = min2sec(small_tstep_min);
-    tstep_info[SMALL_TSTEP]['intervals'] = med_tstep_min / small_tstep_min;
+    tstep_info[SMALL_TSTEP]['time_step'] = min2sec(small_tstep_min)
+    tstep_info[SMALL_TSTEP]['intervals'] = int(med_tstep_min / small_tstep_min)
     
     # output
 #     if options['O'] == 'data':
@@ -396,8 +396,8 @@ def open_files(options):
 
 def close_files(force):
     
-    for f in force:
-        f.close()    
+    for f in force.keys():
+        force[f].close()    
         
 
 def output_files(options, init):

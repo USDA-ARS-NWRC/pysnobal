@@ -688,9 +688,9 @@ def efcon(k, t, p):
     if np.any(t > FREEZE):
         ind = t > FREEZE
         lh[ind] = LH_VAP(t[ind])
-    elif np.any(t == FREEZE):
+    if np.any(t == FREEZE):
         lh = (LH_VAP(t) + LH_SUB(t)) / 2.0
-    else:
+    if np.any(t < FREEZE):
         ind = t < FREEZE
         lh[ind] = LH_SUB(t[ind])
 
