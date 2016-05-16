@@ -326,7 +326,7 @@ def psi(zeta, code):
     return result
 
 # @profile
-def hle1 (press, ta, ts, za, ea, es, zq, u, zu, z0, mask=None):
+def hle1_grid(press, ta, ts, za, ea, es, zq, u, zu, z0, mask=None):
     """
     computes sensible and latent heat flux and mass flux given
     measurements of temperature and specific humidity at surface
@@ -358,6 +358,202 @@ def hle1 (press, ta, ts, za, ea, es, zq, u, zu, z0, mask=None):
     20160111 Scott Havens
     """
     
+    H = np.zeros_like(press)
+    LE = np.zeros_like(press)
+    E = np.zeros_like(press)
+     
+    # apply the mask
+    if mask is None:
+        mask = np.zeros_like(press, dtype=bool)
+#         press = ma.masked_array(press, ~mask)
+#         ta = ma.masked_array(ta, ~mask)
+#         za = ma.masked_array(za, ~mask)
+#         ea = ma.masked_array(ea, ~mask)
+#         es = ma.masked_array(es, ~mask)
+#         zq = ma.masked_array(zq, ~mask)
+#         u = ma.masked_array(u, ~mask)
+#         zu = ma.masked_array(zu, ~mask)
+#         z0 = ma.masked_array(z0, ~mask)
+                 
+    # iterate over the array and apply hle1()
+    for index,val in np.ndenumerate(ta):
+        if mask[index]:
+            h, le, e, ier = hle1 (press[index], ta[index], ts[index], 
+                                  za[index], ea[index], es[index], 
+                                  zq[index], u[index], zu[index], z0[index])
+             
+            if ier == -1:
+                break
+            H[index] = h
+            LE[index] = le
+            E[index] = e
+             
+    return H, LE, E, ier
+
+#     # define some constants to keep constant with hle1.c
+#     k = VON_KARMAN
+#     av = AV
+#     ah = AH
+#     cp = CP_AIR
+#     g = GRAVITY
+#     
+#     # apply the mask
+#     if mask is not None:
+#         press = ma.masked_array(press, ~mask)
+#         ta = ma.masked_array(ta, ~mask)
+#         za = ma.masked_array(za, ~mask)
+#         ea = ma.masked_array(ea, ~mask)
+#         es = ma.masked_array(es, ~mask)
+#         zq = ma.masked_array(zq, ~mask)
+#         u = ma.masked_array(u, ~mask)
+#         zu = ma.masked_array(zu, ~mask)
+#         z0 = ma.masked_array(z0, ~mask)
+#                 
+#     
+#     # Check for bad inputs
+#     
+#     # heights must be positive 
+#     if np.any(z0 <= 0) or np.any(zq <= z0) or np.any(zu <= z0) or np.any(za <= z0):
+#         raise ValueError("All heights not positive")
+# 
+#     # temperatures are Kelvin 
+#     if np.any(ta <= 0) or np.any(ts <= 0):
+#         raise ValueError("temps not K")
+# 
+#     # pressures must be positive 
+#     if np.any(ea <= 0) or np.any(es <= 0) or np.any(press <= 0) or np.any(ea >= press) or np.any(es >= press):
+#         raise ValueError("press < 0" )
+# 
+#     # vapor pressures can't exceed saturation 
+#     # if way off stop
+#     es_ts = sati_np(ts)
+#     ea_ta = satw_np(ta)
+#     if np.any((es - 25.0) > es_ts) or np.any((ea - 25.0) > ea_ta):
+#         raise ValueError("vp > sat")
+#     
+#     # else fix them up, which shouldn't be needed when called from isnobal
+#     if np.any(es > es_ts):
+#         ind = es > es_ts
+#         es[ind] = es_ts[ind]
+#         
+#     if np.any(ea > ea_ta):
+#         ind = ea > ea_ta
+#         ea[ind] = ea_ta[ind]
+#     
+#     #displacement plane height, eq. 5.3 & 5.4
+#     d0 = 2 * PAESCHKE * z0 / 3
+# 
+#     # constant log expressions
+#     ltsm = np.log((zu - d0) / z0)
+#     ltsh = np.log((za - d0) / z0)
+#     ltsv = np.log((zq - d0) / z0)
+#     
+#     # convert vapor pressures to specific humidities
+#     qa = spec_hum(ea, press)
+#     qs = spec_hum(es, press)
+#     
+#     # convert temperature to potential temperature
+#     ta += DALR * za
+#     
+#     # air density at press, virtual temp of geometric mean
+#     # of air and surface
+#     dens = GAS_DEN(press, MOL_AIR, VIR_TEMP(np.sqrt(ta * ts), np.sqrt(ea * es), press))
+#     
+#     # starting value, assume neutral stability, so psi-functions
+#     # are all zero
+#     ustar = k * u / ltsm
+#     factor = k * ustar * dens
+#     e = (qa - qs) * factor * av / ltsv
+#     h = (ta - ts) * factor * cp * ah / ltsh
+#     
+#     
+#     # if not neutral stability, iterate on Obukhov stability
+#     # length to find solution
+#     it = 0
+# #     if ta != ts:
+# 
+#     lo = 1e500 * np.ones_like(ta)
+#     last = 1e500 * np.ones_like(ta)
+# 
+#     while True:
+#         last[:] = lo
+# 
+#         # Eq 4.25, but no minus sign as we define
+#         # positive H as toward surface
+#         lo = ustar * ustar * ustar * dens / (k * g * (h/(ta * cp) + 0.61 * e))
+#                             
+#         # friction velocity, eq. 4.34'
+#         ustar = k * u / (ltsm - psi_np(zu/lo, 'SM'))
+# 
+#         # evaporative flux, eq. 4.33'
+#         factor = k * ustar * dens
+#         e = (qa - qs) * factor * av / (ltsv - psi_np(zq/lo, 'SV'))
+# 
+#         
+#         # sensible heat flus, eq. 4.35'
+#         # with sign reversed
+#         h = (ta - ts) * factor * ah * cp / (ltsh - psi_np(za/lo, 'SH'))
+# 
+#         diff = last - lo
+# 
+#         it+=1
+#         if (np.max(np.abs(diff)) < THRESH) and (np.max(np.abs(diff/lo)) < THRESH):
+#             break
+#         if it > ITMAX:
+#             break
+# 
+#     ier = -1 if (it >= ITMAX) else 0
+# #     print 'iterations: %i' % it
+#     xlh = LH_VAP(ts)
+#     
+#     ind = ts <= FREEZE
+#     if np.any(ind):
+#         xlh[ind] += LH_FUS(ts[ind])
+#     
+#     # latent heat flux (- away from surf)
+#     le = xlh * e
+# 
+#     # convert back
+#     if mask is not None:
+#         h = ma.filled(h, 0)
+#         le = ma.filled(le, 0)
+#         e = ma.filled(e, 0)
+#     
+#     return h, le, e, ier
+
+
+# @profile
+def hle1 (press, ta, ts, za, ea, es, zq, u, zu, z0):
+    """
+    computes sensible and latent heat flux and mass flux given
+    measurements of temperature and specific humidity at surface
+    and one height, wind speed at one height, and roughness
+    length.  The temperature, humidity, and wind speed measurements
+    need not all be at the same height.
+    
+    Args
+        press air pressure (Pa)            
+        ta air temperature (K) at height za    
+        ts surface temperature (K)        
+        za height of air temp measurement (m)    
+        ea vapor pressure (Pa) at height zq    
+        es vapor pressure (Pa) at surface    
+        zq height of spec hum measurement (m)    
+        u wind speed (m/s) at height zu    
+        zu height of wind speed measurement (m)    
+        z0 roughness length (m)            
+
+    Outputs
+        h sens heat flux (+ to surf) (W/m^2)    
+        le latent heat flux (+ to surf) (W/m^2)    
+        e mass flux (+ to surf) (kg/m^2/s)
+        status status of convergence
+            0      successful calculation
+            -1      no convergence
+        
+    20160111 Scott Havens
+    """
+    
     # define some constants to keep constant with hle1.c
     k = VON_KARMAN
     av = AV
@@ -365,47 +561,34 @@ def hle1 (press, ta, ts, za, ea, es, zq, u, zu, z0, mask=None):
     cp = CP_AIR
     g = GRAVITY
     
-    # apply the mask
-    if mask is not None:
-        ta = ma.masked_array(ta, mask)
-        za = ma.masked_array(za, mask)
-        ea = ma.masked_array(ea, mask)
-        es = ma.masked_array(es, mask)
-        zq = ma.masked_array(zq, mask)
-        u = ma.masked_array(u, mask)
-        zu = ma.masked_array(zu, mask)
-        z0 = ma.masked_array(z0, mask)
-                
     
     # Check for bad inputs
     
     # heights must be positive 
-    if np.any(z0 <= 0) or np.any(zq <= z0) or np.any(zu <= z0) or np.any(za <= z0):
-        raise ValueError("All heights not positive")
+    if (z0 <= 0) or (zq <= z0) or (zu <= z0) or (za <= z0):
+        raise ValueError("height not positive z0=%f\tzq=%f\tzu=%\tza=%f" % \
+                (z0, zq, zu, za))
 
     # temperatures are Kelvin 
-    if np.any(ta <= 0) or np.any(ts <= 0):
-        raise ValueError("temps not K")
+    if (ta <= 0) or (ts <= 0):
+        raise ValueError("temps not K ta=%f\tts=%f" % (ta, ts))
 
     # pressures must be positive 
-    if np.any(ea <= 0) or np.any(es <= 0) or np.any(press <= 0) or np.any(ea >= press) or np.any(es >= press):
-        raise ValueError("press < 0" % (ea, es, press))
+    if (ea <= 0) or (es <= 0) or (press <= 0) or (ea >= press) or (es >= press):
+        raise ValueError("press < 0 ea=%f\tes=%f\tpress=%f" % (ea, es, press))
 
     # vapor pressures can't exceed saturation 
-    # if way off stop
-    es_ts = sati_np(ts)
-    ea_ta = satw_np(ta)
-    if np.any((es - 25.0) > es_ts) or np.any((ea - 25.0) > ea_ta):
-        raise ValueError("vp > sat")
+    # if way off stop 
+    if ((es - 25.0) > sati(ts)) or ((ea - 25.0) > satw(ta)):
+        raise ValueError("vp > sat es=%f\tessat=%f\tea=%f\teasat=%f" % \
+                (es, sati(ts), ea, sati(ta)))
     
-    # else fix them up, which shouldn't be needed when called from isnobal
-    if np.any(es > es_ts):
-        ind = es > es_ts
-        es[ind] = es_ts[ind]
+    # else fix them up 
+    if es > sati(ts):
+        es = sati(ts)
         
-    if np.any(ea > ea_ta):
-        ind = ea > ea_ta
-        ea[ind] = ea_ta[ind]
+    if ea > satw(ta):
+        ea = satw(ta)
     
     #displacement plane height, eq. 5.3 & 5.4
     d0 = 2 * PAESCHKE * z0 / 3
@@ -437,57 +620,49 @@ def hle1 (press, ta, ts, za, ea, es, zq, u, zu, z0, mask=None):
     # if not neutral stability, iterate on Obukhov stability
     # length to find solution
     it = 0
-#     if ta != ts:
+    if ta != ts:
 
-    lo = 1e500 * np.ones_like(ta)
-    last = 1e500 * np.ones_like(ta)
+        lo = 1e500
 
-    while True:
-        last[:] = lo
+        while True:
+            last = lo
 
-        # Eq 4.25, but no minus sign as we define
-        # positive H as toward surface
-        lo = ustar * ustar * ustar * dens / (k * g * (h/(ta * cp) + 0.61 * e))
-                            
-        # friction velocity, eq. 4.34'
-        ustar = k * u / (ltsm - psi_np(zu/lo, 'SM'))
+            # Eq 4.25, but no minus sign as we define
+            # positive H as toward surface
+            lo = ustar * ustar * ustar * dens / (k * g * (h/(ta * cp) + 0.61 * e))
+                                
+            # friction velocity, eq. 4.34'
+            ustar = k * u / (ltsm - psi(zu/lo, 'SM'))
 
-        # evaporative flux, eq. 4.33'
-        factor = k * ustar * dens
-        e = (qa - qs) * factor * av / (ltsv - psi_np(zq/lo, 'SV'))
+            # evaporative flux, eq. 4.33'
+            factor = k * ustar * dens
+            e = (qa - qs) * factor * av / (ltsv - psi(zq/lo, 'SV'))
 
-        
-        # sensible heat flus, eq. 4.35'
-        # with sign reversed
-        h = (ta - ts) * factor * ah * cp / (ltsh - psi_np(za/lo, 'SH'))
+            
+            # sensible heat flus, eq. 4.35'
+            # with sign reversed
+            h = (ta - ts) * factor * ah * cp / (ltsh - psi(za/lo, 'SH'))
 
-        diff = last - lo
+            diff = last - lo
 
-        it+=1
-        if (np.max(np.abs(diff)) < THRESH) and (np.max(np.abs(diff/lo)) < THRESH):
-            break
-        if it > ITMAX:
-            break
+            it+=1
+            if (np.abs(diff) < THRESH) and (np.abs(diff/lo) < THRESH):
+                break
+            if it > ITMAX:
+                break
 
     ier = -1 if (it >= ITMAX) else 0
 #     print 'iterations: %i' % it
     xlh = LH_VAP(ts)
-    
-    ind = ts <= FREEZE
-    if np.any(ind):
-        xlh[ind] += LH_FUS(ts[ind])
+    if ts <= FREEZE:
+        xlh += LH_FUS(ts)
     
     # latent heat flux (- away from surf)
     le = xlh * e
 
-    # convert back
-    if mask is not None:
-        h = ma.filled(h, 0)
-        le = ma.filled(le, 0)
-        e = ma.filled(e, 0)
     
     return h, le, e, ier
-    
+
 
 def efcon(k, t, p):
     """

@@ -1469,7 +1469,7 @@ class snobal(object):
             rel_z_u = self.z_u - self.snow.z_s
         
         # calculate H & L_v_E
-        H, L_v_E, E, status = libsnobal.hle1(self.P_a, self.input1['T_a'], self.snow.T_s_0, rel_z_t, \
+        H, L_v_E, E, status = libsnobal.hle1_grid(self.P_a, self.input1['T_a'], self.snow.T_s_0, rel_z_t, \
                                              self.input1['e_a'], e_s, rel_z_t, self.input1['u'], rel_z_u, \
                                              self.z_0, self.snowcover)
         if status != 0:
