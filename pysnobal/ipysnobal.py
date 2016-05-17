@@ -181,11 +181,16 @@ def get_args(configFile):
     options = {
         'time_step': 60,
         'max-h2o': 0.01,
-        'max_z0': DEFAULT_MAX_Z_S_0,
+#         'max_z0': DEFAULT_MAX_Z_S_0,
         'c': True,
         'K': True,
         'mass_threshold': DEFAULT_NORMAL_THRESHOLD,
-        'time_z': 0
+        'time_z': 0,
+        'max_z_s_0': DEFAULT_MAX_Z_S_0,
+        'z_u': 5.0,
+        'z_t': 5.0,
+        'z_g': 0.5,
+        'relative_heights': True
     }
     options.update(c) # update the defult with any user values
     
@@ -315,7 +320,7 @@ def get_tstep_info(options):
 #     params['elevation'] = options['z']
     params['data_tstep'] = data_tstep_min
     params['max_h2o_vol'] = options['max-h2o']
-    params['max_z_s_0'] = options['max_z0']
+    params['max_z_s_0'] = options['max_z_s_0']
 #     params['sn_filename'] = options['s']
 #     params['mh_filename'] = options['h']
 #     params['in_filename'] = options['i']
@@ -324,7 +329,7 @@ def get_tstep_info(options):
 #     params['out_file'] = open(params['out_filename'], 'w')
     params['stop_no_snow'] = options['c']
     params['temps_in_C'] = options['K']
-    params['relative_hts'] = False
+    params['relative_hts'] = options['relative_heights']
 
     return params, tstep_info
 

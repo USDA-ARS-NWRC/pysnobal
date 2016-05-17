@@ -68,10 +68,8 @@ H2O_LEFT = lambda d,rhos,sat: ( (sat * d * RHO_W0 * (RHO_ICE - rhos)) / RHO_ICE 
 # Convert calories to Joules
 CAL_TO_J = 4.186798188
 
-# thermal conductivity of snow (J/(m sec K))
-# (after Yen, 1965, see Anderson, 1976, pg. 31)
-#     rho = snow density (kg/m^3)
-KTS = lambda rho: CAL_TO_J * 0.0077 * (rho/1000.0) * (rho/1000.0)
+
+
 
 # melt (kg/m^2), Q = available energy (J/m^2)
 MELT = lambda Q: Q / libsnobal.LH_FUS(FREEZE)
@@ -79,15 +77,26 @@ MELT = lambda Q: Q / libsnobal.LH_FUS(FREEZE)
 SNOW_EMISSIVITY = 0.98
 STEF_BOLTZ = 5.67032e-8     # Stefan-Boltzmann constant (W / m^2 / deg^4)
 
-# A macro to update a time-weighted average for a quantity.
-#    avg        current average
-#    total_time    the time interval the current average applies to
-#    value        new value to be averaged in
-#    time_incr    the time interval the new value applies to
-# TIME_AVG = lambda avg,total_time,value,time_incr: (avg * total_time + value * time_incr) / (total_time + time_incr)
 
 def TIME_AVG(avg,total_time,value,time_incr):
+    """
+    A macro to update a time-weighted average for a quantity.
+    avg        current average
+    total_time    the time interval the current average applies to
+    value        new value to be averaged in
+    time_incr    the time interval the new value applies to
+    TIME_AVG = lambda avg,total_time,value,time_incr: (avg * total_time + value * time_incr) / (total_time + time_incr)
+    """
     return (avg * total_time + value * time_incr) / (total_time + time_incr)
+
+def KTS(rho):
+    """
+    thermal conductivity of snow (J/(m sec K))
+    (after Yen, 1965, see Anderson, 1976, pg. 31)
+    rho = snow density (kg/m^3)
+    """
+#     return CAL_TO_J * 0.0077 * (rho/1000.0) * (rho/1000.0)
+    return CAL_TO_J * 0.007 * np.power(rho/1000.0, 2)
 
 class snobal(object):
     """
@@ -158,7 +167,7 @@ class snobal(object):
         # get measurement-height record
         self.mh_prop = meas_heights
         self.get_mh_rec(True)
-        self.relative_hts = False
+        self.relative_hts = params['relative_heights']
         
         # runoff data
         self.ro_data = False
@@ -477,7 +486,7 @@ class snobal(object):
             
         """
         
-        if self.current_time/3600.0 > 686:
+        if self.current_time/3600.0 > 1162: #686:
             self.curr_level
         
         self.time_step = tstep['time_step']
@@ -590,14 +599,15 @@ class snobal(object):
             self.snow.T_s[ind] = self.snow.T_s_0[ind]
             
             ind = self.snow.layer_count == 2
-            self.snow.T_s_0[ind] = self.new_tsno(self.snow.m_s_0[ind], self.snow.T_s_0[ind], self.em.cc_s_0[ind])
-            self.snow.T_s_l[ind] = self.new_tsno (self.snow.m_s_l[ind], self.snow.T_s_l[ind], self.em.cc_s_l[ind])
-            self.snow.T_s[ind] = self.new_tsno (self.snow.m_s[ind], self.snow.T_s[ind], self.em.cc_s[ind])
+            if np.any(ind):
+                self.snow.T_s_0[ind] = self.new_tsno(self.snow.m_s_0[ind], self.snow.T_s_0[ind], self.em.cc_s_0[ind])
+                self.snow.T_s_l[ind] = self.new_tsno (self.snow.m_s_l[ind], self.snow.T_s_l[ind], self.em.cc_s_l[ind])
+                self.snow.T_s[ind] = self.new_tsno (self.snow.m_s[ind], self.snow.T_s[ind], self.em.cc_s[ind])
              
-            if np.any(self.isothermal):       
-                self.snow.T_s[self.isothermal] = FREEZE
-                self.snow.T_s_l[self.isothermal] = FREEZE
-                self.snow.T_s_0[self.isothermal] = FREEZE
+                if np.any(self.isothermal):       
+                    self.snow.T_s[self.isothermal & ind] = FREEZE
+                    self.snow.T_s_l[self.isothermal & ind] = FREEZE
+                    self.snow.T_s_0[self.isothermal & ind] = FREEZE
             
 #             if self.snow.layer_count == 1:
 #                 self.snow.T_s_0 = self.new_tsno(self.snow.m_s_0, self.snow.T_s_0, self.em.cc_s_0)
@@ -729,7 +739,7 @@ class snobal(object):
   
         """
         # Maximum density due to compaction by liquid H2O added (kg/m^2)
-        MAX_DENSITY = 550
+        MAX_DENSITY = 550.0
         
         # ratio where half the difference between maximum density and
         # current density is reached (ratio from 0.0 to 1.0).
@@ -840,7 +850,7 @@ class snobal(object):
         E_s_l = E_l * self.time_step
         
         # set non snowcovered pixels to zero
-        E_s_l[~self.snowcover] = 0
+        E_s_l[self.snow.z_s == 0] = 0
 
         # adjust h2o_total for evaporative losses
         ind = self.snow.h2o_total > 0.0 
@@ -882,9 +892,22 @@ class snobal(object):
         # calculate surface melt
         # energy for surface melt
         Q_0 = (self.em.delta_Q_0 * self.time_step) + self.em.cc_s_0
+                
+        ind = Q_0 > 0
+        if np.any(ind):
+            self.em.melt[ind] = MELT(Q_0[ind])
+            self.em.cc_s_0[ind] = 0
         
-        self.em.melt = MELT(Q_0)
-        self.em.melt = MELT(Q_0)
+        ind = Q_0 == 0
+        if np.any(ind):
+            self.em.melt[ind] = 0
+            self.em.cc_s_0[ind] = 0
+        
+        ind = Q_0 < 0
+        if np.any(ind):
+            self.em.melt[ind] = 0
+            self.em.cc_s_0[ind] = Q_0[ind]
+            
         
 #         if Q_0 > 0:
 #             self.em.melt = MELT(Q_0)
@@ -894,7 +917,7 @@ class snobal(object):
 #             self.em.cc_s_0 = 0
 #         else:
 #             self.em.melt = 0
-#             self.em.melt = MELT(Q_0)
+#             self.snow.cc_s_0 = Q_0
 
         # layer count = 1
         Q_l = np.zeros(self.shape)
@@ -904,8 +927,20 @@ class snobal(object):
         if np.any(ind):
             Q_l[ind] = ((self.em.G[ind] - self.em.G_0[ind]) * self.time_step) + self.em.cc_s_l[ind]
             
-            self.em.melt[ind] += MELT(Q_l[ind])
-            self.em.cc_s_l[ind] = Q_l[ind]
+            ind = Q_l > 0
+            if np.any(ind):
+                self.em.melt[ind] += MELT(Q_l[ind])
+                self.em.cc_s_l[ind] = 0
+            
+            ind = Q_l == 0
+            if np.any(ind):
+                self.em.melt[ind] += 0
+                self.em.cc_s_l[ind] = 0
+            
+            ind = Q_l < 0
+            if np.any(ind):
+                self.em.melt[ind] += 0
+                self.em.cc_s_l[ind] = Q_l[ind]
             
 #             if Q_l > 0:
 #                 self.em.melt += MELT(Q_l)
@@ -951,16 +986,16 @@ class snobal(object):
         # adjust lower layer for re-freezing
         cold_lower = (self.snow.layer_count == 2) & (self.em.cc_s_l < 0.0) & water
         if np.any(cold_lower):
-            Q_freeze[cold_lower] = self.snow.h2o_total[cold_lower] * (self.snow.z_s_0[cold_lower]/self.snow.z_s[cold_lower]) * libsnobal.LH_FUS(FREEZE)
+            Q_freeze[cold_lower] = self.snow.h2o_total[cold_lower] * (self.snow.z_s_l[cold_lower]/self.snow.z_s[cold_lower]) * libsnobal.LH_FUS(FREEZE)
             Q_left[cold_lower] = Q_0[cold_lower] + Q_freeze[cold_lower]
             
             ind = (Q_left < 0) & cold_lower & (self.snow.z_s > 0)
-            h2o_refrozen[ind] = self.snow.h2o_total[ind] * (self.snow.z_s_0[ind]/self.snow.z_s[ind])
-            self.em.cc_s_0[ind] = Q_left[ind]
+            h2o_refrozen[ind] = self.snow.h2o_total[ind] * (self.snow.z_s_l[ind]/self.snow.z_s[ind])
+            self.em.cc_s_l[ind] = Q_left[ind]
             
             ind = (Q_left >= 0) & ~cold_lower & (self.snow.z_s > 0)
-            h2o_refrozen[ind] = self.snow.h2o_total[ind] * (self.snow.z_s_0[ind]/self.snow.z_s[ind]) - MELT(Q_left[ind])
-            self.em.cc_s_0 = 0
+            h2o_refrozen[ind] = self.snow.h2o_total[ind] * (self.snow.z_s_l[ind]/self.snow.z_s[ind]) - MELT(Q_left[ind])
+            self.em.cc_s_l[ind] = 0
             
             
             
@@ -1156,11 +1191,11 @@ class snobal(object):
         """
         
         # Maximum density due to compaction by gravity (kg/m^2)
-        A = 350
+        A = 350.0
         
         # Time when half "saturation", i.e., maximum density is reached (seconds)
         # (864000 = 10 days * 24 hours/day * 60 mins/hr * 60 secs/min)
-        B = 864000
+        B = 864000.0
         
         # If the snow is already at or above the maximum density due
         # compaction by gravity, then just leave.
@@ -1381,7 +1416,7 @@ class snobal(object):
                                self.precip.T_rain - self.snow.T_s_0) + \
                  self.heat_stor(CP_ICE(self.precip.T_snow), \
                                 self.precip_info[self.tstep_level].m_snow, \
-                                self.precip.T_snow- self.snow.T_s_0)
+                                self.precip.T_snow - self.snow.T_s_0)
                                 
             M /= self.time_step
             
@@ -1432,16 +1467,19 @@ class snobal(object):
         conduction heat flow between snow layers
         """
         
-        # calculate g
-        if self.snow.T_s_0 == self.snow.T_s_l:
-            g = 0
-        else:
-            kcs1 = KTS(self.snow.rho)
-            kcs2 = KTS(self.snow.rho)
-            k_s1 = libsnobal.efcon(kcs1, self.snow.T_s_0, self.P_a)
-            k_s2 = libsnobal.efcon(kcs2, self.snow.T_s_l, self.P_a)
-            
-            g = libsnobal.ssxfr(k_s1, k_s2, self.snow.T_s_0, self.snow.T_s_l, self.snow.z_s_0, self.snow.z_s_l)
+        # calculate g, if the difference in temperature is zero, g will be zero
+#         g = np.zeros(self.shape)
+#         ind = self.snow.T_s_0 != self.snow.T_s_l
+        
+#         if self.snow.T_s_0 == self.snow.T_s_l:
+#             g = 0
+#         else:
+        kcs1 = KTS(self.snow.rho)
+        kcs2 = KTS(self.snow.rho)
+        k_s1 = libsnobal.efcon(kcs1, self.snow.T_s_0, self.P_a)
+        k_s2 = libsnobal.efcon(kcs2, self.snow.T_s_l, self.P_a)
+        
+        g = libsnobal.ssxfr(k_s1, k_s2, self.snow.T_s_0, self.snow.T_s_l, self.snow.z_s_0, self.snow.z_s_l)
         
         self.em.G_0 = g
             
@@ -1481,9 +1519,9 @@ class snobal(object):
         if status != 0:
             raise Exception("hle1 did not converge, sorry... :(")
             
-        self.em.H = H
-        self.em.L_v_E = L_v_E
-        self.em.E = E
+        self.em.H[:] = H
+        self.em.L_v_E[:] = L_v_E
+        self.em.E[:] = E
          
         
     def below_thold(self, threshold):
@@ -1631,12 +1669,12 @@ class snobal(object):
 #             self.snow = Map({key: 0.0 for key in cols})
             self.snow = EmptyClass(cols, self.shape, self.mask)
         
-            self.snow.z_s[:] = self.snow_records['z_s']
-            self.snow.rho[:] = self.snow_records['rho']
-            self.snow.T_s_0[:] = self.snow_records['T_s_0']
-            self.snow.T_s[:] = self.snow_records['T_s']
-            self.snow.h2o_sat[:] = self.snow_records['h2o_sat']
-            self.snow.max_h2o_vol[:] = self.params['max_h2o_vol'] * np.ones_like(self.snow.z_s)
+            self.snow.z_s = self.snow_records['z_s']
+            self.snow.rho = self.snow_records['rho']
+            self.snow.T_s_0 = self.snow_records['T_s_0']
+            self.snow.T_s = self.snow_records['T_s']
+            self.snow.h2o_sat = self.snow_records['h2o_sat']
+            self.snow.max_h2o_vol = self.params['max_h2o_vol'] * np.ones_like(self.snow.z_s)
         
         else:
             try:

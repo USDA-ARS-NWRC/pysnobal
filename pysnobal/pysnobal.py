@@ -15,6 +15,7 @@ from libsnobal.py_snobal import snobal
 import sys, getopt
 import numpy as np
 import pandas as pd
+import progressbar
 
 
 # class MyApplication():
@@ -29,9 +30,9 @@ NORMAL_TSTEP = 1
 MEDIUM_TSTEP = 2
 SMALL_TSTEP = 3
 
-DEFAULT_NORMAL_THRESHOLD = 60
-DEFAULT_MEDIUM_TSTEP = 15
-DEFAULT_SMALL_TSTEP = 1
+DEFAULT_NORMAL_THRESHOLD = 60.0
+DEFAULT_MEDIUM_TSTEP = 15.0
+DEFAULT_SMALL_TSTEP = 1.0
 
 WHOLE_TSTEP = 0x1 # output when tstep is not divided
 DIVIDED_TSTEP = 0x2  # output when timestep is divided
@@ -118,7 +119,7 @@ def get_args(argv):
         'p': '../test_data_point/snobal.ppt.input',
         'i': '../test_data_point/snobal.data.input.short',
         'o': '../test_data_point/snobal.out',
-        'O': 'data',
+        'O': 'all',
         'c': True,
         'K': True,
         'T': DEFAULT_NORMAL_THRESHOLD,
@@ -157,17 +158,17 @@ def parseOptions(options):
         raise ValueError("Data timestep > 60 min must be multiple of 60 min (whole hrs)")
     tstep_info[DATA_TSTEP]['time_step'] = min2sec(data_tstep_min);
     
-    norm_tstep_min = 60
-    tstep_info[NORMAL_TSTEP]['time_step'] = min2sec(norm_tstep_min);
-    tstep_info[NORMAL_TSTEP]['intervals'] = data_tstep_min / norm_tstep_min;
+    norm_tstep_min = 60.0
+    tstep_info[NORMAL_TSTEP]['time_step'] = min2sec(norm_tstep_min)
+    tstep_info[NORMAL_TSTEP]['intervals'] = int(data_tstep_min / norm_tstep_min)
     
     med_tstep_min = DEFAULT_MEDIUM_TSTEP
-    tstep_info[MEDIUM_TSTEP]['time_step'] = min2sec(med_tstep_min);
-    tstep_info[MEDIUM_TSTEP]['intervals'] = norm_tstep_min / med_tstep_min;
+    tstep_info[MEDIUM_TSTEP]['time_step'] = min2sec(med_tstep_min)
+    tstep_info[MEDIUM_TSTEP]['intervals'] = int(norm_tstep_min / med_tstep_min)
     
     small_tstep_min = DEFAULT_SMALL_TSTEP
-    tstep_info[SMALL_TSTEP]['time_step'] = min2sec(small_tstep_min);
-    tstep_info[SMALL_TSTEP]['intervals'] = med_tstep_min / small_tstep_min;
+    tstep_info[SMALL_TSTEP]['time_step'] = min2sec(small_tstep_min)
+    tstep_info[SMALL_TSTEP]['intervals'] = int(med_tstep_min / small_tstep_min)
     
     # output
     if options['O'] == 'data':
@@ -207,7 +208,7 @@ def parseOptions(options):
     params['out_file'] = open(params['out_filename'], 'w')
     params['stop_no_snow'] = options['c']
     params['temps_in_C'] = options['K']
-    params['relative_hts'] = False
+    params['relative_heights'] = False
 
     return params, tstep_info
 
@@ -229,8 +230,10 @@ def open_files(params):
     sn['time_s'] = time_s
         
     # read the measurements height file
-    ht_prop = ['time_s', 'z_u', 'z_T', 'z_0', 'z_g']
-    mh = pd.read_csv(params['mh_filename'], sep=' ', header=None, names=ht_prop, index_col='time_s')
+    ht_prop = ['time_z', 'z_u', 'z_t', 'z_0', 'z_g']
+    mh = pd.read_csv(params['mh_filename'], sep=' ', header=None, names=ht_prop) #, index_col='time_z')
+    mh = mh.iloc[0].to_dict()
+    
     
     # read the precipitation file
     ppt_prop = ['time_pp', 'm_pp', 'percent_snow', 'rho_snow', 'T_pp']
@@ -248,19 +251,35 @@ def open_files(params):
         force.T_a += C_TO_K
         force.T_g += C_TO_K
         
-        
+    
+    # convert all to numpy arrays within the dict
+    sn['z_0'] = mh['z_0']
+    sn = dict2np(sn)
+    mh = dict2np(mh)
+                   
     # check the ranges for the input values
     
-        
+    
     # check the precip, temp. cannot be below freezing if rain present
     mass_rain = pr.m_pp * (1 - pr.percent_snow)
     pr.T_pp[(mass_rain > 0.0) & (pr.T_pp < FREEZE)] = FREEZE
     
+    # combine the precip and force
+    min_len = np.min([len(force), len(pr)])
+    force = pd.concat([force, pr], axis=1)
+    force = force[:min_len]
+    
     # create the time steps for the forcing data
 #     time_f = 
     
-    return sn, mh, pr, force
-    
+    return sn, mh, force
+
+def dict2np(d):
+    """
+    The at least 2d is to trick snobal into thinking it's an ndarray
+    """
+    return {k: np.atleast_2d(np.array(v, dtype=float)) for k,v in d.items()}
+
 
 def initialize():
     """
@@ -286,9 +305,10 @@ def main(argv):
     params, tstep_info = parseOptions(options)
 
     # open the files and read in data
-    sn, mh, pr, force = open_files(params)
+    sn, mh, force = open_files(params)
     
     # initialize
+    sn['z'] = np.atleast_2d(np.array(options['z']))
     s = snobal(params, tstep_info, sn, mh)
     
     # loop through the input
@@ -296,23 +316,27 @@ def main(argv):
     # to the last record-1
     
     it = force[:-1].iterrows()
-    index, in1 = next(it)    # this is the first input
+    index, input1 = next(it)    # this is the first input
     
     # add the precip to the data Series
-    input1 = pd.concat([in1, pr.loc[index]])
-    
-    for index,in2 in it:
+#     input1 = pd.concat([in1, pr.loc[index]])
+    pbar = progressbar.ProgressBar(max_value=len(force)-1)
+    j = 0
+    for index,input2 in it:
     
         # add the precip to the data Series
-        input2 = pd.concat([in2, pr.loc[index]])
+#         input2 = pd.concat([in2, pr.loc[index]])
     
         # call do_data_tstep()
-        s.do_data_tstep(input1.to_dict(), input2.to_dict())
+        s.do_data_tstep(dict2np(input1.to_dict()), dict2np(input2.to_dict()))
         
         # input2 becomes input1
         input1 = input2.copy()
         
+        j += 1
+        pbar.update(j)
         
+    pbar.finish()
     
     
     
