@@ -96,7 +96,7 @@ def KTS(rho):
     rho = snow density (kg/m^3)
     """
 #     return CAL_TO_J * 0.0077 * (rho/1000.0) * (rho/1000.0)
-    return CAL_TO_J * 0.007 * np.power(rho/1000.0, 2)
+    return CAL_TO_J * 0.0077 * np.power(rho/1000.0, 2)
 
 class snobal(object):
     """
@@ -486,7 +486,7 @@ class snobal(object):
             
         """
         
-        if self.current_time/3600.0 > 1162: #686:
+        if self.current_time/3600.0 > 1032.55: #686
             self.curr_level
         
         self.time_step = tstep['time_step']
@@ -758,10 +758,10 @@ class snobal(object):
 #             else:
 #                 h2o_added = self.em.melt / self.snow.m_s
                 
-            # avoid dividing by zero
-            ind = h2o_added > 0.000001
+            # avoid dividing by zero and only calculate if below max density
+            ind = (h2o_added > 0.000001) & (A > 0)
             if np.any(ind):
-            
+                            
                 self.snow.rho[ind] += A[ind] / (1 + B/h2o_added[ind])
                 
                 # adjust the snowcover for this new density
@@ -806,7 +806,7 @@ class snobal(object):
         E_s_0 = self.em.E * self.time_step
 
         # Adjust total h2o for evaporative losses
-        prev_h2o_tot = self.snow.h2o_total
+        prev_h2o_tot = self.snow.h2o_total.copy()
 
         ind = self.snow.h2o_total > 0.0 
         if np.any(ind):

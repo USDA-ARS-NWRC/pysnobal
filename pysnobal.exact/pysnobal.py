@@ -113,11 +113,11 @@ def get_args(argv):
         't': 60,
         'm': 0.01,
         'd': DEFAULT_MAX_Z_S_0,
-        's': '../test_data/snow.properties.input',
-        'h': '../test_data/inheight.input',
-        'p': '../test_data/snobal.ppt.input',
-        'i': '../test_data/snobal.data.input.short',
-        'o': '../test_data/snobal.out',
+        's': '../test_data_point/snow.properties.input',
+        'h': '../test_data_point/inheight.input',
+        'p': '../test_data_point/snobal.ppt.input',
+        'i': '../test_data_point/snobal.data.input.short',
+        'o': '../test_data_point/snobal.exact.out',
         'O': 'data',
         'c': True,
         'K': True,
@@ -268,7 +268,7 @@ def run(data):
     Acutally run the model
     """
 
-@profile
+#@profile
 def main(argv):
     """
     mimic the main.c from the Snobal model

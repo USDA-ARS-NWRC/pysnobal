@@ -141,9 +141,9 @@ def sati_np(tk):
             8.76793e-1*(1.0 - (tk/FREEZE)) + np.log(6.1071)/l10)
 
     # vapor above freezing
-    ind = tk < FREEZE
-    if np.any(~ind):
-        x[~ind] = satw_np(tk[~ind])
+    ind = tk > FREEZE
+    if np.any(ind):
+        x[ind] = satw_np(tk[ind])
 
     return x
 
