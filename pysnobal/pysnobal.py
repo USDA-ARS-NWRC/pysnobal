@@ -327,8 +327,14 @@ def main(argv):
         # add the precip to the data Series
 #         input2 = pd.concat([in2, pr.loc[index]])
     
-        # call do_data_tstep()
-        s.do_data_tstep(dict2np(input1.to_dict()), dict2np(input2.to_dict()))
+        try:
+            # call do_data_tstep()
+            s.do_data_tstep(dict2np(input1.to_dict()), dict2np(input2.to_dict()))
+        
+        except Exception, e:
+            print('pysnobal error on time step %f' % s.current_time/3600.0)
+            print(e)
+            
         
         # input2 becomes input1
         input1 = input2.copy()

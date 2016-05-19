@@ -486,7 +486,7 @@ class snobal(object):
             
         """
         
-        if self.current_time/3600.0 > 1032.55: #686
+        if self.current_time/3600.0 > 1455.03: #686
             self.curr_level
         
         self.time_step = tstep['time_step']
@@ -978,7 +978,7 @@ class snobal(object):
             self.em.cc_s_0[ind] = Q_left[ind]
             
             # else the snowpack is melting
-            ind = (Q_left >= 0) & ~cold_water & (self.snow.z_s > 0)
+            ind = (Q_left >= 0) & cold_water & (self.snow.z_s > 0)
             h2o_refrozen[ind] = self.snow.h2o_total[ind] * (self.snow.z_s_0[ind]/self.snow.z_s[ind]) - MELT(Q_left[ind])
             self.em.cc_s_0[ind] = 0
         
@@ -987,7 +987,7 @@ class snobal(object):
         cold_lower = (self.snow.layer_count == 2) & (self.em.cc_s_l < 0.0) & water
         if np.any(cold_lower):
             Q_freeze[cold_lower] = self.snow.h2o_total[cold_lower] * (self.snow.z_s_l[cold_lower]/self.snow.z_s[cold_lower]) * libsnobal.LH_FUS(FREEZE)
-            Q_left[cold_lower] = Q_0[cold_lower] + Q_freeze[cold_lower]
+            Q_left[cold_lower] = Q_l[cold_lower] + Q_freeze[cold_lower]
             
             ind = (Q_left < 0) & cold_lower & (self.snow.z_s > 0)
             h2o_refrozen[ind] = self.snow.h2o_total[ind] * (self.snow.z_s_l[ind]/self.snow.z_s[ind])
