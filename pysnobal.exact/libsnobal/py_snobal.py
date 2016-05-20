@@ -416,7 +416,7 @@ class snobal(object):
             
         """
         
-        if self.current_time/3600.0 > 1068.36:
+        if self.current_time/3600.0 > 1598.24:
             self.curr_level
         
         self.time_step = tstep['time_step']
@@ -814,8 +814,8 @@ class snobal(object):
                 Q_left = Q_l + Q_freeze
             
                 if Q_left <= 0.0:
-                        h2o_refrozen += self.snow.h2o_total * (self.snow.z_s_l/self.snow.z_s)
-                        self.snow.cc_s_l = Q_left
+                    h2o_refrozen += self.snow.h2o_total * (self.snow.z_s_l/self.snow.z_s)
+                    self.snow.cc_s_l = Q_left
                 else:
                     h2o_refrozen += ((self.snow.h2o_total * (self.snow.z_s_l/self.snow.z_s)) - MELT(Q_left))
                     self.snow.cc_s_l = 0.0
@@ -923,15 +923,15 @@ class snobal(object):
         if self.snow.rho > MAX_SNOW_DENSITY:
             self.snow.rho = MAX_SNOW_DENSITY
             self.snow.z_s = self.snow.m_s / self.snow.rho
-            self.adj_layers()
+#             self.adj_layers()
             
-        else:
+#         else:
             # If a change in depth, adjust the layers' depths and masses
-            if delta_z_s != 0.0:
-                self.adj_layers()
-            else:
+#             if delta_z_s != 0.0:
+        self.adj_layers()
+#             else:
                 # Just change in the snowcover's mass, so update the layer masses
-                self.layer_mass()
+        self.layer_mass()
         
     
     def time_compact(self):
@@ -965,11 +965,11 @@ class snobal(object):
         """
         
         # Maximum density due to compaction by gravity (kg/m^2)
-        A = 350
+        A = 350.0
         
         # Time when half "saturation", i.e., maximum density is reached (seconds)
         # (864000 = 10 days * 24 hours/day * 60 mins/hr * 60 secs/min)
-        B = 864000
+        B = 864000.0
         
         # If the snow is already at or above the maximum density due
         # compaction by gravity, then just leave.
@@ -1584,21 +1584,21 @@ class snobal(object):
             curr_time_hrs = SEC_TO_HR(self.current_time)
             
             # time
-            self.params['out_file'].write('%g' % curr_time_hrs)
+            self.params['out_file'].write('%g,' % curr_time_hrs)
             
             # energy budget terms
-            self.params['out_file'].write(" %.1f %.1f %.1f %.1f %.1f %.1f" % \
+            self.params['out_file'].write("%.1f,%.1f,%.1f,%.1f,%.1f,%.1f," % \
                     (self.em.R_n_bar, self.em.H_bar, self.em.L_v_E_bar, \
                     self.em.G_bar, self.em.M_bar, self.em.delta_Q_bar))
 
             # layer terms
-            self.params['out_file'].write(" %.1f %.1f" % \
+            self.params['out_file'].write("%.1f,%.1f," % \
                     (self.em.G_0_bar, self.em.delta_Q_0_bar))
     
             # heat storage and mass changes
-            self.params['out_file'].write(" %.6e %.6e %.6e" % \
+            self.params['out_file'].write("%.6e,%.6e,%.6e," % \
                     (self.snow.cc_s_0, self.snow.cc_s_l, self.snow.cc_s))
-            self.params['out_file'].write(" %.5f %.5f %.5f" % \
+            self.params['out_file'].write("%.5f,%.5f,%.5f," % \
                     (self.em.E_s_sum, self.em.melt_sum, self.em.ro_pred_sum))
     
 #             # runoff error if data included */
@@ -1607,15 +1607,15 @@ class snobal(object):
 #                         (ro_pred_sum - (ro * time_since_out)))
     
             # sno properties */
-            self.params['out_file'].write(" %.3f %.3f %.3f %.1f" % \
+            self.params['out_file'].write("%.3f,%.3f,%.3f,%.1f," % \
                     (self.snow.z_s_0, self.snow.z_s_l, self.snow.z_s, self.snow.rho))
-            self.params['out_file'].write(" %.1f %.1f %.1f %.1f" % \
+            self.params['out_file'].write("%.1f,%.1f,%.1f,%.1f," % \
                     (self.snow.m_s_0, self.snow.m_s_l, self.snow.m_s, self.snow.h2o))
             if self.params['temps_in_C']:
-                self.params['out_file'].write(" %.2f %.2f %.2f\n" % 
+                self.params['out_file'].write("%.2f,%.2f,%.2f\n" % 
                         (K_TO_C(self.snow.T_s_0), K_TO_C(self.snow.T_s_l), K_TO_C(self.snow.T_s)))
             else:
-                self.params['out_file'].write(" %.2f %.2f %.2f\n" % \
+                self.params['out_file'].write("%.2f,%.2f,%.2f\n" % \
                         (self.snow.T_s_0, self.snow.T_s_l, self.snow.T_s))
                 
                 

@@ -486,7 +486,7 @@ class snobal(object):
             
         """
         
-        if self.current_time/3600.0 > 1068.36: #686
+        if self.current_time/3600.0 > 1598.24: #686
             self.curr_level
         
         self.time_step = tstep['time_step']
@@ -1262,7 +1262,7 @@ class snobal(object):
             self.snow.h2o_total[ind] += self.snow.m_s[ind]
             
             # reset some values back to zero
-            index = ['h2o', 'h2o_max', 'h2o_total', 'h2o_vol', 'm_s', 'm_s_0']
+            index = ['h2o', 'h2o_max', 'h2o_total', 'h2o_vol', 'm_s', 'm_s_0', 'rho']
             self.snow.set_value(index, ind, 0)
             
             # Note: Snow temperatures are set to MIN_SNOW_TEMP
@@ -1989,21 +1989,21 @@ class snobal(object):
             curr_time_hrs = SEC_TO_HR(self.current_time)
             
             # time
-            self.params['out_file'].write('%g' % curr_time_hrs)
+            self.params['out_file'].write('%g,' % curr_time_hrs)
             
             # energy budget terms
-            self.params['out_file'].write(" %.1f %.1f %.1f %.1f %.1f %.1f" % \
+            self.params['out_file'].write("%.1f,%.1f,%.1f,%.1f,%.1f,%.1f," % \
                     (self.em.R_n_bar, self.em.H_bar, self.em.L_v_E_bar, \
                     self.em.G_bar, self.em.M_bar, self.em.delta_Q_bar))
 
             # layer terms
-            self.params['out_file'].write(" %.1f %.1f" % \
+            self.params['out_file'].write("%.1f,%.1f," % \
                     (self.em.G_0_bar, self.em.delta_Q_0_bar))
     
             # heat storage and mass changes
-            self.params['out_file'].write(" %.6e %.6e %.6e" % \
+            self.params['out_file'].write("%.6e,%.6e,%.6e," % \
                     (self.em.cc_s_0, self.em.cc_s_l, self.em.cc_s))
-            self.params['out_file'].write(" %.5f %.5f %.5f" % \
+            self.params['out_file'].write("%.5f,%.5f,%.5f," % \
                     (self.em.E_s_sum, self.em.melt_sum, self.em.ro_pred_sum))
     
 #             # runoff error if data included */
@@ -2012,15 +2012,15 @@ class snobal(object):
 #                         (ro_pred_sum - (ro * time_since_out)))
     
             # sno properties */
-            self.params['out_file'].write(" %.3f %.3f %.3f %.1f" % \
+            self.params['out_file'].write("%.3f,%.3f,%.3f,%.1f," % \
                     (self.snow.z_s_0, self.snow.z_s_l, self.snow.z_s, self.snow.rho))
-            self.params['out_file'].write(" %.1f %.1f %.1f %.1f" % \
+            self.params['out_file'].write("%.1f,%.1f,%.1f,%.1f," % \
                     (self.snow.m_s_0, self.snow.m_s_l, self.snow.m_s, self.snow.h2o))
             if self.params['temps_in_C']:
-                self.params['out_file'].write(" %.2f %.2f %.2f\n" % 
+                self.params['out_file'].write("%.2f,%.2f,%.2f\n" % 
                         (K_TO_C(self.snow.T_s_0), K_TO_C(self.snow.T_s_l), K_TO_C(self.snow.T_s)))
             else:
-                self.params['out_file'].write(" %.2f %.2f %.2f\n" % \
+                self.params['out_file'].write("%.2f,%.2f,%.2f\n" % \
                         (self.snow.T_s_0, self.snow.T_s_l, self.snow.T_s))
     
     
