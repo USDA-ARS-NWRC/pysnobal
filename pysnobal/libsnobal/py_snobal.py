@@ -993,7 +993,7 @@ class snobal(object):
             h2o_refrozen[ind] += self.snow.h2o_total[ind] * (self.snow.z_s_l[ind]/self.snow.z_s[ind])
             self.em.cc_s_l[ind] = Q_left[ind]
             
-            ind = (Q_left >= 0) & ~cold_lower & (self.snow.z_s > 0)
+            ind = (Q_left >= 0) & cold_lower & (self.snow.z_s > 0)
             h2o_refrozen[ind] += self.snow.h2o_total[ind] * (self.snow.z_s_l[ind]/self.snow.z_s[ind]) - MELT(Q_left[ind])
             self.em.cc_s_l[ind] = 0
             
