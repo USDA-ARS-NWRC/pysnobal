@@ -416,7 +416,7 @@ class snobal(object):
             
         """
         
-        if self.current_time/3600.0 > 1455.03:
+        if self.current_time/3600.0 > 1068.36:
             self.curr_level
         
         self.time_step = tstep['time_step']

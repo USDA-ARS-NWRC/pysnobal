@@ -486,7 +486,7 @@ class snobal(object):
             
         """
         
-        if self.current_time/3600.0 > 1455.03: #686
+        if self.current_time/3600.0 > 1068.36: #686
             self.curr_level
         
         self.time_step = tstep['time_step']
@@ -1248,7 +1248,7 @@ class snobal(object):
 
         """
         
-        prev_layer_count = self.snow.layer_count
+        prev_layer_count = self.snow.layer_count.copy()
         
         self.calc_layers()
         
