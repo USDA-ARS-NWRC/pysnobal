@@ -4,7 +4,8 @@ Class snobal() that will hold all the modeling components
 20160109 Scott Havens
 """
 
-import py_libsnobal as libsnobal
+# import py_libsnobal as libsnobal
+import libsnobal
 import numpy as np
 import numpy.ma as ma
 # import pandas as pd
@@ -67,8 +68,6 @@ H2O_LEFT = lambda d,rhos,sat: ( (sat * d * RHO_W0 * (RHO_ICE - rhos)) / RHO_ICE 
 
 # Convert calories to Joules
 CAL_TO_J = 4.186798188
-
-
 
 
 # melt (kg/m^2), Q = available energy (J/m^2)
@@ -492,6 +491,9 @@ class snobal(object):
         self.time_step = tstep['time_step']
         self.tstep_level = tstep['level']
         
+        
+        self.input1['e_g'] = libsnobal.sati_2d(self.input1['T_g'])
+        
         # get the current time step precip
 #         if self.precip_now:
             
@@ -770,7 +772,7 @@ class snobal(object):
             
         
         
-    
+#     @profile
     def evap_cond(self):
         """
         Calculates mass lost or gained by evaporation/condensation
@@ -838,8 +840,8 @@ class snobal(object):
         
 
         q_s_l = libsnobal.spec_hum(e_s_l, self.P_a)
-        e_g = libsnobal.sati_np(self.input1['T_g'])
-        q_g = libsnobal.spec_hum(e_g, self.P_a)
+#         e_g = libsnobal.sati_2d(self.input1['T_g'])
+        q_g = libsnobal.spec_hum(self.input1['e_g'], self.P_a)
         q_delta = q_g - q_s_l
         rho_air = libsnobal.GAS_DEN(self.P_a, libsnobal.MOL_AIR, T_bar)
         k = libsnobal.DIFFUS(self.P_a, T_bar)
@@ -1159,7 +1161,7 @@ class snobal(object):
         # Just change in the snowcover's mass, so update the layer masses
         self.layer_mass()
     
-    
+#     @profile
     def time_compact(self):
         """
         This routine "ages" the snowcover by accounting for the compaction
@@ -1346,12 +1348,15 @@ class snobal(object):
 #         if self.snow.layer_count > 0:
         if self.snowcover_domain:
             
+            # precalculate sati
+            self.snow.es_0 = libsnobal.sati_2d(self.snow.T_s_0)
+            self.snow.es_l = libsnobal.sati_2d(self.snow.T_s_l)
+            
+            
             # Calculates net allwave radiation from the net solar radiation
             #incoming thermal/longwave radiation, and the snow surface
             # temperature.
             # replaces _net_rad()
-            lw_out = STEF_BOLTZ * np.power(self.snow.T_s_0, 4)
-            lw = SNOW_EMISSIVITY * (self.input1['I_lw'] - lw_out)
             self.em.R_n = self.input1['S_n'] + (SNOW_EMISSIVITY * (self.input1['I_lw'] - STEF_BOLTZ * np.power(self.snow.T_s_0, 4)))
             
             # calculate H & L_v_E (and E as well)
@@ -1429,7 +1434,7 @@ class snobal(object):
         self.em.M = M
         
         
-
+#     @profile
     def g_soil(self, layer):
         """
         conduction heat flow between snow and soil
@@ -1438,10 +1443,12 @@ class snobal(object):
         if layer == 'surface':
             tsno = self.snow.T_s_0
             ds = self.snow.z_s_0
+            es = self.snow.es_0
             
         else:
             tsno = self.snow.T_s_l
             ds = self.snow.z_s_l
+            es = self.snow.es_l
             
         if np.any(tsno > FREEZE):
             warnings.warn('g_soil: tsno > %8.2f; set to %8.2f\n' % (FREEZE, FREEZE))
@@ -1452,15 +1459,16 @@ class snobal(object):
         # /***    based on heat flux data from RMSP            ***/
         # /***    note: Kt should be passed as an argument        ***/
         # /***    k_g = efcon(KT_WETSAND, tg, pa);            ***/
-        k_g = libsnobal.efcon(KT_MOISTSAND, self.input1['T_g'], self.P_a)
+        k_g = libsnobal.efcon(KT_MOISTSAND, self.input1['T_g'], self.P_a, self.input1['e_g'])
         
         # calculate G    
         # set snow conductivity
         kcs = KTS(self.snow.rho)
-        k_s = libsnobal.efcon(kcs, tsno, self.P_a)
+        k_s = libsnobal.efcon(kcs, tsno, self.P_a, es)
         g = libsnobal.ssxfr(k_s, k_g, tsno, self.input1['T_g'], ds, self.z_g)
         
         return g
+        
         
     def g_snow(self):
         """
@@ -1476,14 +1484,14 @@ class snobal(object):
 #         else:
         kcs1 = KTS(self.snow.rho)
         kcs2 = KTS(self.snow.rho)
-        k_s1 = libsnobal.efcon(kcs1, self.snow.T_s_0, self.P_a)
-        k_s2 = libsnobal.efcon(kcs2, self.snow.T_s_l, self.P_a)
+        k_s1 = libsnobal.efcon(kcs1, self.snow.T_s_0, self.P_a, self.snow.es_0)
+        k_s2 = libsnobal.efcon(kcs2, self.snow.T_s_l, self.P_a, self.snow.es_l)
         
         g = libsnobal.ssxfr(k_s1, k_s2, self.snow.T_s_0, self.snow.T_s_l, self.snow.z_s_0, self.snow.z_s_l)
         
         self.em.G_0 = g
             
-        
+#     @profile    
     def h_le(self):
         """
         Calculates point turbulent transfer (H and L_v_E) for a 2-layer snowcover
@@ -1495,10 +1503,10 @@ class snobal(object):
 #             raise Exception('T_a is below 0 K')
         
         # calculate saturation vapor pressure
-        e_s = libsnobal.sati_np(self.snow.T_s_0)
+#         e_s = libsnobal.sati_2d(self.snow.T_s_0)
         
         # error check for bad vapor pressures
-        sat_vp = libsnobal.sati_np(self.input1['T_a'])
+        sat_vp = libsnobal.sati_2d(self.input1['T_a'])
         
         ind = self.input1['e_a'] > sat_vp
         if np.any(ind):
@@ -1514,7 +1522,7 @@ class snobal(object):
         
         # calculate H & L_v_E
         H, L_v_E, E, status = libsnobal.hle1_grid(self.P_a, self.input1['T_a'], self.snow.T_s_0, rel_z_t, \
-                                             self.input1['e_a'], e_s, rel_z_t, self.input1['u'], rel_z_u, \
+                                             self.input1['e_a'], self.snow.es_0, rel_z_t, self.input1['u'], rel_z_u, \
                                              self.z_0, self.snowcover)
         if status != 0:
             raise Exception("hle1 did not converge, sorry... :(")
@@ -1655,6 +1663,7 @@ class snobal(object):
                 'T_s', 'T_s_0', 'T_s_l', 
                 'z_s', 'z_s_0', 'z_s_l', 
                 'm_s', 'm_s_0', 'm_s_l',
+                'es_0', 'es_l',
                 'h2o', 'h2o_max', 'h2o_total', 'h2o_vol']
         
 #                 'cc_s', 'cc_s_0', 'cc_s_l',
@@ -1853,27 +1862,27 @@ class snobal(object):
         # not enough depth for surface layer and the lower layer,
         # so just 1 layer: surface layer
         ind = (self.snow.z_s < self.params['max_z_s_0']) & (self.snow.m_s > self.tstep_info[SMALL_TSTEP]['threshold'])
-        if np.any(ind):
-            layer_count[ind] = 1
-            z_s_0[ind] = self.snow.z_s[ind]
-            z_s[ind] = self.snow.z_s[ind]
-            z_s_l[ind] = 0
+#         if np.any(ind):
+        layer_count[ind] = 1
+        z_s_0[ind] = self.snow.z_s[ind]
+        z_s[ind] = self.snow.z_s[ind]
+        z_s_l[ind] = 0
         
         # enough depth for both layers
         ind = self.snow.z_s >= self.params['max_z_s_0']
-        if np.any(ind):
-            layer_count[ind] = 2
-            z_s_0[ind] = self.params['max_z_s_0']
-            z_s_l[ind] = self.snow.z_s[ind] - z_s_0[ind]
-            z_s[ind] = z_s_0[ind] + z_s_l[ind] # not really needed but needed for below
+#         if np.any(ind):
+        layer_count[ind] = 2
+        z_s_0[ind] = self.params['max_z_s_0']
+        z_s_l[ind] = self.snow.z_s[ind] - z_s_0[ind]
+        z_s[ind] = z_s_0[ind] + z_s_l[ind] # not really needed but needed for below
         
         # However, make sure there's enough MASS for the lower
         # layer.  If not, then there's only 1 layer
         ind = (z_s_l * self.snow.rho < self.tstep_info[SMALL_TSTEP]['threshold']) & (layer_count == 2)
-        if np.any(ind):
-            layer_count[ind] = 1
-            z_s_0[ind] = self.snow.z_s[ind]
-            z_s_l[ind] = 0
+#         if np.any(ind):
+        layer_count[ind] = 1
+        z_s_0[ind] = self.snow.z_s[ind]
+        z_s_l[ind] = 0
     
         
 #         if self.snow.m_s <= self.tstep_info[SMALL_TSTEP]['threshold']:

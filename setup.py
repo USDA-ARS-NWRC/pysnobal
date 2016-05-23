@@ -69,6 +69,6 @@ setup(
     cmdclass = {'build_ext': build_ext},
     ext_modules= [
         Extension("pysnobal.libsnobal.libsnobal", [ "pysnobal/libsnobal/libsnobal.pyx" ]),
-        Extension("pysnobal.libsnobal.snobal", [ "pysnobal/libsnobal/snobal.pyx" ])
+#         Extension("pysnobal.libsnobal.snobal", [ "pysnobal/libsnobal/snobal.pyx" ])
     ]
 )

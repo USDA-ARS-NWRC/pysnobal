@@ -9,14 +9,14 @@ snobal -z 2061 -t 60 -m 0.01 -s snow.properties.input
 20160118 Scott Havens
 """
 
-from libsnobal import libsnobal
+# from libsnobal import libsnobal
 from libsnobal.py_snobal import snobal
 
 import sys, getopt
 import numpy as np
 import pandas as pd
 import progressbar
-
+import traceback
 
 # class MyApplication():
 #     # My code here
@@ -332,9 +332,11 @@ def main(argv):
             s.do_data_tstep(dict2np(input1.to_dict()), dict2np(input2.to_dict()))
         
         except Exception, e:
-            print('pysnobal error on time step %f' % s.current_time/3600.0)
+            traceback.print_exc()
+            print('pysnobal error on time step %f' % (s.current_time[0,0]/3600.0))
             print(e)
-            
+            return
+#             
         
         # input2 becomes input1
         input1 = input2.copy()

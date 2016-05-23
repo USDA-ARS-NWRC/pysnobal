@@ -5,9 +5,20 @@ The Snobal 'library' which is a collection of functions to run the model
 """
 
 import numpy as np
+cimport numpy as np
 # from math import log, pow
 from libc.math cimport *
 import cython
+
+# We now need to fix a datatype for our arrays. I've used the variable
+# DTYPE for this, which is assigned to the usual NumPy runtime
+# type info object.
+DTYPE = np.float64
+
+# "ctypedef" assigns a corresponding compile-time type to DTYPE_t. For
+# every type in the numpy module there's a corresponding compile-time
+# type with a _t-suffix.
+ctypedef np.float64_t DTYPE_t
 
 cdef double FREEZE = 273.16         # freezing temp K
 cdef double BOIL = 373.15           # boiling temperature K
@@ -19,6 +30,8 @@ cdef double RGAS = 8.31432e3        # gas constant (J / kmole / deg)
 GRAVITY = 9.80665       # gravity (m/s^2)
 MOL_AIR = 28.9644       # molecular weight of air (kg / kmole)
 MOL_H2O = 18.0153       # molecular weight of water vapor (kg / kmole)
+cdef double c_MOL_AIR = 28.9644       # molecular weight of air (kg / kmole)
+cdef double c_MOL_H2O = 18.0153       # molecular weight of water vapor (kg / kmole)
 cdef double VON_KARMAN = 0.41       # Von Karman constant
 
 cdef double CP_AIR = 1.005e3        # specific heat of air at constant pressure (J / kg / deg)
@@ -39,7 +52,10 @@ cdef double BETA_U = 16
 
 # equation of state, to give density of a gas (kg/m^3)
  
-cpdef double GAS_DEN (double p, double m, double t): 
+cpdef GAS_DEN (p, m, t): 
+    return p * m/(RGAS * t)
+
+cdef double GAS_DEN_c (double p, double m, double t): 
     return p * m/(RGAS * t)
 
 # virtual temperature, i.e. the fictitious temperature that air must
@@ -59,18 +75,18 @@ cpdef double LH_FUS (double t):
     return 3.336e5 + 1.6667e2 * (FREEZE - t)
 
 # latent heat of sublimination (J/kg), t = temperature (K)
-cdef LH_SUB (double t):
+cdef double LH_SUB (double t):
     return LH_VAP(t) + LH_FUS(t)
 
 # mixing ratio
-cdef double MIX_RATIO (double e, double P): 
-    return (MOL_H2O/MOL_AIR) * e/(P - e)
+cdef MIX_RATIO (np.ndarray[DTYPE_t, ndim=2] e, np.ndarray[DTYPE_t, ndim=2] P): 
+    return (c_MOL_H2O/c_MOL_AIR) * e/(P - e)
 
 # effectuve diffusion coefficient (m^2/sec) for saturated porous layer
 # (like snow...).  See Anderson, 1976, pg. 32, eq. 3.13.
 #    pa = air pressure (Pa)
 #    ts = layer temperature (K)
-DIFFUS = lambda double pa, double ts:  0.65 * (SEA_LEVEL / pa) * pow(ts/FREEZE,14.0) * (0.01*0.01) 
+DIFFUS = lambda pa, ts:  0.65 * (SEA_LEVEL / pa) * np.power(ts/FREEZE,14.0) * (0.01*0.01)
 
 # water vapor flux (kg/(m^2 sec)) between two layers
 #   air_d = air density (kg/m^3)
@@ -79,7 +95,8 @@ DIFFUS = lambda double pa, double ts:  0.65 * (SEA_LEVEL / pa) * pow(ts/FREEZE,1
 #   z_dif = absolute distance between layers (m)
 #
 #   note:   q_dif controls the sign of the computed flux
-EVAP = lambda double air_d, double k, double q_dif, double z_dif: air_d * k * (q_dif/z_dif)
+# EVAP = lambda double air_d, double k, double q_dif, double z_dif: air_d * k * (q_dif/z_dif)
+EVAP = lambda air_d,k,q_dif,z_dif: air_d * k * (q_dif/z_dif)
 
 
 def hysat(pb, tb, L, h, g, m):        
@@ -103,7 +120,7 @@ def hysat(pb, tb, L, h, g, m):
         return pb * np.power(tb/(tb + L * h), g * m/(RGAS * L * 1.e-3))
        
 
-def satw_np(tk):
+def satw_np(np.ndarray tk):
     '''
     Saturation vapor pressure of water. from IPW satw but for a numpy array
     20151027 Scott Havens
@@ -124,33 +141,77 @@ def satw_np(tk):
 
     return x
 
-
-def sati_np(tk):
+@cython.boundscheck(False)
+@cython.wraparound(False)
+@cython.cdivision(True)
+def sati_np(np.ndarray tk):
     '''
     saturation vapor pressure over ice. From IPW sati but for a numpy array
     20151027 Scott Havens
     '''
     
+    cdef int tk_size = tk.shape[0] * tk.shape[1]
+    cdef double l10
+    cdef np.ndarray ind = np.zeros([tk.shape[0], tk.shape[1]], dtype=np.uint8)
+    
     # remove bad values
     tk[tk < 0] = np.nan
     
-    if np.isnan(tk).size == tk.size:
-        raise ValueError('All values of tk < 0')
+    if np.sum(np.isnan(tk)) == tk_size:
+        raise ValueError('sati_np: All values of tk < 0')
     
     # preallocate
-    x = np.empty(tk.shape)
-    
-    # vapor above freezing
-    ind = tk > FREEZE
-    x[ind] = satw_np(tk[ind])
+    cdef np.ndarray x = np.zeros([tk.shape[0], tk.shape[1]], dtype=DTYPE)
+#     x = np.empty_like(tk.shape)
     
     # vapor below freezing
     l10 = np.log(10.0)
-    x[~ind] = 100.0 * np.power(10.0, -9.09718*((FREEZE/tk[~ind]) - 1.0) - 3.56654*np.log(FREEZE/tk[~ind])/l10 + \
-            8.76793e-1*(1.0 - (tk[~ind]/FREEZE)) + np.log(6.1071)/l10)
+#     x[ind] = 100.0 * np.power(10.0,-9.09718*((FREEZE/tk[ind]) - 1.0) - 3.56654*np.log(FREEZE/tk[ind])/l10 + \
+#             8.76793e-1*(1.0 - (tk[ind]/FREEZE)) + np.log(6.1071)/l10)
+    x = 100.0 * np.power(10.0,-9.09718*((FREEZE/tk) - 1.0) - 3.56654*np.log(FREEZE/tk)/l10 + \
+            8.76793e-1*(1.0 - (tk/FREEZE)) + np.log(6.1071)/l10)
 
+    # vapor above freezing
+    ind = tk > FREEZE
+    if np.any(ind):
+        x[ind] = satw_np(tk[ind])
 
     return x
+
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+@cython.cdivision(True)
+def sati_2d(np.ndarray[DTYPE_t, ndim=2] tk):
+    '''
+    saturation vapor pressure over ice. From IPW sati but for a 2D numpy array
+    20160523 Scott Havens
+    '''
+    
+    cdef int tk_size = tk.shape[0] * tk.shape[1]
+    cdef double l10
+    cdef np.ndarray[np.uint8_t, ndim=2, cast=True] ind = np.zeros([tk.shape[0], tk.shape[1]], dtype=np.uint8)
+    cdef np.ndarray[DTYPE_t, ndim=2] x = np.zeros([tk.shape[0], tk.shape[1]], dtype=DTYPE)
+    
+    # remove bad values
+    tk[tk < 0] = np.nan
+    
+    if np.sum(np.isnan(tk)) == tk_size:
+        raise ValueError('sati_np: All values of tk < 0')
+    
+    # vapor below freezing
+    l10 = np.log(10.0)
+    x = 100.0 * np.power(10.0,-9.09718*((FREEZE/tk) - 1.0) - 3.56654*np.log(FREEZE/tk)/l10 + \
+            8.76793e-1*(1.0 - (tk/FREEZE)) + np.log(6.1071)/l10)
+
+    # vapor above freezing
+    ind = tk > FREEZE
+    if np.any(ind):
+        x[ind] = satw_np(tk[ind])
+
+    return x
+
+
 
 
 @cython.cdivision(True) 
@@ -160,7 +221,7 @@ cdef double satw(double tk):
     20160112 Scott Havens
     '''
     
-#     cdef double l10, btk, x
+    cdef double btk, x
     
     if tk < 0:
         raise ValueError('tk < 0')
@@ -179,8 +240,9 @@ cdef double satw(double tk):
 
 
 # cpdef double sati(double tk):
+
 @cython.cdivision(True)
-cpdef double sati(double tk):
+cdef double sati(double tk):
     '''
     saturation vapor pressure over ice. From IPW sati but for a single value
     20151027 Scott Havens
@@ -276,6 +338,80 @@ cdef double psi(double zeta, int code):
         result = 0
     
     return result
+
+
+# @profile
+def hle1_grid(np.ndarray[DTYPE_t, ndim=2] press, np.ndarray[DTYPE_t, ndim=2] ta, \
+              np.ndarray[DTYPE_t, ndim=2] ts, np.ndarray[DTYPE_t, ndim=2] za, \
+              np.ndarray[DTYPE_t, ndim=2] ea, np.ndarray[DTYPE_t, ndim=2] es, \
+              np.ndarray[DTYPE_t, ndim=2] zq, np.ndarray[DTYPE_t, ndim=2] u, \
+              np.ndarray[DTYPE_t, ndim=2] zu, np.ndarray[DTYPE_t, ndim=2] z0, mask=None):
+    """
+    computes sensible and latent heat flux and mass flux given
+    measurements of temperature and specific humidity at surface
+    and one height, wind speed at one height, and roughness
+    length.  The temperature, humidity, and wind speed measurements
+    need not all be at the same height.
+    
+    Args
+        press air pressure (Pa)            
+        ta air temperature (K) at height za    
+        ts surface temperature (K)        
+        za height of air temp measurement (m)    
+        ea vapor pressure (Pa) at height zq    
+        es vapor pressure (Pa) at surface    
+        zq height of spec hum measurement (m)    
+        u wind speed (m/s) at height zu    
+        zu height of wind speed measurement (m)    
+        z0 roughness length (m)    
+        mask only calculate where this is true        
+
+    Outputs
+        h sens heat flux (+ to surf) (W/m^2)    
+        le latent heat flux (+ to surf) (W/m^2)    
+        e mass flux (+ to surf) (kg/m^2/s)
+        status status of convergence
+            0      successful calculation
+            -1      no convergence
+        
+    20160111 Scott Havens
+    """
+    
+    cdef int ny = press.shape[0]
+    cdef int nx = press.shape[1]
+    cdef int ier
+    
+    cdef np.ndarray H = np.zeros([ny, nx], dtype=DTYPE)
+    cdef np.ndarray LE = np.zeros([ny, nx], dtype=DTYPE)
+    cdef np.ndarray E = np.zeros([ny, nx], dtype=DTYPE)
+    cdef np.ndarray M = np.zeros([ny, nx], dtype=bool)
+    
+#     H = np.zeros_like(press)
+#     LE = np.zeros_like(press)
+#     E = np.zeros_like(press)
+     
+    # apply the mask
+    if mask is None:
+        M = np.zeros([ny, nx], dtype=bool)
+    else:
+        M = mask
+                 
+    # iterate over the array and apply hle1()
+    for index,val in np.ndenumerate(ta):
+        if M[index]:
+            h, le, e, ier = hle1 (press[index], ta[index], ts[index], 
+                                  za[index], ea[index], es[index], 
+                                  zq[index], u[index], zu[index], 
+                                  z0[index])
+             
+            if ier == -1:
+                break
+            H[index] = h
+            LE[index] = le
+            E[index] = e
+             
+    return H, LE, E, ier
+
 
 # @profile
 @cython.boundscheck(False)
@@ -373,7 +509,7 @@ def hle1 (double press, double ta, double ts, double za, double ea, \
     
     # air density at press, virtual temp of geometric mean
     # of air and surface
-    dens = GAS_DEN(press, MOL_AIR, VIR_TEMP(sqrt(ta * ts), sqrt(ea * es), press))
+    dens = GAS_DEN_c(press, MOL_AIR, VIR_TEMP(sqrt(ta * ts), sqrt(ea * es), press))
     
     # starting value, assume neutral stability, so psi-functions
     # are all zero
@@ -428,10 +564,14 @@ def hle1 (double press, double ta, double ts, double za, double ea, \
 
     
     return h, le, e, ier
+ 
     
-    
+@cython.boundscheck(False)
+@cython.wraparound(False)
 @cython.cdivision(True)
-cpdef double efcon(double k, double t, double p):
+cpdef np.ndarray efcon(float k, np.ndarray[DTYPE_t, ndim=2] t, \
+                       np.ndarray[DTYPE_t, ndim=2] p, \
+                       np.ndarray[DTYPE_t, ndim=2] ea):
     """
     calculates the effective thermal conductivity for a layer
     accounting for both conduction and vapor diffusion.
@@ -447,28 +587,61 @@ cpdef double efcon(double k, double t, double p):
     """
     
     # calculate effective layer diffusion (see Anderson, 1976, pg. 32)
-#     de = DIFFUS(p, t)
-    cdef double sl = SEA_LEVEL
-    de = 0.65 * (sl / p) * pow(t/FREEZE, 14.0) * (0.01 * 0.01)
+    #     de = DIFFUS(p, t)
+#     cdef double sl = SEA_LEVEL
+    cdef int ny = t.shape[0]
+    cdef int nx = t.shape[1]
+    cdef int i, j
+    cdef double val
+    
+    cdef np.ndarray[DTYPE_t, ndim=2] de = np.zeros([ny, nx], dtype=DTYPE)
+#     cdef np.ndarray[np.uint8_t, ndim=2, cast=True] ind = np.zeros([ny, nx], dtype=np.uint8)
+    cdef np.ndarray[DTYPE_t, ndim=2] lh = np.zeros([ny, nx], dtype=DTYPE)
+    cdef np.ndarray[DTYPE_t, ndim=2] e = np.zeros([ny, nx], dtype=DTYPE)
+    cdef np.ndarray[DTYPE_t, ndim=2] q = np.zeros([ny, nx], dtype=DTYPE)
+    cdef np.ndarray[DTYPE_t, ndim=2] K = np.ones([ny, nx], dtype=DTYPE)
+#     cdef np.ndarray SL = np.ones([ny, nx], dtype=DTYPE)
+    
+    K = k * K
+#     SL = SEA_LEVEL * SL
+    
+    de = 0.65 * (SEA_LEVEL / p) * np.power(t/FREEZE, 14.0) * (0.01 * 0.01)
 
     # set latent heat from layer temp.
-    if t > FREEZE:
-        lh = LH_VAP(t)
-    elif t == FREEZE:
-        lh = (LH_VAP(t) + LH_SUB(t)) / 2.0
-    else:
-        lh = LH_SUB(t)
+#     lh = np.zeros_like(t)
+#     if np.any(t > FREEZE):
+#         ind = t > FREEZE
+#         lh[ind] = LH_VAP(t[ind])
+#     if np.any(t == FREEZE):
+#         ind = t == FREEZE
+#         lh[ind] = (LH_VAP(t[ind]) + LH_SUB(t[ind])) / 2.0
+#     if np.any(t < FREEZE):
+#         ind = t < FREEZE
+#         lh[ind] = LH_SUB(t[ind])
+        
+#     for index,val in np.ndenumerate(t):
+#         i = index[0]
+#         j = index[1]
+    for i in range(ny):
+        for j in range(nx):
+            val = t[i,j]
+            if val > FREEZE:
+                lh[i,j] = LH_VAP(val)
+            elif val < FREEZE:
+                lh[i,j] = LH_SUB(val)
+            else:
+                lh[i,j] = (LH_VAP(val) + LH_SUB(val)) / 2.0
 
     # set mixing ratio from layer temp.
-    e = sati(t)
-    q = MIX_RATIO(e, p)
+#     e = sati_2d(t)
+    q = MIX_RATIO(ea, p)
 
     # calculate effective layer conductivity
-    return k + (lh * de * q)
+    return K + (lh * de * q)
 
     
 @cython.cdivision(True)
-cpdef ssxfr(double k1, double k2, double t1, double t2, double d1, double d2):
+cpdef ssxfr(k1, k2, t1, t2, d1, d2):
     """
     calculates the steady state heat transfer between two layers.
     
