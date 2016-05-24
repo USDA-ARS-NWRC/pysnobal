@@ -28,6 +28,7 @@ MIN_SNOW_TEMP = -75
 FREEZE = 273.16
 KT_MOISTSAND = 1.65
 MAX_SNOW_DENSITY = 600
+MAX_LAYERS = 2
 
 # density of water at 0C (kg/m^3) (from CRC handbook pg F-11)
 RHO_W0 = 999.87
@@ -872,6 +873,7 @@ class snobal(object):
 
 
     
+    @profile
     def snowmelt(self):
         """
         Calculates melting or re-freezing for point 2-layer energy balance
@@ -895,20 +897,22 @@ class snobal(object):
         # energy for surface melt
         Q_0 = (self.em.delta_Q_0 * self.time_step) + self.em.cc_s_0
                 
-        ind = Q_0 > 0
-        if np.any(ind):
-            self.em.melt[ind] = MELT(Q_0[ind])
-            self.em.cc_s_0[ind] = 0
+        warm = Q_0 > 0
+        if np.any(warm):
+            self.em.melt[warm] = MELT(Q_0[warm])
+            self.em.cc_s_0[warm] = 0
+        
+#         ind = Q_0 < 0
+        if np.any(~warm):
+            self.em.melt[~warm] = 0
+            self.em.cc_s_0[~warm] = Q_0[~warm]
         
         ind = Q_0 == 0
         if np.any(ind):
             self.em.melt[ind] = 0
             self.em.cc_s_0[ind] = 0
         
-        ind = Q_0 < 0
-        if np.any(ind):
-            self.em.melt[ind] = 0
-            self.em.cc_s_0[ind] = Q_0[ind]
+        
             
         
 #         if Q_0 > 0:
@@ -929,20 +933,20 @@ class snobal(object):
         if np.any(ind):
             Q_l[ind] = ((self.em.G[ind] - self.em.G_0[ind]) * self.time_step) + self.em.cc_s_l[ind]
             
-            ind = Q_l > 0
-            if np.any(ind):
-                self.em.melt[ind] += MELT(Q_l[ind])
-                self.em.cc_s_l[ind] = 0
+            warm = Q_l > 0
+            if np.any(warm):
+                self.em.melt[warm] += MELT(Q_l[warm])
+                self.em.cc_s_l[warm] = 0
             
             ind = Q_l == 0
             if np.any(ind):
                 self.em.melt[ind] += 0
                 self.em.cc_s_l[ind] = 0
             
-            ind = Q_l < 0
-            if np.any(ind):
-                self.em.melt[ind] += 0
-                self.em.cc_s_l[ind] = Q_l[ind]
+#             ind = Q_l < 0
+            if np.any(~warm):
+                self.em.melt[~warm] += 0
+                self.em.cc_s_l[~warm] = Q_l[~warm]
             
 #             if Q_l > 0:
 #                 self.em.melt += MELT(Q_l)
@@ -1038,10 +1042,14 @@ class snobal(object):
             
         # determine if snowcover is isothermal
         self.isothermal = np.zeros(self.shape, dtype=bool)
-        iso_2lay = (self.snow.layer_count == 2) & (self.em.cc_s_0 == 0.0) & (self.em.cc_s_l == 0.0)
-        iso_1lay = (self.snow.layer_count == 1) & (self.em.cc_s_0 == 0.0)
+#         iso_1lay = (self.snow.layer_count == 1) & (self.em.cc_s_0 == 0.0)
+#         iso_2lay = (self.snow.layer_count == 2) & (self.em.cc_s_0 == 0.0) & (self.em.cc_s_l == 0.0)
+#         self.isothermal[iso_1lay | iso_2lay] = True
         
-        self.isothermal[iso_1lay | iso_2lay] = True
+        
+        iso = (self.em.cc_s_0 == 0.0) & (self.em.cc_s_l == 0.0)
+        self.isothermal[iso] = True
+        
         
 #         if (self.snow.layer_count == 2) and (self.em.cc_s_0 == 0.0) and (self.em.cc_s_l == 0.0):
 #             self.isothermal = True
@@ -1055,11 +1063,11 @@ class snobal(object):
             self.adj_snow((-1)*self.em.melt/self.snow.rho, np.zeros_like(self.snow.rho))
             
         # set total cold content
-        ind = self.snow.layer_count == 2
-        self.em.cc_s[ind] = self.em.cc_s_0[ind] + self.em.cc_s_l[ind]
+#         ind = self.snow.layer_count == 2
+        self.em.cc_s = self.em.cc_s_0 + self.em.cc_s_l
         
-        ind = self.snow.layer_count == 1
-        self.em.cc_s[ind] = self.em.cc_s_0[ind]
+#         ind = self.snow.layer_count == 1
+#         self.em.cc_s[ind] = self.em.cc_s_0[ind]
         
 #         if self.snow.layer_count == 2:
 #             self.em.cc_s = self.em.cc_s_0 + self.em.cc_s_l
@@ -1833,7 +1841,6 @@ class snobal(object):
 
 
 
-#     @profile
     def calc_layers(self):
         """
         This routine determines the # of layers in the snowcover based its
@@ -1848,37 +1855,73 @@ class snobal(object):
         
         """
         
+
+        
+#         # assume that there are two layers
+#         z_s_0 = self.params['max_z_s_0'] * np.ones(self.shape)
+#         z_s_l = self.snow.z_s - z_s_0
+#         
+#         # correct if there is only one or no layers
+#         ind = z_s_l < 0
+#         z_s_0[ind] = z_s_l[ind] + self.params['max_z_s_0']
+#         
+#         # make sure that there is enough mass total
+#         ind = self.snow.m_s < self.tstep_info[SMALL_TSTEP]['threshold']
+#         z_s_0[ind] = 0
+#         z_s_l[ind] = 0
+
+#         layer_count = self.snow.layer_count
+#         z_s_0 = self.snow.z_s_0     # these are references to self.snow.z_s_0
+#         z_s_l = self.snow.z_s_l
+        
+        # concatenate into 3D array
+#         z = np.dstack((z_s_0, z_s_l))
+        
+        # check the surface layer
+        
+        
+        
         # preallocate
-        layer_count = np.zeros(self.shape)
-        z_s = np.zeros_like(layer_count)
-        z_s_0 = np.zeros_like(layer_count)
-        z_s_l = np.zeros_like(layer_count)
+#         layer_count = np.zeros(self.shape)
+#         z_s = np.zeros_like(layer_count)
+        layer_count = self.snow.layer_count
+        z_s_0 = self.snow.z_s_0     # these are references to self.snow.z_s_0
+        z_s_l = self.snow.z_s_l
+#         z_s = self.snow.z_s
         
         # less than minimum layer mass, so treat as no snowcover
         # but since everything was preallocated, then it shouldn't matter
-        # ind = self.snow.m_s <= self.tstep_info[SMALL_TSTEP]['threshold']
-        # layer_count[ind] = 0
+        no_mass = self.snow.m_s <= self.tstep_info[SMALL_TSTEP]['threshold']
+        layer_count[no_mass] = 0
+
+#         if np.sum(no_mass) == self.ngrid: 
+#          
+#             layer_count[:] = 0
+#             z_s_0[:] = 0
+#             z_s_l[:] = 0
+#             self.snow.z_s[:] = 0
+#             return
         
         # not enough depth for surface layer and the lower layer,
         # so just 1 layer: surface layer
-        ind = (self.snow.z_s < self.params['max_z_s_0']) & (self.snow.m_s > self.tstep_info[SMALL_TSTEP]['threshold'])
-#         if np.any(ind):
+        surf_only = self.snow.z_s < self.params['max_z_s_0']
+        
+        ind = surf_only & ~no_mass
         layer_count[ind] = 1
         z_s_0[ind] = self.snow.z_s[ind]
-        z_s[ind] = self.snow.z_s[ind]
         z_s_l[ind] = 0
         
         # enough depth for both layers
-        ind = self.snow.z_s >= self.params['max_z_s_0']
+#         ind = self.snow.z_s >= self.params['max_z_s_0']
 #         if np.any(ind):
-        layer_count[ind] = 2
-        z_s_0[ind] = self.params['max_z_s_0']
-        z_s_l[ind] = self.snow.z_s[ind] - z_s_0[ind]
-        z_s[ind] = z_s_0[ind] + z_s_l[ind] # not really needed but needed for below
+        layer_count[~surf_only] = 2
+        z_s_0[~surf_only] = self.params['max_z_s_0']
+        z_s_l[~surf_only] = self.snow.z_s[~surf_only] - z_s_0[~surf_only]
+#         z_s[ind] = z_s_0[ind] + z_s_l[ind] # not really needed but needed for below
         
         # However, make sure there's enough MASS for the lower
         # layer.  If not, then there's only 1 layer
-        ind = (z_s_l * self.snow.rho < self.tstep_info[SMALL_TSTEP]['threshold']) & (layer_count == 2)
+        ind = (z_s_l * self.snow.rho < self.tstep_info[SMALL_TSTEP]['threshold']) & ~surf_only
 #         if np.any(ind):
         layer_count[ind] = 1
         z_s_0[ind] = self.snow.z_s[ind]
@@ -1916,10 +1959,10 @@ class snobal(object):
 #                 z_s_l = 0
         
             
-        self.snow.layer_count = layer_count
-        self.snow.z_s = z_s
-        self.snow.z_s_0 = z_s_0
-        self.snow.z_s_l = z_s_l
+#         self.snow.layer_count = layer_count
+        self.snow.z_s = z_s_0 + z_s_l
+#         self.snow.z_s_0 = z_s_0
+#         self.snow.z_s_l = z_s_l
         
         
 #     @profile
