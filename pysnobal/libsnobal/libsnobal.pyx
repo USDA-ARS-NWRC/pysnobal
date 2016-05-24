@@ -86,7 +86,10 @@ cdef MIX_RATIO (np.ndarray[DTYPE_t, ndim=2] e, np.ndarray[DTYPE_t, ndim=2] P):
 # (like snow...).  See Anderson, 1976, pg. 32, eq. 3.13.
 #    pa = air pressure (Pa)
 #    ts = layer temperature (K)
-DIFFUS = lambda pa, ts:  0.65 * (SEA_LEVEL / pa) * np.power(ts/FREEZE,14.0) * (0.01*0.01)
+cpdef DIFFUS(pa, ts):
+    return 0.65 * (SEA_LEVEL / pa) * pow(ts/FREEZE, 14.0) * (0.01*0.01)
+
+# DIFFUS = lambda pa, ts:  0.65 * (SEA_LEVEL / pa) * np.power(ts/FREEZE,14.0) * (0.01*0.01)
 
 # water vapor flux (kg/(m^2 sec)) between two layers
 #   air_d = air density (kg/m^3)
@@ -302,7 +305,19 @@ cpdef double spec_hum(double e, double P):
     P = pressure (same units as e)
     """
     
+    return e * c_MOL_H2O / (c_MOL_AIR * P + e * (c_MOL_H2O - c_MOL_AIR))
+
+
+def spec_hum_np(np.ndarray[DTYPE_t, ndim=2] e, np.ndarray[DTYPE_t, ndim=2] P):
+    """
+    specific humidity from vapor pressure
+ 
+    e = vapor pressure
+    P = pressure (same units as e)
+    """
+    
     return e * MOL_H2O / (MOL_AIR * P + e * (MOL_H2O - MOL_AIR))
+
 
 cdef double psi(double zeta, int code):
     """
@@ -605,7 +620,8 @@ cpdef np.ndarray efcon(float k, np.ndarray[DTYPE_t, ndim=2] t, \
     K = k * K
 #     SL = SEA_LEVEL * SL
     
-    de = 0.65 * (SEA_LEVEL / p) * np.power(t/FREEZE, 14.0) * (0.01 * 0.01)
+    de = DIFFUS(p, t)
+#     de = 0.65 * (SEA_LEVEL / p) * np.power(t/FREEZE, 14.0) * (0.01 * 0.01)
 
     # set latent heat from layer temp.
 #     lh = np.zeros_like(t)
