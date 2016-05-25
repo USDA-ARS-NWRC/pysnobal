@@ -118,7 +118,7 @@ def get_args(argv):
         'p': '../test_data_point/snobal.ppt.input',
         'i': '../test_data_point/snobal.data.input.short',
         'o': '../test_data_point/snobal.exact.out',
-        'O': 'all',
+        'O': 'data',
         'c': True,
         'K': True,
         'T': DEFAULT_NORMAL_THRESHOLD,

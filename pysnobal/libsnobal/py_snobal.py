@@ -138,11 +138,16 @@ class snobal(object):
         
         # check for a mask
         self.mask = None
-#         if 'mask' in snow_prop.keys():
-#             self.mask = ~snow_prop['mask'].astype(np.bool)
+        if 'mask' in snow_prop.keys():
+            self.mask = snow_prop['mask'].astype(np.bool)
         
 #         self.elevation = ma.masked_array(snow_prop['z'], mask=self.mask)
         self.elevation = snow_prop['z']
+        
+        
+        
+        
+        
         
         self.P_a = libsnobal.hysat(libsnobal.SEA_LEVEL, libsnobal.STD_AIRTMP, 
                                    libsnobal.STD_LAPSE, (self.elevation / 1000.0),
@@ -281,14 +286,6 @@ class snobal(object):
                     pp_info.z_snow[ind] = pp_info.m_snow[ind] / input1['rho_snow'][ind]
                 else:
                     raise ValueError('input1["rho_snow"] is <= 0.0 with input1["percent_snow"] > 0.0')
-            
-#             if (pp_info.m_snow > 0.0):
-#                 if (input1['rho_snow'] > 0.0):
-#                     pp_info.z_snow = pp_info.m_snow / input1['rho_snow']
-#                 else:
-#                     raise ValueError('input1["rho_snow"] is <= 0.0 with input1["percent_snow"] > 0.0')
-#             else:
-#                 pp_info.z_snow = 0
              
             # partion the precip based on the pixels m_snow and m_rain   
             
@@ -320,26 +317,6 @@ class snobal(object):
             if np.any(rain_only):
                 self.precip.T_rain[rain_only] = input1['T_pp'][rain_only]
                 
-            
-#             if np.any(pp_info.m_snow > 0) and np.any(pp_info.m_rain > 0):
-#                 self.precip.T_snow = FREEZE
-#                 self.precip.h2o_sat_snow = 1.0
-#                 self.precip.T_rain = input1['T_pp']
-#             
-#             elif (pp_info.m_snow > 0):
-#                 # Snow only
-#                 if (input1['T_pp'] < FREEZE):
-#                     # cold snow
-#                     self.precip.T_snow= input1['T_pp']
-#                     self.precip.h2o_sat_snow = 0
-#                 else:
-#                     # warm snow
-#                     self.precip.T_snow= FREEZE
-#                     self.precip.h2o_sat_snow = 1
-#                     
-#             elif (pp_info.m_rain > 0):
-#                 # rain only
-#                 self.precip.T_rain = input1['T_pp']
                     
         self.precip_info[DATA_TSTEP] = pp_info
                 
@@ -350,10 +327,58 @@ class snobal(object):
     
         #Divide the data timestep into normal run timesteps.
         self.curr_level = DATA_TSTEP   # keeps track of what time step level the model is on
-        self.divide_tstep() 
+        self.divide_tstep_exact() 
+     
+     
+    def below_thold_grid(self, threshold):
+        """
+        This routine determines if any individual layer's mass is below
+        a given threshold for the current timestep.
+
+        Args:
+            threshold: current timestep's threshold for a 
+                   layer's mass
+
+        Returns:
+            True    A layer's mass is less than the threshold.
+            False    All layers' masses are greater than the threshold.
+        """
+        
+        # if there is no snow anywhere
+        if np.sum(self.snow.layer_count == 0) == self.ngrid:
+            return False
+
+        return (self.snow.m_s_0[self.snow.m_s_0 > 0] < threshold) or \
+            (self.snow.m_s_l[self.snow.z_s_l > 0] < threshold)
            
     
     def divide_tstep(self):
+        """
+        This routine divides the data timestep into the appropriate number
+        of normal run timesteps.  The input values for each normal timestep
+        are computed from the two input records by linear interpolation.
+        
+        However, the time step will be divided at various intervals across
+        the 
+        """
+        
+        # determine the levels at which each pixel will be calculated
+        # the level number will indicate how many steps to take 
+        level = np.ones(self.shape)
+        
+        for lvl in range(DATA_TSTEP+1, SMALL_TSTEP+1):
+            ind = (self.snow.m_s_0[self.snow.m_s_0 > 0] < self.tstep_info[lvl]['threshold']) | \
+            (self.snow.m_s_l[self.snow.z_s_l > 0] < self.tstep_info[lvl]['threshold'])
+            
+            level[ind] = lvl
+            
+    
+        level
+    
+    
+    
+    
+    def divide_tstep_exact(self):
         """
         This routine performs the model's calculations for 1 data timestep
         between 2 input-data records which are in 'input_rec1' and
@@ -436,7 +461,7 @@ class snobal(object):
             
             if (self.next_level != SMALL_TSTEP) and (self.below_thold(next_lvl_tstep['threshold'])):
                 self.curr_level = copy(self.next_level) # increment the level number
-                if not self.divide_tstep():
+                if not self.divide_tstep_exact():
                     return False
             else:
                 if not self.do_tstep(next_lvl_tstep):
@@ -487,7 +512,8 @@ class snobal(object):
             
         """
         
-        if self.current_time/3600.0 > 1598.24: #686
+#         print self.current_time/3600.0
+        if self.current_time/3600.0 > 686:
             self.curr_level
         
         self.time_step = tstep['time_step']
@@ -651,7 +677,7 @@ class snobal(object):
         
         return tsno
      
-    @profile
+    
     def runoff(self):
         """
         Calculates runoff for point energy budget 2-layer snowmelt model
@@ -851,9 +877,9 @@ class snobal(object):
         e_s_l = libsnobal.sati_2d(T_s)
         
 
-        q_s_l = libsnobal.spec_hum(e_s_l, self.P_a)
+        q_s_l = libsnobal.spec_hum_np(e_s_l, self.P_a)
 #         e_g = libsnobal.sati_2d(self.input1['T_g'])
-        q_g = libsnobal.spec_hum(self.input1['e_g'], self.P_a)
+        q_g = libsnobal.spec_hum_np(self.input1['e_g'], self.P_a)
 #         q_delta = q_g - q_s_l
         rho_air = libsnobal.GAS_DEN(self.P_a, libsnobal.MOL_AIR, T_bar)
         k = libsnobal.DIFFUS(self.P_a, T_bar)
@@ -1410,7 +1436,8 @@ class snobal(object):
         # /***    based on heat flux data from RMSP            ***/
         # /***    note: Kt should be passed as an argument        ***/
         # /***    k_g = efcon(KT_WETSAND, tg, pa);            ***/
-        k_g = libsnobal.efcon(KT_MOISTSAND, self.input1['T_g'], self.P_a, self.input1['e_g'])
+        kts = KT_MOISTSAND * np.ones(self.shape)
+        k_g = libsnobal.efcon(kts, self.input1['T_g'], self.P_a, self.input1['e_g'])
         
         # calculate G    
         # set snow conductivity
@@ -2046,18 +2073,36 @@ class InputClass():
        
             
 class EmptyClass:
+    """
+    The class holds the model state variables, either for
+    em or snow.
+    
+    The em_out and snow_out are the 2D arrays
+    The em and snow are 1D raveled arrays of the above
+    """
     def __init__(self, cols, size, mask=None):
         self.keys = cols
         self.shape = size
         self.mask = mask
+        
+        if mask is not None:
+            mask1d = np.where(mask.flatten())
+        
 #         a = np.zeros(size)
 #         a.fill(np.nan)
         for c in cols:
+#             if mask is not None:
+#                 setattr(self, c, ma.masked_array(np.zeros(size), 
+#                                                  mask=mask, hard_mask=True))
+#             else:
+            setattr(self, '%s_out' % c, np.zeros(size))
+            
             if mask is not None:
-                setattr(self, c, ma.masked_array(np.zeros(size), 
-                                                 mask=mask, hard_mask=True))
+                r = np.ravel(getattr(self, '%s_out' % c))
+                setattr(self, c, r[mask1d])
             else:
                 setattr(self, c, np.zeros(size))
+            
             
     def set_zeros(self, index):
         """

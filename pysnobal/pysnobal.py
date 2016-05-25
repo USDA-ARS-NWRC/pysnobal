@@ -11,6 +11,7 @@ snobal -z 2061 -t 60 -m 0.01 -s snow.properties.input
 
 # from libsnobal import libsnobal
 from libsnobal.py_snobal import snobal
+# from libsnobal.snobal import snobal
 
 import sys, getopt
 import numpy as np
@@ -119,7 +120,7 @@ def get_args(argv):
         'p': '../test_data_point/snobal.ppt.input',
         'i': '../test_data_point/snobal.data.input.short',
         'o': '../test_data_point/snobal.out',
-        'O': 'all',
+        'O': 'data',
         'c': True,
         'K': True,
         'T': DEFAULT_NORMAL_THRESHOLD,

@@ -4,11 +4,14 @@ Class snobal() that will hold all the modeling components
 20160109 Scott Havens
 """
 
+# import py_libsnobal as libsnobal
 import libsnobal
 import numpy as np
+import numpy.ma as ma
 # import pandas as pd
 import warnings
 from copy import copy
+import matplotlib.pyplot as plt
 
 # Some constants and equations
 WHOLE_TSTEP = 0x1 # output when tstep is not divided
@@ -25,6 +28,7 @@ MIN_SNOW_TEMP = -75
 FREEZE = 273.16
 KT_MOISTSAND = 1.65
 MAX_SNOW_DENSITY = 600
+MAX_LAYERS = 2
 
 # density of water at 0C (kg/m^3) (from CRC handbook pg F-11)
 RHO_W0 = 999.87
@@ -66,10 +70,6 @@ H2O_LEFT = lambda d,rhos,sat: ( (sat * d * RHO_W0 * (RHO_ICE - rhos)) / RHO_ICE 
 # Convert calories to Joules
 CAL_TO_J = 4.186798188
 
-# thermal conductivity of snow (J/(m sec K))
-# (after Yen, 1965, see Anderson, 1976, pg. 31)
-#     rho = snow density (kg/m^3)
-KTS = lambda rho: CAL_TO_J * 0.0077 * (rho/1000.0) * (rho/1000.0)
 
 # melt (kg/m^2), Q = available energy (J/m^2)
 MELT = lambda Q: Q / libsnobal.LH_FUS(FREEZE)
@@ -77,12 +77,26 @@ MELT = lambda Q: Q / libsnobal.LH_FUS(FREEZE)
 SNOW_EMISSIVITY = 0.98
 STEF_BOLTZ = 5.67032e-8     # Stefan-Boltzmann constant (W / m^2 / deg^4)
 
-# A macro to update a time-weighted average for a quantity.
-#    avg        current average
-#    total_time    the time interval the current average applies to
-#    value        new value to be averaged in
-#    time_incr    the time interval the new value applies to
-TIME_AVG = lambda avg,total_time,value,time_incr: (avg * total_time + value * time_incr) / (total_time + time_incr) 
+
+def TIME_AVG(avg,total_time,value,time_incr):
+    """
+    A macro to update a time-weighted average for a quantity.
+    avg        current average
+    total_time    the time interval the current average applies to
+    value        new value to be averaged in
+    time_incr    the time interval the new value applies to
+    TIME_AVG = lambda avg,total_time,value,time_incr: (avg * total_time + value * time_incr) / (total_time + time_incr)
+    """
+    return (avg * total_time + value * time_incr) / (total_time + time_incr)
+
+def KTS(rho):
+    """
+    thermal conductivity of snow (J/(m sec K))
+    (after Yen, 1965, see Anderson, 1976, pg. 31)
+    rho = snow density (kg/m^3)
+    """
+#     return CAL_TO_J * 0.0077 * (rho/1000.0) * (rho/1000.0)
+    return CAL_TO_J * 0.0077 * np.power(rho/1000.0, 2)
 
 class snobal(object):
     """
@@ -95,13 +109,13 @@ class snobal(object):
     
     # came from self.__dict__.keys()
     # slots will help with memory when multiple instances of snobal are used
-    __slots__ = ['em', 'input2', 'input1', 'z_t', 'computed', 'precip_now', 
-                 'snow_records', 'time_step', 'precip_info', 'tstep_level', 
-                 'current_time', 'z_u', 'time_since_out', 'time_s', 'snow_prop_index', 
-                 'input_deltas', 'ro_data', 'snow', 'time_z', 'P_a', 'params', 'z_g', 
-                 'next_level', 'elevation', 'mh_prop_index', 'start_time', 'tstep_info', 
-                 'curr_time_hrs', 'mh_prop', 'z_0', 'more_sn_recs', 'relative_hts', 
-                 'curr_level', 'precip', 'more_mh_recs', 'snowcover', 'isothermal']
+#     __slots__ = ['em', 'input2', 'input1', 'z_t', 'computed', 'precip_now', 
+#                  'snow_records', 'time_step', 'precip_info', 'tstep_level', 
+#                  'current_time', 'z_u', 'time_since_out', 'time_s', 'snow_prop_index', 
+#                  'input_deltas', 'ro_data', 'snow', 'time_z', 'P_a', 'params', 'z_g', 
+#                  'next_level', 'elevation', 'mh_prop_index', 'start_time', 'tstep_info', 
+#                  'curr_time_hrs', 'mh_prop', 'z_0', 'more_sn_recs', 'relative_hts', 
+#                  'curr_level', 'precip', 'more_mh_recs', 'snowcover', 'isothermal']
     
     
     def __init__(self, params, tstep_info, snow_prop, meas_heights):
@@ -115,35 +129,46 @@ class snobal(object):
             params: dictionary of parameters to run the model
             tstep_info: list of time step information
             snow_prop: the initial snow properties record
-                required field: time_s, z_s, rho, T_s, T_s_0, h2o_sat
+                required field: time_s, z, z_s, rho, T_s, T_s_0, h2o_sat
             meas_height: measurement heights
         """
         
         self.params = params
         self.tstep_info = tstep_info
         
-        self.elevation = params['elevation']
+        # check for a mask
+        self.mask = None
+#         if 'mask' in snow_prop.keys():
+#             self.mask = ~snow_prop['mask'].astype(np.bool)
+        
+#         self.elevation = ma.masked_array(snow_prop['z'], mask=self.mask)
+        self.elevation = snow_prop['z']
+        
         self.P_a = libsnobal.hysat(libsnobal.SEA_LEVEL, libsnobal.STD_AIRTMP, 
                                    libsnobal.STD_LAPSE, (self.elevation / 1000.0),
                                    libsnobal.GRAVITY, libsnobal.MOL_AIR)
+        
+        self.shape = self.elevation.shape
+        self.ngrid = np.prod(self.shape)
+        self.zeros = np.zeros(self.shape)
         
         # get the intial snowcover properties
         self.snow_records = snow_prop
         self.get_sn_rec(True)
         
-        # initialize the snowcover
-        self.init_snow(True)
-        
         # initialize the em
         self.init_em()
         
+        # initialize the snowcover
+        self.init_snow(True)
+                
         # initialize the precip for the time step
 #         self.init_precip()
         
         # get measurement-height record
         self.mh_prop = meas_heights
         self.get_mh_rec(True)
-        self.relative_hts = False
+        self.relative_hts = params['relative_heights']
         
         # runoff data
         self.ro_data = False
@@ -165,7 +190,7 @@ class snobal(object):
         self.time_since_out = 0
         
         # set some attributes
-        self.isothermal = False
+        self.isothermal = np.zeros(self.shape, dtype=bool)
         
         
     def do_data_tstep(self, input1, input2):
@@ -214,9 +239,9 @@ class snobal(object):
         """
         
 #         print '%.2f' % (self.current_time/3600.0)
-        
-#         input1 = Struct(**input1)
-#         input2 = Struct(**input2)
+
+        if self.current_time/3600.0 > 686:
+            self.curr_level
         
         # store the inputs for later
         self.input1 = input1
@@ -230,47 +255,91 @@ class snobal(object):
         # If there is precipitation, then compute the amount of rain & snow in it.
         # Look at the first input record
         pp_info = self.init_precip()
-        self.precip_now = False
+        self.precip_now = np.zeros_like(self.elevation, dtype=bool)
         
         # this precip will hold the temperatures and such, set to zero initially
-#         self.precip = pd.Series(0.0, index=['T_rain','T_snow','h2o_sat_snow'])
-        self.precip = {key: 0.0 for key in ['T_rain','T_snow','h2o_sat_snow']}
+#         self.precip = {key: 0.0 for key in ['T_rain','T_snow','h2o_sat_snow']}
+        self.precip = EmptyClass(['T_rain','T_snow','h2o_sat_snow'], self.shape)
         
-        if input1['m_pp'] > 0:
-            self.precip_now = True
+        # fill precip info with empty classes
+        for level in range(DATA_TSTEP, SMALL_TSTEP+1):
+            self.precip_info[level] = self.init_precip()
+        
+        # check to see if there is precipitation
+        precip = input1['m_pp'] > 0
+        if np.any(precip):
             
-            pp_info['m_pp'] = input1['m_pp']
-            pp_info['m_snow'] = input1['m_pp'] * input1['percent_snow']
-            pp_info['m_rain'] = input1['m_pp'] - pp_info['m_snow']
+            self.precip_now = precip
             
-            if (pp_info['m_snow'] > 0.0):
-                if (input1['rho_snow'] > 0.0):
-                    pp_info['z_snow'] = pp_info['m_snow'] / input1['rho_snow']
+            pp_info.m_pp = input1['m_pp']
+            pp_info.m_snow = input1['m_pp'] * input1['percent_snow']
+            pp_info.m_rain = input1['m_pp'] - pp_info.m_snow
+            
+            ind = pp_info.m_snow > 0
+            if np.any(ind):
+                if np.any(input1['rho_snow'][ind] > 0):
+                    pp_info.z_snow[ind] = pp_info.m_snow[ind] / input1['rho_snow'][ind]
                 else:
                     raise ValueError('input1["rho_snow"] is <= 0.0 with input1["percent_snow"] > 0.0')
-            else:
-                pp_info['z_snow'] = 0
-                
-            # Mixed snow and rain
-            if (pp_info['m_snow'] > 0) and (pp_info['m_rain'] > 0):
-                self.precip['T_snow']= FREEZE
-                self.precip['h2o_sat_snow'] = 1.0
-                self.precip['T_rain'] = input1['T_pp']
             
-            elif (pp_info['m_snow'] > 0):
-                # Snow only
-                if (input1['T_pp'] < FREEZE):
-                    # cold snow
-                    self.precip['T_snow']= input1['T_pp']
-                    self.precip['h2o_sat_snow'] = 0
-                else:
-                    # warm snow
-                    self.precip['T_snow']= FREEZE
-                    self.precip['h2o_sat_snow'] = 1
-                    
-            elif (pp_info['m_rain'] > 0):
-                # rain only
-                self.precip['T_rain'] = input1['T_pp']
+#             if (pp_info.m_snow > 0.0):
+#                 if (input1['rho_snow'] > 0.0):
+#                     pp_info.z_snow = pp_info.m_snow / input1['rho_snow']
+#                 else:
+#                     raise ValueError('input1["rho_snow"] is <= 0.0 with input1["percent_snow"] > 0.0')
+#             else:
+#                 pp_info.z_snow = 0
+             
+            # partion the precip based on the pixels m_snow and m_rain   
+            
+            rain = pp_info.m_rain > 0 
+            snow = pp_info.m_snow > 0
+            
+            snow_only = snow & ~rain
+            rain_only = ~snow & rain
+            mixed = snow & rain
+            
+            # Mixed snow and rain
+            if np.any(mixed):
+                self.precip.T_snow[mixed] = FREEZE
+                self.precip.h2o_sat_snow[mixed] = 1.0
+                self.precip.T_rain[mixed] = input1['T_pp'][mixed]
+            
+            
+            # snow only
+            if np.any(snow_only):
+                self.precip.T_snow[snow_only] = input1['T_pp'][snow_only]
+                self.precip.h2o_sat_snow[snow_only] = 0
+                
+                # warm snow
+                ind = snow_only & (input1['T_pp'] >= FREEZE)
+                self.precip.T_snow[ind] = FREEZE
+                self.precip.h2o_sat_snow[ind] = 1
+                
+            # rain only
+            if np.any(rain_only):
+                self.precip.T_rain[rain_only] = input1['T_pp'][rain_only]
+                
+            
+#             if np.any(pp_info.m_snow > 0) and np.any(pp_info.m_rain > 0):
+#                 self.precip.T_snow = FREEZE
+#                 self.precip.h2o_sat_snow = 1.0
+#                 self.precip.T_rain = input1['T_pp']
+#             
+#             elif (pp_info.m_snow > 0):
+#                 # Snow only
+#                 if (input1['T_pp'] < FREEZE):
+#                     # cold snow
+#                     self.precip.T_snow= input1['T_pp']
+#                     self.precip.h2o_sat_snow = 0
+#                 else:
+#                     # warm snow
+#                     self.precip.T_snow= FREEZE
+#                     self.precip.h2o_sat_snow = 1
+#                     
+#             elif (pp_info.m_rain > 0):
+#                 # rain only
+#                 self.precip.T_rain = input1['T_pp']
                     
         self.precip_info[DATA_TSTEP] = pp_info
                 
@@ -278,8 +347,6 @@ class snobal(object):
         for level in range(DATA_TSTEP, SMALL_TSTEP+1):
             self.computed[level] = False
         
-        if self.current_time/3600.0 > 1036.99:
-            self.curr_level
     
         #Divide the data timestep into normal run timesteps.
         self.curr_level = DATA_TSTEP   # keeps track of what time step level the model is on
@@ -342,18 +409,21 @@ class snobal(object):
         # and precipitation values.
         
         # To-do can get rid of computed and use the None
+        # float(interval) ensures that a float value will be returned always
         
         if not self.computed[self.next_level]:
 #             next_lvl_deltas = curr_lvl_deltas / next_lvl_tstep['intervals']
 #             self.input_deltas[self.next_level] = next_lvl_deltas.copy()
             for k in curr_lvl_deltas.keys():
-                self.input_deltas[self.next_level][k] = curr_lvl_deltas[k] / next_lvl_tstep['intervals']
+                self.input_deltas[self.next_level][k] = curr_lvl_deltas[k] / float(next_lvl_tstep['intervals'])
             
-            if self.precip_now:
+            if np.any(self.precip_now):
 #                 next_lvl_precip = curr_lvl_precip / next_lvl_tstep['intervals']
 #                 self.precip_info[self.next_level] = next_lvl_precip.copy()
-                for k in curr_lvl_precip.keys():
-                    self.precip_info[self.next_level][k] = curr_lvl_precip[k] / next_lvl_tstep['intervals']
+                for k in curr_lvl_precip.keys:
+                    setattr(self.precip_info[self.next_level], k, 
+                            getattr(curr_lvl_precip, k) / float(next_lvl_tstep['intervals']))
+#                     self.precip_info[self.next_level][k] = curr_lvl_precip[k] / next_lvl_tstep['intervals']
                 
             
             self.computed[self.next_level] = True
@@ -417,20 +487,24 @@ class snobal(object):
             
         """
         
-        if self.current_time/3600.0 > 1197.45:
+        if self.current_time/3600.0 > 1598.24: #686
             self.curr_level
         
         self.time_step = tstep['time_step']
         self.tstep_level = tstep['level']
         
+        
+        self.input1['e_g'] = libsnobal.sati_2d(self.input1['T_g'])
+        
         # get the current time step precip
 #         if self.precip_now:
             
         
-        self.snow.h2o_total = 0
+        self.snow.reset(['h2o_total'], 0.0)
         
         # is there snowcover?
         self.snowcover = self.snow.layer_count > 0
+        self.snowcover_domain = np.any(self.snowcover)
         
         # Calculate energy transfer terms
         self.e_bal()
@@ -441,14 +515,14 @@ class snobal(object):
         # Update the averages for the energy terms and the totals for mass
         # changes since the last output.
         if self.time_since_out > 0:
-            self.em.R_n_bar = TIME_AVG(self.em.R_n_bar, self.time_since_out, self.em.R_n, self.time_step)
-            self.em.H_bar = TIME_AVG(self.em.H_bar, self.time_since_out, self.em.H, self.time_step)
-            self.em.L_v_E_bar = TIME_AVG(self.em.L_v_E_bar, self.time_since_out, self.em.L_v_E, self.time_step)
-            self.em.G_bar = TIME_AVG(self.em.G_bar, self.time_since_out, self.em.G, self.time_step)
-            self.em.M_bar = TIME_AVG(self.em.M_bar, self.time_since_out, self.em.M, self.time_step)
-            self.em.delta_Q_bar = TIME_AVG(self.em.delta_Q_bar, self.time_since_out, self.em.delta_Q, self.time_step)
-            self.em.G_0_bar = TIME_AVG(self.em.G_0_bar, self.time_since_out, self.em.G_0, self.time_step)
-            self.em.delta_Q_0_bar = TIME_AVG(self.em.delta_Q_0_bar, self.time_since_out, self.em.delta_Q_0, self.time_step)
+            self.em.R_n_bar[:] = TIME_AVG(self.em.R_n_bar, self.time_since_out, self.em.R_n, self.time_step)
+            self.em.H_bar[:] = TIME_AVG(self.em.H_bar, self.time_since_out, self.em.H, self.time_step)
+            self.em.L_v_E_bar[:] = TIME_AVG(self.em.L_v_E_bar, self.time_since_out, self.em.L_v_E, self.time_step)
+            self.em.G_bar[:] = TIME_AVG(self.em.G_bar, self.time_since_out, self.em.G, self.time_step)
+            self.em.M_bar[:] = TIME_AVG(self.em.M_bar, self.time_since_out, self.em.M, self.time_step)
+            self.em.delta_Q_bar[:] = TIME_AVG(self.em.delta_Q_bar, self.time_since_out, self.em.delta_Q, self.time_step)
+            self.em.G_0_bar[:] = TIME_AVG(self.em.G_0_bar, self.time_since_out, self.em.G_0, self.time_step)
+            self.em.delta_Q_0_bar[:] = TIME_AVG(self.em.delta_Q_0_bar, self.time_since_out, self.em.delta_Q_0, self.time_step)
 
             self.em.E_s_sum += self.em.E_s
             self.em.melt_sum += self.em.melt
@@ -457,21 +531,26 @@ class snobal(object):
             self.time_since_out += self.time_step
             
         else:
-            self.em.R_n_bar = self.em.R_n
-            self.em.H_bar = self.em.H
-            self.em.L_v_E_bar = self.em.L_v_E
-            self.em.G_bar = self.em.G
-            self.em.M_bar = self.em.M
-            self.em.delta_Q_bar = self.em.delta_Q
-            self.em.G_0_bar = self.em.G_0
-            self.em.delta_Q_0_bar = self.em.delta_Q_0
+            self.em.R_n_bar[:] = self.em.R_n
+            self.em.H_bar[:] = self.em.H
+            self.em.L_v_E_bar[:] = self.em.L_v_E
+            self.em.G_bar[:] = self.em.G
+            self.em.M_bar[:] = self.em.M
+            self.em.delta_Q_bar[:] = self.em.delta_Q
+            self.em.G_0_bar[:] = self.em.G_0
+            self.em.delta_Q_0_bar[:] = self.em.delta_Q_0
 
-            self.em.E_s_sum = self.em.E_s
-            self.em.melt_sum = self.em.melt
-            self.em.ro_pred_sum = self.em.ro_predict
+            self.em.E_s_sum[:] = self.em.E_s
+            self.em.melt_sum[:] = self.em.melt
+            self.em.ro_pred_sum[:] = self.em.ro_predict
     
             self.time_since_out = self.time_step
             
+        # ensure that the mask is applied
+        if self.mask is not None:
+            self.em.set_zeros(~self.mask)
+            self.snow.set_zeros(~self.mask)    
+        
         # increment time
         self.current_time += self.time_step
         
@@ -517,20 +596,36 @@ class snobal(object):
         
         # adjust layer temps if there was a snowcover at start of the
         # timestep and there's still snow on the ground
-        if self.snowcover:
-            if self.snow.layer_count == 1:
-                self.snow.T_s_0 = self.new_tsno(self.snow.m_s_0, self.snow.T_s_0, self.em.cc_s_0)
-                self.snow.T_s = self.snow.T_s_0
-                
-            elif self.snow.layer_count == 2:
-                if self.isothermal:
-                    self.snow.T_s = FREEZE
-                    self.snow.T_s_l = FREEZE
-                    self.snow.T_s_0 = FREEZE
-                else:
-                    self.snow.T_s_0 = self.new_tsno(self.snow.m_s_0, self.snow.T_s_0, self.em.cc_s_0)
-                    self.snow.T_s_l = self.new_tsno (self.snow.m_s_l, self.snow.T_s_l, self.em.cc_s_l)
-                    self.snow.T_s = self.new_tsno (self.snow.m_s, self.snow.T_s, self.em.cc_s)
+        if self.snowcover_domain:
+            
+            ind = self.snow.layer_count == 1
+            self.snow.T_s_0[ind] = self.new_tsno(self.snow.m_s_0[ind], self.snow.T_s_0[ind], self.em.cc_s_0[ind])
+            self.snow.T_s[ind] = self.snow.T_s_0[ind]
+            
+            ind = self.snow.layer_count == 2
+            if np.any(ind):
+                self.snow.T_s_0[ind] = self.new_tsno(self.snow.m_s_0[ind], self.snow.T_s_0[ind], self.em.cc_s_0[ind])
+                self.snow.T_s_l[ind] = self.new_tsno (self.snow.m_s_l[ind], self.snow.T_s_l[ind], self.em.cc_s_l[ind])
+                self.snow.T_s[ind] = self.new_tsno (self.snow.m_s[ind], self.snow.T_s[ind], self.em.cc_s[ind])
+             
+                if np.any(self.isothermal):       
+                    self.snow.T_s[self.isothermal & ind] = FREEZE
+                    self.snow.T_s_l[self.isothermal & ind] = FREEZE
+                    self.snow.T_s_0[self.isothermal & ind] = FREEZE
+            
+#             if self.snow.layer_count == 1:
+#                 self.snow.T_s_0 = self.new_tsno(self.snow.m_s_0, self.snow.T_s_0, self.em.cc_s_0)
+#                 self.snow.T_s = self.snow.T_s_0
+#                 
+#             elif self.snow.layer_count == 2:
+#                 if self.isothermal:
+#                     self.snow.T_s = FREEZE
+#                     self.snow.T_s_l = FREEZE
+#                     self.snow.T_s_0 = FREEZE
+#                 else:
+#                     self.snow.T_s_0 = self.new_tsno(self.snow.m_s_0, self.snow.T_s_0, self.em.cc_s_0)
+#                     self.snow.T_s_l = self.new_tsno (self.snow.m_s_l, self.snow.T_s_l, self.em.cc_s_l)
+#                     self.snow.T_s = self.new_tsno (self.snow.m_s, self.snow.T_s, self.em.cc_s)
         
     
     def new_tsno(self, spm, t0, ccon):
@@ -556,7 +651,7 @@ class snobal(object):
         
         return tsno
      
-      
+    
     def runoff(self):
         """
         Calculates runoff for point energy budget 2-layer snowmelt model
@@ -565,7 +660,8 @@ class snobal(object):
         # If no snow on ground at start of timestep or no layers currently,
         # then all water (e.g., rain) is runoff.
         
-        if (not self.snowcover) or (self.snow.layer_count == 0):
+#         if (not self.snowcover) or (self.snow.layer_count == 0):
+        if not self.snowcover_domain:
             self.em.ro_predict = self.snow.h2o_total
             return
         
@@ -574,24 +670,46 @@ class snobal(object):
         m_s_dry = self.snow.m_s - self.snow.h2o_total
         rho_dry = m_s_dry / self.snow.z_s
         self.snow.h2o_max = H2O_LEFT(self.snow.z_s, rho_dry, self.snow.max_h2o_vol)
+        # not necessary since z_s will be zero when no snow
+#         self.snow.h2o_max[~self.snowcover] = 0  # reset values that don't have snow
         
-        # Determine runoff, and water left in the snow
-        if self.snow.h2o_total > self.snow.h2o_max:
-            self.em.ro_predict = self.snow.h2o_total - self.snow.h2o_max
-            self.snow.h2o = self.snow.h2o_max
-            self.snow.h2o_sat = 1.0
-            self.snow.h2o_vol = self.snow.max_h2o_vol
+        # Determine runoff
+        runoff = self.snow.h2o_total > self.snow.h2o_max
+        ind = runoff & self.snowcover
+        if np.any(ind):
+            self.em.ro_predict[ind] = self.snow.h2o_total[ind] - self.snow.h2o_max[ind]
+            self.snow.h2o[ind] = self.snow.h2o_max[ind]
+            self.snow.h2o_sat[ind] = 1.0
+            self.snow.h2o_vol[ind] = self.snow.max_h2o_vol[ind]
+            
+        # water left in the snow
+        ind = ~runoff & self.snowcover
+        if np.any(ind):
+            self.em.ro_predict[ind] = 0.0
+            self.snow.h2o[ind] = self.snow.h2o_total[ind]
+            self.snow.h2o_sat[ind] = self.snow.h2o[ind] / self.snow.h2o_max[ind]
+            self.snow.h2o_vol[ind] = self.snow.h2o_sat[ind] * self.snow.max_h2o_vol[ind]
+            
+        # Update the snowcover's mass for the loss of runoff.
+        self.adj_snow(self.zeros, -self.em.ro_predict)
+        
+        
+#         if self.snow.h2o_total > self.snow.h2o_max:
+#             self.em.ro_predict = self.snow.h2o_total - self.snow.h2o_max
+#             self.snow.h2o = self.snow.h2o_max
+#             self.snow.h2o_sat = 1.0
+#             self.snow.h2o_vol = self.snow.max_h2o_vol
+#     
+#             # Update the snowcover's mass for the loss of runoff.
+#             self.adj_snow(0.0, -self.em.ro_predict)
+# 
+#         else:
+#             self.em.ro_predict = 0.0
+#             self.snow.h2o = self.snow.h2o_total
+#             self.snow.h2o_sat = self.snow.h2o / self.snow.h2o_max
+#             self.snow.h2o_vol = self.snow.h2o_sat * self.snow.max_h2o_vol
     
-            # Update the snowcover's mass for the loss of runoff.
-            self.adj_snow(0.0, -self.em.ro_predict)
 
-        else:
-            self.em.ro_predict = 0.0
-            self.snow.h2o = self.snow.h2o_total
-            self.snow.h2o_sat = self.snow.h2o / self.snow.h2o_max
-            self.snow.h2o_vol = self.snow.h2o_sat * self.snow.max_h2o_vol
-    
-     
     def h2o_compact(self):
         """
         This routine compacts or densifies the snowcover based on the
@@ -627,32 +745,38 @@ class snobal(object):
   
         """
         # Maximum density due to compaction by liquid H2O added (kg/m^2)
-        MAX_DENSITY = 550
+        MAX_DENSITY = 550.0
         
         # ratio where half the difference between maximum density and
         # current density is reached (ratio from 0.0 to 1.0).
         B = 0.4
         
-        if (not self.snowcover) or (self.snow.rho > MAX_DENSITY):
-            return
+        if self.snowcover_domain:
         
-        A = MAX_DENSITY - self.snow.rho
-        if self.precip_now:
-            h2o_added = (self.em.melt + self.precip_info[self.tstep_level]['m_rain']) / self.snow.m_s
+#             if (not self.snowcover) or (self.snow.rho > MAX_DENSITY):
+#                 return
             
-        else:
-            h2o_added = self.em.melt / self.snow.m_s
+            A = MAX_DENSITY - self.snow.rho
+#             if self.precip_now:
+            # should always have a value for the precip even if it's all zeros
+            h2o_added = (self.em.melt + self.precip_info[self.tstep_level].m_rain) / self.snow.m_s
+                
+#             else:
+#                 h2o_added = self.em.melt / self.snow.m_s
+                
+            # avoid dividing by zero and only calculate if below max density
+            ind = (h2o_added > 0.000001) & (A > 0)
+            if np.any(ind):
+                            
+                self.snow.rho[ind] += A[ind] / (1 + B/h2o_added[ind])
+                
+                # adjust the snowcover for this new density
+                self.snow.z_s[ind] = self.snow.m_s[ind] / self.snow.rho[ind]
+                self.adj_layers()
             
-        if h2o_added > 0.000001:
-            self.snow.rho += A / (1 + B/h2o_added)
-            
-            # adjust the snowcover for this new density
-            self.snow.z_s = self.snow.m_s / self.snow.rho
-            self.adj_layers()
         
         
-        
-    
+#     @profile
     def evap_cond(self):
         """
         Calculates mass lost or gained by evaporation/condensation
@@ -680,62 +804,85 @@ class snobal(object):
         # calculate evaporation or condensation   
 
         # If no snow on ground at start of timestep, then just exit.
-        if not self.snowcover:
-            self.em.E_s = 0.0
+        if not self.snowcover_domain:
+            self.em.reset(['E_s'], 0.0)
             return
         
         # Total mass change due to evap/cond at surface during timestep
         E_s_0 = self.em.E * self.time_step
 
         # Adjust total h2o for evaporative losses
-        prev_h2o_tot = self.snow.h2o_total
+        prev_h2o_tot = self.snow.h2o_total.copy()
 
-        if self.snow.h2o_total > 0.0:
-            self.snow.h2o_total += (E_s_0 * VAP_SUB)
-            if self.snow.h2o_total <= 0.0:
-                self.snow.h2o_total = 0.0
+        ind = self.snow.h2o_total > 0.0 
+        if np.any(ind):
+            self.snow.h2o_total[ind] += (E_s_0[ind] * VAP_SUB)
+            self.snow.h2o_total[self.snow.h2o_total <= 0] = 0
+            
 
         # Determine total mass change due to evap/cond at soil
-        if self.snow.layer_count == 0: 
-            E_s_l = 0.0
-        else:
-            if self.snow.layer_count == 2:
-                e_s_l = libsnobal.sati(self.snow.T_s_l)
-                T_bar = (self.input1['T_g'] + self.snow.T_s_l) / 2.0
-            
-            else:  # layer_count == 1 
-                e_s_l = libsnobal.sati(self.snow.T_s_0)
-                T_bar = (self.input1['T_g'] + self.snow.T_s_0) / 2.0
-            
-    
-            q_s_l = libsnobal.spec_hum(e_s_l, self.P_a)
-            e_g = libsnobal.sati(self.input1['T_g'])
-            q_g = libsnobal.spec_hum(e_g, self.P_a)
-            q_delta = q_g - q_s_l
-            rho_air = libsnobal.GAS_DEN(self.P_a, libsnobal.MOL_AIR, T_bar)
-            k = libsnobal.DIFFUS(self.P_a, T_bar)
-    
-            E_l = libsnobal.EVAP(rho_air, k, q_delta, self.z_g)
-    
-            # total mass of evap/cond for time step 
-            E_s_l = E_l * self.time_step
-    
-            # adjust h2o_total for evaporative losses
-            if self.snow.h2o_total > 0.0:
-                self.snow.h2o_total += (E_s_l * VAP_SUB)
-                if self.snow.h2o_total <= 0.0:
-                    self.snow.h2o_total = 0.0
-            
+#         E_s_l = np.zeros_like(E_s_0)
+        
+#         if self.snow.layer_count == 0: 
+#             E_s_l = 0.0
+#         else:
+
+#         T_bar = np.zeros_like(E_s_0)
+#         e_s_l = np.zeros_like(E_s_0)
+        
+        # determine what the snow temperature is
+        T_s = self.snow.T_s_0.copy()
+        T_bar = (self.input1['T_g'] + self.snow.T_s_0) / 2.0
+                
+        # layer_count == 2
+        ind = self.snow.layer_count == 2
+        if np.any(ind):
+#             e_s_l[ind] = libsnobal.sati_np(self.snow.T_s_l[ind])
+            T_s[ind] = self.snow.T_s_l[ind]
+            T_bar[ind] = (self.input1['T_g'][ind] + self.snow.T_s_l[ind]) / 2.0
+        
+#         # layer_count == 1
+#         ind = self.snow.layer_count == 1
+#         if np.any(ind): 
+#             e_s_l[ind] = libsnobal.sati_np(self.snow.T_s_0[ind])
+#             T_bar[ind] = (self.input1['T_g'][ind] + self.snow.T_s_0[ind]) / 2.0
+
+        # now calculate sati
+        e_s_l = libsnobal.sati_2d(T_s)
+        
+
+        q_s_l = libsnobal.spec_hum(e_s_l, self.P_a)
+#         e_g = libsnobal.sati_2d(self.input1['T_g'])
+        q_g = libsnobal.spec_hum(self.input1['e_g'], self.P_a)
+#         q_delta = q_g - q_s_l
+        rho_air = libsnobal.GAS_DEN(self.P_a, libsnobal.MOL_AIR, T_bar)
+        k = libsnobal.DIFFUS(self.P_a, T_bar)
+
+        E_l = libsnobal.EVAP(rho_air, k, q_g - q_s_l, self.z_g)
+
+        # total mass of evap/cond for time step 
+        E_s_l = E_l * self.time_step
+        
+        # set non snowcovered pixels to zero
+        E_s_l[self.snow.z_s == 0] = 0
+
+        # adjust h2o_total for evaporative losses
+        ind = self.snow.h2o_total > 0.0 
+        if np.any(ind):
+            self.snow.h2o_total[ind] += (E_s_l[ind] * VAP_SUB)
+            self.snow.h2o_total[self.snow.h2o_total <= 0] = 0
         
     
         self.em.E_s = E_s_0 + E_s_l
     
-        # adj mass and depth for evap/cond        
-        if self.snow.layer_count > 0:
-            self.adj_snow( ((self.em.E_s + (prev_h2o_tot - self.snow.h2o_total)) / self.snow.rho) / 2.0, self.em.E_s)
+        # adj mass and depth for evap/cond
+        ind = self.snow.layer_count > 0        
+        if np.any(ind):
+            delta_z = np.zeros(self.shape)
+            delta_z[ind] = ((self.em.E_s[ind] + (prev_h2o_tot[ind] - self.snow.h2o_total[ind])) / self.snow.rho[ind]) / 2.0
+            self.adj_snow( delta_z, self.em.E_s)
 
 
-    
     def snowmelt(self):
         """
         Calculates melting or re-freezing for point 2-layer energy balance
@@ -749,8 +896,8 @@ class snobal(object):
             h2o_refrozen: amount of liquid H2O that was refrozen 
         """
         
-        if not self.snowcover:
-            self.em.melt = 0
+        if not self.snowcover_domain:
+            self.em.reset(['melt'], 0.0)
             return
         
         # calculate melt or freezing, and adjust cold content
@@ -758,96 +905,119 @@ class snobal(object):
         # calculate surface melt
         # energy for surface melt
         Q_0 = (self.em.delta_Q_0 * self.time_step) + self.em.cc_s_0
+                
+        warm = Q_0 > 0
+        if np.any(warm):
+            self.em.melt[warm] = MELT(Q_0[warm])
+            self.em.cc_s_0[warm] = 0
         
-        if Q_0 > 0:
-            self.em.melt = MELT(Q_0)
-            self.em.cc_s_0 = 0
-        elif Q_0 == 0:
-            self.em.melt = 0
-            self.em.cc_s_0 = 0
-        else:
-            self.em.melt = 0
-            self.em.cc_s_0 = Q_0
+#         ind = Q_0 < 0
+        if np.any(~warm):
+            self.em.melt[~warm] = 0
+            self.em.cc_s_0[~warm] = Q_0[~warm]
+        
+        ind = Q_0 == 0
+        if np.any(ind):
+            self.em.melt[ind] = 0
+            self.em.cc_s_0[ind] = 0
+        
+
+        # layer count = 1
+        Q_l = np.zeros(self.shape)
 
         # calculate lower layer melt
-        if self.snow.layer_count == 2:
-            Q_l = ((self.em.G - self.em.G_0) * self.time_step) + self.em.cc_s_l
+        ind = self.snow.layer_count == 2
+        if np.any(ind):
+            Q_l[ind] = ((self.em.G[ind] - self.em.G_0[ind]) * self.time_step) + self.em.cc_s_l[ind]
             
-            if Q_l > 0:
-                self.em.melt += MELT(Q_l)
-                self.em.cc_s_l = 0
-            elif Q_l == 0:
-                self.em.melt += 0
-                self.em.cc_s_l = 0
-            else:
-                self.em.melt += 0
-                self.em.cc_s_l = Q_l
+            warm = Q_l > 0
+            if np.any(warm):
+                self.em.melt[warm] += MELT(Q_l[warm])
+                self.em.cc_s_l[warm] = 0
             
-        else:
-            # layer count = 1
-            Q_l = 0
+            ind = Q_l == 0
+            if np.any(ind):
+                self.em.melt[ind] += 0
+                self.em.cc_s_l[ind] = 0
             
+#             ind = Q_l < 0
+            if np.any(~warm):
+                self.em.melt[~warm] += 0
+                self.em.cc_s_l[~warm] = Q_l[~warm]
+                   
         
         self.snow.h2o_total += self.em.melt
      
         # adjust layers for re-freezing
         # adjust surface layer
-        h2o_refrozen = 0
+        h2o_refrozen = np.zeros(self.shape)
+        Q_freeze = np.zeros(self.shape)
+        Q_left = np.zeros(self.shape) 
         
-        if self.em.cc_s_0 < 0:
-            # if liquid h2o present, calc refreezing and adj cc_s_0
-            if self.snow.h2o_total > 0:
-                Q_freeze = self.snow.h2o_total * (self.snow.z_s_0/self.snow.z_s) * libsnobal.LH_FUS(FREEZE)
-                Q_left = Q_0 + Q_freeze
-                
-                if Q_left <= 0:
-                    h2o_refrozen = self.snow.h2o_total * (self.snow.z_s_0/self.snow.z_s)
-                    self.em.cc_s_0 = Q_left
-                else:
-                    h2o_refrozen = self.snow.h2o_total * (self.snow.z_s_0/self.snow.z_s) - MELT(Q_left)
-                    self.em.cc_s_0 = 0
-                    
-        # adjust lower layer for re-freezing
-        if (self.snow.layer_count == 2) and (self.em.cc_s_l < 0.0):
-            # if liquid h2o, calc re-freezing and adj cc_s_l
-            if self.snow.h2o_total > 0.0:
-                Q_freeze = self.snow.h2o_total * (self.snow.z_s_l/self.snow.z_s) * libsnobal.LH_FUS(FREEZE)
-                Q_left = Q_l + Q_freeze
+        cold = self.em.cc_s_0 < 0       # if the snowpack is cold
+        water = self.snow.h2o_total > 0 # if there is liquid water
+        cold_water = cold & water       # if there is liquied water and it's cold
+        
+        # adjust surface layer for refreezing
+        if np.any(cold_water):
+            Q_freeze[cold_water] = self.snow.h2o_total[cold_water] * (self.snow.z_s_0[cold_water]/self.snow.z_s[cold_water]) * libsnobal.LH_FUS(FREEZE)
+            Q_left[cold_water] = Q_0[cold_water] + Q_freeze[cold_water]
             
-                if Q_left <= 0.0:
-                        h2o_refrozen += self.snow.h2o_total * (self.snow.z_s_l/self.snow.z_s)
-                        self.em.cc_s_l = Q_left
-                else:
-                    h2o_refrozen += ((self.snow.h2o_total * (self.snow.z_s_l/self.snow.z_s)) - MELT(Q_left))
-                    self.em.cc_s_l = 0.0
-
+            # if there is CC left where there is snow
+            ind = (Q_left < 0) & cold_water & (self.snow.z_s > 0)
+            h2o_refrozen[ind] = self.snow.h2o_total[ind] * (self.snow.z_s_0[ind]/self.snow.z_s[ind])
+            self.em.cc_s_0[ind] = Q_left[ind]
+            
+            # else the snowpack is melting
+            ind = (Q_left >= 0) & cold_water & (self.snow.z_s > 0)
+            h2o_refrozen[ind] = self.snow.h2o_total[ind] * (self.snow.z_s_0[ind]/self.snow.z_s[ind]) - MELT(Q_left[ind])
+            self.em.cc_s_0[ind] = 0
+        
+            
+        # adjust lower layer for re-freezing
+        cold_lower = (self.snow.layer_count == 2) & (self.em.cc_s_l < 0.0) & water
+        if np.any(cold_lower):
+            Q_freeze[cold_lower] = self.snow.h2o_total[cold_lower] * (self.snow.z_s_l[cold_lower]/self.snow.z_s[cold_lower]) * libsnobal.LH_FUS(FREEZE)
+            Q_left[cold_lower] = Q_l[cold_lower] + Q_freeze[cold_lower]
+            
+            ind = (Q_left < 0) & cold_lower & (self.snow.z_s > 0)
+            h2o_refrozen[ind] += self.snow.h2o_total[ind] * (self.snow.z_s_l[ind]/self.snow.z_s[ind])
+            self.em.cc_s_l[ind] = Q_left[ind]
+            
+            ind = (Q_left >= 0) & cold_lower & (self.snow.z_s > 0)
+            h2o_refrozen[ind] += self.snow.h2o_total[ind] * (self.snow.z_s_l[ind]/self.snow.z_s[ind]) - MELT(Q_left[ind])
+            self.em.cc_s_l[ind] = 0
+            
      
         # Note:  because of rounding errors, h2o_refrozen may not
         # be exactly the same as h2o_total.  Check for this
         # case, and if so, then just zero out h2o_total.
-        if np.abs(self.snow.h2o_total - h2o_refrozen) <= 1e-8:
-            self.snow.h2o_total = 0
-        else:
-            self.snow.h2o_total -= h2o_refrozen
+#         ind = np.abs(self.snow.h2o_total - h2o_refrozen) <= 1e-8
+        self.snow.h2o_total -= h2o_refrozen
+        self.snow.h2o_total[self.snow.h2o_total <= 1e-8] = 0
             
         # determine if snowcover is isothermal
-        if (self.snow.layer_count == 2) and (self.em.cc_s_0 == 0.0) and (self.em.cc_s_l == 0.0):
-            self.isothermal = True
-        elif (self.snow.layer_count == 1) and (self.em.cc_s_0 == 0.0):
-            self.isothermal = True   
-        else:
-            self.isothermal = False
+        self.isothermal = np.zeros(self.shape, dtype=bool)
+#         iso_1lay = (self.snow.layer_count == 1) & (self.em.cc_s_0 == 0.0)
+#         iso_2lay = (self.snow.layer_count == 2) & (self.em.cc_s_0 == 0.0) & (self.em.cc_s_l == 0.0)
+#         self.isothermal[iso_1lay | iso_2lay] = True
+        
+        
+        iso = (self.em.cc_s_0 == 0.0) & (self.em.cc_s_l == 0.0)
+        self.isothermal[iso] = True
+        
             
         # adjust depth and density for melt
-        if self.em.melt > 0:
-            self.adj_snow((-1)*self.em.melt/self.snow.rho, 0)
+        if np.sum(self.em.melt) > 0:
+            self.adj_snow((-1)*self.em.melt/self.snow.rho, self.zeros)
             
         # set total cold content
-        if self.snow.layer_count == 2:
-            self.em.cc_s = self.em.cc_s_0 + self.em.cc_s_l
-        elif self.snow.layer_count == 1:
-            self.em.cc_s = self.em.cc_s_0
-         
+#         ind = self.snow.layer_count == 2
+        self.em.cc_s = self.em.cc_s_0 + self.em.cc_s_l
+        
+#         ind = self.snow.layer_count == 1
+#         self.em.cc_s[ind] = self.em.cc_s_0[ind]
+                
                     
     
     def precip_event(self):
@@ -858,34 +1028,35 @@ class snobal(object):
         snowcover.
         """
         
-        if self.precip_now:
-            if self.snowcover:
+        if np.any(self.precip_now):
+            if self.snowcover_domain:
                 # Adjust snowcover's depth and mass by snowfall's
                 # depth and the total precipitation mass.
-                self.adj_snow(self.precip_info[self.tstep_level]['z_snow'], self.precip_info[self.tstep_level]['m_pp'])
+                self.adj_snow(self.precip_info[self.tstep_level].z_snow, self.precip_info[self.tstep_level].m_pp)
             
                 # Determine the additional liquid water that's in
                 # the snowfall, and then add its mass to liquid
                 # water in the whole snowcover.
-                h2o_vol_snow = self.precip['h2o_sat_snow'] * self.snow.max_h2o_vol
-                self.snow.h2o += H2O_LEFT(self.precip_info[self.tstep_level]['z_snow'], 
+                h2o_vol_snow = self.precip.h2o_sat_snow * self.snow.max_h2o_vol
+                self.snow.h2o += H2O_LEFT(self.precip_info[self.tstep_level].z_snow, 
                                           self.input1['rho_snow'],
                                           h2o_vol_snow)
                 
             else:
                 
                 # set the values from the initial snow properties
-                self.snow.z_s = self.precip_info[self.tstep_level]['z_snow']
-                self.snow.rho = self.input1['rho_snow']
-                self.snow.T_s = self.precip['T_snow']
-                self.snow.T_s_0 = self.precip['T_snow']
-                self.snow.T_s_l = self.precip['T_snow']
-                self.snow.h2o_sat = self.precip['h2o_sat_snow']
+                # [:] performs a quick deep copy since snow is already initialized
+                self.snow.z_s[:] = self.precip_info[self.tstep_level].z_snow
+                self.snow.rho[:] = self.input1['rho_snow']
+                self.snow.T_s[:] = self.precip.T_snow
+                self.snow.T_s_0[:] = self.precip.T_snow
+                self.snow.T_s_l[:] = self.precip.T_snow
+                self.snow.h2o_sat[:] = self.precip.h2o_sat_snow
                 
                 self.init_snow()
             
             # Add rainfall and water in the snowcover to the total liquid water
-            self.snow.h2o_total += self.snow.h2o + self.precip_info[self.tstep_level]['m_rain']
+            self.snow.h2o_total += self.snow.h2o + self.precip_info[self.tstep_level].m_rain
                 
         else:
             # Add water in the snowcover to total liquid water
@@ -911,30 +1082,38 @@ class snobal(object):
             delta_m_s: change in snowcover mass
         """
         
+        # first check for nan which means rho=0 usually
+        ind = ~np.isnan(delta_z_s)
+        
         # Update depth, mass, and then recompute density
-        self.snow.z_s += delta_z_s
-        self.snow.m_s += delta_m_s
+        self.snow.z_s[ind] += delta_z_s[ind]
+        self.snow.m_s[ind] += delta_m_s[ind]
         
-        if self.snow.z_s != 0.0:
-            self.snow.rho = self.snow.m_s / self.snow.z_s
-        else:
-            self.snow.rho = 0
-            
-        # clip ensity at maximum density if necessary
-        if self.snow.rho > MAX_SNOW_DENSITY:
-            self.snow.rho = MAX_SNOW_DENSITY
-            self.snow.z_s = self.snow.m_s / self.snow.rho
-            self.adj_layers()
-            
-        else:
-            # If a change in depth, adjust the layers' depths and masses
-            if delta_z_s != 0.0:
-                self.adj_layers()
-            else:
-                # Just change in the snowcover's mass, so update the layer masses
-                self.layer_mass()
+        ind = self.snow.z_s > 0.0
+        self.snow.rho[ind] = self.snow.m_s[ind] / self.snow.z_s[ind]
         
+        self.snow.rho[~ind] = 0
+            
+        # clip density at maximum density if necessary
+        mrho = self.snow.rho > MAX_SNOW_DENSITY
+        if np.any(mrho):
+            self.snow.rho[mrho] = MAX_SNOW_DENSITY
+            self.snow.z_s[ind] = self.snow.m_s[ind] / self.snow.rho[ind]
+#             
+#         if self.snow.rho > MAX_SNOW_DENSITY:
+# #             self.snow.rho = MAX_SNOW_DENSITY
+#             self.snow.z_s = self.snow.m_s / self.snow.rho
+#             self.adj_layers()
+            
+        
+        # If a change in depth, adjust the layers' depths and masses
+#         if np.any(delta_z_s != 0.0):
+        self.adj_layers()
+#         else:
+        # Just change in the snowcover's mass, so update the layer masses
+        self.layer_mass()
     
+
     def time_compact(self):
         """
         This routine "ages" the snowcover by accounting for the compaction
@@ -966,32 +1145,34 @@ class snobal(object):
         """
         
         # Maximum density due to compaction by gravity (kg/m^2)
-        A = 350
+        A = 350.0
         
         # Time when half "saturation", i.e., maximum density is reached (seconds)
         # (864000 = 10 days * 24 hours/day * 60 mins/hr * 60 secs/min)
-        B = 864000
+        B = 864000.0
         
         # If the snow is already at or above the maximum density due
         # compaction by gravity, then just leave.
-        if (not self.snowcover) or (self.snow.rho > A):
-            return
+#         if (not self.snowcover) or (self.snow.rho > A):
+#             return
+        ind = (self.snowcover) & (self.snow.rho < A)
         
-        # Given the current density, determine where on the time axis
-        # we are (i.e., solve the function above for "time").
-        time = B / ((A / self.snow.rho) - 1)
+        if np.any(ind):
         
-        # Move along the time axis by the time step, and calculate the
-        # density at this new time.
-        self.snow.rho = A / (1 + B/(time + self.time_step))
+            # Given the current density, determine where on the time axis
+            # we are (i.e., solve the function above for "time").
+            time = B / ((A / self.snow.rho[ind]) - 1)
+            
+            # Move along the time axis by the time step, and calculate the
+            # density at this new time.
+            self.snow.rho[ind] = A / (1 + B/(time + self.time_step))
+            
+            # Adjust the snowcover for this new density
+            self.snow.z_s[ind] = self.snow.m_s[ind] / self.snow.rho[ind]
+            
+            self.adj_layers()
         
-        # Adjust the snowcover for this new density
-        self.snow.z_s = self.snow.m_s / self.snow.rho
         
-        self.adj_layers()
-        
-        
-#     @profile    
     def adj_layers(self):
         """
         This routine adjusts the layers of the snowcover because the
@@ -1020,50 +1201,92 @@ class snobal(object):
 
         """
         
-        prev_layer_count = self.snow.layer_count
+        prev_layer_count = self.snow.layer_count.copy()
         
         self.calc_layers()
         
-        if self.snow.layer_count == 0:
-            # 1 or 2 layers ---> 0
-            self.snow.rho = 0
+        # set locations with layer_count back to zeros
+        ind = self.snow.layer_count == 0
+        if np.any(ind):
             
             # if mass > 0, then it must be velow threshold.
             # So turn this little bit of mass into water
-            if self.snow.m_s > 0:
-                self.snow.h2o_total += self.snow.m_s
+#             if self.snow.m_s > 0:
+            self.snow.h2o_total[ind] += self.snow.m_s[ind]
             
-            # set a bunch of values to 0
-            index = ['h2o', 'h2o_max', 'h2o_total', 'h2o_vol', 'm_s', 'cc_s', 'm_s_0', 'cc_s_0']
-            for i in index:
-                setattr(self.snow, i, 0.0)
-                        
+            # reset some values back to zero
+            index = ['h2o', 'h2o_max', 'h2o_total', 'h2o_vol', 'm_s', 'm_s_0', 'rho']
+            self.snow.set_value(index, ind, 0)
+            
             # Note: Snow temperatures are set to MIN_SNOW_TEMP
             # (as degrees K) instead of 0 K to keep quantization
             # range in output image smaller.
+            self.snow.set_value(['T_s','T_s_0','T_s_l'], ind, MIN_SNOW_TEMP + FREEZE)
             
-            self.snow.T_s = MIN_SNOW_TEMP + FREEZE
-            self.snow.T_s_0 = MIN_SNOW_TEMP + FREEZE
+            # reset the cold contents
+            self.em.set_value(['cc_s', 'cc_s_0', 'cc_s_l'], ind, 0)
             
-            if prev_layer_count == 2:
-                self.snow.m_s_l = 0
-                self.em.cc_s_l = 0
-                self.snow.T_s_l = MIN_SNOW_TEMP + FREEZE
-                
-            self.snowcover = False
+            # upadate the snowcover
+            self.snowcover[ind] = False
+        
+        # upadate the other areas with layers
+#         if np.any(~ind):
+        self.layer_mass()
+           
+        # 1 layer --> 2 layers, add lower layer
+        ind = (prev_layer_count == 1) & (self.snow.layer_count == 2) 
+        if np.any(ind):
+            self.snow.T_s_l[ind] = self.snow.T_s[ind]
+            self.em.cc_s_l[ind] = self.cold_content(self.snow.T_s_l[ind], self.snow.m_s_l[ind])
             
-        else:
-            self.layer_mass()
+        # 2 layers --> 1 layer, remove lower layer
+        ind = (prev_layer_count == 2) & (self.snow.layer_count == 1)
+        if np.any(ind):
+            self.snow.T_s_l[ind] = MIN_SNOW_TEMP + FREEZE
+            self.em.cc_s_l[ind] = 0    
             
-            if (prev_layer_count == 1) and (self.snow.layer_count == 2):
-                # 1 layer --> 2 layers, add lower layer
-                self.snow.T_s_l = self.snow.T_s
-                self.em.cc_s_l = self.cold_content(self.snow.T_s_l, self.snow.m_s_l)
-                
-            elif (prev_layer_count == 2) and (self.snow.layer_count == 1):
-                # 2 layers --> 1 layer, remove lower layer
-                self.snow.T_s_l = MIN_SNOW_TEMP + FREEZE
-                self.em.cc_s_l = 0
+            
+        
+#         if self.snow.layer_count == 0:
+#             # 1 or 2 layers ---> 0
+#             self.snow.rho = 0
+#             
+#             # if mass > 0, then it must be velow threshold.
+#             # So turn this little bit of mass into water
+#             if self.snow.m_s > 0:
+#                 self.snow.h2o_total += self.snow.m_s
+#             
+#             # set a bunch of values to 0
+#             index = ['h2o', 'h2o_max', 'h2o_total', 'h2o_vol', 'm_s', 'cc_s', 'm_s_0', 'cc_s_0']
+#             for i in index:
+#                 setattr(self.snow, i, 0.0)
+#                         
+#             # Note: Snow temperatures are set to MIN_SNOW_TEMP
+#             # (as degrees K) instead of 0 K to keep quantization
+#             # range in output image smaller.
+#             
+#             self.snow.T_s = MIN_SNOW_TEMP + FREEZE
+#             self.snow.T_s_0 = MIN_SNOW_TEMP + FREEZE
+#             
+#             if prev_layer_count == 2:
+#                 self.snow.m_s_l = 0
+#                 self.em.cc_s_l = 0
+#                 self.snow.T_s_l = MIN_SNOW_TEMP + FREEZE
+#                 
+#             self.snowcover = False
+#             
+#         else:
+#             self.layer_mass()
+#             
+#             if (prev_layer_count == 1) and (self.snow.layer_count == 2):
+#                 # 1 layer --> 2 layers, add lower layer
+#                 self.snow.T_s_l = self.snow.T_s
+#                 self.em.cc_s_l = self.cold_content(self.snow.T_s_l, self.snow.m_s_l)
+#                 
+#             elif (prev_layer_count == 2) and (self.snow.layer_count == 1):
+#                 # 2 layers --> 1 layer, remove lower layer
+#                 self.snow.T_s_l = MIN_SNOW_TEMP + FREEZE
+#                 self.em.cc_s_l = 0
             
         
 #     @profile
@@ -1073,7 +1296,13 @@ class snobal(object):
         """
         
         # if there is a snowcover
-        if self.snow.layer_count > 0:
+#         if self.snow.layer_count > 0:
+        if self.snowcover_domain:
+            
+            # precalculate sati
+            self.snow.es_0 = libsnobal.sati_2d(self.snow.T_s_0)
+            self.snow.es_l = libsnobal.sati_2d(self.snow.T_s_l)
+            
             
             # Calculates net allwave radiation from the net solar radiation
             #incoming thermal/longwave radiation, and the snow surface
@@ -1085,11 +1314,14 @@ class snobal(object):
             self.h_le()
             
             # calculate G & G_0 (conduction/diffusion heat xfr)
-            if self.snow.layer_count == 1:
-                self.g_soil('surface')
-                self.em.G_0 = self.em.G
-            else:  # layer_count == 2
-                self.g_soil ('lower')
+#             if self.snow.layer_count == 1:
+            g = self.g_soil('surface')
+            self.em.G_0[:] = g
+            self.em.G[:] = g
+                
+            if np.any(self.snow.layer_count == 2):
+                g = self.g_soil ('lower')
+                self.em.G[:] = g
                 self.g_snow()
                 
             # calculate advection
@@ -1100,20 +1332,28 @@ class snobal(object):
             self.em.delta_Q_0 = self.em.R_n + self.em.H + self.em.L_v_E + self.em.G_0 + self.em.M
             
             # total snowpck energy budget
-            if self.snow.layer_count == 1:
-                self.em.delta_Q = self.em.delta_Q_0
-            else:
-                self.em.delta_Q = self.em.delta_Q_0 + self.em.G - self.em.G_0
+#             if self.snow.layer_count == 1:
+            self.em.delta_Q[:] = self.em.delta_Q_0
+#             else:
+            ind = self.snow.layer_count == 2
+            if np.any(ind):
+                self.em.delta_Q[ind] += self.em.G[ind] - self.em.G_0[ind]
+                
+            # since this is iSNOWbal, remove the energy balance components where
+            # there is no snow
+            self.em.set_value(['R_n', 'H', 'L_v_E', 'E', 'G', 'G_0', 'delta_Q', 'delta_Q_0'], 
+                              ~self.snowcover, 0)
                 
         else:
-            self.em.R_n = 0
-            self.em.H = 0
-            self.em.L_v_E = 0
-            self.em.E = 0
-            self.em.G = 0
-            self.em.G_0 = 0
-            self.em.delta_Q = 0
-            self.em.delta_Q_0 = 0
+            self.em.reset(['R_n', 'H', 'L_v_E', 'E', 'G', 'G_0', 'delta_Q', 'delta_Q_0'], 0)
+#             self.em.R_n = 0
+#             self.em.H = 0
+#             self.em.L_v_E = 0
+#             self.em.E = 0
+#             self.em.G = 0
+#             self.em.G_0 = 0
+#             self.em.delta_Q = 0
+#             self.em.delta_Q_0 = 0
         
                
                        
@@ -1123,24 +1363,29 @@ class snobal(object):
         if there's precipitation for the current timestep.
         """    
         
-        if self.precip_now:
-            
-            M = self.heat_stor(CP_WATER(self.precip['T_rain']), \
-                               self.precip_info[self.tstep_level]['m_rain'], \
-                               self.precip['T_rain'] - self.snow.T_s_0) + \
-                 self.heat_stor(CP_ICE(self.precip['T_snow']), \
-                                self.precip_info[self.tstep_level]['m_snow'], \
-                                self.precip['T_snow']- self.snow.T_s_0)
+        M = np.zeros(self.shape)
+        
+        if np.any(self.precip_now):
+                        
+            M = self.heat_stor(CP_WATER(self.precip.T_rain), \
+                               self.precip_info[self.tstep_level].m_rain, \
+                               self.precip.T_rain - self.snow.T_s_0) + \
+                 self.heat_stor(CP_ICE(self.precip.T_snow), \
+                                self.precip_info[self.tstep_level].m_snow, \
+                                self.precip.T_snow - self.snow.T_s_0)
                                 
             M /= self.time_step
             
-        else:
-            M = 0
+            # set locations without precip back to zero
+            M[~self.precip_now] = 0
+            
+#         else:
+#             M = 0
             
         self.em.M = M
         
         
-
+#     @profile
     def g_soil(self, layer):
         """
         conduction heat flow between snow and soil
@@ -1149,49 +1394,55 @@ class snobal(object):
         if layer == 'surface':
             tsno = self.snow.T_s_0
             ds = self.snow.z_s_0
+            es = self.snow.es_0
             
         else:
             tsno = self.snow.T_s_l
             ds = self.snow.z_s_l
+            es = self.snow.es_l
             
-        if tsno > FREEZE:
-            warnings.warn('g_soil: tsno = %8.2f; set to %8.2f\n' % (tsno, FREEZE))
-            tsno = FREEZE
+        if np.any(tsno > FREEZE):
+            warnings.warn('g_soil: tsno > %8.2f; set to %8.2f\n' % (FREEZE, FREEZE))
+            tsno[tsno > FREEZE] = FREEZE
         
         # set effective soil conductivity
         # /***    changed to KT_MOISTSAND by D. Marks, NWRC, 09/30/2003    ***/
         # /***    based on heat flux data from RMSP            ***/
         # /***    note: Kt should be passed as an argument        ***/
         # /***    k_g = efcon(KT_WETSAND, tg, pa);            ***/
-        k_g = libsnobal.efcon(KT_MOISTSAND, self.input1['T_g'], self.P_a)
+        k_g = libsnobal.efcon(KT_MOISTSAND, self.input1['T_g'], self.P_a, self.input1['e_g'])
         
         # calculate G    
         # set snow conductivity
         kcs = KTS(self.snow.rho)
-        k_s = libsnobal.efcon(kcs, tsno, self.P_a)
+        k_s = libsnobal.efcon(kcs, tsno, self.P_a, es)
         g = libsnobal.ssxfr(k_s, k_g, tsno, self.input1['T_g'], ds, self.z_g)
         
-        self.em.G = g
+        return g
+        
         
     def g_snow(self):
         """
         conduction heat flow between snow layers
         """
         
-        # calculate g
-        if self.snow.T_s_0 == self.snow.T_s_l:
-            g = 0
-        else:
-            kcs1 = KTS(self.snow.rho)
-            kcs2 = KTS(self.snow.rho)
-            k_s1 = libsnobal.efcon(kcs1, self.snow.T_s_0, self.P_a)
-            k_s2 = libsnobal.efcon(kcs2, self.snow.T_s_l, self.P_a)
-            
-            g = libsnobal.ssxfr(k_s1, k_s2, self.snow.T_s_0, self.snow.T_s_l, self.snow.z_s_0, self.snow.z_s_l)
+        # calculate g, if the difference in temperature is zero, g will be zero
+#         g = np.zeros(self.shape)
+#         ind = self.snow.T_s_0 != self.snow.T_s_l
+        
+#         if self.snow.T_s_0 == self.snow.T_s_l:
+#             g = 0
+#         else:
+        kcs1 = KTS(self.snow.rho)
+        kcs2 = KTS(self.snow.rho)
+        k_s1 = libsnobal.efcon(kcs1, self.snow.T_s_0, self.P_a, self.snow.es_0)
+        k_s2 = libsnobal.efcon(kcs2, self.snow.T_s_l, self.P_a, self.snow.es_l)
+        
+        g = libsnobal.ssxfr(k_s1, k_s2, self.snow.T_s_0, self.snow.T_s_l, self.snow.z_s_0, self.snow.z_s_l)
         
         self.em.G_0 = g
             
-        
+#     @profile    
     def h_le(self):
         """
         Calculates point turbulent transfer (H and L_v_E) for a 2-layer snowcover
@@ -1203,13 +1454,14 @@ class snobal(object):
 #             raise Exception('T_a is below 0 K')
         
         # calculate saturation vapor pressure
-        e_s = libsnobal.sati(self.snow.T_s_0)
+#         e_s = libsnobal.sati_2d(self.snow.T_s_0)
         
         # error check for bad vapor pressures
-        sat_vp = libsnobal.sati(self.input1['T_a'])
+        sat_vp = libsnobal.sati_2d(self.input1['T_a'])
         
-        if self.input1['e_a'] > sat_vp:
-            self.input1['e_a'] = sat_vp
+        ind = self.input1['e_a'] > sat_vp
+        if np.any(ind):
+            self.input1['e_a'][ind] = sat_vp[ind]
             
         # determine relative measurement heights
         if self.relative_hts:
@@ -1220,16 +1472,15 @@ class snobal(object):
             rel_z_u = self.z_u - self.snow.z_s
         
         # calculate H & L_v_E
-        H, L_v_E, E, status = libsnobal.hle1(self.P_a, self.input1['T_a'], self.snow.T_s_0, rel_z_t, \
-                                             self.input1['e_a'], e_s, rel_z_t, self.input1['u'], rel_z_u, self.z_0)
+        H, L_v_E, E, status = libsnobal.hle1_grid(self.P_a, self.input1['T_a'], self.snow.T_s_0, rel_z_t, \
+                                             self.input1['e_a'], self.snow.es_0, rel_z_t, self.input1['u'], rel_z_u, \
+                                             self.z_0, self.snowcover)
         if status != 0:
-            raise Exception("hle1 did not converge\nP_a %f, T_a %f, T_s_0 %f\nrelative z_t %f, e_a %f, e_s %f\nu %f, relative z_u %f, z_0 %f\n" % \
-                            (self.P_a, self.input1['T_a'], self.snow.T_s_0, rel_z_t, \
-                            self.input1['e_a'], e_s, self.input1['u'], rel_z_u, self.z_0))
+            raise Exception("hle1 did not converge, sorry... :(")
             
-        self.em.H = H
-        self.em.L_v_E = L_v_E
-        self.em.E = E
+        self.em.H[:] = H
+        self.em.L_v_E[:] = L_v_E
+        self.em.E[:] = E
          
         
     def below_thold(self, threshold):
@@ -1246,12 +1497,14 @@ class snobal(object):
             False    All layers' masses are greater than the threshold.
         """
         
-        if self.snow.layer_count == 0:
+        # if there is no snow anywhere
+        if np.sum(self.snow.layer_count == 0) == self.ngrid:
             return False
-        if self.snow.layer_count == 1:
-            return self.snow.m_s < threshold
-        else:
-            return (self.snow.m_s_0 < threshold) or (self.snow.m_s_l < threshold)
+#         if self.snow.layer_count == 1:
+#             return self.snow.m_s < threshold
+#         else:
+        return np.any(self.snow.m_s_0[self.snow.m_s_0 > 0] < threshold) or \
+            np.any(self.snow.m_s_l[self.snow.z_s_l > 0] < threshold)
             
            
     def get_sn_rec(self, first_rec=False):
@@ -1304,10 +1557,10 @@ class snobal(object):
             self.mh_prop_index = 0    # keep track of which mh property to read
             
             self.time_z = self.mh_prop['time_z'] * HR_TO_SEC
-            self.z_u = self.mh_prop['z_u']
-            self.z_t = self.mh_prop['z_t']
-            self.z_0 = self.mh_prop['z_0']
-            self.z_g = self.mh_prop['z_g']
+            self.z_u = self.mh_prop['z_u'] * np.ones_like(self.snow.z_s)
+            self.z_t = self.mh_prop['z_t'] * np.ones_like(self.snow.z_s)
+            self.z_0 = self.snow_records['z_0']
+            self.z_g = self.mh_prop['z_g'] * np.ones_like(self.snow.z_s)
             
         else:
             self.mh_prop_index += 1
@@ -1322,9 +1575,13 @@ class snobal(object):
             
         """
         
+        cols = ['m_pp','m_snow','m_rain','z_snow']
+        
+        return EmptyClass(cols, self.shape)
+        
 #         return PrecipClass()  
 #         return pd.Series(index=['m_pp','m_snow','m_rain','z_snow'])
-        return {key: 0.0 for key in ['m_pp','m_snow','m_rain','z_snow']}
+#         return {key: 0.0 for key in ['m_pp','m_snow','m_rain','z_snow']}
                 
     
     def init_snow(self, from_record=False):
@@ -1357,6 +1614,7 @@ class snobal(object):
                 'T_s', 'T_s_0', 'T_s_l', 
                 'z_s', 'z_s_0', 'z_s_l', 
                 'm_s', 'm_s_0', 'm_s_l',
+                'es_0', 'es_l',
                 'h2o', 'h2o_max', 'h2o_total', 'h2o_vol']
         
 #                 'cc_s', 'cc_s_0', 'cc_s_l',
@@ -1369,14 +1627,14 @@ class snobal(object):
             
             # create a dict instead
 #             self.snow = Map({key: 0.0 for key in cols})
-            self.snow = EmptyClass(cols)
+            self.snow = EmptyClass(cols, self.shape, self.mask)
         
             self.snow.z_s = self.snow_records['z_s']
             self.snow.rho = self.snow_records['rho']
             self.snow.T_s_0 = self.snow_records['T_s_0']
             self.snow.T_s = self.snow_records['T_s']
             self.snow.h2o_sat = self.snow_records['h2o_sat']
-            self.snow.max_h2o_vol = self.params['max_h2o_vol']
+            self.snow.max_h2o_vol = self.params['max_h2o_vol'] * np.ones_like(self.snow.z_s)
         
         else:
             try:
@@ -1387,46 +1645,93 @@ class snobal(object):
         # initialize the snowpack
         self.snow.m_s = self.snow.rho * self.snow.z_s
         
-        # determine the number of layers
+        # determine the number of layers and layer heights
         self.calc_layers()
         
-        if self.snow.layer_count == 0:
-            # If mass > 0, then it must be below threshold.
-            # So turn this little bit of mass into water
+        # If mass > 0, then it must be below threshold.
+        # So turn this little bit of mass into water
+        # and reset all the point's snow values to zero or minimum value
+        ind = self.snow.layer_count == 0
+        if np.any(ind):
+            self.snow.h2o_total[ind] += self.snow.m_s[ind]
+            self.snow.set_value(['rho','m_s','m_s_0','m_s_l','h2o_vol','h2o','h2o_max','h2o_sat'], 
+                                ind, 0)
             
-            if self.snow.m_s > 0.0:
-                self.snow.h2o_total += self.snow.m_s
-            
-            for col in ['rho','m_s','cc_s','m_s_0','cc_s_0','m_s_l','cc_s_l','h2o_vol','h2o','h2o_max','h2o_sat']:
-                setattr(self.snow, col, 0.0)        
-        
             # Note: Snow temperatures are set to MIN_SNOW_TEMP
             # (as degrees K) instead of 0 K to keep quantization
             # range in output image smaller.
-            for col in ['T_s', 'T_s_0', 'T_s_l']:
-                setattr(self.snow, col, MIN_SNOW_TEMP + FREEZE)
-#                 self.snow[col] = MIN_SNOW_TEMP + FREEZE
+            self.snow.set_value(['T_s', 'T_s_0', 'T_s_l'], ind, MIN_SNOW_TEMP + FREEZE)
          
-        else:
-            # Compute the specific mass and cold content for each layer   
-            self.layer_mass()
-            self.em.cc_s_0 = self.cold_content(self.snow.T_s_0, self.snow.m_s_0)
+        # Compute the specific mass and cold content for each layer
+        # this will just reset a layer to zero if layer_count=0
+#         ind = ~ind
+#         if np.any(ind):
+        self.layer_mass()
+        self.em.cc_s_0 = self.cold_content(self.snow.T_s_0, self.snow.m_s_0)
+        
+        lc2 = self.snow.layer_count == 2
+#         if np.any(lc2):
+        self.em.cc_s_l[lc2] = self.cold_content(self.snow.T_s_l[lc2], self.snow.m_s_l[lc2])
+#         else:
+        self.snow.set_value(['T_s_l'], ~lc2, MIN_SNOW_TEMP + FREEZE)
+        self.em.set_value(['cc_s_l'], ~lc2, 0)
             
-            if self.snow.layer_count == 2:
-                self.em.cc_s_l = self.cold_content(self.snow.T_s_l, self.snow.m_s_l)
-            else:
-                self.snow.T_s_l = MIN_SNOW_TEMP + FREEZE
-                self.em.cc_s_l = 0
+        
+#         if self.snow.layer_count == 2:
+#             self.em.cc_s_l = self.cold_content(self.snow.T_s_l, self.snow.m_s_l)
+#         else:
+#             self.snow.T_s_l = MIN_SNOW_TEMP + FREEZE
+#             self.em.cc_s_l = 0
             
-            # Compute liquid water content as volume ratio, and
-            # snow density without water
-            self.snow.h2o_vol = self.snow.h2o_sat * self.snow.max_h2o_vol
-            rho_dry = DRY_SNO_RHO(self.snow.rho, self.snow.h2o_vol)
             
-            # Determine the maximum liquid water content (as specific mass)
-            # and the actual liquid water content (as specific mass)
-            self.snow.h2o_max = H2O_LEFT(self.snow.z_s, rho_dry, self.snow.max_h2o_vol)
-            self.snow.h2o = self.snow.h2o_sat * self.snow.h2o_max
+        # Compute liquid water content as volume ratio, and
+        # snow density without water
+        self.snow.h2o_vol = self.snow.h2o_sat * self.snow.max_h2o_vol
+        rho_dry = DRY_SNO_RHO(self.snow.rho, self.snow.h2o_vol)
+        
+        # Determine the maximum liquid water content (as specific mass)
+        # and the actual liquid water content (as specific mass)
+        self.snow.h2o_max = H2O_LEFT(self.snow.z_s, rho_dry, self.snow.max_h2o_vol)
+        self.snow.h2o = self.snow.h2o_sat * self.snow.h2o_max
+        
+        
+#         if self.snow.layer_count == 0:
+#             # If mass > 0, then it must be below threshold.
+#             # So turn this little bit of mass into water
+#             
+#             if self.snow.m_s > 0.0:
+#                 self.snow.h2o_total += self.snow.m_s
+#             
+#             for col in ['rho','m_s','cc_s','m_s_0','cc_s_0','m_s_l','cc_s_l','h2o_vol','h2o','h2o_max','h2o_sat']:
+#                 setattr(self.snow, col, 0.0)        
+#         
+#             # Note: Snow temperatures are set to MIN_SNOW_TEMP
+#             # (as degrees K) instead of 0 K to keep quantization
+#             # range in output image smaller.
+#             for col in ['T_s', 'T_s_0', 'T_s_l']:
+#                 setattr(self.snow, col, MIN_SNOW_TEMP + FREEZE)
+# #                 self.snow[col] = MIN_SNOW_TEMP + FREEZE
+#          
+#         else:
+#             # Compute the specific mass and cold content for each layer   
+#             self.layer_mass()
+#             self.em.cc_s_0 = self.cold_content(self.snow.T_s_0, self.snow.m_s_0)
+#             
+#             if self.snow.layer_count == 2:
+#                 self.em.cc_s_l = self.cold_content(self.snow.T_s_l, self.snow.m_s_l)
+#             else:
+#                 self.snow.T_s_l = MIN_SNOW_TEMP + FREEZE
+#                 self.em.cc_s_l = 0
+#             
+#             # Compute liquid water content as volume ratio, and
+#             # snow density without water
+#             self.snow.h2o_vol = self.snow.h2o_sat * self.snow.max_h2o_vol
+#             rho_dry = DRY_SNO_RHO(self.snow.rho, self.snow.h2o_vol)
+#             
+#             # Determine the maximum liquid water content (as specific mass)
+#             # and the actual liquid water content (as specific mass)
+#             self.snow.h2o_max = H2O_LEFT(self.snow.z_s, rho_dry, self.snow.max_h2o_vol)
+#             self.snow.h2o = self.snow.h2o_sat * self.snow.h2o_max
 
     
     def init_em(self):
@@ -1464,6 +1769,7 @@ class snobal(object):
                 #   sums of mass balance vars since last output record   
                 'melt_sum',
                 'E_s_sum',
+                'ro_pred_sum',
                 
                 # cold content values
                 'cc_s', 
@@ -1473,12 +1779,11 @@ class snobal(object):
         
 #         self.em = pd.Series(data=np.zeros(len(col)), index=col)
 #         self.em = Map({key: 0.0 for key in col})
-        self.em = EmptyClass(col)
+        self.em = EmptyClass(col, self.shape, self.mask)
         
 
 
 
-#     @profile
     def calc_layers(self):
         """
         This routine determines the # of layers in the snowcover based its
@@ -1493,41 +1798,114 @@ class snobal(object):
         
         """
         
-        if self.snow.m_s <= self.tstep_info[SMALL_TSTEP]['threshold']:
-            # less than minimum layer mass, so treat as no snowcover
-            
-            layer_count = 0
-            z_s = z_s_0 = z_s_l = 0
-            
-        elif self.snow.z_s < self.params['max_z_s_0']:
-            # not enough depth for surface layer and the lower layer,
-            # so just 1 layer: surface layer
-            
-            layer_count = 1
-            z_s_0 = self.snow.z_s
-            z_s_l = 0
-            z_s = z_s_0
-            
-        else:
-            # enough depth for both layers
-            
-            layer_count = 2
-            z_s_0 = self.params['max_z_s_0']
-            z_s_l = self.snow.z_s - z_s_0
-            z_s = z_s_0 + z_s_l # not really needed but needed for below
-            
-            # However, make sure there's enough MASS for the lower
-            # layer.  If not, then there's only 1 layer
-            if z_s_l * self.snow.rho < self.tstep_info[SMALL_TSTEP]['threshold']:
-                layer_count = 1
-                z_s_0 = self.snow.z_s
-                z_s_l = 0
+
+        
+#         # assume that there are two layers
+#         z_s_0 = self.params['max_z_s_0'] * np.ones(self.shape)
+#         z_s_l = self.snow.z_s - z_s_0
+#         
+#         # correct if there is only one or no layers
+#         ind = z_s_l < 0
+#         z_s_0[ind] = z_s_l[ind] + self.params['max_z_s_0']
+#         
+#         # make sure that there is enough mass total
+#         ind = self.snow.m_s < self.tstep_info[SMALL_TSTEP]['threshold']
+#         z_s_0[ind] = 0
+#         z_s_l[ind] = 0
+
+#         layer_count = self.snow.layer_count
+#         z_s_0 = self.snow.z_s_0     # these are references to self.snow.z_s_0
+#         z_s_l = self.snow.z_s_l
+        
+        # concatenate into 3D array
+#         z = np.dstack((z_s_0, z_s_l))
+        
+        # check the surface layer
+        
+        
+        
+        # preallocate
+#         layer_count = np.zeros(self.shape)
+#         z_s = np.zeros_like(layer_count)
+        layer_count = self.snow.layer_count
+        z_s_0 = self.snow.z_s_0     # these are references to self.snow.z_s_0
+        z_s_l = self.snow.z_s_l
+#         z_s = self.snow.z_s
+        
+        # less than minimum layer mass, so treat as no snowcover
+        # but since everything was preallocated, then it shouldn't matter
+        no_mass = self.snow.m_s <= self.tstep_info[SMALL_TSTEP]['threshold']
+        layer_count[no_mass] = 0
+
+#         if np.sum(no_mass) == self.ngrid: 
+#          
+#             layer_count[:] = 0
+#             z_s_0[:] = 0
+#             z_s_l[:] = 0
+#             self.snow.z_s[:] = 0
+#             return
+        
+        # not enough depth for surface layer and the lower layer,
+        # so just 1 layer: surface layer
+        surf_only = self.snow.z_s < self.params['max_z_s_0']
+        
+        ind = surf_only & ~no_mass
+        layer_count[ind] = 1
+        z_s_0[ind] = self.snow.z_s[ind]
+        z_s_l[ind] = 0
+        
+        # enough depth for both layers
+#         ind = self.snow.z_s >= self.params['max_z_s_0']
+#         if np.any(ind):
+        layer_count[~surf_only] = 2
+        z_s_0[~surf_only] = self.params['max_z_s_0']
+        z_s_l[~surf_only] = self.snow.z_s[~surf_only] - z_s_0[~surf_only]
+#         z_s[ind] = z_s_0[ind] + z_s_l[ind] # not really needed but needed for below
+        
+        # However, make sure there's enough MASS for the lower
+        # layer.  If not, then there's only 1 layer
+        ind = (z_s_l * self.snow.rho < self.tstep_info[SMALL_TSTEP]['threshold']) & ~surf_only
+#         if np.any(ind):
+        layer_count[ind] = 1
+        z_s_0[ind] = self.snow.z_s[ind]
+        z_s_l[ind] = 0
+    
+        
+#         if self.snow.m_s <= self.tstep_info[SMALL_TSTEP]['threshold']:
+#             # less than minimum layer mass, so treat as no snowcover
+#             
+#             layer_count = 0
+#             z_s = z_s_0 = z_s_l = 0
+#             
+#         elif self.snow.z_s < self.params['max_z_s_0']:
+#             # not enough depth for surface layer and the lower layer,
+#             # so just 1 layer: surface layer
+#             
+#             layer_count = 1
+#             z_s_0 = self.snow.z_s
+#             z_s_l = 0
+#             z_s = z_s_0
+#             
+#         else:
+#             # enough depth for both layers
+#             
+#             layer_count = 2
+#             z_s_0 = self.params['max_z_s_0']
+#             z_s_l = self.snow.z_s - z_s_0
+#             z_s = z_s_0 + z_s_l # not really needed but needed for below
+#             
+#             # However, make sure there's enough MASS for the lower
+#             # layer.  If not, then there's only 1 layer
+#             if z_s_l * self.snow.rho < self.tstep_info[SMALL_TSTEP]['threshold']:
+#                 layer_count = 1
+#                 z_s_0 = self.snow.z_s
+#                 z_s_l = 0
         
             
-        self.snow.layer_count = layer_count
-        self.snow.z_s = z_s
-        self.snow.z_s_0 = z_s_0
-        self.snow.z_s_l = z_s_l
+#         self.snow.layer_count = layer_count
+        self.snow.z_s = z_s_0 + z_s_l
+#         self.snow.z_s_0 = z_s_0
+#         self.snow.z_s_l = z_s_l
         
         
 #     @profile
@@ -1538,20 +1916,30 @@ class snobal(object):
         average snowcover density.
         """
         
-        if self.snow.layer_count == 0:
-            self.snow.m_s_0 = 0
-            self.snow.m_s_l = 0
-            
-        else:
-            # layer count is 1 or 2
-            self.snow.m_s_0 = self.snow.rho * self.snow.z_s_0
-            
-            if self.snow.layer_count == 2:
-                self.snow.m_s_l = self.snow.rho * self.snow.z_s_l
-            else:
-                self.snow.m_s_l = 0
-                
         
+        # see if I can get away with this as rho and z_s should already
+        # be updated
+#         ind = self.snow.layer_count == 0
+#         self.snow.set_value(['m_s_0','m_s_l'], ind, 0.0)
+        
+        self.snow.m_s_0 = self.snow.rho * self.snow.z_s_0
+        self.snow.m_s_l = self.snow.rho * self.snow.z_s_l
+        
+        
+#         if self.snow.layer_count == 0:
+#             self.snow.m_s_0 = 0
+#             self.snow.m_s_l = 0
+#             
+#         else:
+#             # layer count is 1 or 2
+#             self.snow.m_s_0 = self.snow.rho * self.snow.z_s_0
+#             
+#             if self.snow.layer_count == 2:
+#                 self.snow.m_s_l = self.snow.rho * self.snow.z_s_l
+#             else:
+#                 self.snow.m_s_l = 0
+                
+    
     def cold_content(self, temp, mass):
         """
         This routine calculates the cold content for a layer (i.e., the
@@ -1566,9 +1954,10 @@ class snobal(object):
             cc: cold content of layer
         """
         
-        cc = 0
-        if temp < FREEZE:
-            cc = self.heat_stor(CP_ICE(temp), mass, temp-FREEZE)
+        cc = np.zeros_like(temp)
+        ind = temp < FREEZE
+        if np.any(ind):
+            cc[ind] = self.heat_stor(CP_ICE(temp[ind]), mass[ind], temp[ind]-FREEZE)
         return cc
     
 
@@ -1595,21 +1984,21 @@ class snobal(object):
             curr_time_hrs = SEC_TO_HR(self.current_time)
             
             # time
-            self.params['out_file'].write('%g' % curr_time_hrs)
+            self.params['out_file'].write('%g,' % curr_time_hrs)
             
             # energy budget terms
-            self.params['out_file'].write(" %.1f %.1f %.1f %.1f %.1f %.1f" % \
+            self.params['out_file'].write("%.1f,%.1f,%.1f,%.1f,%.1f,%.1f," % \
                     (self.em.R_n_bar, self.em.H_bar, self.em.L_v_E_bar, \
                     self.em.G_bar, self.em.M_bar, self.em.delta_Q_bar))
 
             # layer terms
-            self.params['out_file'].write(" %.1f %.1f" % \
+            self.params['out_file'].write("%.1f,%.1f," % \
                     (self.em.G_0_bar, self.em.delta_Q_0_bar))
     
             # heat storage and mass changes
-            self.params['out_file'].write(" %.6e %.6e %.6e" % \
+            self.params['out_file'].write("%.6e,%.6e,%.6e," % \
                     (self.em.cc_s_0, self.em.cc_s_l, self.em.cc_s))
-            self.params['out_file'].write(" %.5f %.5f %.5f" % \
+            self.params['out_file'].write("%.5f,%.5f,%.5f," % \
                     (self.em.E_s_sum, self.em.melt_sum, self.em.ro_pred_sum))
     
 #             # runoff error if data included */
@@ -1618,15 +2007,15 @@ class snobal(object):
 #                         (ro_pred_sum - (ro * time_since_out)))
     
             # sno properties */
-            self.params['out_file'].write(" %.3f %.3f %.3f %.1f" % \
+            self.params['out_file'].write("%.3f,%.3f,%.3f,%.1f," % \
                     (self.snow.z_s_0, self.snow.z_s_l, self.snow.z_s, self.snow.rho))
-            self.params['out_file'].write(" %.1f %.1f %.1f %.1f" % \
+            self.params['out_file'].write("%.1f,%.1f,%.1f,%.1f," % \
                     (self.snow.m_s_0, self.snow.m_s_l, self.snow.m_s, self.snow.h2o))
             if self.params['temps_in_C']:
-                self.params['out_file'].write(" %.2f %.2f %.2f\n" % 
+                self.params['out_file'].write("%.2f,%.2f,%.2f\n" % 
                         (K_TO_C(self.snow.T_s_0), K_TO_C(self.snow.T_s_l), K_TO_C(self.snow.T_s)))
             else:
-                self.params['out_file'].write(" %.2f %.2f %.2f\n" % \
+                self.params['out_file'].write("%.2f,%.2f,%.2f\n" % \
                         (self.snow.T_s_0, self.snow.T_s_l, self.snow.T_s))
     
     
@@ -1655,53 +2044,114 @@ class InputClass():
         self.u = None
         self.T_g = None
        
-        
-class Struct:
-    """
-    Converts a dict to an object
-    """
-    def __init__(self, **entries): 
-        self.__dict__.update(entries)
-        
-    def keys(self):
-        return self.__dict__.keys()
-    
+            
 class EmptyClass:
-    def __init__(self, cols):
+    def __init__(self, cols, size, mask=None):
+        self.keys = cols
+        self.shape = size
+        self.mask = mask
+#         a = np.zeros(size)
+#         a.fill(np.nan)
         for c in cols:
-            setattr(self, c, 0.0)
+            if mask is not None:
+                setattr(self, c, ma.masked_array(np.zeros(size), 
+                                                 mask=mask, hard_mask=True))
+            else:
+                setattr(self, c, np.zeros(size))
+            
+    def set_zeros(self, index):
+        """
+        Set the attributes to zeros for the given index
+        
+        Args:
+            index: numpy array
+        """
+
+        for c in self.keys:
+            self.__dict__[c][index] = 0.0
+            
+    def set_nan(self, index):
+        """
+        Set the attributes to nan for the given index
+        
+        Args:
+            index: numpy array
+        """
+
+        for c in self.keys:
+            self.__dict__[c][index] = np.nan
+            
+    def reset(self, keys, value):
+        """
+        Reset specified keys back to a given value
+        """
+        for c in keys:
+            if self.mask is not None:
+                arr = ma.masked_array(value * np.ones(self.shape), mask=self.mask)
+                setattr(self, c, arr)
+            else:
+                setattr(self, c, value * np.ones(self.shape))
+            
+            
+    def set_value(self, keys, index, value):
+        """
+        Set the attributes to zeros for the given index
+        
+        Args:
+            keys: attributes to change
+            index: numpy array
+            value: value to change to
+        """
+
+        if not np.any(index):
+            pass
+
+        for c in keys:
+            self.__dict__[c][index] = value
+            
+    def check_nan(self):
+        """
+        Checks to see if any of the fields have nan values
+        """
+        
+        val = []
+        
+        for c in self.keys:
+            val.append(np.any(np.isnan(self.__dict__[c])))
+            
+        return val
         
                 
-class Map(dict):
-    """
-    Example:
-    m = Map({'first_name': 'Eduardo'}, last_name='Pool', age=24, sports=['Soccer'])
-    """
-    def __init__(self, *args, **kwargs):
-        super(Map, self).__init__(*args, **kwargs)
-        for arg in args:
-            if isinstance(arg, dict):
-                for k, v in arg.iteritems():
-                    self[k] = v
-
-        if kwargs:
-            for k, v in kwargs.iteritems():
-                self[k] = v
-
-    def __getattr__(self, attr):
-        return self.get(attr)
-
-    def __setattr__(self, key, value):
-        self.__setitem__(key, value)
-
-    def __setitem__(self, key, value):
-        super(Map, self).__setitem__(key, value)
-        self.__dict__.update({key: value})
-
-    def __delattr__(self, item):
-        self.__delitem__(item)
-
-    def __delitem__(self, key):
-        super(Map, self).__delitem__(key)
-        del self.__dict__[key]            
+# class Map(dict):
+#     """
+#     Example:
+#     m = Map({'first_name': 'Eduardo'}, last_name='Pool', age=24, sports=['Soccer'])
+#     """
+#     def __init__(self, *args, **kwargs):
+#         super(Map, self).__init__(*args, **kwargs)
+#         for arg in args:
+#             if isinstance(arg, dict):
+#                 for k, v in arg.iteritems():
+#                     self[k] = v
+# 
+#         if kwargs:
+#             for k, v in kwargs.iteritems():
+#                 self[k] = v
+# 
+#     def __getattr__(self, attr):
+#         return self.get(attr)
+# 
+#     def __setattr__(self, key, value):
+#         self.__setitem__(key, value)
+# 
+#     def __setitem__(self, key, value):
+#         super(Map, self).__setitem__(key, value)
+#         self.__dict__.update({key: value})
+# 
+#     def __delattr__(self, item):
+#         self.__delitem__(item)
+# 
+#     def __delitem__(self, key):
+#         super(Map, self).__delitem__(key)
+#         del self.__dict__[key]            
         

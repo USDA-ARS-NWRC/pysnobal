@@ -87,7 +87,7 @@ cdef MIX_RATIO (np.ndarray[DTYPE_t, ndim=2] e, np.ndarray[DTYPE_t, ndim=2] P):
 #    pa = air pressure (Pa)
 #    ts = layer temperature (K)
 cpdef DIFFUS(pa, ts):
-    return 0.65 * (SEA_LEVEL / pa) * pow(ts/FREEZE, 14.0) * (0.01*0.01)
+    return 0.65 * (SEA_LEVEL / pa) * np.power(ts/FREEZE, 14.0) * (0.01*0.01)
 
 # DIFFUS = lambda pa, ts:  0.65 * (SEA_LEVEL / pa) * np.power(ts/FREEZE,14.0) * (0.01*0.01)
 
@@ -584,7 +584,8 @@ def hle1 (double press, double ta, double ts, double za, double ea, \
 @cython.boundscheck(False)
 @cython.wraparound(False)
 @cython.cdivision(True)
-cpdef np.ndarray efcon(float k, np.ndarray[DTYPE_t, ndim=2] t, \
+cpdef np.ndarray efcon(np.ndarray[DTYPE_t, ndim=2] k, \
+                       np.ndarray[DTYPE_t, ndim=2] t, \
                        np.ndarray[DTYPE_t, ndim=2] p, \
                        np.ndarray[DTYPE_t, ndim=2] ea):
     """
@@ -614,14 +615,14 @@ cpdef np.ndarray efcon(float k, np.ndarray[DTYPE_t, ndim=2] t, \
     cdef np.ndarray[DTYPE_t, ndim=2] lh = np.zeros([ny, nx], dtype=DTYPE)
     cdef np.ndarray[DTYPE_t, ndim=2] e = np.zeros([ny, nx], dtype=DTYPE)
     cdef np.ndarray[DTYPE_t, ndim=2] q = np.zeros([ny, nx], dtype=DTYPE)
-    cdef np.ndarray[DTYPE_t, ndim=2] K = np.ones([ny, nx], dtype=DTYPE)
+#     cdef np.ndarray[DTYPE_t, ndim=2] K = np.ones([ny, nx], dtype=DTYPE)
 #     cdef np.ndarray SL = np.ones([ny, nx], dtype=DTYPE)
     
-    K = k * K
+#     K = k * K
 #     SL = SEA_LEVEL * SL
     
-    de = DIFFUS(p, t)
-#     de = 0.65 * (SEA_LEVEL / p) * np.power(t/FREEZE, 14.0) * (0.01 * 0.01)
+#     de = DIFFUS(p, t)
+    de = 0.65 * (SEA_LEVEL / p) * np.power(t/FREEZE, 14.0) * (0.01 * 0.01)
 
     # set latent heat from layer temp.
 #     lh = np.zeros_like(t)
@@ -653,7 +654,7 @@ cpdef np.ndarray efcon(float k, np.ndarray[DTYPE_t, ndim=2] t, \
     q = MIX_RATIO(ea, p)
 
     # calculate effective layer conductivity
-    return K + (lh * de * q)
+    return k + (lh * de * q)
 
     
 @cython.cdivision(True)

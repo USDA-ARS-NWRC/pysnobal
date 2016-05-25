@@ -329,7 +329,7 @@ def get_tstep_info(options):
 #     params['out_file'] = open(params['out_filename'], 'w')
     params['stop_no_snow'] = options['c']
     params['temps_in_C'] = options['K']
-    params['relative_hts'] = options['relative_heights']
+    params['relative_heights'] = options['relative_heights']
 
     return params, tstep_info
 
@@ -370,6 +370,9 @@ def open_files(options):
             init[f] = all_zeros                 # default is set to zeros
     
     i.close()
+    
+    for key in init.keys():
+        init[key] = init[key].astype(np.float64)
     
     # convert temperatures to K
     init['T_s'] += FREEZE
@@ -588,7 +591,7 @@ def get_timestep(force, tstep):
                           select='exact')
         
         # pull out the value        
-        inpt[map_val[f]] = force[f].variables[f][t,:]
+        inpt[map_val[f]] = force[f].variables[f][t,:].astype(np.float64)
     
     # convert from C to K
     inpt['T_a'] += FREEZE
