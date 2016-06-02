@@ -23,7 +23,8 @@ output_label = np.array(['time_s','R_n','H','L_v_E','G','M','delta_Q','G_0','del
 # new = np.loadtxt('snobal.out')
 org = pd.read_csv('snobal.original', sep=' ', index_col=[0], names=output_label)
 # new = pd.read_csv('snobal.exact.out', sep=',', index_col=[0], names=output_label)
-new = pd.read_csv('snobal.out', sep=',', index_col=[0], names=output_label)
+# new = pd.read_csv('snobal.out', sep=',', index_col=[0], names=output_label)
+new = pd.read_csv('../test_data_spatial/snobal.out', sep=',', index_col=[0], names=output_label)
 
 d = org - new
 

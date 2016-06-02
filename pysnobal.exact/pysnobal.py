@@ -109,16 +109,16 @@ def get_args(argv):
 #     print 'Output file is "', outputfile
 
     options = {
-        'z': 2061,
+        'z': 2073.99584961,
         't': 60,
         'm': 0.01,
         'd': DEFAULT_MAX_Z_S_0,
-        's': '../test_data_point/snow.properties.input',
-        'h': '../test_data_point/inheight.input',
-        'p': '../test_data_point/snobal.ppt.input',
-        'i': '../test_data_point/snobal.data.input.short',
-        'o': '../test_data_point/snobal.exact.out',
-        'O': 'data',
+        's': '../test_data_spatial/point/snow.properties.input',
+        'h': '../test_data_spatial/point/inheight.input',
+        'p': '../test_data_spatial/point/snobal.ppt.input',
+        'i': '../test_data_spatial/point/snobal.input',
+        'o': '../test_data_spatial/point/snobal.exact',
+        'O': 'all',
         'c': True,
         'K': True,
         'T': DEFAULT_NORMAL_THRESHOLD,

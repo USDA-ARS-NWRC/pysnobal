@@ -47,29 +47,6 @@ C_TO_K = 273.16
 FREEZE = C_TO_K
 
 
-# def _pickle_method(method):
-#     func_name = method.im_func.__name__
-#     obj = method.im_self
-#     cls = method.im_class
-#     if func_name.startswith('__') and not func_name.endswith('__'): #deal with mangled names
-#         cls_name = cls.__name__.lstrip('_')
-#         func_name = '_' + cls_name + func_name
-#     return _unpickle_method, (func_name, obj, cls)
-# 
-# def _unpickle_method(func_name, obj, cls):
-#     for cls in cls.__mro__:
-#         try:
-#             func = cls.__dict__[func_name]
-#         except KeyError:
-#             pass
-#         else:
-#             break
-#     return func.__get__(obj, cls)
-# 
-# import copy_reg
-# import types
-# copy_reg.pickle(types.MethodType, _pickle_method, _unpickle_method)
-
 # parse configuration file
 class MyParser(ConfigParser.ConfigParser):
     def as_dict(self):
@@ -172,11 +149,6 @@ def get_args(configFile):
     config = f.as_dict()
     
     #------------------------------------------------------------------------------
-    # read in the constants
-    c = {}
-    for v in config['constants']:
-        c[v] = float(config['constants'][v])
-
     # these are the default options
     options = {
         'time_step': 60,
@@ -190,8 +162,13 @@ def get_args(configFile):
         'z_u': 5.0,
         'z_t': 5.0,
         'z_g': 0.5,
-        'relative_heights': True
+        'relative_heights': True,
     }
+    
+    # read in the constants
+    c = {}
+    for v in config['constants']:
+        c[v] = float(config['constants'][v])
     options.update(c) # update the defult with any user values
     
     config['constants'] = options
@@ -242,15 +219,33 @@ def get_args(configFile):
     # check the output section
     config['output']['frequency'] = int(config['output']['frequency'])
     
+    # user has requested a point run from spatial data
+    point_run = False
+    if 'point_run' in config['inputs']:
+        point_run = True
+        point = config['inputs']['point_run'].split(',')
+        config['inputs']['point'] = tuple([int(i) for i in point])
+        
+        # will default to output a text file as does snobal
+        if 'out_filename' not in config['output']:
+            config['output']['out_filename'] = 'snobal.out'
+            
+        if 'output_mode' not in config['output']:
+            config['output']['output_mode'] = 'data'
+    else:
+        config['output']['output_mode'] = 'data'
+        config['output']['out_filename'] = None
+        config['inputs']['point'] = None
+    
     try:
         config['output']['nthreads'] = int(config['output']['nthreads'])
     except:
         config['output']['nthreads'] = None
         
-    return config
+    return config, point_run
 
 
-def get_tstep_info(options):
+def get_tstep_info(options, config):
     """
     Parse the options dict, set the default values if not specified
     May need to divide tstep_info and params up into different
@@ -291,17 +286,17 @@ def get_tstep_info(options):
     tstep_info[SMALL_TSTEP]['intervals'] = int(med_tstep_min / small_tstep_min)
     
     # output
-#     if options['O'] == 'data':
-#         tstep_info[DATA_TSTEP]['output'] = DIVIDED_TSTEP
-#     elif options['O'] == 'normal':
-#         tstep_info[NORMAL_TSTEP]['output'] = WHOLE_TSTEP | DIVIDED_TSTEP
-#     elif options['O'] == 'all':
-#         tstep_info[NORMAL_TSTEP]['output'] = WHOLE_TSTEP
-#         tstep_info[MEDIUM_TSTEP]['output'] = WHOLE_TSTEP
-#         tstep_info[SMALL_TSTEP]['output'] = WHOLE_TSTEP
-#     else:
-#         tstep_info[DATA_TSTEP]['output'] = DIVIDED_TSTEP
-    tstep_info[DATA_TSTEP]['output'] = DIVIDED_TSTEP
+    if config['output']['output_mode'] == 'data':
+        tstep_info[DATA_TSTEP]['output'] = DIVIDED_TSTEP
+    elif config['output']['output_mode'] == 'normal':
+        tstep_info[NORMAL_TSTEP]['output'] = WHOLE_TSTEP | DIVIDED_TSTEP
+    elif config['output']['output_mode'] == 'all':
+        tstep_info[NORMAL_TSTEP]['output'] = WHOLE_TSTEP
+        tstep_info[MEDIUM_TSTEP]['output'] = WHOLE_TSTEP
+        tstep_info[SMALL_TSTEP]['output'] = WHOLE_TSTEP
+    else:
+        tstep_info[DATA_TSTEP]['output'] = DIVIDED_TSTEP
+#     tstep_info[DATA_TSTEP]['output'] = DIVIDED_TSTEP
     
     # mas thresholds for run timesteps
     threshold = DEFAULT_NORMAL_THRESHOLD
@@ -325,8 +320,9 @@ def get_tstep_info(options):
 #     params['mh_filename'] = options['h']
 #     params['in_filename'] = options['i']
 #     params['pr_filename'] = options['p']
-    params['out_filename'] = None
-#     params['out_file'] = open(params['out_filename'], 'w')
+    params['out_filename'] = config['output']['out_filename']
+    if params['out_filename'] is not None:
+        params['out_file'] = open(params['out_filename'], 'w')
     params['stop_no_snow'] = options['c']
     params['temps_in_C'] = options['K']
     params['relative_heights'] = options['relative_heights']
@@ -567,7 +563,7 @@ def output_timestep(s, tstep, options):
     options['output']['em'].sync()
     
     
-def get_timestep(force, tstep):
+def get_timestep(force, tstep, point=None):
     """
     Pull out a time step from the forcing files and 
     place that time step into a dict
@@ -590,8 +586,13 @@ def get_timestep(force, tstep):
                           calendar=force[f].variables['time'].calendar,
                           select='exact')
         
-        # pull out the value        
-        inpt[map_val[f]] = force[f].variables[f][t,:].astype(np.float64)
+        # pull out the value    
+        if point is None:
+            inpt[map_val[f]] = force[f].variables[f][t,:].astype(np.float64)
+        else:
+            inpt[map_val[f]] = np.atleast_2d(force[f].variables[f][t,point[0], point[1]].astype(np.float64))
+        
+            
     
     # convert from C to K
     inpt['T_a'] += FREEZE
@@ -799,19 +800,33 @@ def main(configFile):
     """
     
     # parse the input arguments
-    options = get_args(configFile)
+    options, point_run = get_args(configFile)
     
     # get the timestep info
-    params, tstep_info = get_tstep_info(options['constants'])
+    params, tstep_info = get_tstep_info(options['constants'], options)
 
     # open the files and read in data
     init, force = open_files(options)
+    
+    point = None
+    if point_run:
+        print('Running ipysnobal at a point...')
+        point = options['inputs']['point']
+        for i in init.keys():
+            if i == 'x':
+                init['x'] = np.atleast_2d(init['x'][point[1]])
+            elif i == 'y':
+                init['y'] = np.atleast_2d(init['y'][point[0]])
+            else:
+                init[i] = np.atleast_2d(init[i][point])
+        
     
     # initialize
     s = initialize(params, tstep_info, options['constants'], init)
     
     # create the output files
-    output_files(options, init)
+    if not point_run:
+        output_files(options, init)
     
     # create a pool if needed
 #     pool = None
@@ -823,13 +838,18 @@ def main(configFile):
     # do_data_tstep needs two input records so only go 
     # to the last record-1
     
-    input1 = get_timestep(force, options['time']['date_time'][0])
+    input1 = get_timestep(force, options['time']['date_time'][0], point)
+#     if point_run:
+#         input1 = {i: np.atleast_2d(input1[i][point]) for i in input1.keys()}
     
     pbar = progressbar.ProgressBar(max_value=len(options['time']['date_time'])-1)
     j = 0
     for tstep in options['time']['date_time'][1:-1]:
         
-        input2 = get_timestep(force, tstep)
+        input2 = get_timestep(force, tstep, point)
+        
+#         if point_run:
+#             input2 = {i: np.atleast_2d(input2[i][point]) for i in input2.keys()}
     
         s.do_data_tstep(input1, input2)
     
@@ -850,8 +870,9 @@ def main(configFile):
         input1 = input2.copy()
         
         # output at the frequency and the last time step
-        if (j % options['output']['frequency'] == 0) or (j == len(options['time']['date_time'])):
-            output_timestep(s, tstep, options)
+        if not point_run:
+            if (j % options['output']['frequency'] == 0) or (j == len(options['time']['date_time'])):
+                output_timestep(s, tstep, options)
         
         j += 1
         pbar.update(j)
