@@ -95,6 +95,12 @@ def hysat(pb, tb, L, h, g, m):
         return pb * np.power(tb/(tb + L * h), g * m/(RGAS * L * 1.e-3))
        
 
+def sati_2d(tk):
+    return sati_np(tk)
+
+def satw_2d(tk):
+    return satw_np(tk)
+
 def satw_np(tk):
     '''
     Saturation vapor pressure of water. from IPW satw but for a numpy array
@@ -216,6 +222,9 @@ def brutsaert(ta, l, ea, z, pa):
 
     return air_emiss
 
+
+def spec_hum_np(e, P):
+    return spec_hum(e, P)
 
 def spec_hum(e, P):
     """
@@ -535,7 +544,7 @@ def hle1 (press, ta, ts, za, ea, es, zq, u, zu, z0, errorCheck=True):
     return h, le, e, ier
 
 
-def efcon(k, t, p):
+def efcon(k, t, p, e):
     """
     calculates the effective thermal conductivity for a layer
     accounting for both conduction and vapor diffusion.
@@ -566,7 +575,7 @@ def efcon(k, t, p):
         lh[ind] = LH_SUB(t[ind])
 
     # set mixing ratio from layer temp.
-    e = sati_np(t)
+#     e = sati_np(t)
     q = MIX_RATIO(e, p)
 
     # calculate effective layer conductivity

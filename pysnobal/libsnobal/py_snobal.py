@@ -511,15 +511,12 @@ class snobal(object):
         """
         
 #         print self.current_time/3600.0
-        if self.current_time/3600.0 > 1770.99:
+        if self.current_time/3600.0 > 686:
             self.curr_level
         
         self.time_step = tstep['time_step']
         self.tstep_level = tstep['level']
-        
-        
-        self.input1['e_g'] = libsnobal.sati_2d(self.input1['T_g'])
-        
+                
         # get the current time step precip
 #         if self.precip_now:
             
@@ -529,6 +526,9 @@ class snobal(object):
         # is there snowcover?
         self.snowcover = self.snow.layer_count > 0
         self.snowcover_domain = np.any(self.snowcover)
+        
+        if self.snowcover_domain:
+            self.input1['e_g'] = libsnobal.sati_2d(self.input1['T_g'])
         
         # Calculate energy transfer terms
         self.e_bal()
@@ -686,8 +686,11 @@ class snobal(object):
         
 #         if (not self.snowcover) or (self.snow.layer_count == 0):
         if not self.snowcover_domain:
-            self.em.ro_predict = self.snow.h2o_total
+            self.em.ro_predict[:] = self.snow.h2o_total
             return
+        
+        # reset the runoff
+        self.em.ro_predict[~self.snowcover] = self.snow.h2o_total[~self.snowcover]
         
         # Determine the snow density without any water, and the maximum
         # liquid water the snow can hold.

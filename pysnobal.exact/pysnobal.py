@@ -109,7 +109,7 @@ def get_args(argv):
 #     print 'Output file is "', outputfile
 
     options = {
-        'z': 2073.99584961,
+        'z': 2070.99829102,
         't': 60,
         'm': 0.01,
         'd': DEFAULT_MAX_Z_S_0,

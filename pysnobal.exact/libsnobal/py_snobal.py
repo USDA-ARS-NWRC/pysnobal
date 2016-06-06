@@ -5,6 +5,7 @@ Class snobal() that will hold all the modeling components
 """
 
 import libsnobal
+# import py_libsnobal as libsnobal
 import numpy as np
 # import pandas as pd
 import warnings
@@ -425,7 +426,7 @@ class snobal(object):
             
         """
         
-        if self.current_time/3600.0 > 1770.99:
+        if self.current_time/3600.0 > 1688.99:
             self.curr_level
         
         self.time_step = tstep['time_step']
@@ -1228,6 +1229,8 @@ class snobal(object):
             rel_z_u = self.z_u - self.snow.z_s
         
         # calculate H & L_v_E
+#         (rel_z_T, self.z_0, self.input1.T_a, self.snow.T_s_0, self.input1.e_a, e_s, self.input1.u, 0.0)
+#         (rel_z_T, rel_z_u, self.z_0, self.input1.T_a, self.snow.T_s_0, self.input1.e_a, e_s, self.input1.u, 0.0)
         H, L_v_E, E, status = libsnobal.hle1(self.P_a, self.input1.T_a, self.snow.T_s_0, rel_z_T, \
                                              self.input1.e_a, e_s, rel_z_T, self.input1.u, rel_z_u, self.z_0)
         if status != 0:
