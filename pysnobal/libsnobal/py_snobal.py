@@ -145,7 +145,7 @@ class snobal(object):
         self.elevation = snow_prop['z']
         
         self.P_a = libsnobal.hysat(libsnobal.SEA_LEVEL, libsnobal.STD_AIRTMP, 
-                                   libsnobal.STD_LAPSE, (self.elevation / 1000.0),
+                                   libsnobal.STD_LAPSE, self.elevation / 1000.0,
                                    libsnobal.GRAVITY, libsnobal.MOL_AIR)
         
         self.shape = self.elevation.shape
@@ -420,11 +420,11 @@ class snobal(object):
         
         # get the input deltas
         curr_lvl_deltas = self.input_deltas[self.curr_level]
-        next_lvl_deltas = self.input_deltas[self.next_level]
+#         next_lvl_deltas = self.input_deltas[self.next_level]
         
         # get the precip info
         curr_lvl_precip = self.precip_info[self.curr_level]
-        next_lvl_precip = self.precip_info[self.next_level]
+#         next_lvl_precip = self.precip_info[self.next_level]
         
         
         # If this is the first time this new level has been used during
@@ -685,12 +685,12 @@ class snobal(object):
         # then all water (e.g., rain) is runoff.
         
 #         if (not self.snowcover) or (self.snow.layer_count == 0):
+        # runoff where there isn't snow
+        self.em.ro_predict[:] = self.snow.h2o_total
         if not self.snowcover_domain:
-            self.em.ro_predict[:] = self.snow.h2o_total
+#             self.em.ro_predict[:] = self.snow.h2o_total
             return
         
-        # reset the runoff
-        self.em.ro_predict[~self.snowcover] = self.snow.h2o_total[~self.snowcover]
         
         # Determine the snow density without any water, and the maximum
         # liquid water the snow can hold.
@@ -698,7 +698,7 @@ class snobal(object):
         rho_dry = m_s_dry / self.snow.z_s
         self.snow.h2o_max = H2O_LEFT(self.snow.z_s, rho_dry, self.snow.max_h2o_vol)
         # not necessary since z_s will be zero when no snow
-#         self.snow.h2o_max[~self.snowcover] = 0  # reset values that don't have snow
+        self.snow.h2o_max[~self.snowcover] = 0  # reset values that don't have snow
         
         # Determine runoff
         runoff = self.snow.h2o_total > self.snow.h2o_max
@@ -1242,7 +1242,7 @@ class snobal(object):
             self.snow.h2o_total[ind] += self.snow.m_s[ind]
             
             # reset some values back to zero
-            index = ['h2o', 'h2o_max', 'h2o_total', 'h2o_vol', 'm_s', 'm_s_0', 'rho']
+            index = ['h2o', 'h2o_max', 'h2o_vol', 'm_s', 'm_s_0', 'rho']
             self.snow.set_value(index, ind, 0)
             
             # Note: Snow temperatures are set to MIN_SNOW_TEMP

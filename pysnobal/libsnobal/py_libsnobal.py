@@ -6,7 +6,7 @@ The Snobal 'library' which is a collection of functions to run the model
 
 import numpy as np
 # import numpy.ma as ma
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 FREEZE = 273.16         # freezing temp K
 BOIL = 373.15           # boiling temperature K
@@ -386,6 +386,9 @@ def hle1_grid(press, ta, ts, za, ea, es, zq, u, zu, z0, mask=None):
     # iterate over the array and apply hle1()
     for index,val in np.ndenumerate(ta):
         if mask[index]:
+#             print index
+#             if (index[0] == 50) & (index[1] == 10):
+#                 print (za[index], zu[index], z0[index], ta[index], ts[index], ea[index], es[index], u[index], 0.0)
             h, le, e, ier = hle1 (press[index], ta[index], ts[index], 
                                   za[index], ea[index], es[index], 
                                   zq[index], u[index], zu[index], 
