@@ -79,7 +79,7 @@ cdef double LH_SUB (double t):
     return LH_VAP(t) + LH_FUS(t)
 
 # mixing ratio
-cdef MIX_RATIO (np.ndarray[DTYPE_t, ndim=2] e, np.ndarray[DTYPE_t, ndim=2] P): 
+cdef MIX_RATIO (np.ndarray[DTYPE_t] e, np.ndarray[DTYPE_t] P): 
     return (c_MOL_H2O/c_MOL_AIR) * e/(P - e)
 
 # effectuve diffusion coefficient (m^2/sec) for saturated porous layer
@@ -308,7 +308,7 @@ cpdef double spec_hum(double e, double P):
     return e * c_MOL_H2O / (c_MOL_AIR * P + e * (c_MOL_H2O - c_MOL_AIR))
 
 
-def spec_hum_np(np.ndarray[DTYPE_t, ndim=2] e, np.ndarray[DTYPE_t, ndim=2] P):
+def spec_hum_np(np.ndarray[DTYPE_t] e, np.ndarray[DTYPE_t] P):
     """
     specific humidity from vapor pressure
  
@@ -356,11 +356,11 @@ cdef double psi(double zeta, int code):
 
 
 # @profile
-def hle1_grid(np.ndarray[DTYPE_t, ndim=2] press, np.ndarray[DTYPE_t, ndim=2] ta, \
-              np.ndarray[DTYPE_t, ndim=2] ts, np.ndarray[DTYPE_t, ndim=2] za, \
-              np.ndarray[DTYPE_t, ndim=2] ea, np.ndarray[DTYPE_t, ndim=2] es, \
-              np.ndarray[DTYPE_t, ndim=2] zq, np.ndarray[DTYPE_t, ndim=2] u, \
-              np.ndarray[DTYPE_t, ndim=2] zu, np.ndarray[DTYPE_t, ndim=2] z0, mask=None):
+def hle1_grid(np.ndarray[DTYPE_t] press, np.ndarray[DTYPE_t] ta, \
+              np.ndarray[DTYPE_t] ts, np.ndarray[DTYPE_t] za, \
+              np.ndarray[DTYPE_t] ea, np.ndarray[DTYPE_t] es, \
+              np.ndarray[DTYPE_t] zq, np.ndarray[DTYPE_t] u, \
+              np.ndarray[DTYPE_t] zu, np.ndarray[DTYPE_t] z0, mask=None):
     """
     computes sensible and latent heat flux and mass flux given
     measurements of temperature and specific humidity at surface
@@ -396,10 +396,10 @@ def hle1_grid(np.ndarray[DTYPE_t, ndim=2] press, np.ndarray[DTYPE_t, ndim=2] ta,
     cdef int nx = press.shape[1]
     cdef int ier
     
-    cdef np.ndarray H = np.zeros([ny, nx], dtype=DTYPE)
-    cdef np.ndarray LE = np.zeros([ny, nx], dtype=DTYPE)
-    cdef np.ndarray E = np.zeros([ny, nx], dtype=DTYPE)
-    cdef np.ndarray M = np.zeros([ny, nx], dtype=bool)
+    cdef np.ndarray H = np.zeros_like(press, dtype=DTYPE)
+    cdef np.ndarray LE = np.zeros_like(press, dtype=DTYPE)
+    cdef np.ndarray E = np.zeros_like(press, dtype=DTYPE)
+    cdef np.ndarray M = np.zeros_like(press, dtype=bool)
     
 #     H = np.zeros_like(press)
 #     LE = np.zeros_like(press)
@@ -584,10 +584,10 @@ def hle1 (double press, double ta, double ts, double za, double ea, \
 @cython.boundscheck(False)
 @cython.wraparound(False)
 @cython.cdivision(True)
-cpdef np.ndarray efcon(np.ndarray[DTYPE_t, ndim=2] k, \
-                       np.ndarray[DTYPE_t, ndim=2] t, \
-                       np.ndarray[DTYPE_t, ndim=2] p, \
-                       np.ndarray[DTYPE_t, ndim=2] ea):
+cpdef np.ndarray efcon(np.ndarray[DTYPE_t] k, \
+                       np.ndarray[DTYPE_t] t, \
+                       np.ndarray[DTYPE_t] p, \
+                       np.ndarray[DTYPE_t] ea):
     """
     calculates the effective thermal conductivity for a layer
     accounting for both conduction and vapor diffusion.
@@ -610,12 +610,17 @@ cpdef np.ndarray efcon(np.ndarray[DTYPE_t, ndim=2] k, \
     cdef int i, j
     cdef double val
     
-    cdef np.ndarray[DTYPE_t, ndim=2] de = np.zeros([ny, nx], dtype=DTYPE)
-#     cdef np.ndarray[np.uint8_t, ndim=2, cast=True] ind = np.zeros([ny, nx], dtype=np.uint8)
-    cdef np.ndarray[DTYPE_t, ndim=2] lh = np.zeros([ny, nx], dtype=DTYPE)
-    cdef np.ndarray[DTYPE_t, ndim=2] e = np.zeros([ny, nx], dtype=DTYPE)
-    cdef np.ndarray[DTYPE_t, ndim=2] q = np.zeros([ny, nx], dtype=DTYPE)
-#     cdef np.ndarray[DTYPE_t, ndim=2] K = np.ones([ny, nx], dtype=DTYPE)
+    cdef np.ndarray[DTYPE_t] de = np.zeros_like(k)
+    cdef np.ndarray[DTYPE_t] lh = np.zeros_like(k)
+    cdef np.ndarray[DTYPE_t] e = np.zeros_like(k)
+    cdef np.ndarray[DTYPE_t] q = np.zeros_like(k)
+    
+#     cdef np.ndarray[DTYPE_t] de = np.zeros_like(k, dtype=DTYPE)
+#     cdef np.ndarray[DTYPE_t] lh = np.zeros_like(k, dtype=DTYPE)
+#     cdef np.ndarray[DTYPE_t] e = np.zeros_like(k, dtype=DTYPE)
+#     cdef np.ndarray[DTYPE_t] q = np.zeros_like(k, dtype=DTYPE)
+    #     cdef np.ndarray[np.uint8_t, cast=True] ind = np.zeros([ny, nx], dtype=np.uint8)
+#     cdef np.ndarray[DTYPE_t] K = np.ones([ny, nx], dtype=DTYPE)
 #     cdef np.ndarray SL = np.ones([ny, nx], dtype=DTYPE)
     
 #     K = k * K
@@ -640,14 +645,14 @@ cpdef np.ndarray efcon(np.ndarray[DTYPE_t, ndim=2] k, \
 #         i = index[0]
 #         j = index[1]
     for i in range(ny):
-        for j in range(nx):
-            val = t[i,j]
-            if val > FREEZE:
-                lh[i,j] = LH_VAP(val)
-            elif val < FREEZE:
-                lh[i,j] = LH_SUB(val)
-            else:
-                lh[i,j] = (LH_VAP(val) + LH_SUB(val)) / 2.0
+#         for j in range(nx):
+        val = t[i]
+        if val > FREEZE:
+            lh[i] = LH_VAP(val)
+        elif val < FREEZE:
+            lh[i] = LH_SUB(val)
+        else:
+            lh[i] = (LH_VAP(val) + LH_SUB(val)) / 2.0
 
     # set mixing ratio from layer temp.
 #     e = sati_2d(t)

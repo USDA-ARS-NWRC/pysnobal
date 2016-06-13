@@ -10,8 +10,9 @@ import numpy as np
 import numpy.ma as ma
 # import pandas as pd
 import warnings
-from copy import copy
+from copy import copy, deepcopy
 import matplotlib.pyplot as plt
+
 
 # Some constants and equations
 WHOLE_TSTEP = 0x1 # output when tstep is not divided
@@ -138,29 +139,39 @@ class snobal(object):
         
         # check for a mask
         self.mask = None
-#         if 'mask' in snow_prop.keys():
-#             self.mask = snow_prop['mask'].astype(np.bool)
+        if 'mask' in snow_prop.keys():
+            self.mask = snow_prop['mask'].astype(np.bool)
         
 #         self.elevation = ma.masked_array(snow_prop['z'], mask=self.mask)
         self.elevation = snow_prop['z']
         
-        self.P_a = libsnobal.hysat(libsnobal.SEA_LEVEL, libsnobal.STD_AIRTMP, 
+        self.gridded_P_a = libsnobal.hysat(libsnobal.SEA_LEVEL, libsnobal.STD_AIRTMP, 
                                    libsnobal.STD_LAPSE, self.elevation / 1000.0,
                                    libsnobal.GRAVITY, libsnobal.MOL_AIR)
         
         self.shape = self.elevation.shape
         self.ngrid = np.prod(self.shape)
-        self.zeros = np.zeros(self.shape)
+#         self.zeros = np.zeros(self.shape)
         
         # get the intial snowcover properties
         self.snow_records = snow_prop
         self.get_sn_rec(True)
         
+        # intialize em/snow that will be the size of the grid, but will vary based
+        # on what time step is being processed
         # initialize the em
         self.init_em()
         
         # initialize the snowcover
         self.init_snow(True)
+        
+        # now copy these into a new instance that will store the full model states
+        # so that self.snow/self.em can be used to work with the data time step
+        # subsets
+        self.gridded_snow = deepcopy(self.snow)
+        self.gridded_em = deepcopy(self.em)
+        
+        # initialize the 
                 
         # initialize the precip for the time step
 #         self.init_precip()
@@ -187,7 +198,7 @@ class snobal(object):
             self.precip_info[level] = {}
         
         
-        self.time_since_out = 0
+        self.time_since_out = np.zeros(self.shape)
         
         # set some attributes
         self.isothermal = np.zeros(self.shape, dtype=bool)
@@ -240,52 +251,54 @@ class snobal(object):
         
 #         print '%.2f' % (self.current_time/3600.0)
 
-        if self.current_time/3600.0 > 688:
-            self.curr_level
+#         if self.current_time/3600.0 > 688:
+#             self.curr_level
         
         # store the inputs for later
-        self.input1 = input1
-        self.input2 = input2
+        self.input1 = {}
+        self.input2 = {}
+        self.gridded_input1 = input1.copy()
+        self.gridded_input2 = input2.copy()
         
         # Compute deltas for the climate input parameters over the data timestep.
-        for i in input1.keys():
-            self.input_deltas[DATA_TSTEP][i] = input2[i] - input1[i] 
+#         for i in input1.keys():
+#             self.input_deltas[DATA_TSTEP][i] = input2[i] - input1[i] 
 #         self.input_deltas[DATA_TSTEP] = input2.subtract(input1)
         
         # If there is precipitation, then compute the amount of rain & snow in it.
         # Look at the first input record
-        pp_info = self.init_precip()
-        self.precip_now = np.zeros_like(self.elevation, dtype=bool)
+#         self.precip = self.init_precip()
+#         self.precip_now = np.zeros_like(self.elevation, dtype=bool)
         
         # this precip will hold the temperatures and such, set to zero initially
 #         self.precip = {key: 0.0 for key in ['T_rain','T_snow','h2o_sat_snow']}
-        self.precip = EmptyClass(['T_rain','T_snow','h2o_sat_snow'], self.shape)
+#         self.precip = EmptyClass(['T_rain','T_snow','h2o_sat_snow'], self.shape)
+        self.precip = self.init_precip()
         
-        # fill precip info with empty classes
-        for level in range(DATA_TSTEP, SMALL_TSTEP+1):
-            self.precip_info[level] = self.init_precip()
+#         # fill precip info with empty classes
+#         for level in range(DATA_TSTEP, SMALL_TSTEP+1):
+#             self.precip_info[level] = self.init_precip()
         
         # check to see if there is precipitation
         precip = input1['m_pp'] > 0
         if np.any(precip):
             
-            self.precip_now = precip
+            self.precip.now = precip
+            self.precip.m_pp = input1['m_pp']
+            self.precip.m_snow = input1['m_pp'] * input1['percent_snow']
+            self.precip.m_rain = input1['m_pp'] - self.precip.m_snow
             
-            pp_info.m_pp = input1['m_pp']
-            pp_info.m_snow = input1['m_pp'] * input1['percent_snow']
-            pp_info.m_rain = input1['m_pp'] - pp_info.m_snow
-            
-            ind = pp_info.m_snow > 0
+            ind = self.precip.m_snow > 0
             if np.any(ind):
                 if np.any(input1['rho_snow'][ind] > 0):
-                    pp_info.z_snow[ind] = pp_info.m_snow[ind] / input1['rho_snow'][ind]
+                    self.precip.z_snow[ind] = self.precip.m_snow[ind] / input1['rho_snow'][ind]
                 else:
                     raise ValueError('input1["rho_snow"] is <= 0.0 with input1["percent_snow"] > 0.0')
              
             # partion the precip based on the pixels m_snow and m_rain   
             
-            rain = pp_info.m_rain > 0 
-            snow = pp_info.m_snow > 0
+            rain = self.precip.m_rain > 0 
+            snow = self.precip.m_snow > 0
             
             snow_only = snow & ~rain
             rain_only = ~snow & rain
@@ -316,7 +329,8 @@ class snobal(object):
             self.precip.T_rain[self.precip.T_rain < FREEZE] = FREEZE
                 
                     
-        self.precip_info[DATA_TSTEP] = pp_info
+        self.gridded_precip = deepcopy(self.precip)
+#         self.precip_info[DATA_TSTEP] = self.precip
                 
         # Clear the 'computed' flag at the other timestep levels.
         for level in range(DATA_TSTEP, SMALL_TSTEP+1):
@@ -325,7 +339,7 @@ class snobal(object):
     
         #Divide the data timestep into normal run timesteps.
         self.curr_level = DATA_TSTEP   # keeps track of what time step level the model is on
-        self.divide_tstep_exact() 
+        self.divide_tstep() 
      
      
     def below_thold_grid(self, threshold):
@@ -350,29 +364,199 @@ class snobal(object):
             (self.snow.m_s_l[self.snow.z_s_l > 0] < threshold)
            
     
+    
+    def copy_gridded(self, index, steps=None):
+        """
+        Copy from self.gridded* to self.snow and self.em
+        """
+        
+        # snow
+        for key in self.snow.keys:
+            setattr(self.snow, key, getattr(self.gridded_snow, key)[index])
+        self.snow.shape = self.snow.m_s.shape
+            
+        # em
+        for key in self.em.keys:
+            setattr(self.em, key, getattr(self.gridded_em, key)[index])
+        self.em.shape = self.em.cc_s.shape 
+            
+        # input1
+        for key in self.gridded_input1.keys():
+            self.input1[key] = self.gridded_input1[key][index]       
+        
+        # input2
+        for key in self.gridded_input2.keys():
+            self.input2[key] = self.gridded_input2[key][index]
+        
+        # precip
+        for key in self.gridded_precip.keys:
+            setattr(self.precip, key, getattr(self.gridded_precip, key)[index])
+            
+        # precip is a little funky since part of it needs to be divided up
+        if steps is not None:
+            for key in ['m_pp','m_snow','m_rain','z_snow']:
+                setattr(self.precip, key, getattr(self.gridded_precip, key)[index]/steps)
+        self.precip_now = self.precip.m_pp > 0
+        
+        # measurement heights
+        for key in self.gridded_mh.keys():
+            if key != 'time_z':
+                setattr(self, key, self.gridded_mh[key][index])
+                
+        # get the P_a
+        self.P_a = self.gridded_P_a[index]
+        
+        
+    def copy_working(self, index):
+        """
+        Copy the working subset back into the gridded
+        Have to use some numpy trickery to index back into gridded_*
+        """
+        
+        # snow
+        for key in self.snow.keys:
+            v = getattr(self.gridded_snow, key) # this creates a reference to the class attribute
+            v[index] = getattr(self.snow, key)  # update the reference
+            
+        # em
+        for key in self.em.keys:
+            v = getattr(self.gridded_em, key) # this creates a reference to the class attribute
+            v[index] = getattr(self.em, key)  # update the reference
+        
+        if self.tstep_level > NORMAL_TSTEP:
+            # input1
+            for key in self.gridded_input1.keys():
+                self.gridded_input1[key][index] = self.input1[key]     
+            
+            # input2
+            for key in self.gridded_input2.keys():
+                self.gridded_input2[key][index] = self.input2[key]
+            
+            # precip
+#             for key in self.gridded_precip.keys:
+#                 v = getattr(self.gridded_precip, key) # this creates a reference to the class attribute
+#                 v[index] = getattr(self.precip, key)  # update the reference
+                            
+    
+    def divide_inputs(self, index, steps):
+        """
+        Divide the inputs into the intervals
+        """
+        
+        # Compute deltas for the climate input parameters over the data timestep.
+        self.input_deltas = {}
+        for i in self.gridded_input1.keys():
+            self.input_deltas[i] = (self.gridded_input2[i][index] - self.gridded_input1[i][index]) / steps 
+        
+#         for key in ['m_pp','m_snow','m_rain','z_snow']:
+#             setattr(self.precip, key, getattr(self.gridded_, key)[index]/steps)
+        
+    
+    def calc_levels(self):
+        """
+        Calculate the levels at which each pixel will be calculated
+        """    
+        
+        bins = [self.tstep_info[1]['threshold'],
+                self.tstep_info[2]['threshold']]
+        
+        level_0 = np.digitize(self.gridded_snow.m_s_0, bins) + 1
+        level_l = np.digitize(self.gridded_snow.m_s_l, bins) + 1
+        level_l[self.gridded_snow.layer_count < 2] = 1   # if no snow in lower layer, normal timestep
+        
+        level = np.maximum.reduce([level_0, level_l])
+        level[self.gridded_snow.m_s == 0] = 1    # if there is no snow, then normal timestep
+        
+        return level
+            
+    
     def divide_tstep(self):
         """
         This routine divides the data timestep into the appropriate number
         of normal run timesteps.  The input values for each normal timestep
         are computed from the two input records by linear interpolation.
         
-        However, the time step will be divided at various intervals across
-        the 
+        self.gridded_snow and self.gridd_em hold the full data that was 
+        provided to isnobal and will be used as the location to store the
+        model state.  self.snow and self.em are the working datasets that
+        will be subsetted from gridded based on the mass thresholds.
+        
+        Steps:
+        1. Determine what level each pixel is at
+        2. do_tstep for the normal time step
+        3. if non normal time step
+        3.1 Each medium time step, calculate the input_deltas for the entire timestep
+            i.e. medium input/15 or small input/60
+        3.2 update_inputs will add deltas to input to ensure that it's always current
+        
         """
         
+#         print np.max(self.current_time)/3600.0
+        if np.max(self.current_time)/3600.0 > 1687:
+            self.curr_level
+                      
         # determine the levels at which each pixel will be calculated
         # the level number will indicate how many steps to take 
-        level = np.ones(self.shape)
+        level = self.calc_levels()
         
-        for lvl in range(DATA_TSTEP+1, SMALL_TSTEP+1):
-            ind = (self.snow.m_s_0[self.snow.m_s_0 > 0] < self.tstep_info[lvl]['threshold']) | \
-            (self.snow.m_s_l[self.snow.z_s_l > 0] < self.tstep_info[lvl]['threshold'])
-            
-            level[ind] = lvl
-            
+        ############################################################
+        # no snow and normal tstep
+        ind = level == NORMAL_TSTEP
+        if self.mask is not None:
+            ind = ind & self.mask   # the mask here will ensure that the mask is propigated down
+        
+        if np.any(ind):
+            self.do_tstep(self.tstep_info[NORMAL_TSTEP], ind, None)
+           
     
-        level
-    
+        ############################################################
+        # medium and small tstep
+        # 
+        ind = level >= MEDIUM_TSTEP
+            
+        if np.any(ind):
+#             self.current_time = prev_time # reset the time to the start of the time step
+            
+            # do the medium time step first
+            med_interval = self.tstep_info[MEDIUM_TSTEP]['intervals']
+            for i in range(med_interval):
+                
+                # since gridded_input1 is updated after every time step, have to futher subdivide
+                # based on how many steps are left    
+                med_steps_left = med_interval - i
+                sm_interval = self.tstep_info[SMALL_TSTEP]['intervals']
+                sm_steps_left = sm_interval * med_steps_left
+                
+                # do the medium time step
+                med_ind = level == MEDIUM_TSTEP
+                if np.any(med_ind):
+                    self.divide_inputs(med_ind, med_steps_left)
+                    self.do_tstep(self.tstep_info[MEDIUM_TSTEP], med_ind, med_interval)
+                
+                # do the small time step
+                sm_ind = level == SMALL_TSTEP
+                if np.any(sm_ind):
+                    self.divide_inputs(sm_ind, sm_steps_left)
+                    for j in range(sm_interval):
+                        self.do_tstep(self.tstep_info[SMALL_TSTEP], sm_ind, sm_interval*med_interval)
+                 
+                # update the levels
+                prev_level = level.copy()
+                level = self.calc_levels()
+                lvl_ind = (prev_level != 1) & (level == 1)
+                if np.any(lvl_ind):
+                    # if we are in the middle of the small/med timestep and it goes up
+                    # to the normal_tstep, then keep at medium tstep to finsh out the time step
+                    level[lvl_ind] = MEDIUM_TSTEP
+                            
+            # Output if this timestep is divided?
+            # does a bitwise AND comparison
+#         if self.tstep_info[self.curr_level]['output'] & DIVIDED_TSTEP:
+# #             print '%.2f output divided tstep' % (self.current_time/3600.0)
+#             self.output()
+        self.time_since_out = np.zeros(self.shape)
+        
+        
     
     
     
@@ -440,7 +624,7 @@ class snobal(object):
             for k in curr_lvl_deltas.keys():
                 self.input_deltas[self.next_level][k] = curr_lvl_deltas[k] / float(next_lvl_tstep['intervals'])
             
-            if np.any(self.precip_now):
+            if np.any(self.precip.now):
 #                 next_lvl_precip = curr_lvl_precip / next_lvl_tstep['intervals']
 #                 self.precip_info[self.next_level] = next_lvl_precip.copy()
                 for k in curr_lvl_precip.keys:
@@ -480,7 +664,7 @@ class snobal(object):
         
         
 #     @profile
-    def do_tstep(self, tstep):
+    def do_tstep(self, tstep, index, step):
         """
         This routine performs the model's calculations for a single timestep.
         It requires that these climate variables have been initialized:
@@ -511,8 +695,11 @@ class snobal(object):
         """
         
 #         print self.current_time/3600.0
-        if self.current_time/3600.0 > 686:
-            self.curr_level
+#         if self.current_time/3600.0 > 686:
+#             self.curr_level
+            
+        # copy the working subset for    
+        self.copy_gridded(index, step)
         
         self.time_step = tstep['time_step']
         self.tstep_level = tstep['level']
@@ -528,7 +715,7 @@ class snobal(object):
         self.snowcover_domain = np.any(self.snowcover)
         
         if self.snowcover_domain:
-            self.input1['e_g'] = libsnobal.sati_2d(self.input1['T_g'])
+            self.input1['e_g'] = libsnobal.sati_np(self.input1['T_g'])
         
         # Calculate energy transfer terms
         self.e_bal()
@@ -538,21 +725,22 @@ class snobal(object):
         
         # Update the averages for the energy terms and the totals for mass
         # changes since the last output.
-        if self.time_since_out > 0:
-            self.em.R_n_bar[:] = TIME_AVG(self.em.R_n_bar, self.time_since_out, self.em.R_n, self.time_step)
-            self.em.H_bar[:] = TIME_AVG(self.em.H_bar, self.time_since_out, self.em.H, self.time_step)
-            self.em.L_v_E_bar[:] = TIME_AVG(self.em.L_v_E_bar, self.time_since_out, self.em.L_v_E, self.time_step)
-            self.em.G_bar[:] = TIME_AVG(self.em.G_bar, self.time_since_out, self.em.G, self.time_step)
-            self.em.M_bar[:] = TIME_AVG(self.em.M_bar, self.time_since_out, self.em.M, self.time_step)
-            self.em.delta_Q_bar[:] = TIME_AVG(self.em.delta_Q_bar, self.time_since_out, self.em.delta_Q, self.time_step)
-            self.em.G_0_bar[:] = TIME_AVG(self.em.G_0_bar, self.time_since_out, self.em.G_0, self.time_step)
-            self.em.delta_Q_0_bar[:] = TIME_AVG(self.em.delta_Q_0_bar, self.time_since_out, self.em.delta_Q_0, self.time_step)
+        if np.any(self.time_since_out[index] > 0):
+            tindx = self.time_since_out[index]
+            self.em.R_n_bar[:] = TIME_AVG(self.em.R_n_bar, tindx, self.em.R_n, self.time_step)
+            self.em.H_bar[:] = TIME_AVG(self.em.H_bar, tindx, self.em.H, self.time_step)
+            self.em.L_v_E_bar[:] = TIME_AVG(self.em.L_v_E_bar, tindx, self.em.L_v_E, self.time_step)
+            self.em.G_bar[:] = TIME_AVG(self.em.G_bar, tindx, self.em.G, self.time_step)
+            self.em.M_bar[:] = TIME_AVG(self.em.M_bar, tindx, self.em.M, self.time_step)
+            self.em.delta_Q_bar[:] = TIME_AVG(self.em.delta_Q_bar, tindx, self.em.delta_Q, self.time_step)
+            self.em.G_0_bar[:] = TIME_AVG(self.em.G_0_bar, tindx, self.em.G_0, self.time_step)
+            self.em.delta_Q_0_bar[:] = TIME_AVG(self.em.delta_Q_0_bar, tindx, self.em.delta_Q_0, self.time_step)
 
             self.em.E_s_sum += self.em.E_s
             self.em.melt_sum += self.em.melt
             self.em.ro_pred_sum += self.em.ro_predict
     
-            self.time_since_out += self.time_step
+            self.time_since_out[index] += self.time_step
             
         else:
             self.em.R_n_bar[:] = self.em.R_n
@@ -568,30 +756,43 @@ class snobal(object):
             self.em.melt_sum[:] = self.em.melt
             self.em.ro_pred_sum[:] = self.em.ro_predict
     
-            self.time_since_out = self.time_step
+            self.time_since_out[index] = self.time_step
             
-        # ensure that the mask is applied
-        if self.mask is not None:
-            self.em.set_zeros(~self.mask)
-            self.snow.set_zeros(~self.mask)    
+#         # ensure that the mask is applied
+#         if self.mask is not None:
+#             self.em.set_zeros(~self.mask)
+#             self.snow.set_zeros(~self.mask)    
         
         # increment time
-        self.current_time += self.time_step
+        self.current_time[index] += self.time_step
+        
+        # update the inputs
+        self.update_inputs()
+        
+        # put the working results back into gridded
+        self.copy_working(index)
         
         if tstep['output'] & WHOLE_TSTEP:
 #             print '%.2f output stuff here' % (self.current_time/3600.0)
             self.output()
-            self.time_since_out = 0.0
-            
-        # Update the model's input parameters
-        self.input1['S_n'] += self.input_deltas[tstep['level']]['S_n']
-        self.input1['I_lw'] += self.input_deltas[tstep['level']]['I_lw']
-        self.input1['T_a'] += self.input_deltas[tstep['level']]['T_a']
-        self.input1['e_a'] += self.input_deltas[tstep['level']]['e_a']
-        self.input1['u'] += self.input_deltas[tstep['level']]['u']
-        self.input1['T_g'] += self.input_deltas[tstep['level']]['T_g']
+            self.time_since_out[index] = 0.0
         
         return True
+        
+        
+    def update_inputs(self):
+        """
+        Update the model's input parameters
+        """
+        
+        if self.tstep_level > NORMAL_TSTEP:
+            self.input1['S_n'] += self.input_deltas['S_n']
+            self.input1['I_lw'] += self.input_deltas['I_lw']
+            self.input1['T_a'] += self.input_deltas['T_a']
+            self.input1['e_a'] += self.input_deltas['e_a']
+            self.input1['u'] += self.input_deltas['u']
+            self.input1['T_g'] += self.input_deltas['T_g']
+        
         
 #     @profile    
     def mass_bal(self):
@@ -718,7 +919,7 @@ class snobal(object):
             self.snow.h2o_vol[ind] = self.snow.h2o_sat[ind] * self.snow.max_h2o_vol[ind]
             
         # Update the snowcover's mass for the loss of runoff.
-        self.adj_snow(self.zeros, -self.em.ro_predict)
+        self.adj_snow(np.zeros(self.snow.shape), -self.em.ro_predict)
         
         
 #         if self.snow.h2o_total > self.snow.h2o_max:
@@ -786,7 +987,7 @@ class snobal(object):
             A = MAX_DENSITY - self.snow.rho
 #             if self.precip_now:
             # should always have a value for the precip even if it's all zeros
-            h2o_added = (self.em.melt + self.precip_info[self.tstep_level].m_rain) / self.snow.m_s
+            h2o_added = (self.em.melt + self.precip.m_rain) / self.snow.m_s
                 
 #             else:
 #                 h2o_added = self.em.melt / self.snow.m_s
@@ -875,11 +1076,11 @@ class snobal(object):
 #             T_bar[ind] = (self.input1['T_g'][ind] + self.snow.T_s_0[ind]) / 2.0
 
         # now calculate sati
-        e_s_l = libsnobal.sati_2d(T_s)
+        e_s_l = libsnobal.sati_np(T_s)
         
 
         q_s_l = libsnobal.spec_hum_np(e_s_l, self.P_a)
-#         e_g = libsnobal.sati_2d(self.input1['T_g'])
+#         e_g = libsnobal.sati_np(self.input1['T_g'])
         q_g = libsnobal.spec_hum_np(self.input1['e_g'], self.P_a)
 #         q_delta = q_g - q_s_l
         rho_air = libsnobal.GAS_DEN(self.P_a, libsnobal.MOL_AIR, T_bar)
@@ -905,7 +1106,7 @@ class snobal(object):
         # adj mass and depth for evap/cond
         ind = self.snow.layer_count > 0        
         if np.any(ind):
-            delta_z = np.zeros(self.shape)
+            delta_z = np.zeros(self.em.shape)
             delta_z[ind] = ((self.em.E_s[ind] + (prev_h2o_tot[ind] - self.snow.h2o_total[ind])) / self.snow.rho[ind]) / 2.0
             self.adj_snow( delta_z, self.em.E_s)
 
@@ -950,7 +1151,7 @@ class snobal(object):
         
 
         # layer count = 1
-        Q_l = np.zeros(self.shape)
+        Q_l = np.zeros(self.snow.shape)
 
         # calculate lower layer melt
         ind = self.snow.layer_count == 2
@@ -977,9 +1178,9 @@ class snobal(object):
      
         # adjust layers for re-freezing
         # adjust surface layer
-        h2o_refrozen = np.zeros(self.shape)
-        Q_freeze = np.zeros(self.shape)
-        Q_left = np.zeros(self.shape) 
+        h2o_refrozen = np.zeros(self.snow.shape)
+        Q_freeze = np.zeros(self.snow.shape)
+        Q_left = np.zeros(self.snow.shape) 
         
         cold = self.em.cc_s_0 < 0       # if the snowpack is cold
         water = self.snow.h2o_total > 0 # if there is liquid water
@@ -1024,7 +1225,7 @@ class snobal(object):
         self.snow.h2o_total[self.snow.h2o_total <= 1e-8] = 0
             
         # determine if snowcover is isothermal
-        self.isothermal = np.zeros(self.shape, dtype=bool)
+        self.isothermal = np.zeros(self.snow.shape, dtype=bool)
 #         iso_1lay = (self.snow.layer_count == 1) & (self.em.cc_s_0 == 0.0)
 #         iso_2lay = (self.snow.layer_count == 2) & (self.em.cc_s_0 == 0.0) & (self.em.cc_s_l == 0.0)
 #         self.isothermal[iso_1lay | iso_2lay] = True
@@ -1036,7 +1237,7 @@ class snobal(object):
             
         # adjust depth and density for melt
         if np.sum(self.em.melt) > 0:
-            self.adj_snow((-1)*self.em.melt/self.snow.rho, self.zeros)
+            self.adj_snow((-1)*self.em.melt/self.snow.rho, np.zeros(self.snow.shape))
             
         # set total cold content
 #         ind = self.snow.layer_count == 2
@@ -1055,17 +1256,17 @@ class snobal(object):
         snowcover.
         """
         
-        if np.any(self.precip_now):
+        if np.any(self.precip.now):
             if self.snowcover_domain:
                 # Adjust snowcover's depth and mass by snowfall's
                 # depth and the total precipitation mass.
-                self.adj_snow(self.precip_info[self.tstep_level].z_snow, self.precip_info[self.tstep_level].m_pp)
+                self.adj_snow(self.precip.z_snow, self.precip.m_pp)
             
                 # Determine the additional liquid water that's in
                 # the snowfall, and then add its mass to liquid
                 # water in the whole snowcover.
                 h2o_vol_snow = self.precip.h2o_sat_snow * self.snow.max_h2o_vol
-                self.snow.h2o += H2O_LEFT(self.precip_info[self.tstep_level].z_snow, 
+                self.snow.h2o += H2O_LEFT(self.precip.z_snow, 
                                           self.input1['rho_snow'],
                                           h2o_vol_snow)
                 
@@ -1073,7 +1274,7 @@ class snobal(object):
                 
                 # set the values from the initial snow properties
                 # [:] performs a quick deep copy since snow is already initialized
-                self.snow.z_s[:] = self.precip_info[self.tstep_level].z_snow
+                self.snow.z_s[:] = self.precip.z_snow
                 self.snow.rho[:] = self.input1['rho_snow']
                 self.snow.T_s[:] = self.precip.T_snow
                 self.snow.T_s_0[:] = self.precip.T_snow
@@ -1083,7 +1284,7 @@ class snobal(object):
                 self.init_snow()
             
             # Add rainfall and water in the snowcover to the total liquid water
-            self.snow.h2o_total += self.snow.h2o + self.precip_info[self.tstep_level].m_rain
+            self.snow.h2o_total += self.snow.h2o + self.precip.m_rain
                 
         else:
             # Add water in the snowcover to total liquid water
@@ -1327,8 +1528,8 @@ class snobal(object):
         if self.snowcover_domain:
             
             # precalculate sati
-            self.snow.es_0 = libsnobal.sati_2d(self.snow.T_s_0)
-            self.snow.es_l = libsnobal.sati_2d(self.snow.T_s_l)
+            self.snow.es_0 = libsnobal.sati_np(self.snow.T_s_0)
+            self.snow.es_l = libsnobal.sati_np(self.snow.T_s_l)
             
             
             # Calculates net allwave radiation from the net solar radiation
@@ -1390,21 +1591,21 @@ class snobal(object):
         if there's precipitation for the current timestep.
         """    
         
-        M = np.zeros(self.shape)
+        M = np.zeros(self.snow.shape)
         
-        if np.any(self.precip_now):
+        if np.any(self.precip.now):
                         
             M = self.heat_stor(CP_WATER(self.precip.T_rain), \
-                               self.precip_info[self.tstep_level].m_rain, \
+                               self.precip.m_rain, \
                                self.precip.T_rain - self.snow.T_s_0) + \
                  self.heat_stor(CP_ICE(self.precip.T_snow), \
-                                self.precip_info[self.tstep_level].m_snow, \
+                                self.precip.m_snow, \
                                 self.precip.T_snow - self.snow.T_s_0)
                                 
             M /= self.time_step
             
             # set locations without precip back to zero
-            M[~self.precip_now | ~self.snowcover] = 0
+            M[~self.precip.now | ~self.snowcover] = 0
             
 #         else:
 #             M = 0
@@ -1437,7 +1638,7 @@ class snobal(object):
         # /***    based on heat flux data from RMSP            ***/
         # /***    note: Kt should be passed as an argument        ***/
         # /***    k_g = efcon(KT_WETSAND, tg, pa);            ***/
-        kts = KT_MOISTSAND * np.ones(self.shape)
+        kts = KT_MOISTSAND * np.ones(self.P_a.shape)
         k_g = libsnobal.efcon(kts, self.input1['T_g'], self.P_a, self.input1['e_g'])
         
         # calculate G    
@@ -1482,10 +1683,10 @@ class snobal(object):
 #             raise Exception('T_a is below 0 K')
         
         # calculate saturation vapor pressure
-#         e_s = libsnobal.sati_2d(self.snow.T_s_0)
+#         e_s = libsnobal.sati_np(self.snow.T_s_0)
         
         # error check for bad vapor pressures
-        sat_vp = libsnobal.sati_2d(self.input1['T_a'])
+        sat_vp = libsnobal.sati_np(self.input1['T_a'])
         
         ind = self.input1['e_a'] > sat_vp
         if np.any(ind):
@@ -1500,15 +1701,16 @@ class snobal(object):
             rel_z_u = self.z_u - self.snow.z_s
         
         # calculate H & L_v_E
+#         (rel_z_t, rel_z_u, self.z_0, self.input1['T_a'], self.snow.T_s_0, self.input1['e_a'], self.snow.es_0, self.input1['u'], 0.0)
         H, L_v_E, E, status = libsnobal.hle1_grid(self.P_a, self.input1['T_a'], self.snow.T_s_0, rel_z_t, \
                                              self.input1['e_a'], self.snow.es_0, rel_z_t, self.input1['u'], rel_z_u, \
                                              self.z_0, self.snowcover)
         if status != 0:
             raise Exception("hle1 did not converge, sorry... :(")
             
-        self.em.H[:] = H
-        self.em.L_v_E[:] = L_v_E
-        self.em.E[:] = E
+        self.em.H = H
+        self.em.L_v_E = L_v_E
+        self.em.E = E
          
         
     def below_thold(self, threshold):
@@ -1558,7 +1760,8 @@ class snobal(object):
             self.start_time = self.snow_records['time_s'] * HR_TO_SEC
             self.more_sn_recs = True
             
-            self.current_time = self.time_s
+            self.current_time = self.time_s * np.ones(self.shape)
+            
         
         
         else:
@@ -1584,17 +1787,18 @@ class snobal(object):
         if first_rec:
             self.mh_prop_index = 0    # keep track of which mh property to read
             
-            self.time_z = self.mh_prop['time_z'] * HR_TO_SEC
-            self.z_u = self.mh_prop['z_u'] * np.ones_like(self.snow.z_s)
-            self.z_t = self.mh_prop['z_t'] * np.ones_like(self.snow.z_s)
-            self.z_0 = self.snow_records['z_0']
-            self.z_g = self.mh_prop['z_g'] * np.ones_like(self.snow.z_s)
+            self.gridded_mh = {}
+            self.gridded_mh['time_z'] = self.mh_prop['time_z'] * HR_TO_SEC
+            self.gridded_mh['z_u'] = self.mh_prop['z_u'] * np.ones_like(self.snow.z_s)
+            self.gridded_mh['z_t'] = self.mh_prop['z_t'] * np.ones_like(self.snow.z_s)
+            self.gridded_mh['z_0'] = self.snow_records['z_0']
+            self.gridded_mh['z_g'] = self.mh_prop['z_g'] * np.ones_like(self.snow.z_s)
             
         else:
             self.mh_prop_index += 1
             
         self.more_mh_recs = False
-    
+        
     
     def init_precip(self):
         """
@@ -1603,7 +1807,7 @@ class snobal(object):
             
         """
         
-        cols = ['m_pp','m_snow','m_rain','z_snow']
+        cols = ['m_pp','m_snow','m_rain','z_snow','T_rain','T_snow','h2o_sat_snow','now']
         
         return EmptyClass(cols, self.shape)
         
@@ -1655,14 +1859,14 @@ class snobal(object):
             
             # create a dict instead
 #             self.snow = Map({key: 0.0 for key in cols})
-            self.snow = EmptyClass(cols, self.shape, self.mask)
+            self.snow = EmptyClass(cols, self.shape)
         
-            self.snow.z_s = self.snow_records['z_s']
-            self.snow.rho = self.snow_records['rho']
-            self.snow.T_s_0 = self.snow_records['T_s_0']
-            self.snow.T_s = self.snow_records['T_s']
-            self.snow.h2o_sat = self.snow_records['h2o_sat']
-            self.snow.max_h2o_vol = self.params['max_h2o_vol'] * np.ones_like(self.snow.z_s)
+            self.snow.z_s[:] = self.snow_records['z_s']
+            self.snow.rho[:] = self.snow_records['rho']
+            self.snow.T_s_0[:] = self.snow_records['T_s_0']
+            self.snow.T_s[:] = self.snow_records['T_s']
+            self.snow.h2o_sat[:] = self.snow_records['h2o_sat']
+            self.snow.max_h2o_vol[:] = self.params['max_h2o_vol'] * np.ones_like(self.snow.z_s)
         
         else:
             try:
@@ -1807,7 +2011,7 @@ class snobal(object):
         
 #         self.em = pd.Series(data=np.zeros(len(col)), index=col)
 #         self.em = Map({key: 0.0 for key in col})
-        self.em = EmptyClass(col, self.shape, self.mask)
+        self.em = EmptyClass(col, self.shape)
         
 
 
@@ -2126,8 +2330,8 @@ class EmptyClass:
         self.shape = size
         self.mask = mask
         
-        if mask is not None:
-            mask1d = np.where(mask.flatten())
+#         if mask is not None:
+#             mask1d = np.where(mask.flatten())
         
 #         a = np.zeros(size)
 #         a.fill(np.nan)
@@ -2136,13 +2340,14 @@ class EmptyClass:
 #                 setattr(self, c, ma.masked_array(np.zeros(size), 
 #                                                  mask=mask, hard_mask=True))
 #             else:
-            setattr(self, '%s_out' % c, np.zeros(size))
+#             setattr(self, '%s_out' % c, np.zeros(size))
             
-            if mask is not None:
-                r = np.ravel(getattr(self, '%s_out' % c))
-                setattr(self, c, r[mask1d])
-            else:
-                setattr(self, c, np.zeros(size))
+#             if mask is not None:
+#                 r = np.ravel(getattr(self, '%s_out' % c))
+#                 setattr(self, c, r[mask1d])
+#             else:
+
+            setattr(self, c, np.zeros(size))
             
             
     def set_zeros(self, index):
@@ -2172,11 +2377,11 @@ class EmptyClass:
         Reset specified keys back to a given value
         """
         for c in keys:
-            if self.mask is not None:
-                arr = ma.masked_array(value * np.ones(self.shape), mask=self.mask)
-                setattr(self, c, arr)
-            else:
-                setattr(self, c, value * np.ones(self.shape))
+#             if self.mask is not None:
+#                 arr = ma.masked_array(value * np.ones(self.shape), mask=self.mask)
+#                 setattr(self, c, arr)
+#             else:
+            setattr(self, c, value * np.ones(self.shape))
             
             
     def set_value(self, keys, index, value):

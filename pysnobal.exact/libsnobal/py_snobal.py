@@ -426,7 +426,7 @@ class snobal(object):
             
         """
         
-        if self.current_time/3600.0 > 1688.99:
+        if self.current_time/3600.0 > 925.24:
             self.curr_level
         
         self.time_step = tstep['time_step']
@@ -514,7 +514,7 @@ class snobal(object):
         
         # calculate melt or freezing and adjust cold content
         self.snowmelt()
-        
+         
         # calculate evaporation and adjust snowpack 
         self.evap_cond()
         

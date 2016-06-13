@@ -514,18 +514,20 @@ def output_timestep(s, tstep, options):
 #             sbuf[sbuf_start++] = T_s   - FREEZE;
     
     # preallocate
-    em = {key: np.zeros(s.shape) for key in em_out.keys()}
-    snow = {key: np.zeros(s.shape) for key in snow_out.keys()}
+#     em = {key: np.zeros(s.shape) for key in em_out.keys()}
+#     snow = {key: np.zeros(s.shape) for key in snow_out.keys()}
+    em = {}
+    snow = {}
     
     # gather all the data together
-    for index, si in np.ndenumerate(s):
+#     for index, si in np.ndenumerate(s):
+#         
+#         if si is not None:
+    for key,value in em_out.iteritems():
+        em[key] = getattr(s.gridded_em, value)
         
-        if si is not None:
-            for key,value in em_out.iteritems():
-                em[key][index] = getattr(si.em, value)
-                
-            for key,value in snow_out.iteritems():
-                snow[key][index] = getattr(si.snow, value)
+    for key,value in snow_out.iteritems():
+        snow[key] = getattr(s.gridded_snow, value).copy()
     
     # convert from K to C
     snow['temp_snowcover'] -= FREEZE
