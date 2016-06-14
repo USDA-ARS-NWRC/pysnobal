@@ -41,7 +41,7 @@ cdef double AH = 1.0                # ratio sensible/momentum phi func
 cdef double AV = 1.0                # ratio latent/momentum phi func    
 cdef int ITMAX = 50              # max # iterations allowed        
 cdef double PAESCHKE = 7.35         # Paeschke's const (eq. 5.3)        
-cdef double THRESH = 1.e-5          # convergence threshold        
+cdef double THRESH = 1.e-3          # convergence threshold        
 
 cdef int SM = 0
 cdef int SH = 1
@@ -395,6 +395,7 @@ def hle1_grid(np.ndarray[DTYPE_t] press, np.ndarray[DTYPE_t] ta, \
     cdef int ny = press.shape[0]
     cdef int nx = press.shape[1]
     cdef int ier
+    cdef int i
     
     cdef np.ndarray H = np.zeros_like(press, dtype=DTYPE)
     cdef np.ndarray LE = np.zeros_like(press, dtype=DTYPE)
@@ -412,6 +413,7 @@ def hle1_grid(np.ndarray[DTYPE_t] press, np.ndarray[DTYPE_t] ta, \
         M = mask
                  
     # iterate over the array and apply hle1()
+    i = 0
     for index,val in np.ndenumerate(ta):
         if M[index]:
             h, le, e, ier = hle1 (press[index], ta[index], ts[index], 
@@ -420,10 +422,13 @@ def hle1_grid(np.ndarray[DTYPE_t] press, np.ndarray[DTYPE_t] ta, \
                                   z0[index])
              
             if ier == -1:
+                ier = i
                 break
             H[index] = h
             LE[index] = le
             E[index] = e
+            
+        i += 1
              
     return H, LE, E, ier
 

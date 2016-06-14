@@ -27,7 +27,7 @@ AH = 1.0                # ratio sensible/momentum phi func
 AV = 1.0                # ratio latent/momentum phi func    
 ITMAX = 50              # max # iterations allowed        
 PAESCHKE = 7.35         # Paeschke's const (eq. 5.3)        
-THRESH = 1.e-5          # convergence threshold        
+THRESH = 1.e-3          # convergence threshold        
 
 SM = 0
 SH = 1
@@ -395,6 +395,7 @@ def hle1_grid(press, ta, ts, za, ea, es, zq, u, zu, z0, mask=None):
                                   z0[index], False)
              
             if ier == -1:
+                ier = index
                 break
             H[index] = h
             LE[index] = le

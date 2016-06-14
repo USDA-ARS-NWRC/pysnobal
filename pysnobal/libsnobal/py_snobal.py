@@ -4,8 +4,8 @@ Class snobal() that will hold all the modeling components
 20160109 Scott Havens
 """
 
-# import py_libsnobal as libsnobal
-import libsnobal
+import py_libsnobal as libsnobal
+# import libsnobal
 import numpy as np
 import numpy.ma as ma
 # import pandas as pd
@@ -492,7 +492,7 @@ class snobal(object):
         """
         
 #         print np.max(self.current_time)/3600.0
-        if np.max(self.current_time)/3600.0 > 1687:
+        if np.max(self.current_time)/3600.0 > 687:
             self.curr_level
                       
         # determine the levels at which each pixel will be calculated
@@ -501,12 +501,12 @@ class snobal(object):
         
         ############################################################
         # no snow and normal tstep
-        ind = level == NORMAL_TSTEP
+        level1 = level == NORMAL_TSTEP
         if self.mask is not None:
-            ind = ind & self.mask   # the mask here will ensure that the mask is propigated down
+            level1 = level1 & self.mask   # the mask here will ensure that the mask is propigated down
         
-        if np.any(ind):
-            self.do_tstep(self.tstep_info[NORMAL_TSTEP], ind, None)
+        if np.any(level1):
+            self.do_tstep(self.tstep_info[NORMAL_TSTEP], level1, None)
            
     
         ############################################################
@@ -543,6 +543,7 @@ class snobal(object):
                 # update the levels
                 prev_level = level.copy()
                 level = self.calc_levels()
+                level[level1] = NORMAL_TSTEP    # these have already been calculated at level1
                 lvl_ind = (prev_level != 1) & (level == 1)
                 if np.any(lvl_ind):
                     # if we are in the middle of the small/med timestep and it goes up
@@ -700,6 +701,7 @@ class snobal(object):
             
         # copy the working subset for    
         self.copy_gridded(index, step)
+        self.index = np.where(index)    # for debugging purposes
         
         self.time_step = tstep['time_step']
         self.tstep_level = tstep['level']
@@ -1705,8 +1707,18 @@ class snobal(object):
         H, L_v_E, E, status = libsnobal.hle1_grid(self.P_a, self.input1['T_a'], self.snow.T_s_0, rel_z_t, \
                                              self.input1['e_a'], self.snow.es_0, rel_z_t, self.input1['u'], rel_z_u, \
                                              self.z_0, self.snowcover)
+        
+#         if np.max(self.current_time/3600) > 778.22:
+#         (rel_z_t[status], rel_z_u[status], self.z_0[status], self.input1['T_a'][status], self.snow.T_s_0[status], self.input1['e_a'][status], self.snow.es_0[status], self.input1['u'][status], 0.0)
+#             h, le, e, st = libsnobal.hle1(self.P_a[513], self.input1['T_a'][513], self.snow.T_s_0[513], rel_z_t[513], \
+#                                                  self.input1['e_a'][513], self.snow.es_0[513], rel_z_t[513], self.input1['u'][513], rel_z_u[513], \
+#                                                  self.z_0[513])
+        
         if status != 0:
-            raise Exception("hle1 did not converge, sorry... :(")
+            h, le, e, st = libsnobal.hle1(self.P_a[status], self.input1['T_a'][status], self.snow.T_s_0[status], rel_z_t[status], \
+                                                 self.input1['e_a'][status], self.snow.es_0[status], rel_z_t[status], self.input1['u'][status], rel_z_u[status], \
+                                                 self.z_0[status])
+            raise Exception("hle1 did not converge at point y=%i, x=%i) , sorry... :(" % (self.index[0][status], self.index[1][status]))
             
         self.em.H = H
         self.em.L_v_E = L_v_E
