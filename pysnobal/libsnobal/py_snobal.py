@@ -4,10 +4,10 @@ Class snobal() that will hold all the modeling components
 20160109 Scott Havens
 """
 
-import py_libsnobal as libsnobal
-# import libsnobal
+# import py_libsnobal as libsnobal
+import libsnobal
 import numpy as np
-import numpy.ma as ma
+# import numpy.ma as ma
 # import pandas as pd
 import warnings
 from copy import copy, deepcopy
@@ -251,14 +251,22 @@ class snobal(object):
         
 #         print '%.2f' % (self.current_time/3600.0)
 
-#         if self.current_time/3600.0 > 688:
-#             self.curr_level
+        if np.max(self.current_time)/3600.0 > 913:
+            self.curr_level
         
         # store the inputs for later
         self.input1 = {}
         self.input2 = {}
         self.gridded_input1 = input1.copy()
         self.gridded_input2 = input2.copy()
+        
+        # extract_data.c performs an init_snow() which resets some of the variables
+#         self.snow = deepcopy(self.gridded_snow)
+#         self.em = deepcopy(self.gridded_em)
+#         self.init_snow()
+#         self.gridded_snow = deepcopy(self.snow)
+#         self.gridded_em = deepcopy(self.em)
+        self.init_water_content_gridded()
         
         # Compute deltas for the climate input parameters over the data timestep.
 #         for i in input1.keys():
@@ -314,12 +322,12 @@ class snobal(object):
             # snow only
             if np.any(snow_only):
                 self.precip.T_snow[snow_only] = input1['T_pp'][snow_only]
-                self.precip.h2o_sat_snow[snow_only] = 0
+                self.precip.h2o_sat_snow[snow_only] = 0.0
                 
                 # warm snow
                 ind = snow_only & (input1['T_pp'] >= FREEZE)
                 self.precip.T_snow[ind] = FREEZE
-                self.precip.h2o_sat_snow[ind] = 1
+                self.precip.h2o_sat_snow[ind] = 1.0
                 
             # rain only
             if np.any(rain_only):
@@ -333,8 +341,8 @@ class snobal(object):
 #         self.precip_info[DATA_TSTEP] = self.precip
                 
         # Clear the 'computed' flag at the other timestep levels.
-        for level in range(DATA_TSTEP, SMALL_TSTEP+1):
-            self.computed[level] = False
+#         for level in range(DATA_TSTEP, SMALL_TSTEP+1):
+#             self.computed[level] = False
         
     
         #Divide the data timestep into normal run timesteps.
@@ -469,7 +477,7 @@ class snobal(object):
         
         return level
             
-    
+#     @profile
     def divide_tstep(self):
         """
         This routine divides the data timestep into the appropriate number
@@ -492,7 +500,7 @@ class snobal(object):
         """
         
 #         print np.max(self.current_time)/3600.0
-        if np.max(self.current_time)/3600.0 > 687:
+        if np.max(self.current_time)/3600.0 > 913:
             self.curr_level
                       
         # determine the levels at which each pixel will be calculated
@@ -804,22 +812,22 @@ class snobal(object):
         """
         
         # age snow by compacting snow due to time passing */
-        self.time_compact()
+#         self.time_compact()
         
         # process precipitation event
         self.precip_event()
         
         # calculate melt or freezing and adjust cold content
-        self.snowmelt()
+#         self.snowmelt()
         
         # calculate evaporation and adjust snowpack 
-        self.evap_cond()
+#         self.evap_cond()
         
         # compact snow due to H2O generated (melt and rain)
-        self.h2o_compact()
+#         self.h2o_compact()
         
         # calculate runoff, and adjust snowcover
-        self.runoff()
+#         self.runoff()
         
         # adjust layer temps if there was a snowcover at start of the
         # timestep and there's still snow on the ground
@@ -1707,17 +1715,11 @@ class snobal(object):
         H, L_v_E, E, status = libsnobal.hle1_grid(self.P_a, self.input1['T_a'], self.snow.T_s_0, rel_z_t, \
                                              self.input1['e_a'], self.snow.es_0, rel_z_t, self.input1['u'], rel_z_u, \
                                              self.z_0, self.snowcover)
-        
-#         if np.max(self.current_time/3600) > 778.22:
-#         (rel_z_t[status], rel_z_u[status], self.z_0[status], self.input1['T_a'][status], self.snow.T_s_0[status], self.input1['e_a'][status], self.snow.es_0[status], self.input1['u'][status], 0.0)
-#             h, le, e, st = libsnobal.hle1(self.P_a[513], self.input1['T_a'][513], self.snow.T_s_0[513], rel_z_t[513], \
-#                                                  self.input1['e_a'][513], self.snow.es_0[513], rel_z_t[513], self.input1['u'][513], rel_z_u[513], \
-#                                                  self.z_0[513])
-        
+                
         if status != 0:
-            h, le, e, st = libsnobal.hle1(self.P_a[status], self.input1['T_a'][status], self.snow.T_s_0[status], rel_z_t[status], \
-                                                 self.input1['e_a'][status], self.snow.es_0[status], rel_z_t[status], self.input1['u'][status], rel_z_u[status], \
-                                                 self.z_0[status])
+#             h, le, e, st = libsnobal.hle1(self.P_a[status], self.input1['T_a'][status], self.snow.T_s_0[status], rel_z_t[status], \
+#                                                  self.input1['e_a'][status], self.snow.es_0[status], rel_z_t[status], self.input1['u'][status], rel_z_u[status], \
+#                                                  self.z_0[status])
             raise Exception("hle1 did not converge at point y=%i, x=%i) , sorry... :(" % (self.index[0][status], self.index[1][status]))
             
         self.em.H = H
@@ -1976,6 +1978,24 @@ class snobal(object):
 #             # and the actual liquid water content (as specific mass)
 #             self.snow.h2o_max = H2O_LEFT(self.snow.z_s, rho_dry, self.snow.max_h2o_vol)
 #             self.snow.h2o = self.snow.h2o_sat * self.snow.h2o_max
+
+
+    def init_water_content_gridded(self):
+        """
+        iSnobal calls init_snow() at the beginning of every time step.  Since pysnobal
+        has a more persistant state variables, we only need to update a couple of the
+        snowpack state variables at the start of every time step
+        """
+        
+        # Compute liquid water content as volume ratio, and
+        # snow density without water
+        self.gridded_snow.h2o_vol = self.gridded_snow.h2o_sat * self.gridded_snow.max_h2o_vol
+        rho_dry = DRY_SNO_RHO(self.gridded_snow.rho, self.gridded_snow.h2o_vol)
+        
+        # Determine the maximum liquid water content (as specific mass)
+        # and the actual liquid water content (as specific mass)
+        self.gridded_snow.h2o_max = H2O_LEFT(self.gridded_snow.z_s, rho_dry, self.gridded_snow.max_h2o_vol)
+        self.gridded_snow.h2o = self.gridded_snow.h2o_sat * self.gridded_snow.h2o_max
 
     
     def init_em(self):
