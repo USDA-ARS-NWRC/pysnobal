@@ -137,11 +137,6 @@ class snobal(object):
         self.params = params
         self.tstep_info = tstep_info
         
-        # check for a mask
-        self.mask = None
-        if 'mask' in snow_prop.keys():
-            self.mask = snow_prop['mask'].astype(np.bool)
-        
 #         self.elevation = ma.masked_array(snow_prop['z'], mask=self.mask)
         self.elevation = snow_prop['z']
         
@@ -152,6 +147,12 @@ class snobal(object):
         self.shape = self.elevation.shape
         self.ngrid = np.prod(self.shape)
 #         self.zeros = np.zeros(self.shape)
+
+        # check for a mask
+        if 'mask' in snow_prop.keys():
+            self.mask = snow_prop['mask'].astype(np.bool)
+        else:
+            self.mask = np.ones(self.shape, dtype=np.bool)
         
         # get the intial snowcover properties
         self.snow_records = snow_prop
@@ -251,7 +252,7 @@ class snobal(object):
         
 #         print '%.2f' % (self.current_time/3600.0)
 
-        if np.max(self.current_time)/3600.0 > 913:
+        if np.max(self.current_time)/3600.0 > 953:
             self.curr_level
         
         # store the inputs for later
@@ -261,6 +262,7 @@ class snobal(object):
         self.gridded_input2 = input2.copy()
         
         # extract_data.c performs an init_snow() which resets some of the variables
+        # this is an ugly copy of that which can be improved on later
 #         self.snow = deepcopy(self.gridded_snow)
 #         self.em = deepcopy(self.gridded_em)
 #         self.init_snow()
@@ -334,7 +336,8 @@ class snobal(object):
                 self.precip.T_rain[rain_only] = input1['T_pp'][rain_only]
                 
             # check the precip, temp. cannot be below freezing if rain present
-            self.precip.T_rain[self.precip.T_rain < FREEZE] = FREEZE
+            # this check was only present in Snobal and not iSnobal
+#             self.precip.T_rain[self.precip.T_rain < FREEZE] = FREEZE
                 
                     
         self.gridded_precip = deepcopy(self.precip)
@@ -500,7 +503,7 @@ class snobal(object):
         """
         
 #         print np.max(self.current_time)/3600.0
-        if np.max(self.current_time)/3600.0 > 913:
+        if np.max(self.current_time)/3600.0 > 953:
             self.curr_level
                       
         # determine the levels at which each pixel will be calculated
@@ -509,9 +512,8 @@ class snobal(object):
         
         ############################################################
         # no snow and normal tstep
-        level1 = level == NORMAL_TSTEP
-        if self.mask is not None:
-            level1 = level1 & self.mask   # the mask here will ensure that the mask is propigated down
+        level1 = (level == NORMAL_TSTEP) & self.mask
+#         level1 = level1    # the mask here will ensure that the mask is propigated down
         
         if np.any(level1):
             self.do_tstep(self.tstep_info[NORMAL_TSTEP], level1, None)
@@ -536,13 +538,13 @@ class snobal(object):
                 sm_steps_left = sm_interval * med_steps_left
                 
                 # do the medium time step
-                med_ind = level == MEDIUM_TSTEP
+                med_ind = (level == MEDIUM_TSTEP) & self.mask
                 if np.any(med_ind):
                     self.divide_inputs(med_ind, med_steps_left)
                     self.do_tstep(self.tstep_info[MEDIUM_TSTEP], med_ind, med_interval)
                 
                 # do the small time step
-                sm_ind = level == SMALL_TSTEP
+                sm_ind = (level == SMALL_TSTEP) & self.mask
                 if np.any(sm_ind):
                     self.divide_inputs(sm_ind, sm_steps_left)
                     for j in range(sm_interval):
@@ -812,22 +814,22 @@ class snobal(object):
         """
         
         # age snow by compacting snow due to time passing */
-#         self.time_compact()
+        self.time_compact()
         
         # process precipitation event
         self.precip_event()
         
         # calculate melt or freezing and adjust cold content
-#         self.snowmelt()
+        self.snowmelt()
         
         # calculate evaporation and adjust snowpack 
-#         self.evap_cond()
+        self.evap_cond()
         
         # compact snow due to H2O generated (melt and rain)
-#         self.h2o_compact()
+        self.h2o_compact()
         
         # calculate runoff, and adjust snowcover
-#         self.runoff()
+        self.runoff()
         
         # adjust layer temps if there was a snowcover at start of the
         # timestep and there's still snow on the ground
@@ -1453,7 +1455,7 @@ class snobal(object):
             self.snow.h2o_total[ind] += self.snow.m_s[ind]
             
             # reset some values back to zero
-            index = ['h2o', 'h2o_max', 'h2o_vol', 'm_s', 'm_s_0', 'rho']
+            index = ['h2o', 'h2o_sat', 'h2o_max', 'h2o_vol', 'm_s', 'm_s_0', 'rho']
             self.snow.set_value(index, ind, 0)
             
             # Note: Snow temperatures are set to MIN_SNOW_TEMP
@@ -1557,10 +1559,12 @@ class snobal(object):
             self.em.G_0[:] = g
             self.em.G[:] = g
                 
-            if np.any(self.snow.layer_count == 2):
+            ind = self.snow.layer_count == 2
+            if np.any(ind):
                 g = self.g_soil ('lower')
-                self.em.G[:] = g
-                self.g_snow()
+                self.em.G[ind] = g[ind]
+                gs = self.g_snow()
+                self.em.G_0[ind] = gs[ind]
                 
             # calculate advection
             self.advec()
@@ -1679,7 +1683,7 @@ class snobal(object):
         
         g = libsnobal.ssxfr(k_s1, k_s2, self.snow.T_s_0, self.snow.T_s_l, self.snow.z_s_0, self.snow.z_s_l)
         
-        self.em.G_0 = g
+        return g
             
 #     @profile    
     def h_le(self):

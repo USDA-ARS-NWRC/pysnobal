@@ -262,6 +262,7 @@ def open_files(params):
     
     
     # check the precip, temp. cannot be below freezing if rain present
+    # This is only present in Snobal and not iSnobal
     mass_rain = pr.m_pp * (1 - pr.percent_snow)
     pr.T_pp[(mass_rain > 0.0) & (pr.T_pp < FREEZE)] = FREEZE
     

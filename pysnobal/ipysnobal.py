@@ -35,6 +35,8 @@ MEDIUM_TSTEP = 2
 SMALL_TSTEP = 3
 
 DEFAULT_NORMAL_THRESHOLD = 60.0
+DEFAULT_MEDIUM_THRESHOLD = 10.0
+DEFAULT_SMALL_THRESHOLD = 1.0
 DEFAULT_MEDIUM_TSTEP = 15.0
 DEFAULT_SMALL_TSTEP = 1.0
 
@@ -298,15 +300,10 @@ def get_tstep_info(options, config):
         tstep_info[DATA_TSTEP]['output'] = DIVIDED_TSTEP
 #     tstep_info[DATA_TSTEP]['output'] = DIVIDED_TSTEP
     
-    # mas thresholds for run timesteps
-    threshold = DEFAULT_NORMAL_THRESHOLD
-    tstep_info[NORMAL_TSTEP]['threshold'] = threshold
-    
-    threshold = DEFAULT_MEDIUM_TSTEP
-    tstep_info[MEDIUM_TSTEP]['threshold'] = threshold
-    
-    threshold = DEFAULT_SMALL_TSTEP
-    tstep_info[SMALL_TSTEP]['threshold'] = threshold
+    # mass thresholds for run timesteps
+    tstep_info[NORMAL_TSTEP]['threshold'] = DEFAULT_NORMAL_THRESHOLD
+    tstep_info[MEDIUM_TSTEP]['threshold'] = DEFAULT_MEDIUM_THRESHOLD
+    tstep_info[SMALL_TSTEP]['threshold'] = DEFAULT_SMALL_THRESHOLD
     
     
     # get the rest of the parameters
