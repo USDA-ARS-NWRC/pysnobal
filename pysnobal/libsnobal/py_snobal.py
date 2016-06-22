@@ -503,7 +503,7 @@ class snobal(object):
         """
         
 #         print np.max(self.current_time)/3600.0
-        if np.max(self.current_time)/3600.0 > 953:
+        if np.max(self.current_time)/3600.0 > 800:
             self.curr_level
                       
         # determine the levels at which each pixel will be calculated
@@ -728,6 +728,8 @@ class snobal(object):
         
         if self.snowcover_domain:
             self.input1['e_g'] = libsnobal.sati_np(self.input1['T_g'])
+#             self.em.cc_s_0 = self.cold_content(self.snow.T_s_0, self.snow.m_s_0)
+#             self.em.cc_s_l= self.cold_content(self.snow.T_s_l, self.snow.m_s_l)
         
         # Calculate energy transfer terms
         self.e_bal()
@@ -899,10 +901,15 @@ class snobal(object):
         
 #         if (not self.snowcover) or (self.snow.layer_count == 0):
         # runoff where there isn't snow
-        self.em.ro_predict[:] = self.snow.h2o_total
-        if not self.snowcover_domain:
-#             self.em.ro_predict[:] = self.snow.h2o_total
+        ind = ~self.snowcover | (self.snow.layer_count == 0)
+        self.em.ro_predict[ind] = self.snow.h2o_total[ind]
+        
+        if np.sum(ind) == self.snow.shape[0]:
             return
+        
+#         if not self.snowcover_domain:
+#             self.em.ro_predict += self.snow.h2o_total
+#             return
         
         
         # Determine the snow density without any water, and the maximum
@@ -1269,6 +1276,28 @@ class snobal(object):
         """
         
         if np.any(self.precip.now):
+            
+            # if there is precip, but no snow, then create a snowpack
+            if np.any(~self.snowcover):
+                
+                # set the values from the initial snow properties
+                # [:] performs a quick deep copy since snow is already initialized
+                no_snow = ~self.snowcover
+                tsnow = self.precip.T_snow[no_snow]
+                self.snow.z_s[no_snow] = self.precip.z_snow[no_snow]
+                self.snow.rho[no_snow] = self.input1['rho_snow'][no_snow]
+                self.snow.T_s[no_snow] = tsnow
+                self.snow.T_s_0[no_snow] = tsnow
+                self.snow.T_s_l[no_snow] = tsnow
+                self.snow.h2o_sat[no_snow] = self.precip.h2o_sat_snow[no_snow]
+            
+                # reset the precip values to zero in case adj_snow needs to be called below
+                self.precip.set_value(['z_snow','m_pp','h2o_sat_snow'], no_snow, 0.0)
+                
+                self.init_snow()
+            
+            
+            
             if self.snowcover_domain:
                 # Adjust snowcover's depth and mass by snowfall's
                 # depth and the total precipitation mass.
@@ -1282,18 +1311,18 @@ class snobal(object):
                                           self.input1['rho_snow'],
                                           h2o_vol_snow)
                 
-            else:
-                
-                # set the values from the initial snow properties
-                # [:] performs a quick deep copy since snow is already initialized
-                self.snow.z_s[:] = self.precip.z_snow
-                self.snow.rho[:] = self.input1['rho_snow']
-                self.snow.T_s[:] = self.precip.T_snow
-                self.snow.T_s_0[:] = self.precip.T_snow
-                self.snow.T_s_l[:] = self.precip.T_snow
-                self.snow.h2o_sat[:] = self.precip.h2o_sat_snow
-                
-                self.init_snow()
+#             else:
+#                 
+#                 # set the values from the initial snow properties
+#                 # [:] performs a quick deep copy since snow is already initialized
+#                 self.snow.z_s[:] = self.precip.z_snow
+#                 self.snow.rho[:] = self.input1['rho_snow']
+#                 self.snow.T_s[:] = self.precip.T_snow
+#                 self.snow.T_s_0[:] = self.precip.T_snow
+#                 self.snow.T_s_l[:] = self.precip.T_snow
+#                 self.snow.h2o_sat[:] = self.precip.h2o_sat_snow
+#                 
+#                 self.init_snow()
             
             # Add rainfall and water in the snowcover to the total liquid water
             self.snow.h2o_total += self.snow.h2o + self.precip.m_rain
@@ -1323,7 +1352,8 @@ class snobal(object):
         """
         
         # first check for nan which means rho=0 usually
-        ind = ~np.isnan(delta_z_s)
+        # and only adjust the snow where there is snow
+        ind = ~np.isnan(delta_z_s) & self.snowcover
         
         # Update depth, mass, and then recompute density
         self.snow.z_s[ind] += delta_z_s[ind]
@@ -1347,8 +1377,11 @@ class snobal(object):
             
         
         # If a change in depth, adjust the layers' depths and masses
-#         if np.any(delta_z_s != 0.0):
-        self.adj_layers()
+        # Only need to adjust the layers if there is some change in depth,
+        # this will ensure that runoff() will not remove a layer after the
+        # runoff has already been calculated
+        if np.any(delta_z_s != 0.0):
+            self.adj_layers()
 #         else:
         # Just change in the snowcover's mass, so update the layer masses
         self.layer_mass()
@@ -1449,10 +1482,13 @@ class snobal(object):
         ind = self.snow.layer_count == 0
         if np.any(ind):
             
-            # if mass > 0, then it must be velow threshold.
+            # if mass > 0, then it must be below threshold.
             # So turn this little bit of mass into water
+            # In Snobal, this would be added to ro_predict, but since this is a little different,
+            # this water won't get added correctly, so added it to ro_predict and set h2o_total to zero
 #             if self.snow.m_s > 0:
             self.snow.h2o_total[ind] += self.snow.m_s[ind]
+#             self.em.ro_predict[ind] = self.snow.h2o_total[ind] + self.snow.m_s[ind]
             
             # reset some values back to zero
             index = ['h2o', 'h2o_sat', 'h2o_max', 'h2o_vol', 'm_s', 'm_s_0', 'rho']
@@ -1904,6 +1940,7 @@ class snobal(object):
         ind = self.snow.layer_count == 0
         if np.any(ind):
             self.snow.h2o_total[ind] += self.snow.m_s[ind]
+#             self.em.ro_predict[ind] = self.snow.h2o_total[ind] + self.snow.m_s[ind]
             self.snow.set_value(['rho','m_s','m_s_0','m_s_l','h2o_vol','h2o','h2o_max','h2o_sat'], 
                                 ind, 0)
             

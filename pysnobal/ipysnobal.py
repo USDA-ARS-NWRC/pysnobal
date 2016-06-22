@@ -406,6 +406,9 @@ def output_files(options, init):
     Create the snow and em output netCDF file
     """
     
+    # chunk size
+    cs = (6,10,10)
+    
     #------------------------------------------------------------------------------
     # EM netCDF 
     m = {}
@@ -440,7 +443,7 @@ def output_files(options, init):
     for i,v in enumerate(m['name']):
         
 #         em.createVariable(v, 'f', dimensions[:3], chunksizes=(6,10,10))
-        em.createVariable(v, 'f', dimensions[:3])
+        em.createVariable(v, 'f', dimensions[:3], chunksizes=cs)
         setattr(em.variables[v], 'units', m['units'][i])
         setattr(em.variables[v], 'description', m['description'][i])
         
@@ -481,8 +484,8 @@ def output_files(options, init):
     # snow image
     for i,v in enumerate(s['name']):
         
-#         snow.createVariable(v, 'f', dimensions[:3], chunksizes=(6,10,10))
-        snow.createVariable(v, 'f', dimensions[:3])
+        snow.createVariable(v, 'f', dimensions[:3], chunksizes=cs)
+#         snow.createVariable(v, 'f', dimensions[:3])
         setattr(snow.variables[v], 'units', s['units'][i])
         setattr(snow.variables[v], 'description', s['description'][i])
     
