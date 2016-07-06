@@ -503,7 +503,7 @@ class snobal(object):
         """
         
 #         print np.max(self.current_time)/3600.0
-        if np.max(self.current_time)/3600.0 > 800:
+        if np.max(self.current_time)/3600.0 > 801:
             self.curr_level
                       
         # determine the levels at which each pixel will be calculated
@@ -1721,7 +1721,7 @@ class snobal(object):
         
         return g
             
-#     @profile    
+#     @profile
     def h_le(self):
         """
         Calculates point turbulent transfer (H and L_v_E) for a 2-layer snowcover
@@ -1752,9 +1752,22 @@ class snobal(object):
         
         # calculate H & L_v_E
 #         (rel_z_t, rel_z_u, self.z_0, self.input1['T_a'], self.snow.T_s_0, self.input1['e_a'], self.snow.es_0, self.input1['u'], 0.0)
-        H, L_v_E, E, status = libsnobal.hle1_grid(self.P_a, self.input1['T_a'], self.snow.T_s_0, rel_z_t, \
+#         H, L_v_E, E, status = libsnobal.hle1_grid(self.P_a, self.input1['T_a'], self.snow.T_s_0, rel_z_t, \
+#                                              self.input1['e_a'], self.snow.es_0, rel_z_t, self.input1['u'], rel_z_u, \
+#                                              self.z_0, self.snowcover)
+                
+#         H, L_v_E, E, status = libsnobal.hle1_np(self.P_a, self.input1['T_a'], self.snow.T_s_0, rel_z_t, \
+#                                              self.input1['e_a'], self.snow.es_0, rel_z_t, self.input1['u'], rel_z_u, \
+#                                              self.z_0)
+#         
+#         
+        H, L_v_E, E, status = libsnobal.hle1_np2(self.P_a, self.input1['T_a'], self.snow.T_s_0, rel_z_t, \
                                              self.input1['e_a'], self.snow.es_0, rel_z_t, self.input1['u'], rel_z_u, \
-                                             self.z_0, self.snowcover)
+                                             self.z_0)
+                
+#         print "H - %f" % np.max(np.abs(H-h))
+#         print "L_v_E - %f" % np.max(np.abs(L_v_E - le))
+#         print "E - %f" % np.max(np.abs(E-e))
                 
         if status != 0:
 #             h, le, e, st = libsnobal.hle1(self.P_a[status], self.input1['T_a'][status], self.snow.T_s_0[status], rel_z_t[status], \

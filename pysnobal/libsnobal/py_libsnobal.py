@@ -272,30 +272,6 @@ def psi_np(zeta, code):
     # check for neutral conditions
     if np.any(neutral):
         result[neutral] = 0
-        
-    
-#     if zeta > 0:        # stable
-#         if zeta > 1:
-#             zeta = 1
-#         result = -BETA_S * zeta
-#     
-# 
-#     elif zeta < 0:    #unstable
-# 
-#         x = np.sqrt(np.sqrt(1 - BETA_U * zeta));
-# 
-#         if code == 'SM':
-#             result = 2 * np.log((1 + x)/2) + np.log((1 + x * x)/2) - \
-#                 2 * np.arctan(x) + np.pi/2
-#         
-#         elif (code == 'SH') or (code == 'SV'):
-#             result = 2 * np.log((1 + x * x)/2)
-#         
-#         else: # shouldn't reach 
-#             raise ValueError("psi-function code not of these: SM, SH, SV")
-#     
-#     else:   #neutral
-#         result = 0
     
     return result
 
@@ -600,7 +576,7 @@ def hle1_np(press, ta, ts, za, ea, es, zq, u, zu, z0):
     qs = spec_hum(es, press)
     
     # convert temperature to potential temperature
-    ta += DALR * za
+    ta = ta + DALR * za
     
     # air density at press, virtual temp of geometric mean
     # of air and surface
@@ -643,7 +619,7 @@ def hle1_np(press, ta, ts, za, ea, es, zq, u, zu, z0):
         diff = last - lo
 
         it+=1
-        if (np.max(np.abs(diff)) < THRESH) and (np.max(np.abs(diff/lo)) < THRESH):
+        if (np.all(np.abs(diff) < THRESH)) and (np.all(np.abs(diff/lo) < THRESH)):
             break
         if it > ITMAX:
             break
@@ -661,6 +637,144 @@ def hle1_np(press, ta, ts, za, ea, es, zq, u, zu, z0):
     
     return h, le, e, ier
 
+
+def hle1_np2(press, ta, ts, za, ea, es, zq, u, zu, z0):
+    """
+    computes sensible and latent heat flux and mass flux given
+    measurements of temperature and specific humidity at surface
+    and one height, wind speed at one height, and roughness
+    length.  The temperature, humidity, and wind speed measurements
+    need not all be at the same height.
+    
+    Args
+        press air pressure (Pa)            
+        ta air temperature (K) at height za    
+        ts surface temperature (K)        
+        za height of air temp measurement (m)    
+        ea vapor pressure (Pa) at height zq    
+        es vapor pressure (Pa) at surface    
+        zq height of spec hum measurement (m)    
+        u wind speed (m/s) at height zu    
+        zu height of wind speed measurement (m)    
+        z0 roughness length (m)            
+
+    Outputs
+        h sens heat flux (+ to surf) (W/m^2)    
+        le latent heat flux (+ to surf) (W/m^2)    
+        e mass flux (+ to surf) (kg/m^2/s)
+        status status of convergence
+            0      successful calculation
+            -1      no convergence
+        
+    20160111 Scott Havens
+    """
+    
+    # define some constants to keep constant with hle1.c
+    k = VON_KARMAN
+    av = AV
+    ah = AH
+    cp = CP_AIR
+    g = GRAVITY
+        
+    #displacement plane height, eq. 5.3 & 5.4
+    d0 = 2 * PAESCHKE * z0 / 3
+
+    # constant log expressions
+    ltsm = np.log((zu - d0) / z0)
+    ltsh = np.log((za - d0) / z0)
+    ltsv = np.log((zq - d0) / z0)
+    
+    # convert vapor pressures to specific humidities
+    qa = spec_hum(ea, press)
+    qs = spec_hum(es, press)
+    
+    # convert temperature to potential temperature
+    tp = ta + DALR * za
+    
+    # air density at press, virtual temp of geometric mean
+    # of air and surface
+    dens = GAS_DEN(press, MOL_AIR, VIR_TEMP(np.sqrt(tp * ts), np.sqrt(ea * es), press))
+    
+    # starting value, assume neutral stability, so psi-functions
+    # are all zero
+    ustar = k * u / ltsm
+    factor = k * ustar * dens
+    e = (qa - qs) * factor * av / ltsv
+    h = (tp - ts) * factor * cp * ah / ltsh
+    
+    
+    # if not neutral stability, iterate on Obukhov stability
+    # length to find solution
+    it = 0
+#     if ta != ts:
+
+    lo = 1e500 * np.ones(ustar.shape)
+    diff = lo.copy()
+
+    ind = np.ones(ustar.shape, dtype=bool)
+    
+
+    while True:
+        last = lo
+        
+        # update the references for the calculations
+        p_ustar = ustar[ind]
+        p_h = h[ind]
+        p_e = e[ind]
+        p_tp = tp[ind]
+        p_ts = ts[ind]
+        p_qa = qa[ind]
+        p_qs = qs[ind]
+        p_dens = dens[ind]
+        p_u = u[ind]
+
+        # Eq 4.25, but no minus sign as we define
+        # positive H as toward surface
+        lo = p_ustar * p_ustar * p_ustar * p_dens / (k * g * (p_h/(p_tp * cp) + 0.61 * p_e))
+                            
+        # friction velocity, eq. 4.34'
+        p_ustar = k * p_u / (ltsm[ind] - psi_np(zu[ind]/lo, 'SM'))
+
+        # evaporative flux, eq. 4.33'
+        factor = k * p_ustar * p_dens
+        p_e = (p_qa - p_qs) * factor * av / (ltsv[ind] - psi_np(zq[ind]/lo, 'SV'))
+
+        
+        # sensible heat flus, eq. 4.35'
+        # with sign reversed
+        p_h = (p_tp - p_ts) * factor * ah * cp / (ltsh[ind] - psi_np(za[ind]/lo, 'SH'))
+
+        diff[ind] = last - lo
+
+        # pull the smaller arrays back to the larger one
+        ustar[ind] = p_ustar
+        h[ind] = p_h
+        e[ind] = p_e
+
+        it+=1
+        if (np.all(np.abs(diff) < THRESH)) and (np.all(np.abs(diff[ind]/lo) < THRESH)):
+            break
+        if it > ITMAX:
+            break
+        
+        lo_ind = np.abs(diff[ind]) >= THRESH
+        ind = np.abs(diff) >= THRESH
+        
+        lo = lo[lo_ind]
+        
+
+    ier = -1 if (it >= ITMAX) else 0
+#     print 'iterations: %i' % it
+    xlh = LH_VAP(ts)
+    
+    ind = [ts <= FREEZE]
+    xlh[ind] += LH_FUS(ts[ind])
+    
+    # latent heat flux (- away from surf)
+    le = xlh * e
+
+    
+    return h, le, e, ier
 
 
 def efcon(k, t, p, e):
