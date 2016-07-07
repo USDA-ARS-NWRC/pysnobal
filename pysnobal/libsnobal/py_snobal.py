@@ -1751,28 +1751,11 @@ class snobal(object):
             rel_z_u = self.z_u - self.snow.z_s
         
         # calculate H & L_v_E
-#         (rel_z_t, rel_z_u, self.z_0, self.input1['T_a'], self.snow.T_s_0, self.input1['e_a'], self.snow.es_0, self.input1['u'], 0.0)
-#         H, L_v_E, E, status = libsnobal.hle1_grid(self.P_a, self.input1['T_a'], self.snow.T_s_0, rel_z_t, \
-#                                              self.input1['e_a'], self.snow.es_0, rel_z_t, self.input1['u'], rel_z_u, \
-#                                              self.z_0, self.snowcover)
-                
-#         H, L_v_E, E, status = libsnobal.hle1_np(self.P_a, self.input1['T_a'], self.snow.T_s_0, rel_z_t, \
-#                                              self.input1['e_a'], self.snow.es_0, rel_z_t, self.input1['u'], rel_z_u, \
-#                                              self.z_0)
-#         
-#         
         H, L_v_E, E, status = libsnobal.hle1_np2(self.P_a, self.input1['T_a'], self.snow.T_s_0, rel_z_t, \
                                              self.input1['e_a'], self.snow.es_0, rel_z_t, self.input1['u'], rel_z_u, \
                                              self.z_0)
                 
-#         print "H - %f" % np.max(np.abs(H-h))
-#         print "L_v_E - %f" % np.max(np.abs(L_v_E - le))
-#         print "E - %f" % np.max(np.abs(E-e))
-                
         if status != 0:
-#             h, le, e, st = libsnobal.hle1(self.P_a[status], self.input1['T_a'][status], self.snow.T_s_0[status], rel_z_t[status], \
-#                                                  self.input1['e_a'][status], self.snow.es_0[status], rel_z_t[status], self.input1['u'][status], rel_z_u[status], \
-#                                                  self.z_0[status])
             raise Exception("hle1 did not converge at point y=%i, x=%i) , sorry... :(" % (self.index[0][status], self.index[1][status]))
             
         self.em.H = H
