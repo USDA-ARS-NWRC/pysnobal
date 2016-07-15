@@ -10,7 +10,7 @@ interpretation
 """
 
 # from libsnobal import libsnobal
-from libsnobal.py_snobal import snobal
+from lib.py_snobal import snobal
 
 import ConfigParser
 import sys, os
@@ -20,9 +20,9 @@ from datetime import timedelta
 import netCDF4 as nc
 import matplotlib.pyplot as plt
 import progressbar
-from multiprocessing import Pool
+# from multiprocessing import Pool
 # from functools import partial
-import itertools
+# import itertools
 
 # os.system("taskset -p 0xff %d" % os.getpid())
 
@@ -583,16 +583,31 @@ def get_timestep(force, tstep, point=None):
     
     for f in force.keys():
         
-        # determine the index
-        t = nc.date2index(tstep, force[f].variables['time'], 
-                          calendar=force[f].variables['time'].calendar,
-                          select='exact')
         
-        # pull out the value    
-        if point is None:
-            inpt[map_val[f]] = force[f].variables[f][t,:].astype(np.float64)
+        if isinstance(force[f], np.ndarray):
+            # If it's a constant value then just read in the numpy array
+            # pull out the value    
+            if point is None:
+                inpt[map_val[f]] = force[f]
+            else:
+                inpt[map_val[f]] = np.atleast_2d(force[f][point[0], point[1]])
+                
         else:
-            inpt[map_val[f]] = np.atleast_2d(force[f].variables[f][t,point[0], point[1]].astype(np.float64))
+            # determine the index in the netCDF file
+            
+            # compare the dimensions and variables to get the variable name
+            v = list(set(force[f].variables.keys())-set(force[f].dimensions.keys()))[0]
+            
+            # find the index based on the time step
+            t = nc.date2index(tstep, force[f].variables['time'], 
+                              calendar=force[f].variables['time'].calendar,
+                              select='exact')
+            
+            # pull out the value    
+            if point is None:
+                inpt[map_val[f]] = force[f].variables[v][t,:].astype(np.float64)
+            else:
+                inpt[map_val[f]] = np.atleast_2d(force[f].variables[v][t,point[0], point[1]].astype(np.float64))
         
             
     

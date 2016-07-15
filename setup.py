@@ -7,8 +7,8 @@ try:
 except ImportError:
     from distutils.core import setup
 
-from distutils.extension import Extension
-from Cython.Distutils import build_ext
+# from distutils.extension import Extension
+# from Cython.Distutils import build_ext
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()
@@ -42,10 +42,10 @@ setup(
     author_email='scott.havens@ars.usda.gov',
     url='https://gitlab.com/ars-snow/pysnobal',
     packages=[
-        'pysnobal',
+        'pysnobal', 'pysnobal.lib'
     ],
-    package_dir={'pysnobal':
-                 'pysnobal'},
+#     package_dir={'pysnobal':
+#                  'pysnobal'},
     include_package_data=True,
     install_requires=requirements,
     license="ISCL",
@@ -66,9 +66,9 @@ setup(
     ],
     test_suite='tests',
     tests_require=test_requirements,
-    cmdclass = {'build_ext': build_ext},
-    ext_modules= [
-        Extension("pysnobal.libsnobal.libsnobal", [ "pysnobal/libsnobal/libsnobal.pyx" ]),
-#         Extension("pysnobal.libsnobal.snobal", [ "pysnobal/libsnobal/snobal.pyx" ])
-    ]
+#     cmdclass = {'build_ext': build_ext},
+#     ext_modules= [
+#         Extension("pysnobal.lib.libsnobal", [ "pysnobal/libsnobal/libsnobal.pyx" ]),
+#         Extension("pysnobal.lib.snobal", [ "pysnobal/libsnobal/snobal.pyx" ])
+#     ]
 )

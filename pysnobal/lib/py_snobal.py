@@ -4,14 +4,14 @@ Class snobal() that will hold all the modeling components
 20160109 Scott Havens
 """
 
-# import py_libsnobal as libsnobal
-import libsnobal
+import py_libsnobal as libsnobal
+# import libsnobal
 import numpy as np
 # import numpy.ma as ma
 # import pandas as pd
 import warnings
 from copy import copy, deepcopy
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 
 # Some constants and equations

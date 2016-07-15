@@ -6,7 +6,7 @@ The Snobal 'library' which is a collection of functions to run the model
 
 import numpy as np
 # import numpy.ma as ma
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 FREEZE = 273.16         # freezing temp K
 BOIL = 373.15           # boiling temperature K
