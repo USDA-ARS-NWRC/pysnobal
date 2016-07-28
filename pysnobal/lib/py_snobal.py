@@ -11,7 +11,7 @@ import numpy as np
 # import pandas as pd
 import warnings
 from copy import copy, deepcopy
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 
 # Some constants and equations
@@ -205,6 +205,7 @@ class snobal(object):
         self.isothermal = np.zeros(self.shape, dtype=bool)
         
         
+#     @profile
     def do_data_tstep(self, input1, input2):
         """
         This routine performs the model's calculations for 1 data timestep
@@ -565,7 +566,7 @@ class snobal(object):
 #         if self.tstep_info[self.curr_level]['output'] & DIVIDED_TSTEP:
 # #             print '%.2f output divided tstep' % (self.current_time/3600.0)
 #             self.output()
-        self.time_since_out = np.zeros(self.shape)
+#         self.time_since_out = np.zeros(self.shape)
         
         
     
@@ -1574,41 +1575,41 @@ class snobal(object):
         # if there is a snowcover
 #         if self.snow.layer_count > 0:
         if self.snowcover_domain:
-            
+             
             # precalculate sati
             self.snow.es_0 = libsnobal.sati_np(self.snow.T_s_0)
             self.snow.es_l = libsnobal.sati_np(self.snow.T_s_l)
-            
-            
+             
+             
             # Calculates net allwave radiation from the net solar radiation
             #incoming thermal/longwave radiation, and the snow surface
             # temperature.
             # replaces _net_rad()
             self.em.R_n = self.input1['S_n'] + (SNOW_EMISSIVITY * (self.input1['I_lw'] - STEF_BOLTZ * np.power(self.snow.T_s_0, 4)))
-            
+             
             # calculate H & L_v_E (and E as well)
             self.h_le()
-            
+              
             # calculate G & G_0 (conduction/diffusion heat xfr)
 #             if self.snow.layer_count == 1:
             g = self.g_soil('surface')
             self.em.G_0[:] = g
             self.em.G[:] = g
-                
+                  
             ind = self.snow.layer_count == 2
             if np.any(ind):
                 g = self.g_soil ('lower')
                 self.em.G[ind] = g[ind]
                 gs = self.g_snow()
                 self.em.G_0[ind] = gs[ind]
-                
+                  
             # calculate advection
             self.advec()
-            
+              
             # sum E.B. terms
             # surface energy budget
             self.em.delta_Q_0 = self.em.R_n + self.em.H + self.em.L_v_E + self.em.G_0 + self.em.M
-            
+              
             # total snowpck energy budget
 #             if self.snow.layer_count == 1:
             self.em.delta_Q[:] = self.em.delta_Q_0
@@ -1616,22 +1617,14 @@ class snobal(object):
             ind = self.snow.layer_count == 2
             if np.any(ind):
                 self.em.delta_Q[ind] += self.em.G[ind] - self.em.G_0[ind]
-                
+                 
             # since this is iSNOWbal, remove the energy balance components where
             # there is no snow
             self.em.set_value(['R_n', 'H', 'L_v_E', 'E', 'G', 'G_0', 'delta_Q', 'delta_Q_0'], 
                               ~self.snowcover, 0)
-                
+                 
         else:
             self.em.reset(['R_n', 'H', 'L_v_E', 'E', 'G', 'G_0', 'delta_Q', 'delta_Q_0'], 0)
-#             self.em.R_n = 0
-#             self.em.H = 0
-#             self.em.L_v_E = 0
-#             self.em.E = 0
-#             self.em.G = 0
-#             self.em.G_0 = 0
-#             self.em.delta_Q = 0
-#             self.em.delta_Q_0 = 0
         
                
                        

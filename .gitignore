@@ -5,6 +5,7 @@
 .settings/
 
 test_data_spatial/
+test_data_BRB/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

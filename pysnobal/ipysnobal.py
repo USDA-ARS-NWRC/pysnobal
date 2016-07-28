@@ -398,7 +398,8 @@ def open_files(options):
 def close_files(force):
     
     for f in force.keys():
-        force[f].close()    
+        if not isinstance(force[f], np.ndarray):
+            force[f].close()    
         
 
 def output_files(options, init):
@@ -508,14 +509,8 @@ def output_timestep(s, tstep, options):
                 'temp_surf': 'T_s_0', 'temp_lower': 'T_s_l', 
                 'temp_snowcover': 'T_s', 'thickness_lower': 'z_s_l', 
                 'water_saturation': 'h2o_sat'}
-    
-#             sbuf[sbuf_start++] = T_s_0 - FREEZE;
-#             sbuf[sbuf_start++] = T_s_l - FREEZE;
-#             sbuf[sbuf_start++] = T_s   - FREEZE;
-    
+        
     # preallocate
-#     em = {key: np.zeros(s.shape) for key in em_out.keys()}
-#     snow = {key: np.zeros(s.shape) for key in snow_out.keys()}
     em = {}
     snow = {}
     
@@ -588,7 +583,7 @@ def get_timestep(force, tstep, point=None):
             # If it's a constant value then just read in the numpy array
             # pull out the value    
             if point is None:
-                inpt[map_val[f]] = force[f]
+                inpt[map_val[f]] = force[f].copy() # ensures not a reference (especially if T_g)
             else:
                 inpt[map_val[f]] = np.atleast_2d(force[f][point[0], point[1]])
                 
@@ -640,37 +635,10 @@ def initialize(params, tstep_info, mh, init):
     v = ['time_s', 'z_s', 'rho', 'T_s', 'T_s_0', 'h2o_sat']
     sn = {key: 0.0 for key in v}
     
-    # allocate an empty numpy array to hold all the snobal objects
-#     s = np.empty_like(init['z'], dtype=object)
-    
-    
-    # add to the parameters
-#     params['elevation'] = init['z']
-    
-    # add to the measurement heights
-#     mh['z_0'] = init['z_0']
-    
     init['time_s'] = 0.0
     
     s = snobal(params, tstep_info, init, mh)
-    
-#     for index, x in np.ndenumerate(init['z']):
-#         
-#         if init['mask'][index]:
-#         
-#             # fill the initial snow record properties
-#             for vi in v[1:]:
-#                 sn[vi] = init[vi][index]
-#             
-#             # add to the parameters
-#             params['elevation'] = init['z'][index]
-#             
-#             # add to the measurement heights
-#             mh['z_0'] = init['z_0'][index]
-#             
-#             # initialize snobal
-#             s[index] = snobal(params, tstep_info, sn, mh)
-            
+                
     return s
     
     
@@ -807,7 +775,7 @@ class SnobalIterator:
         
 
 
-#@profile
+# @profile
 def main(configFile):
     """
     mimic the main.c from the Snobal model
@@ -860,7 +828,7 @@ def main(configFile):
 #         input1 = {i: np.atleast_2d(input1[i][point]) for i in input1.keys()}
     
     pbar = progressbar.ProgressBar(max_value=len(options['time']['date_time'])-1)
-    j = 0
+    j = 1
     for tstep in options['time']['date_time'][1:-1]:
         
         input2 = get_timestep(force, tstep, point)
@@ -890,6 +858,7 @@ def main(configFile):
         if not point_run:
             if (j % options['output']['frequency'] == 0) or (j == len(options['time']['date_time'])):
                 output_timestep(s, tstep, options)
+                s.time_since_out = np.zeros(s.shape)
         
         j += 1
         pbar.update(j)
