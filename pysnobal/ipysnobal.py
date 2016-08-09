@@ -640,142 +640,10 @@ def initialize(params, tstep_info, mh, init):
     s = snobal(params, tstep_info, init, mh)
                 
     return s
-    
-    
-# class parallel_helper(object):
-#     """
-#     Simple class to aid in parallelizing the loop over the
-#     snobal instances
-#     """
-#     def __init__(self, input1, input2, s):
-#         self.input1 = input1
-#         self.input2 = input2
-#         self.s = s
-#         
-#     def run(self, index=None):
-#         """
-#         Args: index - tuple for the index to be ran, from iterator object
-#         """
-#         
-#         if self.s[index] is not None:
-#         
-#             in1 = {key: self.input1[key][index] for key in self.input1.keys()}
-#             in2 = {key: self.input2[key][index] for key in self.input2.keys()}
-#             
-#             self.s[index].do_data_tstep(in1, in2)
-#             
-#     def go(self):
-#         
-#         pool = Pool(8)
-# #         it = np.nditer(self.input1, flags=['multi_index','refs_ok'])
-#         it = np.ndenumerate(self.s)
-#         pool.map(self.run, it)
-
-    
-
-    
-# @profile
-def run(s, input1, input2):
-    """
-    Acutally run the model for a single processor
-    """
-    
-    for index, si in np.ndenumerate(s):
-        
-        if si is not None:
-        
-            in1 = {key: input1[key][index] for key in input1.keys()}
-            in2 = {key: input2[key][index] for key in input2.keys()}
-            
-            s[index].do_data_tstep(in1, in2)
+           
 
 
-def run_map(inpt):
-    """
-    Run a single point, input is a list
-    [snobal instance, input1, input2]
-    """    
-    if inpt[1] is not None:
-        inpt[1].do_data_tstep(inpt[2], inpt[3])
-        
-    return inpt[1]
-        
-        
-
-class MyIterator:
-    """
-    Simple iterator class that will iterate through
-    the snobal classes and inputs
-    """
-    def __init__(self, obj, max_value):
-        self.obj = obj
-        self.cnt = 0
-        self.max_value = max_value
-       
-    def __iter__(self):
-        return self
-    
-    def next(self):
-        """
-        Return the next value from the object
-        """
-        while self.cnt < self.max_value:
-            result = self.obj.get(self.cnt)
-            self.cnt += 1
-            return result
-        
-        raise StopIteration
-    
-    
-      
-class SnobalIterator:
-    def __init__(self, s, input1, input2):
-        self.s = s
-        self.input1 = input1
-        self.input2 = input2
-        
-        self.max_value = s.size
-        self.cnt = 0
-
-    def __iter__(self):
-        return self  #MyIterator(self, self.s.size)
-    
-    def next(self):
-        """
-        Return the next value from the object
-        """
-        while self.cnt < self.max_value:
-            result = self.get(self.cnt)
-            self.cnt += 1
-            return result
-        
-        raise StopIteration
-    
-
-    def get(self, index):
-        # most likely will have to return the values for s,input1/2
-        # then will have to pass to another function
-       
-        # get the index to subindex
-        i = np.unravel_index(index, self.s.shape)
-
-        if self.s[i] is not None:
-       
-            # get the input values
-            in1 = {key: self.input1[key][i] for key in self.input1.keys()}
-            in2 = {key: self.input2[key][i] for key in self.input2.keys()}
-            
-            # run the model     
-#             self.s[i].do_data_tstep(in1, in2)
-            
-            return [index, self.s[i], in1, in2]
-        
-        else:
-            return [index, None]
-        
-
-
-# @profile
+@profile
 def main(configFile):
     """
     mimic the main.c from the Snobal model
@@ -812,12 +680,7 @@ def main(configFile):
     # create the output files
     if not point_run:
         output_files(options, init)
-    
-    # create a pool if needed
-#     pool = None
-#     if options['output']['nthreads'] is not None:
-#         pool = Pool(processes=options['output']['nthreads'])
-    
+        
     
     # loop through the input
     # do_data_tstep needs two input records so only go 
@@ -837,21 +700,7 @@ def main(configFile):
 #             input2 = {i: np.atleast_2d(input2[i][point]) for i in input2.keys()}
     
         s.do_data_tstep(input1, input2)
-    
-        
-#         isnobal(s, input1, input2)
-
-    
-#         if pool is not None:
-#             m = list(pool.imap(run_map, SnobalIterator(s, input1, input2), chunksize=100))
-#             s = np.array(m)
-#             s = s.reshape(init['z'].shape)
-#             
-#         else:
-        
-#         m = list(itertools.imap(run_map, SnobalIterator(s, input1, input2)))
-# #             run(s, input1, input2)
-        
+            
         input1 = input2.copy()
         
         # output at the frequency and the last time step

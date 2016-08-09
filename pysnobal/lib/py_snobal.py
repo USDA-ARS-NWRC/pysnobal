@@ -205,7 +205,6 @@ class snobal(object):
         self.isothermal = np.zeros(self.shape, dtype=bool)
         
         
-#     @profile
     def do_data_tstep(self, input1, input2):
         """
         This routine performs the model's calculations for 1 data timestep
@@ -376,73 +375,76 @@ class snobal(object):
             (self.snow.m_s_l[self.snow.z_s_l > 0] < threshold)
            
     
-    
-    def copy_gridded(self, index, steps=None):
+#     @profile
+    def copy_gridded(self, index, steps=None, copy_gridded_flag=True):
         """
         Copy from self.gridded* to self.snow and self.em
         """
         
-        # snow
-        for key in self.snow.keys:
-            setattr(self.snow, key, getattr(self.gridded_snow, key)[index])
-        self.snow.shape = self.snow.m_s.shape
-            
-        # em
-        for key in self.em.keys:
-            setattr(self.em, key, getattr(self.gridded_em, key)[index])
-        self.em.shape = self.em.cc_s.shape 
-            
-        # input1
-        for key in self.gridded_input1.keys():
-            self.input1[key] = self.gridded_input1[key][index]       
-        
-        # input2
-        for key in self.gridded_input2.keys():
-            self.input2[key] = self.gridded_input2[key][index]
-        
-        # precip
-        for key in self.gridded_precip.keys:
-            setattr(self.precip, key, getattr(self.gridded_precip, key)[index])
-            
-        # precip is a little funky since part of it needs to be divided up
-        if steps is not None:
-            for key in ['m_pp','m_snow','m_rain','z_snow']:
-                setattr(self.precip, key, getattr(self.gridded_precip, key)[index]/steps)
-        self.precip_now = self.precip.m_pp > 0
-        
-        # measurement heights
-        for key in self.gridded_mh.keys():
-            if key != 'time_z':
-                setattr(self, key, self.gridded_mh[key][index])
+        if copy_gridded_flag:
+            # snow
+            for key in self.snow.keys:
+                setattr(self.snow, key, getattr(self.gridded_snow, key)[index])
+            self.snow.shape = self.snow.m_s.shape
                 
-        # get the P_a
-        self.P_a = self.gridded_P_a[index]
+            # em
+            for key in self.em.keys:
+                setattr(self.em, key, getattr(self.gridded_em, key)[index])
+            self.em.shape = self.em.cc_s.shape 
+                
+            # input1
+            for key in self.gridded_input1.keys():
+                self.input1[key] = self.gridded_input1[key][index]       
+            
+            # input2
+            for key in self.gridded_input2.keys():
+                self.input2[key] = self.gridded_input2[key][index]
+            
+            # precip
+            for key in self.gridded_precip.keys:
+                setattr(self.precip, key, getattr(self.gridded_precip, key)[index])
+                
+            # precip is a little funky since part of it needs to be divided up
+            if steps is not None:
+                for key in ['m_pp','m_snow','m_rain','z_snow']:
+                    setattr(self.precip, key, getattr(self.gridded_precip, key)[index]/steps)
+            self.precip_now = self.precip.m_pp > 0
+            
+            # measurement heights
+            for key in self.gridded_mh.keys():
+                if key != 'time_z':
+                    setattr(self, key, self.gridded_mh[key][index])
+                    
+            # get the P_a
+            self.P_a = self.gridded_P_a[index]
         
         
-    def copy_working(self, index):
+#     @profile
+    def copy_working(self, index, copy_gridded_flag=True):
         """
         Copy the working subset back into the gridded
         Have to use some numpy trickery to index back into gridded_*
         """
         
-        # snow
-        for key in self.snow.keys:
-            v = getattr(self.gridded_snow, key) # this creates a reference to the class attribute
-            v[index] = getattr(self.snow, key)  # update the reference
+        if copy_gridded_flag:
+            # snow
+            for key in self.snow.keys:
+                v = getattr(self.gridded_snow, key) # this creates a reference to the class attribute
+                v[index] = getattr(self.snow, key)  # update the reference
+                
+            # em
+            for key in self.em.keys:
+                v = getattr(self.gridded_em, key) # this creates a reference to the class attribute
+                v[index] = getattr(self.em, key)  # update the reference
             
-        # em
-        for key in self.em.keys:
-            v = getattr(self.gridded_em, key) # this creates a reference to the class attribute
-            v[index] = getattr(self.em, key)  # update the reference
-        
-        if self.tstep_level > NORMAL_TSTEP:
-            # input1
-            for key in self.gridded_input1.keys():
-                self.gridded_input1[key][index] = self.input1[key]     
-            
-            # input2
-            for key in self.gridded_input2.keys():
-                self.gridded_input2[key][index] = self.input2[key]
+            if self.tstep_level > NORMAL_TSTEP:
+                # input1
+                for key in self.gridded_input1.keys():
+                    self.gridded_input1[key][index] = self.input1[key]     
+                
+                # input2
+                for key in self.gridded_input2.keys():
+                    self.gridded_input2[key][index] = self.input2[key]
             
             # precip
 #             for key in self.gridded_precip.keys:
@@ -504,7 +506,7 @@ class snobal(object):
         """
         
 #         print np.max(self.current_time)/3600.0
-        if np.max(self.current_time)/3600.0 > 801:
+        if np.max(self.current_time)/3600.0 > 711:
             self.curr_level
                       
         # determine the levels at which each pixel will be calculated
@@ -547,9 +549,19 @@ class snobal(object):
                 # do the small time step
                 sm_ind = (level == SMALL_TSTEP) & self.mask
                 if np.any(sm_ind):
-                    self.divide_inputs(sm_ind, sm_steps_left)
+                    self.divide_inputs(sm_ind, sm_steps_left)                    
                     for j in range(sm_interval):
-                        self.do_tstep(self.tstep_info[SMALL_TSTEP], sm_ind, sm_interval*med_interval)
+                        
+                        # set the flag for the gridded copying
+                        copy_gridded_flag = False
+                        copy_working_flag = False
+                        if j == (sm_interval -1 ):
+                            copy_working_flag = True
+                        if j == 0:
+                            copy_gridded_flag = True 
+                            
+                        self.do_tstep(self.tstep_info[SMALL_TSTEP], sm_ind, sm_interval*med_interval, 
+                                      [copy_gridded_flag, copy_working_flag])
                  
                 # update the levels
                 prev_level = level.copy()
@@ -570,113 +582,9 @@ class snobal(object):
         
         
     
-    
-    
-    def divide_tstep_exact(self):
-        """
-        This routine performs the model's calculations for 1 data timestep
-        between 2 input-data records which are in 'input_rec1' and
-        'input_rec2'.
-        
-        If there's precipitation during the data timestep, the flag
-        'precip_now' used be TRUE.  Furthermore, the routine requires
-        that the following precipitation variables have been initialized:
-        
-            m_pp
-            percent_snow
-            rho_snow
-            T_pp
-        
-        This routine divides the data timestep into the appropriate number
-        of normal run timesteps.  The input values for each normal timestep
-        are computed from the two input records by linear interpolation.
-        
-        If output is desired for any of the run timesteps (normal, medium,
-        or small), the appropriate output flags must be set in the proper
-        timestep's record (i.e., the array 'tstep_info').  If any output
-        flag is set, the routine requires that the global variable 'out_func'
-        point to appropriate output function.
-        
-        This routine may return in the middle of a data timestep if:
-        
-            a)  the output function pointed to by 'out_func' is called, and
-            b)  the flag 'run_no_snow' is FALSE, and
-            c)  there is no snow remaining on the ground at the end of
-                timestep
-        
-        In this happens, the flag 'stop_no_snow' is set to TRUE.
-                
-        """
-           
-#         print "Current level --> %i" % self.curr_level   
-        
-        # Fetch the record for the timestep at the next level.
-        self.next_level = self.curr_level + 1
-        next_lvl_tstep = self.tstep_info[self.next_level]
-        
-        # get the input deltas
-        curr_lvl_deltas = self.input_deltas[self.curr_level]
-#         next_lvl_deltas = self.input_deltas[self.next_level]
-        
-        # get the precip info
-        curr_lvl_precip = self.precip_info[self.curr_level]
-#         next_lvl_precip = self.precip_info[self.next_level]
-        
-        
-        # If this is the first time this new level has been used during
-        # the current data timestep, then calculate its input deltas
-        # and precipitation values.
-        
-        # To-do can get rid of computed and use the None
-        # float(interval) ensures that a float value will be returned always
-        
-        if not self.computed[self.next_level]:
-#             next_lvl_deltas = curr_lvl_deltas / next_lvl_tstep['intervals']
-#             self.input_deltas[self.next_level] = next_lvl_deltas.copy()
-            for k in curr_lvl_deltas.keys():
-                self.input_deltas[self.next_level][k] = curr_lvl_deltas[k] / float(next_lvl_tstep['intervals'])
-            
-            if np.any(self.precip.now):
-#                 next_lvl_precip = curr_lvl_precip / next_lvl_tstep['intervals']
-#                 self.precip_info[self.next_level] = next_lvl_precip.copy()
-                for k in curr_lvl_precip.keys:
-                    setattr(self.precip_info[self.next_level], k, 
-                            getattr(curr_lvl_precip, k) / float(next_lvl_tstep['intervals']))
-#                     self.precip_info[self.next_level][k] = curr_lvl_precip[k] / next_lvl_tstep['intervals']
-                
-            
-            self.computed[self.next_level] = True
-            
-        # For each the new smaller timestep, either subdivide them if
-        # below their mass threshold, or run the model for them.
-        interval = next_lvl_tstep['intervals']
-        for i in range(interval):
-#             print "Current level --> %i, loop %i" % (next_lvl_tstep['level'], i)
-            
-            if (self.next_level != SMALL_TSTEP) and (self.below_thold(next_lvl_tstep['threshold'])):
-                self.curr_level = copy(self.next_level) # increment the level number
-                if not self.divide_tstep_exact():
-                    return False
-            else:
-                if not self.do_tstep(next_lvl_tstep):
-                    return False
-        
-        
-        # Output if this timestep is divided?
-        # does a bitwise AND comparison
-        if self.tstep_info[self.curr_level]['output'] & DIVIDED_TSTEP:
-#             print '%.2f output divided tstep' % (self.current_time/3600.0)
-            self.output()
-            self.time_since_out = 0.0
-            
-        self.curr_level -= 1
-        self.next_level -= 1
-        
-        return True
-        
         
 #     @profile
-    def do_tstep(self, tstep, index, step):
+    def do_tstep(self, tstep, index, step, copy_flag=[True,True]):
         """
         This routine performs the model's calculations for a single timestep.
         It requires that these climate variables have been initialized:
@@ -711,8 +619,8 @@ class snobal(object):
 #             self.curr_level
             
         # copy the working subset for    
-        self.copy_gridded(index, step)
-        self.index = np.where(index)    # for debugging purposes
+        self.copy_gridded(index, step, copy_flag[0])
+        self.index = index    # for debugging purposes
         
         self.time_step = tstep['time_step']
         self.tstep_level = tstep['level']
@@ -785,7 +693,7 @@ class snobal(object):
         self.update_inputs()
         
         # put the working results back into gridded
-        self.copy_working(index)
+        self.copy_working(index, copy_flag[1])
         
         if tstep['output'] & WHOLE_TSTEP:
 #             print '%.2f output stuff here' % (self.current_time/3600.0)
@@ -1749,7 +1657,8 @@ class snobal(object):
                                              self.z_0)
                 
         if status != 0:
-            raise Exception("hle1 did not converge at point y=%i, x=%i) , sorry... :(" % (self.index[0][status], self.index[1][status]))
+            idx = np.where(self.index)
+            raise Exception("hle1 did not converge at point y=%i, x=%i) , sorry... :(" % (idx[0][status], idx[1][status]))
             
         self.em.H = H
         self.em.L_v_E = L_v_E
