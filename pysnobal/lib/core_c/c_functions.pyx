@@ -1,12 +1,17 @@
 """
 Collection of functions that are better off in C for speed purposes
 
+Follows this tutorial for efficient numpy to C conversion
+https://github.com/cython/cython/wiki/tutorials-NumpyPointerToC
+
 20160810
 """
 
 import cython
 import numpy as np
 cimport numpy as np
+
+from libc.math cimport pow
 
 # Numpy must be initialized. When using numpy from C or Cython you must
 # _always_ do that, or you will have segfaults
@@ -22,6 +27,8 @@ cdef extern from "envphys.h":
     double sati_grid(int ngrid, double *tk, double *es);
     void efcon_grid(int ngrid, double *k, double *t, double *p, double *e, double *etc);
 
+cdef double FREEZE = 273.16         # freezing temp K
+cdef double SEA_LEVEL = 1.013246e5  # sea level pressure
 
 
 @cython.boundscheck(False)
@@ -57,16 +64,9 @@ def hle1_c(press, ta, ts,  za, ea, es, zq, u, zu, z0):
     20160111 Scott Havens
     """
     
-#     cdef int ny = press.shape[0]
-#     cdef int nx = press.shape[1]
     cdef int ier
     cdef int i
-    
-#     cdef np.ndarray H = np.zeros_like(press, dtype=DTYPE)
-#     cdef np.ndarray LE = np.zeros_like(press, dtype=DTYPE)
-#     cdef np.ndarray E = np.zeros_like(press, dtype=DTYPE)
-#     cdef np.ndarray M = np.zeros_like(press, dtype=bool)
-    
+        
     H = np.zeros_like(press)
     LE = np.zeros_like(press)
     E = np.zeros_like(press)
@@ -97,7 +97,6 @@ def hle1_c(press, ta, ts,  za, ea, es, zq, u, zu, z0):
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
-# https://github.com/cython/cython/wiki/tutorials-NumpyPointerToC
 def hle1_gridded(press, ta, ts,  za, ea, es, zq, u, zu, z0, int error_check=1):
     """
     computes sensible and latent heat flux and mass flux given
@@ -195,7 +194,6 @@ def hle1_gridded(press, ta, ts,  za, ea, es, zq, u, zu, z0, int error_check=1):
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
-# https://github.com/cython/cython/wiki/tutorials-NumpyPointerToC
 def sati_gridded(t):
     """
     Calculates the saturation vapor pressure over ice
@@ -252,11 +250,11 @@ def efcon_gridded(k, t, p, e):
     cdef np.ndarray[double, mode="c"] t_arr
     t_arr = np.ascontiguousarray(t, dtype=np.float64)
     
-    # convert the t to C
+    # convert the p to C
     cdef np.ndarray[double, mode="c"] p_arr
     p_arr = np.ascontiguousarray(p, dtype=np.float64)
     
-    # convert the t to C
+    # convert the e to C
     cdef np.ndarray[double, mode="c"] e_arr
     e_arr = np.ascontiguousarray(e, dtype=np.float64)
 
@@ -270,3 +268,45 @@ def efcon_gridded(k, t, p, e):
     efcon_grid(ngrid, &k_arr[0], &t_arr[0], &p_arr[0], &e_arr[0], &etc[0])
     
     return etc
+
+
+# 
+# @cython.boundscheck(False)
+# @cython.wraparound(False)
+# @cython.cdivision(True)
+# def diffus_gridded(pa, ts):
+#     """
+#     effective diffusion coefficient (m^2/sec) for saturated porous layer
+#     (like snow...).  See Anderson, 1976, pg. 32, eq. 3.13.
+#     
+#     Args:
+#        pa: air pressure (Pa)
+#        ts: layer temperature (K)
+#     
+#     Returns:
+#         d: effective diffusion coefficient
+#     """
+# 
+#     cdef int i, ngrid
+#     
+#     ngrid = pa.shape[0]
+# 
+#     # convert the t to C
+#     cdef np.ndarray[double, mode="c"] t_arr
+#     t_arr = np.ascontiguousarray(ts, dtype=np.float64)
+#     
+#     # convert the p to C
+#     cdef np.ndarray[double, mode="c"] p_arr
+#     p_arr = np.ascontiguousarray(pa, dtype=np.float64)
+# 
+#     # output variable
+#     tmp = np.zeros_like(ts)
+#     cdef np.ndarray[double, mode="c"] d 
+#     d = np.ascontiguousarray(tmp, dtype=np.float64)
+# 
+# #     diffus_grid(ngrid, &p_arr[0], &t_arr[0], &d[0])
+#     
+#     for i in range(ngrid):
+#         d[i] = 0.65 * (SEA_LEVEL / p_arr[i]) * pow(t_arr[i]/FREEZE,14.0) * (0.01*0.01)
+# 
+#     return d

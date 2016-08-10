@@ -934,7 +934,7 @@ class snobal(object):
             
         
         
-#     @profile
+    @profile
     def evap_cond(self):
         """
         Calculates mass lost or gained by evaporation/condensation
@@ -999,14 +999,12 @@ class snobal(object):
             T_s[ind] = self.snow.T_s_l[ind]
             T_bar[ind] = (self.input1['T_g'][ind] + self.snow.T_s_l[ind]) / 2.0
         
-#         # layer_count == 1
-#         ind = self.snow.layer_count == 1
-#         if np.any(ind): 
-#             e_s_l[ind] = libsnobal.sati_np(self.snow.T_s_0[ind])
-#             T_bar[ind] = (self.input1['T_g'][ind] + self.snow.T_s_0[ind]) / 2.0
-
         # now calculate sati
-        e_s_l = core_c.sati_gridded(T_s)
+        # sati has already been calculated, the only time the snow temperature is changed
+        # is during adj_snow() which will only remove temperatures when it's zero
+#         e_s_l = core_c.sati_gridded(T_s)
+        e_s_l = self.snow.es_0[:]
+        e_s_l[ind] = self.snow.es_l[ind]
         
 
         q_s_l = libsnobal.spec_hum_np(e_s_l, self.P_a)
