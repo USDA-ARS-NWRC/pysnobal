@@ -638,7 +638,7 @@ class snobal(object):
         self.snowcover_domain = np.any(self.snowcover)
         
         if self.snowcover_domain:
-            self.input1['e_g'] = libsnobal.sati_np(self.input1['T_g'])
+            self.input1['e_g'] = core_c.sati_gridded(self.input1['T_g'])
 #             self.em.cc_s_0 = self.cold_content(self.snow.T_s_0, self.snow.m_s_0)
 #             self.em.cc_s_l= self.cold_content(self.snow.T_s_l, self.snow.m_s_l)
         
@@ -1006,7 +1006,7 @@ class snobal(object):
 #             T_bar[ind] = (self.input1['T_g'][ind] + self.snow.T_s_0[ind]) / 2.0
 
         # now calculate sati
-        e_s_l = libsnobal.sati_np(T_s)
+        e_s_l = core_c.sati_gridded(T_s)
         
 
         q_s_l = libsnobal.spec_hum_np(e_s_l, self.P_a)
@@ -1487,8 +1487,8 @@ class snobal(object):
         if self.snowcover_domain:
              
             # precalculate sati
-            self.snow.es_0 = libsnobal.sati_np(self.snow.T_s_0)
-            self.snow.es_l = libsnobal.sati_np(self.snow.T_s_l)
+            self.snow.es_0 = core_c.sati_gridded(self.snow.T_s_0)
+            self.snow.es_l = core_c.sati_gridded(self.snow.T_s_l)
              
              
             # Calculates net allwave radiation from the net solar radiation
@@ -1639,7 +1639,7 @@ class snobal(object):
 #         e_s = libsnobal.sati_np(self.snow.T_s_0)
         
         # error check for bad vapor pressures
-        sat_vp = libsnobal.sati_np(self.input1['T_a'])
+        sat_vp = core_c.sati_gridded(self.input1['T_a'])
         
         ind = self.input1['e_a'] > sat_vp
         if np.any(ind):
@@ -1661,12 +1661,12 @@ class snobal(object):
 #                                              self.z_0)
 #         
 #         # 3rd, looping in pyx file
-#         H2, L_v_E2, E2, status = core_c.c_functions.hle1_c(self.P_a, self.input1['T_a'], self.snow.T_s_0, rel_z_t, \
+#         H2, L_v_E2, E2, status = core_c.hle1_c(self.P_a, self.input1['T_a'], self.snow.T_s_0, rel_z_t, \
 #                                              self.input1['e_a'], self.snow.es_0, rel_z_t, self.input1['u'], rel_z_u, \
 #                                              self.z_0)
         
         # fastest, passing all variables to C to perform the loop
-        H, L_v_E, E, status = core_c.c_functions.hle1_gridded(self.P_a, self.input1['T_a'], self.snow.T_s_0, rel_z_t, \
+        H, L_v_E, E, status = core_c.hle1_gridded(self.P_a, self.input1['T_a'], self.snow.T_s_0, rel_z_t, \
                                              self.input1['e_a'], self.snow.es_0, rel_z_t, self.input1['u'], rel_z_u, \
                                              self.z_0, 0)
                 
