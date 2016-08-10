@@ -5,6 +5,8 @@ Class snobal() that will hold all the modeling components
 """
 
 import py_libsnobal as libsnobal
+import core_c
+
 # import libsnobal
 import numpy as np
 # import numpy.ma as ma
@@ -1651,10 +1653,22 @@ class snobal(object):
             rel_z_t = self.z_t - self.snow.z_s
             rel_z_u = self.z_u - self.snow.z_s
         
-        # calculate H & L_v_E
-        H, L_v_E, E, status = libsnobal.hle1_np2(self.P_a, self.input1['T_a'], self.snow.T_s_0, rel_z_t, \
+        # calculate H & L_v_E, the three different version all do the exact same thing but at different complexity and speed
+        
+#         2nd fastest, using numpy
+#         H, L_v_E, E, status = libsnobal.hle1_np2(self.P_a, self.input1['T_a'], self.snow.T_s_0, rel_z_t, \
+#                                              self.input1['e_a'], self.snow.es_0, rel_z_t, self.input1['u'], rel_z_u, \
+#                                              self.z_0)
+#         
+#         # 3rd, looping in pyx file
+#         H2, L_v_E2, E2, status = core_c.c_functions.hle1_c(self.P_a, self.input1['T_a'], self.snow.T_s_0, rel_z_t, \
+#                                              self.input1['e_a'], self.snow.es_0, rel_z_t, self.input1['u'], rel_z_u, \
+#                                              self.z_0)
+        
+        # fastest, passing all variables to C to perform the loop
+        H, L_v_E, E, status = core_c.c_functions.hle1_gridded(self.P_a, self.input1['T_a'], self.snow.T_s_0, rel_z_t, \
                                              self.input1['e_a'], self.snow.es_0, rel_z_t, self.input1['u'], rel_z_u, \
-                                             self.z_0)
+                                             self.z_0, 0)
                 
         if status != 0:
             idx = np.where(self.index)

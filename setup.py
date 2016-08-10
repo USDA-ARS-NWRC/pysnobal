@@ -1,14 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
 
 try:
     from setuptools import setup
 except ImportError:
     from distutils.core import setup
 
-# from distutils.extension import Extension
-# from Cython.Distutils import build_ext
+from distutils.extension import Extension
+from Cython.Distutils import build_ext
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()
@@ -25,13 +26,22 @@ test_requirements = [
 ]
 
 
-# sources=[os.path.join(loc, val) for val in ["detrended_kriging.pyx", "krige.c", "lusolv.c", "array.c"]]
-# ext_isnobal = Extension(
-#                         "pysnobal.c_libsnobal.c_snobal",
-#                         [ "pysnobal/c_libsnobal/c_snobal.pyx" ],
-#                         extra_compile_args=['-fopenmp'],
-#                         extra_link_args=['-fopenmp'],
-#                         )
+cmdclass = {}
+ext_modules = []
+
+
+loc = 'pysnobal/lib/core_c'
+sources=[os.path.join(loc, val) for val in ["c_functions.pyx", "envphys.c"]]
+ext_modules += [
+                Extension(
+                    "pysnobal.lib.core_c.c_functions",
+                    sources,
+                    extra_compile_args=['-fopenmp', '-O3'],
+                    extra_link_args=['-fopenmp', '-O3'],
+                    )
+                ]
+
+cmdclass.update({ 'build_ext': build_ext })
 
 setup(
     name='pysnobal',
@@ -66,9 +76,6 @@ setup(
     ],
     test_suite='tests',
     tests_require=test_requirements,
-#     cmdclass = {'build_ext': build_ext},
-#     ext_modules= [
-#         Extension("pysnobal.lib.libsnobal", [ "pysnobal/libsnobal/libsnobal.pyx" ]),
-#         Extension("pysnobal.lib.snobal", [ "pysnobal/libsnobal/snobal.pyx" ])
-#     ]
+    cmdclass = cmdclass,
+    ext_modules = ext_modules,
 )

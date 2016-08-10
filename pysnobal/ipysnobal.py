@@ -643,7 +643,7 @@ def initialize(params, tstep_info, mh, init):
            
 
 
-@profile
+# @profile
 def main(configFile):
     """
     mimic the main.c from the Snobal model

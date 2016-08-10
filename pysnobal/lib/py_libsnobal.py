@@ -236,6 +236,8 @@ def spec_hum(e, P):
     
     return e * MOL_H2O / (MOL_AIR * P + e * (MOL_H2O - MOL_AIR))
 
+
+# @profile
 def psi_np(zeta, code):
     """
     psi-functions
@@ -523,7 +525,7 @@ def hle1 (press, ta, ts, za, ea, es, zq, u, zu, z0, errorCheck=True):
     
     return h, le, e, ier
 
-
+# @profile
 def hle1_np2(press, ta, ts, za, ea, es, zq, u, zu, z0):
     """
     computes sensible and latent heat flux and mass flux given
@@ -599,6 +601,8 @@ def hle1_np2(press, ta, ts, za, ea, es, zq, u, zu, z0):
 
     ind = np.ones(ustar.shape, dtype=bool)
     
+    dq = qa - qs
+    dt = tp - ts
 
     while True:
         last = lo
@@ -607,8 +611,10 @@ def hle1_np2(press, ta, ts, za, ea, es, zq, u, zu, z0):
         p_ustar = ustar[ind]
         p_h = h[ind]
         p_e = e[ind]
+        p_dt = dt[ind]
         p_tp = tp[ind]
         p_ts = ts[ind]
+        p_dq = dq[ind]
         p_qa = qa[ind]
         p_qs = qs[ind]
         p_dens = dens[ind]
@@ -617,6 +623,7 @@ def hle1_np2(press, ta, ts, za, ea, es, zq, u, zu, z0):
         # Eq 4.25, but no minus sign as we define
         # positive H as toward surface
         lo = p_ustar * p_ustar * p_ustar * p_dens / (k * g * (p_h/(p_tp * cp) + 0.61 * p_e))
+        lo = np.power(p_ustar, 3) * p_dens / (k * g * (p_h/(p_tp * cp) + 0.61 * p_e))
                             
         # friction velocity, eq. 4.34'
         p_ustar = k * p_u / (ltsm[ind] - psi_np(zu[ind]/lo, 'SM'))
@@ -624,11 +631,13 @@ def hle1_np2(press, ta, ts, za, ea, es, zq, u, zu, z0):
         # evaporative flux, eq. 4.33'
         factor = k * p_ustar * p_dens
         p_e = (p_qa - p_qs) * factor * av / (ltsv[ind] - psi_np(zq[ind]/lo, 'SV'))
+        p_e = p_dq * k * p_ustar * p_dens * av / (ltsv[ind] - psi_np(zq[ind]/lo, 'SV'))
 
         
         # sensible heat flus, eq. 4.35'
         # with sign reversed
         p_h = (p_tp - p_ts) * factor * ah * cp / (ltsh[ind] - psi_np(za[ind]/lo, 'SH'))
+        p_h = p_dt * factor * ah * cp / (ltsh[ind] - psi_np(za[ind]/lo, 'SH'))
 
         diff[ind] = last - lo
 
