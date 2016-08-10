@@ -1592,13 +1592,14 @@ class snobal(object):
         # /***    note: Kt should be passed as an argument        ***/
         # /***    k_g = efcon(KT_WETSAND, tg, pa);            ***/
         kts = KT_MOISTSAND * np.ones(self.P_a.shape)
-        k_g = libsnobal.efcon(kts, self.input1['T_g'], self.P_a, self.input1['e_g'])
+        k_g = core_c.efcon_gridded(kts, self.input1['T_g'], self.P_a, self.input1['e_g'])
         
         # calculate G    
         # set snow conductivity
         kcs = KTS(self.snow.rho)
-        k_s = libsnobal.efcon(kcs, tsno, self.P_a, es)
+        k_s = core_c.efcon_gridded(kcs, tsno, self.P_a, es)
         g = libsnobal.ssxfr(k_s, k_g, tsno, self.input1['T_g'], ds, self.z_g)
+        
         
         return g
         
@@ -1617,8 +1618,8 @@ class snobal(object):
 #         else:
         kcs1 = KTS(self.snow.rho)
         kcs2 = KTS(self.snow.rho)
-        k_s1 = libsnobal.efcon(kcs1, self.snow.T_s_0, self.P_a, self.snow.es_0)
-        k_s2 = libsnobal.efcon(kcs2, self.snow.T_s_l, self.P_a, self.snow.es_l)
+        k_s1 = core_c.efcon_gridded(kcs1, self.snow.T_s_0, self.P_a, self.snow.es_0)
+        k_s2 = core_c.efcon_gridded(kcs2, self.snow.T_s_l, self.P_a, self.snow.es_l)
         
         g = libsnobal.ssxfr(k_s1, k_s2, self.snow.T_s_0, self.snow.T_s_l, self.snow.z_s_0, self.snow.z_s_l)
         

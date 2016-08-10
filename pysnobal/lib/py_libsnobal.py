@@ -682,6 +682,7 @@ def efcon(k, t, p, e):
         k: layer thermal conductivity (J/(m K sec)) 
         t: layer temperature (K)                    
         p: air pressure (Pa)    
+        e: vapor pressure (Pa)
         
     Returns:
         etc: effective thermal conductivity (J/(m K sec))

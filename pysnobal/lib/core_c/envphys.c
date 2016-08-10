@@ -406,3 +406,45 @@ satw(
 
 	return(x);
 }
+
+
+/* ----------------------------------------------------------------------- */
+
+void efcon_grid (
+		int ngrid, 		/* number of points */
+		double *k,		/* layer thermal conductivity (J/(m K sec)) */
+		double *t,		/* layer temperature (K)		    */
+		double *p,		/* air pressure (Pa)  			    */
+		double *e,		/* layer vapor pressure (Pa)		*/
+		double *etc 	/* output, effecitve layer diffusion */
+)
+{
+	/*	calculate effective layer diffusion
+		(see Anderson, 1976, pg. 32)		*/
+
+	int i;
+	double	de;
+	double	lh;
+	double	q;
+
+	for (i = 0; i < ngrid; i++) {
+		de = DIFFUS(p[i], t[i]);
+
+		/*	set latent heat from layer temp.	*/
+		if(t[i] > FREEZE)
+			lh = LH_VAP(t[i]);
+		else if(t[i] == FREEZE)
+			lh = (LH_VAP(t[i]) + LH_SUB(t[i])) / 2.0;
+		else
+			lh = LH_SUB(t[i]);
+
+		/*	set mixing ratio from layer temp.	*/
+		q = MIX_RATIO(e[i], p[i]);
+
+		/*	calculate effective layer conductivity	*/
+		etc[i] = k[i] + (lh * de * q);
+	}
+
+
+}
+

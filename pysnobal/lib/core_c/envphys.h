@@ -378,7 +378,7 @@
 //			double *h, double *le);
 //extern double	dew_point(double e);
 //extern double	dew_pointp(double e, double tol);
-//extern double	efcon(double k, double t, double p);
+extern void efcon_grid(int ngrid, double *k, double *t, double *p, double *e, double *etc);
 //extern double	evap(double le, double ts);
 //extern double	heat_stor(double cp, double spm, double tdif);
 extern int      hle1(double press, double ta, double ts, double za,

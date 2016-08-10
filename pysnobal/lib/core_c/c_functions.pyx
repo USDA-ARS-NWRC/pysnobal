@@ -20,6 +20,7 @@ cdef extern from "envphys.h":
                    double *es, double *zq, double *u, double *zu, double *z0, int error_check, 
                    double *h, double *le, double *e);
     double sati_grid(int ngrid, double *tk, double *es);
+    void efcon_grid(int ngrid, double *k, double *t, double *p, double *e, double *etc);
 
 
 
@@ -220,3 +221,52 @@ def sati_gridded(t):
     sati_grid(ngrid, &t_arr[0], &es[0])
     
     return es
+
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+# https://github.com/cython/cython/wiki/tutorials-NumpyPointerToC
+def efcon_gridded(k, t, p, e):
+    """
+    calculates the effective thermal conductivity for a layer
+    accounting for both conduction and vapor diffusion.
+    Saturation within the layer is assumed.
+    
+    Args:
+        k: layer thermal conductivity (J/(m K sec)) 
+        t: layer temperature (K)                    
+        p: air pressure (Pa)
+        e: vapor pressure (Pa)
+        
+    Returns:
+        etc: effective thermal conductivity (J/(m K sec))
+    """
+    
+    ngrid = k.shape[0]
+    
+    # convert the k to C
+    cdef np.ndarray[double, mode="c"] k_arr
+    k_arr = np.ascontiguousarray(k, dtype=np.float64)
+
+    # convert the t to C
+    cdef np.ndarray[double, mode="c"] t_arr
+    t_arr = np.ascontiguousarray(t, dtype=np.float64)
+    
+    # convert the t to C
+    cdef np.ndarray[double, mode="c"] p_arr
+    p_arr = np.ascontiguousarray(p, dtype=np.float64)
+    
+    # convert the t to C
+    cdef np.ndarray[double, mode="c"] e_arr
+    e_arr = np.ascontiguousarray(e, dtype=np.float64)
+
+
+    # output variable
+    tmp = np.zeros_like(t)
+    cdef np.ndarray[double, mode="c"] etc 
+    etc = np.ascontiguousarray(tmp, dtype=np.float64)
+    
+    # calculate the saturation vapor pressure
+    efcon_grid(ngrid, &k_arr[0], &t_arr[0], &p_arr[0], &e_arr[0], &etc[0])
+    
+    return etc
