@@ -386,7 +386,7 @@ extern int      hle1(double press, double ta, double ts, double za,
 		     double z0, int error_check, double *h, double *le, double *e);
 extern int      hle1_grid(int ngrid, double *press, double *ta, double *ts, double *za,
  		     double *ea, double *es, double *zq, double *u, double *zu,
- 		     double *z0, int error_check, double *h, double *le, double *e);
+ 		     double *z0, int error_check, int nthreads, double *h, double *le, double *e);
 extern double psi(double zeta,	int	code);
 //extern double   psychrom(double tdry, double twet, double press);
 //extern double   wetbulb(double ta, double dpt, double press);

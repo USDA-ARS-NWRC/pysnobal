@@ -1203,6 +1203,7 @@ static char __pyx_k_za_arr[] = "za_arr";
 static char __pyx_k_zq_arr[] = "zq_arr";
 static char __pyx_k_zu_arr[] = "zu_arr";
 static char __pyx_k_float64[] = "float64";
+static char __pyx_k_nthreads[] = "nthreads";
 static char __pyx_k_press_arr[] = "press_arr";
 static char __pyx_k_ValueError[] = "ValueError";
 static char __pyx_k_zeros_like[] = "zeros_like";
@@ -1259,6 +1260,7 @@ static PyObject *__pyx_kp_u_ndarray_is_not_Fortran_contiguou;
 static PyObject *__pyx_n_s_ndenumerate;
 static PyObject *__pyx_n_s_ngrid;
 static PyObject *__pyx_n_s_np;
+static PyObject *__pyx_n_s_nthreads;
 static PyObject *__pyx_n_s_numpy;
 static PyObject *__pyx_n_s_p;
 static PyObject *__pyx_n_s_p_arr;
@@ -1290,7 +1292,7 @@ static PyObject *__pyx_n_s_zq_arr;
 static PyObject *__pyx_n_s_zu;
 static PyObject *__pyx_n_s_zu_arr;
 static PyObject *__pyx_pf_8pysnobal_3lib_6core_c_11c_functions_hle1_c(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_press, PyObject *__pyx_v_ta, PyObject *__pyx_v_ts, PyObject *__pyx_v_za, PyObject *__pyx_v_ea, PyObject *__pyx_v_es, PyObject *__pyx_v_zq, PyObject *__pyx_v_u, PyObject *__pyx_v_zu, PyObject *__pyx_v_z0); /* proto */
-static PyObject *__pyx_pf_8pysnobal_3lib_6core_c_11c_functions_2hle1_gridded(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_press, PyObject *__pyx_v_ta, PyObject *__pyx_v_ts, PyObject *__pyx_v_za, PyObject *__pyx_v_ea, PyObject *__pyx_v_es, PyObject *__pyx_v_zq, PyObject *__pyx_v_u, PyObject *__pyx_v_zu, PyObject *__pyx_v_z0, int __pyx_v_error_check); /* proto */
+static PyObject *__pyx_pf_8pysnobal_3lib_6core_c_11c_functions_2hle1_gridded(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_press, PyObject *__pyx_v_ta, PyObject *__pyx_v_ts, PyObject *__pyx_v_za, PyObject *__pyx_v_ea, PyObject *__pyx_v_es, PyObject *__pyx_v_zq, PyObject *__pyx_v_u, PyObject *__pyx_v_zu, PyObject *__pyx_v_z0, int __pyx_v_error_check, int __pyx_v_nthreads); /* proto */
 static PyObject *__pyx_pf_8pysnobal_3lib_6core_c_11c_functions_4sati_gridded(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_t); /* proto */
 static PyObject *__pyx_pf_8pysnobal_3lib_6core_c_11c_functions_6efcon_gridded(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_k, PyObject *__pyx_v_t, PyObject *__pyx_v_p, PyObject *__pyx_v_e); /* proto */
 static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
@@ -1984,7 +1986,7 @@ static PyObject *__pyx_pf_8pysnobal_3lib_6core_c_11c_functions_hle1_c(CYTHON_UNU
 /* "pysnobal/lib/core_c/c_functions.pyx":100
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
- * def hle1_gridded(press, ta, ts,  za, ea, es, zq, u, zu, z0, int error_check=1):             # <<<<<<<<<<<<<<
+ * def hle1_gridded(press, ta, ts,  za, ea, es, zq, u, zu, z0, int error_check=1, int nthreads=1):             # <<<<<<<<<<<<<<
  *     """
  *     computes sensible and latent heat flux and mass flux given
  */
@@ -2005,6 +2007,7 @@ static PyObject *__pyx_pw_8pysnobal_3lib_6core_c_11c_functions_3hle1_gridded(PyO
   PyObject *__pyx_v_zu = 0;
   PyObject *__pyx_v_z0 = 0;
   int __pyx_v_error_check;
+  int __pyx_v_nthreads;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -2012,12 +2015,13 @@ static PyObject *__pyx_pw_8pysnobal_3lib_6core_c_11c_functions_3hle1_gridded(PyO
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("hle1_gridded (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_press,&__pyx_n_s_ta,&__pyx_n_s_ts,&__pyx_n_s_za,&__pyx_n_s_ea,&__pyx_n_s_es,&__pyx_n_s_zq,&__pyx_n_s_u,&__pyx_n_s_zu,&__pyx_n_s_z0,&__pyx_n_s_error_check,0};
-    PyObject* values[11] = {0,0,0,0,0,0,0,0,0,0,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_press,&__pyx_n_s_ta,&__pyx_n_s_ts,&__pyx_n_s_za,&__pyx_n_s_ea,&__pyx_n_s_es,&__pyx_n_s_zq,&__pyx_n_s_u,&__pyx_n_s_zu,&__pyx_n_s_z0,&__pyx_n_s_error_check,&__pyx_n_s_nthreads,0};
+    PyObject* values[12] = {0,0,0,0,0,0,0,0,0,0,0,0};
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
+        case 12: values[11] = PyTuple_GET_ITEM(__pyx_args, 11);
         case 11: values[10] = PyTuple_GET_ITEM(__pyx_args, 10);
         case 10: values[9] = PyTuple_GET_ITEM(__pyx_args, 9);
         case  9: values[8] = PyTuple_GET_ITEM(__pyx_args, 8);
@@ -2040,52 +2044,57 @@ static PyObject *__pyx_pw_8pysnobal_3lib_6core_c_11c_functions_3hle1_gridded(PyO
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_ta)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("hle1_gridded", 0, 10, 11, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("hle1_gridded", 0, 10, 12, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_ts)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("hle1_gridded", 0, 10, 11, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("hle1_gridded", 0, 10, 12, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_za)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("hle1_gridded", 0, 10, 11, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("hle1_gridded", 0, 10, 12, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  4:
         if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_ea)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("hle1_gridded", 0, 10, 11, 4); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("hle1_gridded", 0, 10, 12, 4); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  5:
         if (likely((values[5] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_es)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("hle1_gridded", 0, 10, 11, 5); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("hle1_gridded", 0, 10, 12, 5); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  6:
         if (likely((values[6] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_zq)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("hle1_gridded", 0, 10, 11, 6); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("hle1_gridded", 0, 10, 12, 6); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  7:
         if (likely((values[7] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_u)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("hle1_gridded", 0, 10, 11, 7); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("hle1_gridded", 0, 10, 12, 7); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  8:
         if (likely((values[8] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_zu)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("hle1_gridded", 0, 10, 11, 8); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("hle1_gridded", 0, 10, 12, 8); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  9:
         if (likely((values[9] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_z0)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("hle1_gridded", 0, 10, 11, 9); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("hle1_gridded", 0, 10, 12, 9); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case 10:
         if (kw_args > 0) {
           PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_error_check);
           if (value) { values[10] = value; kw_args--; }
+        }
+        case 11:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_nthreads);
+          if (value) { values[11] = value; kw_args--; }
         }
       }
       if (unlikely(kw_args > 0)) {
@@ -2093,6 +2102,7 @@ static PyObject *__pyx_pw_8pysnobal_3lib_6core_c_11c_functions_3hle1_gridded(PyO
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case 12: values[11] = PyTuple_GET_ITEM(__pyx_args, 11);
         case 11: values[10] = PyTuple_GET_ITEM(__pyx_args, 10);
         case 10: values[9] = PyTuple_GET_ITEM(__pyx_args, 9);
         values[8] = PyTuple_GET_ITEM(__pyx_args, 8);
@@ -2123,23 +2133,28 @@ static PyObject *__pyx_pw_8pysnobal_3lib_6core_c_11c_functions_3hle1_gridded(PyO
     } else {
       __pyx_v_error_check = ((int)1);
     }
+    if (values[11]) {
+      __pyx_v_nthreads = __Pyx_PyInt_As_int(values[11]); if (unlikely((__pyx_v_nthreads == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    } else {
+      __pyx_v_nthreads = ((int)1);
+    }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("hle1_gridded", 0, 10, 11, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("hle1_gridded", 0, 10, 12, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("pysnobal.lib.core_c.c_functions.hle1_gridded", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8pysnobal_3lib_6core_c_11c_functions_2hle1_gridded(__pyx_self, __pyx_v_press, __pyx_v_ta, __pyx_v_ts, __pyx_v_za, __pyx_v_ea, __pyx_v_es, __pyx_v_zq, __pyx_v_u, __pyx_v_zu, __pyx_v_z0, __pyx_v_error_check);
+  __pyx_r = __pyx_pf_8pysnobal_3lib_6core_c_11c_functions_2hle1_gridded(__pyx_self, __pyx_v_press, __pyx_v_ta, __pyx_v_ts, __pyx_v_za, __pyx_v_ea, __pyx_v_es, __pyx_v_zq, __pyx_v_u, __pyx_v_zu, __pyx_v_z0, __pyx_v_error_check, __pyx_v_nthreads);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pysnobal_3lib_6core_c_11c_functions_2hle1_gridded(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_press, PyObject *__pyx_v_ta, PyObject *__pyx_v_ts, PyObject *__pyx_v_za, PyObject *__pyx_v_ea, PyObject *__pyx_v_es, PyObject *__pyx_v_zq, PyObject *__pyx_v_u, PyObject *__pyx_v_zu, PyObject *__pyx_v_z0, int __pyx_v_error_check) {
+static PyObject *__pyx_pf_8pysnobal_3lib_6core_c_11c_functions_2hle1_gridded(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_press, PyObject *__pyx_v_ta, PyObject *__pyx_v_ts, PyObject *__pyx_v_za, PyObject *__pyx_v_ea, PyObject *__pyx_v_es, PyObject *__pyx_v_zq, PyObject *__pyx_v_u, PyObject *__pyx_v_zu, PyObject *__pyx_v_z0, int __pyx_v_error_check, int __pyx_v_nthreads) {
   int __pyx_v_ngrid;
   int __pyx_v_ier;
   PyArrayObject *__pyx_v_press_arr = 0;
@@ -3108,7 +3123,7 @@ static PyObject *__pyx_pf_8pysnobal_3lib_6core_c_11c_functions_2hle1_gridded(CYT
  *     # call the C function
  *     ier = hle1_grid(ngrid, &press_arr[0], &ta_arr[0], &ts_arr[0], &za_arr[0],             # <<<<<<<<<<<<<<
  *               &ea_arr[0], &es_arr[0], &zq_arr[0], &u_arr[0], &zu_arr[0],
- *               &z0_arr[0], error_check, &H[0], &LE[0], &E[0])
+ *               &z0_arr[0], error_check, nthreads, &H[0], &LE[0], &E[0])
  */
   __pyx_t_23 = 0;
   __pyx_t_24 = 0;
@@ -3119,7 +3134,7 @@ static PyObject *__pyx_pf_8pysnobal_3lib_6core_c_11c_functions_2hle1_gridded(CYT
  *     # call the C function
  *     ier = hle1_grid(ngrid, &press_arr[0], &ta_arr[0], &ts_arr[0], &za_arr[0],
  *               &ea_arr[0], &es_arr[0], &zq_arr[0], &u_arr[0], &zu_arr[0],             # <<<<<<<<<<<<<<
- *               &z0_arr[0], error_check, &H[0], &LE[0], &E[0])
+ *               &z0_arr[0], error_check, nthreads, &H[0], &LE[0], &E[0])
  * 
  */
   __pyx_t_27 = 0;
@@ -3131,7 +3146,7 @@ static PyObject *__pyx_pf_8pysnobal_3lib_6core_c_11c_functions_2hle1_gridded(CYT
   /* "pysnobal/lib/core_c/c_functions.pyx":190
  *     ier = hle1_grid(ngrid, &press_arr[0], &ta_arr[0], &ts_arr[0], &za_arr[0],
  *               &ea_arr[0], &es_arr[0], &zq_arr[0], &u_arr[0], &zu_arr[0],
- *               &z0_arr[0], error_check, &H[0], &LE[0], &E[0])             # <<<<<<<<<<<<<<
+ *               &z0_arr[0], error_check, nthreads, &H[0], &LE[0], &E[0])             # <<<<<<<<<<<<<<
  * 
  *     return H, LE, E, ier
  */
@@ -3145,12 +3160,12 @@ static PyObject *__pyx_pf_8pysnobal_3lib_6core_c_11c_functions_2hle1_gridded(CYT
  *     # call the C function
  *     ier = hle1_grid(ngrid, &press_arr[0], &ta_arr[0], &ts_arr[0], &za_arr[0],             # <<<<<<<<<<<<<<
  *               &ea_arr[0], &es_arr[0], &zq_arr[0], &u_arr[0], &zu_arr[0],
- *               &z0_arr[0], error_check, &H[0], &LE[0], &E[0])
+ *               &z0_arr[0], error_check, nthreads, &H[0], &LE[0], &E[0])
  */
-  __pyx_v_ier = hle1_grid(__pyx_v_ngrid, (&(*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_press_arr.rcbuffer->pybuffer.buf, __pyx_t_23, __pyx_pybuffernd_press_arr.diminfo[0].strides))), (&(*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_ta_arr.rcbuffer->pybuffer.buf, __pyx_t_24, __pyx_pybuffernd_ta_arr.diminfo[0].strides))), (&(*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_ts_arr.rcbuffer->pybuffer.buf, __pyx_t_25, __pyx_pybuffernd_ts_arr.diminfo[0].strides))), (&(*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_za_arr.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_za_arr.diminfo[0].strides))), (&(*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_ea_arr.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_ea_arr.diminfo[0].strides))), (&(*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_es_arr.rcbuffer->pybuffer.buf, __pyx_t_28, __pyx_pybuffernd_es_arr.diminfo[0].strides))), (&(*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_zq_arr.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_zq_arr.diminfo[0].strides))), (&(*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_u_arr.rcbuffer->pybuffer.buf, __pyx_t_30, __pyx_pybuffernd_u_arr.diminfo[0].strides))), (&(*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_zu_arr.rcbuffer->pybuffer.buf, __pyx_t_31, __pyx_pybuffernd_zu_arr.diminfo[0].strides))), (&(*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_z0_arr.rcbuffer->pybuffer.buf, __pyx_t_32, __pyx_pybuffernd_z0_arr.diminfo[0].strides))), __pyx_v_error_check, (&(*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_H.rcbuffer->pybuffer.buf, __pyx_t_33, __pyx_pybuffernd_H.diminfo[0].strides))), (&(*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_LE.rcbuffer->pybuffer.buf, __pyx_t_34, __pyx_pybuffernd_LE.diminfo[0].strides))), (&(*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_E.rcbuffer->pybuffer.buf, __pyx_t_35, __pyx_pybuffernd_E.diminfo[0].strides))));
+  __pyx_v_ier = hle1_grid(__pyx_v_ngrid, (&(*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_press_arr.rcbuffer->pybuffer.buf, __pyx_t_23, __pyx_pybuffernd_press_arr.diminfo[0].strides))), (&(*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_ta_arr.rcbuffer->pybuffer.buf, __pyx_t_24, __pyx_pybuffernd_ta_arr.diminfo[0].strides))), (&(*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_ts_arr.rcbuffer->pybuffer.buf, __pyx_t_25, __pyx_pybuffernd_ts_arr.diminfo[0].strides))), (&(*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_za_arr.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_za_arr.diminfo[0].strides))), (&(*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_ea_arr.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_ea_arr.diminfo[0].strides))), (&(*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_es_arr.rcbuffer->pybuffer.buf, __pyx_t_28, __pyx_pybuffernd_es_arr.diminfo[0].strides))), (&(*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_zq_arr.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_zq_arr.diminfo[0].strides))), (&(*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_u_arr.rcbuffer->pybuffer.buf, __pyx_t_30, __pyx_pybuffernd_u_arr.diminfo[0].strides))), (&(*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_zu_arr.rcbuffer->pybuffer.buf, __pyx_t_31, __pyx_pybuffernd_zu_arr.diminfo[0].strides))), (&(*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_z0_arr.rcbuffer->pybuffer.buf, __pyx_t_32, __pyx_pybuffernd_z0_arr.diminfo[0].strides))), __pyx_v_error_check, __pyx_v_nthreads, (&(*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_H.rcbuffer->pybuffer.buf, __pyx_t_33, __pyx_pybuffernd_H.diminfo[0].strides))), (&(*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_LE.rcbuffer->pybuffer.buf, __pyx_t_34, __pyx_pybuffernd_LE.diminfo[0].strides))), (&(*__Pyx_BufPtrCContig1d(double *, __pyx_pybuffernd_E.rcbuffer->pybuffer.buf, __pyx_t_35, __pyx_pybuffernd_E.diminfo[0].strides))));
 
   /* "pysnobal/lib/core_c/c_functions.pyx":192
- *               &z0_arr[0], error_check, &H[0], &LE[0], &E[0])
+ *               &z0_arr[0], error_check, nthreads, &H[0], &LE[0], &E[0])
  * 
  *     return H, LE, E, ier             # <<<<<<<<<<<<<<
  * 
@@ -3180,7 +3195,7 @@ static PyObject *__pyx_pf_8pysnobal_3lib_6core_c_11c_functions_2hle1_gridded(CYT
   /* "pysnobal/lib/core_c/c_functions.pyx":100
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
- * def hle1_gridded(press, ta, ts,  za, ea, es, zq, u, zu, z0, int error_check=1):             # <<<<<<<<<<<<<<
+ * def hle1_gridded(press, ta, ts,  za, ea, es, zq, u, zu, z0, int error_check=1, int nthreads=1):             # <<<<<<<<<<<<<<
  *     """
  *     computes sensible and latent heat flux and mass flux given
  */
@@ -6276,6 +6291,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ndenumerate, __pyx_k_ndenumerate, sizeof(__pyx_k_ndenumerate), 0, 0, 1, 1},
   {&__pyx_n_s_ngrid, __pyx_k_ngrid, sizeof(__pyx_k_ngrid), 0, 0, 1, 1},
   {&__pyx_n_s_np, __pyx_k_np, sizeof(__pyx_k_np), 0, 0, 1, 1},
+  {&__pyx_n_s_nthreads, __pyx_k_nthreads, sizeof(__pyx_k_nthreads), 0, 0, 1, 1},
   {&__pyx_n_s_numpy, __pyx_k_numpy, sizeof(__pyx_k_numpy), 0, 0, 1, 1},
   {&__pyx_n_s_p, __pyx_k_p, sizeof(__pyx_k_p), 0, 0, 1, 1},
   {&__pyx_n_s_p_arr, __pyx_k_p_arr, sizeof(__pyx_k_p_arr), 0, 0, 1, 1},
@@ -6402,14 +6418,14 @@ static int __Pyx_InitCachedConstants(void) {
   /* "pysnobal/lib/core_c/c_functions.pyx":100
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
- * def hle1_gridded(press, ta, ts,  za, ea, es, zq, u, zu, z0, int error_check=1):             # <<<<<<<<<<<<<<
+ * def hle1_gridded(press, ta, ts,  za, ea, es, zq, u, zu, z0, int error_check=1, int nthreads=1):             # <<<<<<<<<<<<<<
  *     """
  *     computes sensible and latent heat flux and mass flux given
  */
-  __pyx_tuple__9 = PyTuple_Pack(29, __pyx_n_s_press, __pyx_n_s_ta, __pyx_n_s_ts, __pyx_n_s_za, __pyx_n_s_ea, __pyx_n_s_es, __pyx_n_s_zq, __pyx_n_s_u, __pyx_n_s_zu, __pyx_n_s_z0, __pyx_n_s_error_check, __pyx_n_s_ngrid, __pyx_n_s_ier, __pyx_n_s_press_arr, __pyx_n_s_ta_arr, __pyx_n_s_ts_arr, __pyx_n_s_za_arr, __pyx_n_s_ea_arr, __pyx_n_s_es_arr, __pyx_n_s_zq_arr, __pyx_n_s_u_arr, __pyx_n_s_zu_arr, __pyx_n_s_z0_arr, __pyx_n_s_h, __pyx_n_s_le, __pyx_n_s_e, __pyx_n_s_H, __pyx_n_s_LE, __pyx_n_s_E); if (unlikely(!__pyx_tuple__9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__9 = PyTuple_Pack(30, __pyx_n_s_press, __pyx_n_s_ta, __pyx_n_s_ts, __pyx_n_s_za, __pyx_n_s_ea, __pyx_n_s_es, __pyx_n_s_zq, __pyx_n_s_u, __pyx_n_s_zu, __pyx_n_s_z0, __pyx_n_s_error_check, __pyx_n_s_nthreads, __pyx_n_s_ngrid, __pyx_n_s_ier, __pyx_n_s_press_arr, __pyx_n_s_ta_arr, __pyx_n_s_ts_arr, __pyx_n_s_za_arr, __pyx_n_s_ea_arr, __pyx_n_s_es_arr, __pyx_n_s_zq_arr, __pyx_n_s_u_arr, __pyx_n_s_zu_arr, __pyx_n_s_z0_arr, __pyx_n_s_h, __pyx_n_s_le, __pyx_n_s_e, __pyx_n_s_H, __pyx_n_s_LE, __pyx_n_s_E); if (unlikely(!__pyx_tuple__9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
-  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(11, 0, 29, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_scotthavens_Documents_Proj, __pyx_n_s_hle1_gridded, 100, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(12, 0, 30, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_scotthavens_Documents_Proj, __pyx_n_s_hle1_gridded, 100, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "pysnobal/lib/core_c/c_functions.pyx":197
  * @cython.boundscheck(False)
@@ -6608,7 +6624,7 @@ PyMODINIT_FUNC PyInit_c_functions(void)
   /* "pysnobal/lib/core_c/c_functions.pyx":100
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
- * def hle1_gridded(press, ta, ts,  za, ea, es, zq, u, zu, z0, int error_check=1):             # <<<<<<<<<<<<<<
+ * def hle1_gridded(press, ta, ts,  za, ea, es, zq, u, zu, z0, int error_check=1, int nthreads=1):             # <<<<<<<<<<<<<<
  *     """
  *     computes sensible and latent heat flux and mass flux given
  */

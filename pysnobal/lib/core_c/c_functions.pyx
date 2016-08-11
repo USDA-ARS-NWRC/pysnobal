@@ -22,8 +22,8 @@ cdef extern from "envphys.h":
              double zq, double u, double zu, double z0, int error_check, 
              double *h, double *le, double *e);
     int hle1_grid(int ngrid, double *press, double *ta, double *ts, double *za, double *ea, 
-                   double *es, double *zq, double *u, double *zu, double *z0, int error_check, 
-                   double *h, double *le, double *e);
+                   double *es, double *zq, double *u, double *zu, double *z0, int error_check,
+                   int nthreads, double *h, double *le, double *e);
     double sati_grid(int ngrid, double *tk, double *es);
     void efcon_grid(int ngrid, double *k, double *t, double *p, double *e, double *etc);
 
@@ -97,7 +97,7 @@ def hle1_c(press, ta, ts,  za, ea, es, zq, u, zu, z0):
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
-def hle1_gridded(press, ta, ts,  za, ea, es, zq, u, zu, z0, int error_check=1):
+def hle1_gridded(press, ta, ts,  za, ea, es, zq, u, zu, z0, int error_check=1, int nthreads=1):
     """
     computes sensible and latent heat flux and mass flux given
     measurements of temperature and specific humidity at surface
@@ -187,7 +187,7 @@ def hle1_gridded(press, ta, ts,  za, ea, es, zq, u, zu, z0, int error_check=1):
     # call the C function
     ier = hle1_grid(ngrid, &press_arr[0], &ta_arr[0], &ts_arr[0], &za_arr[0], 
               &ea_arr[0], &es_arr[0], &zq_arr[0], &u_arr[0], &zu_arr[0], 
-              &z0_arr[0], error_check, &H[0], &LE[0], &E[0])
+              &z0_arr[0], error_check, nthreads, &H[0], &LE[0], &E[0])
 
     return H, LE, E, ier
 

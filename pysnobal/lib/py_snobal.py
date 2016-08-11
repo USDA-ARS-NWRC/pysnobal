@@ -585,7 +585,7 @@ class snobal(object):
         
     
         
-    @profile
+#     @profile
     def do_tstep(self, tstep, index, step, copy_flag=[True,True]):
         """
         This routine performs the model's calculations for a single timestep.
@@ -719,7 +719,7 @@ class snobal(object):
             self.input1['T_g'] += self.input_deltas['T_g']
         
         
-    @profile    
+#     @profile    
     def mass_bal(self):
         """
         Calculates the point mass budget for 2-layer energy budget snowmelt
@@ -1473,7 +1473,7 @@ class snobal(object):
 #                 self.em.cc_s_l = 0
             
         
-    @profile
+#     @profile
     def e_bal(self):
         """
         Calculates point energy budget for 2-layer snowcover.
@@ -1600,7 +1600,7 @@ class snobal(object):
         
         return g
         
-    @profile
+    
     def g_snow(self):
         """
         conduction heat flow between snow layers
@@ -1669,7 +1669,7 @@ class snobal(object):
         # fastest, passing all variables to C to perform the loop
         H, L_v_E, E, status = core_c.hle1_gridded(self.P_a, self.input1['T_a'], self.snow.T_s_0, rel_z_t, \
                                              self.input1['e_a'], self.snow.es_0, rel_z_t, self.input1['u'], rel_z_u, \
-                                             self.z_0, 0)
+                                             self.z_0, error_check=0)
                 
         if status != 0:
             idx = np.where(self.index)

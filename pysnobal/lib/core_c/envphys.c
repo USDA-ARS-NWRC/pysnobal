@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <errno.h>
 #include <assert.h>
+#include <omp.h>
 #include "envphys.h"
 
 #define AH		1.0	/* ratio sensible/momentum phi func	*/
@@ -290,6 +291,7 @@ hle1_grid(
 		double	*zu,	/* height of wind speed measurement (m)	*/
 		double	*z0,	/* roughness length (m)			*/
 		int error_check, /* flag if the inputs should be checked for errors */
+		int nthreads, 	/* number of threads to use */
 
 		/* output variables */
 
@@ -300,17 +302,29 @@ hle1_grid(
 
 
 	int i, ier;
+	int brokeit = 0;
 
-	for (i =0; i < ngrid; i++) {
+	// setup the parallel execution
+	omp_set_dynamic(100);     // Explicitly disable dynamic teams
+	omp_set_num_threads(nthreads); // Use N threads for all consecutive parallel regions
 
-		ier = hle1(press[i], ta[i], ts[i], za[i], ea[i], es[i], zq[i], u[i], zu[i], z0[i], error_check, &h[i], &le[i], &e[i]);
+#pragma omp parallel shared(press, ta, ts, za, ea, es, zq, u, zu, z0, error_check, h, le, e, brokeit) private(i, ier)
+	{
+#pragma omp for
+		for (i =0; i < ngrid; i++) {
 
-		if (ier == -1) {
-			perror(printf("hle1 did not converge at point %i", i));
-			return i;
+			ier = hle1(press[i], ta[i], ts[i], za[i], ea[i], es[i], zq[i], u[i], zu[i], z0[i], error_check, &h[i], &le[i], &e[i]);
+
+			if (ier == -1) {
+				perror(printf("hle1 did not converge at point %i", i));
+				brokeit = i;
+//				return i;
+			}
+
 		}
-
 	}
+
+	ier = brokeit;
 
 	return ier;
 
