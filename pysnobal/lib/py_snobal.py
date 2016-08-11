@@ -585,7 +585,7 @@ class snobal(object):
         
     
         
-#     @profile
+    @profile
     def do_tstep(self, tstep, index, step, copy_flag=[True,True]):
         """
         This routine performs the model's calculations for a single timestep.
@@ -719,7 +719,7 @@ class snobal(object):
             self.input1['T_g'] += self.input_deltas['T_g']
         
         
-#     @profile    
+    @profile    
     def mass_bal(self):
         """
         Calculates the point mass budget for 2-layer energy budget snowmelt
@@ -934,7 +934,6 @@ class snobal(object):
             
         
         
-    @profile
     def evap_cond(self):
         """
         Calculates mass lost or gained by evaporation/condensation
@@ -1474,7 +1473,7 @@ class snobal(object):
 #                 self.em.cc_s_l = 0
             
         
-#     @profile
+    @profile
     def e_bal(self):
         """
         Calculates point energy budget for 2-layer snowcover.
@@ -1601,7 +1600,7 @@ class snobal(object):
         
         return g
         
-        
+    @profile
     def g_snow(self):
         """
         conduction heat flow between snow layers
@@ -1614,10 +1613,13 @@ class snobal(object):
 #         if self.snow.T_s_0 == self.snow.T_s_l:
 #             g = 0
 #         else:
-        kcs1 = KTS(self.snow.rho)
-        kcs2 = KTS(self.snow.rho)
-        k_s1 = core_c.efcon_gridded(kcs1, self.snow.T_s_0, self.P_a, self.snow.es_0)
-        k_s2 = core_c.efcon_gridded(kcs2, self.snow.T_s_l, self.P_a, self.snow.es_l)
+
+        # simplify the equations, since rho is for the whole snowpack, we don't need
+        # to calculate KTS for both layers and just use the same for each layer
+        kcs = KTS(self.snow.rho)
+#         kcs2 = KTS(self.snow.rho)
+        k_s1 = core_c.efcon_gridded(kcs, self.snow.T_s_0, self.P_a, self.snow.es_0)
+        k_s2 = core_c.efcon_gridded(kcs, self.snow.T_s_l, self.P_a, self.snow.es_l)
         
         g = libsnobal.ssxfr(k_s1, k_s2, self.snow.T_s_0, self.snow.T_s_l, self.snow.z_s_0, self.snow.z_s_l)
         
