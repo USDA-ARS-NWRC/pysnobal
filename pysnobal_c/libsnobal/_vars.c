@@ -39,7 +39,7 @@
 					   TRUE if computed values for input
 					   deltas and precip arrays */
 
-	double  h2o_sat_snow;   /* snowfall's % of liquid H2O saturation */
+//	double  h2o_sat_snow;   /* snowfall's % of liquid H2O saturation */
 	int	isothermal;	/* melting? */
         int     snowcover = 0;	/* snow on gnd at start of current timestep?
                                      (see below about initialization) */

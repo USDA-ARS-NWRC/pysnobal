@@ -1,8 +1,11 @@
 #ifndef ENVPHYS_H
 #define ENVPHYS_H
- 
-#include <math.h>
 
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "types.h"
 #include "_physunits.h"
 
 /*

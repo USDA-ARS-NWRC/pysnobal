@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
+import os, glob
 
 try:
     from setuptools import setup
@@ -33,7 +33,8 @@ ext_modules = []
 os.environ["CC"] = "gcc"
 
 loc = 'pysnobal_c/libsnobal'
-sources=[os.path.join(loc, val) for val in ["_adj_layers.c"]]
+# sources=[os.path.join(loc, val) for val in ["_adj_layers.c"]]
+sources = glob.glob(os.path.join(loc, '*.c'))
 # sources = ['_adj_layers.c']
 ext_modules += [
                 Extension(

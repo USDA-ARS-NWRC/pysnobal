@@ -5,6 +5,8 @@
  * IPW error handling
  */
 
+//#include "_types.h"
+
 #define	assert(expr)		if (! (expr)) \
 					bug("assertion \"" #expr "\" failed")
 #define	bug(s)			_bug(s, __FILE__, __LINE__)

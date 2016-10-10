@@ -17,7 +17,8 @@ g_soil(
 
 	/*	check tsno	*/
 	if (tsno > FREEZE) {
-		warn("g_soil: tsno = %8.2f; set to %8.2f\n", tsno, FREEZE);
+//		warn("g_soil: tsno = %8.2f; set to %8.2f\n", tsno, FREEZE);
+		fprintf(stdout, "g_soil: tsno = %8.2f; set to %8.2f\n", tsno, FREEZE);
 		tsno = FREEZE;
 	}
 

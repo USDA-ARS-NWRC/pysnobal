@@ -12,8 +12,9 @@ sati(
 	double  x;
 
 	if (tk <= 0.) {
-		printf("tk=%f\n",tk);
-		assert(tk > 0.);
+		fprintf(stderr, "tk=%f\n, less than zero", tk);
+//		assert(tk > 0.);
+		exit(EXIT_FAILURE);
 	}
 
 	if (tk > FREEZE) {
@@ -28,8 +29,10 @@ sati(
 			8.76793e-1*(1.-(tk/FREEZE)) + log(6.1071)/l10);
 
 	if (errno) {
-		syserr();
-		error("sati: bad return from log or pow");
+		perror("sati: bad return from log or pow");
+		exit(EXIT_FAILURE);
+//		syserr();
+//		error("sati: bad return from log or pow");
 	}
 
 	return(x*1.e2);

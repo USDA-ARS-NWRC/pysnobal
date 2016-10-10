@@ -132,7 +132,8 @@ do_data_tstep(void)
 			if (rho_snow > 0.0)
 				pp_info->z_snow = pp_info->m_snow / rho_snow;
 			else {
-				usrerr("rho_snow is <= 0.0 with %_snow > 0.0");
+//				usrerr("rho_snow is <= 0.0 with %_snow > 0.0");
+				fprintf(stderr, "rho_snow is <= 0.0 with %_snow > 0.0");
 				return FALSE;
 			}
 		}

@@ -9,6 +9,8 @@
 #ifndef _SNOBAL_H_
 #define _SNOBAL_H_
 
+#include "types.h"
+
 /*
  *  default for snowcover's maximum liquid h2o content as volume
  *  ratio: V_water/(V_snow - V_ice)

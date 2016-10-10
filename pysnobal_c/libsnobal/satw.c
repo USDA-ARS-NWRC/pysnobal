@@ -12,7 +12,9 @@ satw(
 	double  l10;
 
 	if (tk <= 0.) {
-		assert(tk > 0.);
+		fprintf(stderr, "tk=%f\n, less than zero", tk);
+//		assert(tk > 0.);
+		exit(EXIT_FAILURE);
 	}
 
 	errno = 0;
@@ -26,8 +28,10 @@ satw(
 	x = pow(1.e1,x);
 
 	if (errno) {
-		syserr();
-		error("satw: bad return from log or pow");
+		perror("sati: bad return from log or pow");
+		exit(EXIT_FAILURE);
+//		syserr();
+//		error("satw: bad return from log or pow");
 	}
 
 	return(x);

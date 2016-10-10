@@ -54,7 +54,9 @@ psi(
 			break;
 
 		default: /* shouldn't reach */
-			bug("psi-function code not of these: SM, SH, SV");
+//			bug("psi-function code not of these: SM, SH, SV");
+			fprintf(stderr, "psi-function code not of these: SM, SH, SV");
+			exit(EXIT_FAILURE);
 		}
 	}
 
@@ -113,22 +115,29 @@ hle1(
 
 	/* heights must be positive */
 	if (z0 <= 0 || zq <= z0 || zu <= z0 || za <= z0) {
-		usrerr ("height not positive; z0=%f\tzq=%f\tzu=%\tza=%f",
-				z0, zq, zu, za);
+//		usrerr ("height not positive; z0=%f\tzq=%f\tzu=%\tza=%f",
+//				z0, zq, zu, za);
+		fprintf(stderr, "height not positive\n");
+		fprintf(stderr, "z0=%f\n", z0);
+		fprintf(stderr, "za=%f\n", za);
+		fprintf(stderr, "zu=%f\n", zu);
+//		zq=%f zu=% za=%f", z0, zq, zu, za);
 		ier = -2;
 		return (ier);
 	}
 
 	/* temperatures are Kelvin */
 	if (ta <= 0 || ts <= 0) {
-		usrerr ("temps not K; ta=%f\tts=%f", ta, ts);
+//		usrerr ("temps not K; ta=%f\tts=%f", ta, ts);
+		fprintf(stderr, "temps not K; ta=%f\tts=%f", ta, ts);
 		ier = -2;
 		return (ier);
 	}
 
 	/* pressures must be positive */
 	if (ea <= 0 || es <= 0 || press <= 0 || ea >= press || es >= press) {
-		usrerr ("press < 0; ea=%f\tes=%f\tpress=%f", ea, es, press);
+//		usrerr ("press < 0; ea=%f\tes=%f\tpress=%f", ea, es, press);
+		fprintf(stderr, "press < 0; ea=%f\tes=%f\tpress=%f", ea, es, press);
 		ier = -2;
 		return (ier);
 	}
@@ -136,7 +145,9 @@ hle1(
 	/* vapor pressures can't exceed saturation */
 	/* if way off stop */
 	if ((es - 25.0) > sati(ts) || (ea - 25.0) > satw(ta)) {
-		usrerr ("vp > sat; es=%f\tessat=%f\tea=%f\teasat=%f",
+//		usrerr ("vp > sat; es=%f\tessat=%f\tea=%f\teasat=%f",
+//				es, sati(ts), ea, sati(ta));
+		fprintf(stderr, "vp > sat; es=%f\tessat=%f\tea=%f\teasat=%f",
 				es, sati(ts), ea, sati(ta));
 		ier = -2;
 		return (ier);
