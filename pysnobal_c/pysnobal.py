@@ -281,11 +281,28 @@ def dict2np(d):
     return {k: np.atleast_2d(np.array(v, dtype=float)) for k,v in d.items()}
 
 
-def initialize():
+def initialize(params, tstep_info, sn, mh):
     """
     initialize
     """
     
+    # create the OUTPUT_REC with additional fields and fill
+    sz = sn['elevation'].shape
+    flds = ['masked', 'elevation', 'z_0', 'z_s', 'rho', 'T_s_0', 'T_s_l', 'T_s', \
+            'h2o_sat', 'layer_count', 'R_n_bar', 'H_bar', 'L_v_E_bar', 'G_bar', \
+            'M_bar', 'delta_Q_bar', 'E_s_sum', 'melt_sum', 'ro_pred_sum']
+    s = {key: np.zeros(sz) for key in flds} # the structure fields
+    
+    # go through each sn value and fill
+    for key, val in sn.items():
+        if key in flds:
+            s[key] = val
+            
+    for key, val in mh.items():
+        if key in flds:
+            s[key] = val
+        
+    return s
     
     
     
@@ -308,8 +325,8 @@ def main(argv):
     sn, mh, force = open_files(params)
     
     # initialize
-    sn['z'] = np.atleast_2d(np.array(options['z']))
-    s = snobal(params, tstep_info, sn, mh)
+    sn['elevation'] = np.atleast_2d(np.array(options['z']))
+    output_rec = initialize(params, tstep_info, sn, mh)
     
     # loop through the input
     # do_data_tstep needs two input records so only go 
@@ -329,11 +346,12 @@ def main(argv):
     
         try:
             # call do_data_tstep()
-            s.do_data_tstep(dict2np(input1.to_dict()), dict2np(input2.to_dict()))
+            snobal.do_tstep(dict2np(input1.to_dict()), dict2np(input2.to_dict()), output_rec, mh)
+#             s.do_data_tstep(dict2np(input1.to_dict()), dict2np(input2.to_dict()))
         
         except Exception, e:
             traceback.print_exc()
-            print('pysnobal error on time step %f' % (s.current_time[0,0]/3600.0))
+            print('pysnobal error on time step %f' % (output_rec.current_time[0,0]/3600.0))
             print(e)
             return
 #             
