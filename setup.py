@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
 
 try:
     from setuptools import setup
@@ -25,13 +26,22 @@ test_requirements = [
 ]
 
 
-# sources=[os.path.join(loc, val) for val in ["detrended_kriging.pyx", "krige.c", "lusolv.c", "array.c"]]
-# ext_isnobal = Extension(
-#                         "pysnobal.c_libsnobal.c_snobal",
-#                         [ "pysnobal/c_libsnobal/c_snobal.pyx" ],
-#                         extra_compile_args=['-fopenmp'],
-#                         extra_link_args=['-fopenmp'],
-#                         )
+cmdclass = {}
+ext_modules = []
+
+
+loc = 'pysnobal/lib/core_c'
+sources=[os.path.join(loc, val) for val in ["c_functions.pyx", "envphys.c"]]
+ext_modules += [
+                Extension(
+                    "pysnobal.lib.core_c.c_functions",
+                    sources,
+                    extra_compile_args=['-fopenmp', '-O3'],
+                    extra_link_args=['-fopenmp', '-O3'],
+                    )
+                ]
+
+cmdclass.update({ 'build_ext': build_ext })
 
 setup(
     name='pysnobal',
@@ -42,10 +52,10 @@ setup(
     author_email='scott.havens@ars.usda.gov',
     url='https://gitlab.com/ars-snow/pysnobal',
     packages=[
-        'pysnobal',
+        'pysnobal', 'pysnobal.lib'
     ],
-    package_dir={'pysnobal':
-                 'pysnobal'},
+#     package_dir={'pysnobal':
+#                  'pysnobal'},
     include_package_data=True,
     install_requires=requirements,
     license="ISCL",
@@ -66,9 +76,6 @@ setup(
     ],
     test_suite='tests',
     tests_require=test_requirements,
-    cmdclass = {'build_ext': build_ext},
-    ext_modules= [
-        Extension("pysnobal.libsnobal.libsnobal", [ "pysnobal/libsnobal/libsnobal.pyx" ]),
-#         Extension("pysnobal.libsnobal.snobal", [ "pysnobal/libsnobal/snobal.pyx" ])
-    ]
+    cmdclass = cmdclass,
+    ext_modules = ext_modules,
 )

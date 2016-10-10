@@ -10,7 +10,7 @@ interpretation
 """
 
 # from libsnobal import libsnobal
-from libsnobal.py_snobal import snobal
+from lib.py_snobal import snobal
 
 import ConfigParser
 import sys, os
@@ -20,9 +20,9 @@ from datetime import timedelta
 import netCDF4 as nc
 import matplotlib.pyplot as plt
 import progressbar
-from multiprocessing import Pool
+# from multiprocessing import Pool
 # from functools import partial
-import itertools
+# import itertools
 
 # os.system("taskset -p 0xff %d" % os.getpid())
 
@@ -398,7 +398,8 @@ def open_files(options):
 def close_files(force):
     
     for f in force.keys():
-        force[f].close()    
+        if not isinstance(force[f], np.ndarray):
+            force[f].close()    
         
 
 def output_files(options, init):
@@ -508,14 +509,8 @@ def output_timestep(s, tstep, options):
                 'temp_surf': 'T_s_0', 'temp_lower': 'T_s_l', 
                 'temp_snowcover': 'T_s', 'thickness_lower': 'z_s_l', 
                 'water_saturation': 'h2o_sat'}
-    
-#             sbuf[sbuf_start++] = T_s_0 - FREEZE;
-#             sbuf[sbuf_start++] = T_s_l - FREEZE;
-#             sbuf[sbuf_start++] = T_s   - FREEZE;
-    
+        
     # preallocate
-#     em = {key: np.zeros(s.shape) for key in em_out.keys()}
-#     snow = {key: np.zeros(s.shape) for key in snow_out.keys()}
     em = {}
     snow = {}
     
@@ -583,16 +578,31 @@ def get_timestep(force, tstep, point=None):
     
     for f in force.keys():
         
-        # determine the index
-        t = nc.date2index(tstep, force[f].variables['time'], 
-                          calendar=force[f].variables['time'].calendar,
-                          select='exact')
         
-        # pull out the value    
-        if point is None:
-            inpt[map_val[f]] = force[f].variables[f][t,:].astype(np.float64)
+        if isinstance(force[f], np.ndarray):
+            # If it's a constant value then just read in the numpy array
+            # pull out the value    
+            if point is None:
+                inpt[map_val[f]] = force[f].copy() # ensures not a reference (especially if T_g)
+            else:
+                inpt[map_val[f]] = np.atleast_2d(force[f][point[0], point[1]])
+                
         else:
-            inpt[map_val[f]] = np.atleast_2d(force[f].variables[f][t,point[0], point[1]].astype(np.float64))
+            # determine the index in the netCDF file
+            
+            # compare the dimensions and variables to get the variable name
+            v = list(set(force[f].variables.keys())-set(force[f].dimensions.keys()))[0]
+            
+            # find the index based on the time step
+            t = nc.date2index(tstep, force[f].variables['time'], 
+                              calendar=force[f].variables['time'].calendar,
+                              select='exact')
+            
+            # pull out the value    
+            if point is None:
+                inpt[map_val[f]] = force[f].variables[v][t,:].astype(np.float64)
+            else:
+                inpt[map_val[f]] = np.atleast_2d(force[f].variables[v][t,point[0], point[1]].astype(np.float64))
         
             
     
@@ -625,174 +635,15 @@ def initialize(params, tstep_info, mh, init):
     v = ['time_s', 'z_s', 'rho', 'T_s', 'T_s_0', 'h2o_sat']
     sn = {key: 0.0 for key in v}
     
-    # allocate an empty numpy array to hold all the snobal objects
-#     s = np.empty_like(init['z'], dtype=object)
-    
-    
-    # add to the parameters
-#     params['elevation'] = init['z']
-    
-    # add to the measurement heights
-#     mh['z_0'] = init['z_0']
-    
     init['time_s'] = 0.0
     
     s = snobal(params, tstep_info, init, mh)
-    
-#     for index, x in np.ndenumerate(init['z']):
-#         
-#         if init['mask'][index]:
-#         
-#             # fill the initial snow record properties
-#             for vi in v[1:]:
-#                 sn[vi] = init[vi][index]
-#             
-#             # add to the parameters
-#             params['elevation'] = init['z'][index]
-#             
-#             # add to the measurement heights
-#             mh['z_0'] = init['z_0'][index]
-#             
-#             # initialize snobal
-#             s[index] = snobal(params, tstep_info, sn, mh)
-            
+                
     return s
-    
-    
-# class parallel_helper(object):
-#     """
-#     Simple class to aid in parallelizing the loop over the
-#     snobal instances
-#     """
-#     def __init__(self, input1, input2, s):
-#         self.input1 = input1
-#         self.input2 = input2
-#         self.s = s
-#         
-#     def run(self, index=None):
-#         """
-#         Args: index - tuple for the index to be ran, from iterator object
-#         """
-#         
-#         if self.s[index] is not None:
-#         
-#             in1 = {key: self.input1[key][index] for key in self.input1.keys()}
-#             in2 = {key: self.input2[key][index] for key in self.input2.keys()}
-#             
-#             self.s[index].do_data_tstep(in1, in2)
-#             
-#     def go(self):
-#         
-#         pool = Pool(8)
-# #         it = np.nditer(self.input1, flags=['multi_index','refs_ok'])
-#         it = np.ndenumerate(self.s)
-#         pool.map(self.run, it)
+           
 
-    
 
-    
 # @profile
-def run(s, input1, input2):
-    """
-    Acutally run the model for a single processor
-    """
-    
-    for index, si in np.ndenumerate(s):
-        
-        if si is not None:
-        
-            in1 = {key: input1[key][index] for key in input1.keys()}
-            in2 = {key: input2[key][index] for key in input2.keys()}
-            
-            s[index].do_data_tstep(in1, in2)
-
-
-def run_map(inpt):
-    """
-    Run a single point, input is a list
-    [snobal instance, input1, input2]
-    """    
-    if inpt[1] is not None:
-        inpt[1].do_data_tstep(inpt[2], inpt[3])
-        
-    return inpt[1]
-        
-        
-
-class MyIterator:
-    """
-    Simple iterator class that will iterate through
-    the snobal classes and inputs
-    """
-    def __init__(self, obj, max_value):
-        self.obj = obj
-        self.cnt = 0
-        self.max_value = max_value
-       
-    def __iter__(self):
-        return self
-    
-    def next(self):
-        """
-        Return the next value from the object
-        """
-        while self.cnt < self.max_value:
-            result = self.obj.get(self.cnt)
-            self.cnt += 1
-            return result
-        
-        raise StopIteration
-    
-    
-      
-class SnobalIterator:
-    def __init__(self, s, input1, input2):
-        self.s = s
-        self.input1 = input1
-        self.input2 = input2
-        
-        self.max_value = s.size
-        self.cnt = 0
-
-    def __iter__(self):
-        return self  #MyIterator(self, self.s.size)
-    
-    def next(self):
-        """
-        Return the next value from the object
-        """
-        while self.cnt < self.max_value:
-            result = self.get(self.cnt)
-            self.cnt += 1
-            return result
-        
-        raise StopIteration
-    
-
-    def get(self, index):
-        # most likely will have to return the values for s,input1/2
-        # then will have to pass to another function
-       
-        # get the index to subindex
-        i = np.unravel_index(index, self.s.shape)
-
-        if self.s[i] is not None:
-       
-            # get the input values
-            in1 = {key: self.input1[key][i] for key in self.input1.keys()}
-            in2 = {key: self.input2[key][i] for key in self.input2.keys()}
-            
-            # run the model     
-#             self.s[i].do_data_tstep(in1, in2)
-            
-            return [index, self.s[i], in1, in2]
-        
-        else:
-            return [index, None]
-        
-
-
-#@profile
 def main(configFile):
     """
     mimic the main.c from the Snobal model
@@ -829,12 +680,7 @@ def main(configFile):
     # create the output files
     if not point_run:
         output_files(options, init)
-    
-    # create a pool if needed
-#     pool = None
-#     if options['output']['nthreads'] is not None:
-#         pool = Pool(processes=options['output']['nthreads'])
-    
+        
     
     # loop through the input
     # do_data_tstep needs two input records so only go 
@@ -845,7 +691,7 @@ def main(configFile):
 #         input1 = {i: np.atleast_2d(input1[i][point]) for i in input1.keys()}
     
     pbar = progressbar.ProgressBar(max_value=len(options['time']['date_time'])-1)
-    j = 0
+    j = 1
     for tstep in options['time']['date_time'][1:-1]:
         
         input2 = get_timestep(force, tstep, point)
@@ -854,27 +700,14 @@ def main(configFile):
 #             input2 = {i: np.atleast_2d(input2[i][point]) for i in input2.keys()}
     
         s.do_data_tstep(input1, input2)
-    
-        
-#         isnobal(s, input1, input2)
-
-    
-#         if pool is not None:
-#             m = list(pool.imap(run_map, SnobalIterator(s, input1, input2), chunksize=100))
-#             s = np.array(m)
-#             s = s.reshape(init['z'].shape)
-#             
-#         else:
-        
-#         m = list(itertools.imap(run_map, SnobalIterator(s, input1, input2)))
-# #             run(s, input1, input2)
-        
+            
         input1 = input2.copy()
         
         # output at the frequency and the last time step
         if not point_run:
             if (j % options['output']['frequency'] == 0) or (j == len(options['time']['date_time'])):
                 output_timestep(s, tstep, options)
+                s.time_since_out = np.zeros(s.shape)
         
         j += 1
         pbar.update(j)

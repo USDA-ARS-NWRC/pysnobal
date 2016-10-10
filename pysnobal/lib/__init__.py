@@ -6,4 +6,5 @@ __version__ = '0.1.0'
 
 # from pysnobal.libsnobal import libsnobal
 # from .py_snobal import snobal
-from .snobal import snobal
+import py_snobal
+import py_libsnobal

@@ -4,8 +4,10 @@ Class snobal() that will hold all the modeling components
 20160109 Scott Havens
 """
 
-# import py_libsnobal as libsnobal
-import libsnobal
+import py_libsnobal as libsnobal
+import core_c
+
+# import libsnobal
 import numpy as np
 # import numpy.ma as ma
 # import pandas as pd
@@ -375,73 +377,76 @@ class snobal(object):
             (self.snow.m_s_l[self.snow.z_s_l > 0] < threshold)
            
     
-    
-    def copy_gridded(self, index, steps=None):
+#     @profile
+    def copy_gridded(self, index, steps=None, copy_gridded_flag=True):
         """
         Copy from self.gridded* to self.snow and self.em
         """
         
-        # snow
-        for key in self.snow.keys:
-            setattr(self.snow, key, getattr(self.gridded_snow, key)[index])
-        self.snow.shape = self.snow.m_s.shape
-            
-        # em
-        for key in self.em.keys:
-            setattr(self.em, key, getattr(self.gridded_em, key)[index])
-        self.em.shape = self.em.cc_s.shape 
-            
-        # input1
-        for key in self.gridded_input1.keys():
-            self.input1[key] = self.gridded_input1[key][index]       
-        
-        # input2
-        for key in self.gridded_input2.keys():
-            self.input2[key] = self.gridded_input2[key][index]
-        
-        # precip
-        for key in self.gridded_precip.keys:
-            setattr(self.precip, key, getattr(self.gridded_precip, key)[index])
-            
-        # precip is a little funky since part of it needs to be divided up
-        if steps is not None:
-            for key in ['m_pp','m_snow','m_rain','z_snow']:
-                setattr(self.precip, key, getattr(self.gridded_precip, key)[index]/steps)
-        self.precip_now = self.precip.m_pp > 0
-        
-        # measurement heights
-        for key in self.gridded_mh.keys():
-            if key != 'time_z':
-                setattr(self, key, self.gridded_mh[key][index])
+        if copy_gridded_flag:
+            # snow
+            for key in self.snow.keys:
+                setattr(self.snow, key, getattr(self.gridded_snow, key)[index])
+            self.snow.shape = self.snow.m_s.shape
                 
-        # get the P_a
-        self.P_a = self.gridded_P_a[index]
+            # em
+            for key in self.em.keys:
+                setattr(self.em, key, getattr(self.gridded_em, key)[index])
+            self.em.shape = self.em.cc_s.shape 
+                
+            # input1
+            for key in self.gridded_input1.keys():
+                self.input1[key] = self.gridded_input1[key][index]       
+            
+            # input2
+            for key in self.gridded_input2.keys():
+                self.input2[key] = self.gridded_input2[key][index]
+            
+            # precip
+            for key in self.gridded_precip.keys:
+                setattr(self.precip, key, getattr(self.gridded_precip, key)[index])
+                
+            # precip is a little funky since part of it needs to be divided up
+            if steps is not None:
+                for key in ['m_pp','m_snow','m_rain','z_snow']:
+                    setattr(self.precip, key, getattr(self.gridded_precip, key)[index]/steps)
+            self.precip_now = self.precip.m_pp > 0
+            
+            # measurement heights
+            for key in self.gridded_mh.keys():
+                if key != 'time_z':
+                    setattr(self, key, self.gridded_mh[key][index])
+                    
+            # get the P_a
+            self.P_a = self.gridded_P_a[index]
         
         
-    def copy_working(self, index):
+#     @profile
+    def copy_working(self, index, copy_gridded_flag=True):
         """
         Copy the working subset back into the gridded
         Have to use some numpy trickery to index back into gridded_*
         """
         
-        # snow
-        for key in self.snow.keys:
-            v = getattr(self.gridded_snow, key) # this creates a reference to the class attribute
-            v[index] = getattr(self.snow, key)  # update the reference
+        if copy_gridded_flag:
+            # snow
+            for key in self.snow.keys:
+                v = getattr(self.gridded_snow, key) # this creates a reference to the class attribute
+                v[index] = getattr(self.snow, key)  # update the reference
+                
+            # em
+            for key in self.em.keys:
+                v = getattr(self.gridded_em, key) # this creates a reference to the class attribute
+                v[index] = getattr(self.em, key)  # update the reference
             
-        # em
-        for key in self.em.keys:
-            v = getattr(self.gridded_em, key) # this creates a reference to the class attribute
-            v[index] = getattr(self.em, key)  # update the reference
-        
-        if self.tstep_level > NORMAL_TSTEP:
-            # input1
-            for key in self.gridded_input1.keys():
-                self.gridded_input1[key][index] = self.input1[key]     
-            
-            # input2
-            for key in self.gridded_input2.keys():
-                self.gridded_input2[key][index] = self.input2[key]
+            if self.tstep_level > NORMAL_TSTEP:
+                # input1
+                for key in self.gridded_input1.keys():
+                    self.gridded_input1[key][index] = self.input1[key]     
+                
+                # input2
+                for key in self.gridded_input2.keys():
+                    self.gridded_input2[key][index] = self.input2[key]
             
             # precip
 #             for key in self.gridded_precip.keys:
@@ -503,7 +508,11 @@ class snobal(object):
         """
         
 #         print np.max(self.current_time)/3600.0
+<<<<<<< HEAD:pysnobal/libsnobal/py_snobal.py
         if np.max(self.current_time)/3600.0 > 801:
+=======
+        if np.max(self.current_time)/3600.0 > 711:
+>>>>>>> f8eb08efebea59287c24b0243afdc3f5e423abae:pysnobal/lib/py_snobal.py
             self.curr_level
                       
         # determine the levels at which each pixel will be calculated
@@ -546,9 +555,19 @@ class snobal(object):
                 # do the small time step
                 sm_ind = (level == SMALL_TSTEP) & self.mask
                 if np.any(sm_ind):
-                    self.divide_inputs(sm_ind, sm_steps_left)
+                    self.divide_inputs(sm_ind, sm_steps_left)                    
                     for j in range(sm_interval):
-                        self.do_tstep(self.tstep_info[SMALL_TSTEP], sm_ind, sm_interval*med_interval)
+                        
+                        # set the flag for the gridded copying
+                        copy_gridded_flag = False
+                        copy_working_flag = False
+                        if j == (sm_interval -1 ):
+                            copy_working_flag = True
+                        if j == 0:
+                            copy_gridded_flag = True 
+                            
+                        self.do_tstep(self.tstep_info[SMALL_TSTEP], sm_ind, sm_interval*med_interval, 
+                                      [copy_gridded_flag, copy_working_flag])
                  
                 # update the levels
                 prev_level = level.copy()
@@ -565,117 +584,18 @@ class snobal(object):
 #         if self.tstep_info[self.curr_level]['output'] & DIVIDED_TSTEP:
 # #             print '%.2f output divided tstep' % (self.current_time/3600.0)
 #             self.output()
-        self.time_since_out = np.zeros(self.shape)
+#         self.time_since_out = np.zeros(self.shape)
         
         
     
-    
-    
-    def divide_tstep_exact(self):
-        """
-        This routine performs the model's calculations for 1 data timestep
-        between 2 input-data records which are in 'input_rec1' and
-        'input_rec2'.
         
-        If there's precipitation during the data timestep, the flag
-        'precip_now' used be TRUE.  Furthermore, the routine requires
-        that the following precipitation variables have been initialized:
-        
-            m_pp
-            percent_snow
-            rho_snow
-            T_pp
-        
-        This routine divides the data timestep into the appropriate number
-        of normal run timesteps.  The input values for each normal timestep
-        are computed from the two input records by linear interpolation.
-        
-        If output is desired for any of the run timesteps (normal, medium,
-        or small), the appropriate output flags must be set in the proper
-        timestep's record (i.e., the array 'tstep_info').  If any output
-        flag is set, the routine requires that the global variable 'out_func'
-        point to appropriate output function.
-        
-        This routine may return in the middle of a data timestep if:
-        
-            a)  the output function pointed to by 'out_func' is called, and
-            b)  the flag 'run_no_snow' is FALSE, and
-            c)  there is no snow remaining on the ground at the end of
-                timestep
-        
-        In this happens, the flag 'stop_no_snow' is set to TRUE.
-                
-        """
-           
-#         print "Current level --> %i" % self.curr_level   
-        
-        # Fetch the record for the timestep at the next level.
-        self.next_level = self.curr_level + 1
-        next_lvl_tstep = self.tstep_info[self.next_level]
-        
-        # get the input deltas
-        curr_lvl_deltas = self.input_deltas[self.curr_level]
-#         next_lvl_deltas = self.input_deltas[self.next_level]
-        
-        # get the precip info
-        curr_lvl_precip = self.precip_info[self.curr_level]
-#         next_lvl_precip = self.precip_info[self.next_level]
-        
-        
-        # If this is the first time this new level has been used during
-        # the current data timestep, then calculate its input deltas
-        # and precipitation values.
-        
-        # To-do can get rid of computed and use the None
-        # float(interval) ensures that a float value will be returned always
-        
-        if not self.computed[self.next_level]:
-#             next_lvl_deltas = curr_lvl_deltas / next_lvl_tstep['intervals']
-#             self.input_deltas[self.next_level] = next_lvl_deltas.copy()
-            for k in curr_lvl_deltas.keys():
-                self.input_deltas[self.next_level][k] = curr_lvl_deltas[k] / float(next_lvl_tstep['intervals'])
-            
-            if np.any(self.precip.now):
-#                 next_lvl_precip = curr_lvl_precip / next_lvl_tstep['intervals']
-#                 self.precip_info[self.next_level] = next_lvl_precip.copy()
-                for k in curr_lvl_precip.keys:
-                    setattr(self.precip_info[self.next_level], k, 
-                            getattr(curr_lvl_precip, k) / float(next_lvl_tstep['intervals']))
-#                     self.precip_info[self.next_level][k] = curr_lvl_precip[k] / next_lvl_tstep['intervals']
-                
-            
-            self.computed[self.next_level] = True
-            
-        # For each the new smaller timestep, either subdivide them if
-        # below their mass threshold, or run the model for them.
-        interval = next_lvl_tstep['intervals']
-        for i in range(interval):
-#             print "Current level --> %i, loop %i" % (next_lvl_tstep['level'], i)
-            
-            if (self.next_level != SMALL_TSTEP) and (self.below_thold(next_lvl_tstep['threshold'])):
-                self.curr_level = copy(self.next_level) # increment the level number
-                if not self.divide_tstep_exact():
-                    return False
-            else:
-                if not self.do_tstep(next_lvl_tstep):
-                    return False
-        
-        
-        # Output if this timestep is divided?
-        # does a bitwise AND comparison
-        if self.tstep_info[self.curr_level]['output'] & DIVIDED_TSTEP:
-#             print '%.2f output divided tstep' % (self.current_time/3600.0)
-            self.output()
-            self.time_since_out = 0.0
-            
-        self.curr_level -= 1
-        self.next_level -= 1
-        
-        return True
-        
-        
+<<<<<<< HEAD:pysnobal/libsnobal/py_snobal.py
     @profile
     def do_tstep(self, tstep, index, step):
+=======
+#     @profile
+    def do_tstep(self, tstep, index, step, copy_flag=[True,True]):
+>>>>>>> f8eb08efebea59287c24b0243afdc3f5e423abae:pysnobal/lib/py_snobal.py
         """
         This routine performs the model's calculations for a single timestep.
         It requires that these climate variables have been initialized:
@@ -710,8 +630,8 @@ class snobal(object):
 #             self.curr_level
             
         # copy the working subset for    
-        self.copy_gridded(index, step)
-        self.index = np.where(index)    # for debugging purposes
+        self.copy_gridded(index, step, copy_flag[0])
+        self.index = index    # for debugging purposes
         
         self.time_step = tstep['time_step']
         self.tstep_level = tstep['level']
@@ -727,7 +647,7 @@ class snobal(object):
         self.snowcover_domain = np.any(self.snowcover)
         
         if self.snowcover_domain:
-            self.input1['e_g'] = libsnobal.sati_np(self.input1['T_g'])
+            self.input1['e_g'] = core_c.sati_gridded(self.input1['T_g'])
 #             self.em.cc_s_0 = self.cold_content(self.snow.T_s_0, self.snow.m_s_0)
 #             self.em.cc_s_l= self.cold_content(self.snow.T_s_l, self.snow.m_s_l)
         
@@ -784,7 +704,7 @@ class snobal(object):
         self.update_inputs()
         
         # put the working results back into gridded
-        self.copy_working(index)
+        self.copy_working(index, copy_flag[1])
         
         if tstep['output'] & WHOLE_TSTEP:
 #             print '%.2f output stuff here' % (self.current_time/3600.0)
@@ -1023,7 +943,6 @@ class snobal(object):
             
         
         
-#     @profile
     def evap_cond(self):
         """
         Calculates mass lost or gained by evaporation/condensation
@@ -1088,14 +1007,12 @@ class snobal(object):
             T_s[ind] = self.snow.T_s_l[ind]
             T_bar[ind] = (self.input1['T_g'][ind] + self.snow.T_s_l[ind]) / 2.0
         
-#         # layer_count == 1
-#         ind = self.snow.layer_count == 1
-#         if np.any(ind): 
-#             e_s_l[ind] = libsnobal.sati_np(self.snow.T_s_0[ind])
-#             T_bar[ind] = (self.input1['T_g'][ind] + self.snow.T_s_0[ind]) / 2.0
-
         # now calculate sati
-        e_s_l = libsnobal.sati_np(T_s)
+        # sati has already been calculated, the only time the snow temperature is changed
+        # is during adj_snow() which will only remove temperatures when it's zero
+#         e_s_l = core_c.sati_gridded(T_s)
+        e_s_l = self.snow.es_0[:]
+        e_s_l[ind] = self.snow.es_l[ind]
         
 
         q_s_l = libsnobal.spec_hum_np(e_s_l, self.P_a)
@@ -1574,41 +1491,41 @@ class snobal(object):
         # if there is a snowcover
 #         if self.snow.layer_count > 0:
         if self.snowcover_domain:
-            
+             
             # precalculate sati
-            self.snow.es_0 = libsnobal.sati_np(self.snow.T_s_0)
-            self.snow.es_l = libsnobal.sati_np(self.snow.T_s_l)
-            
-            
+            self.snow.es_0 = core_c.sati_gridded(self.snow.T_s_0)
+            self.snow.es_l = core_c.sati_gridded(self.snow.T_s_l)
+             
+             
             # Calculates net allwave radiation from the net solar radiation
             #incoming thermal/longwave radiation, and the snow surface
             # temperature.
             # replaces _net_rad()
             self.em.R_n = self.input1['S_n'] + (SNOW_EMISSIVITY * (self.input1['I_lw'] - STEF_BOLTZ * np.power(self.snow.T_s_0, 4)))
-            
+             
             # calculate H & L_v_E (and E as well)
             self.h_le()
-            
+              
             # calculate G & G_0 (conduction/diffusion heat xfr)
 #             if self.snow.layer_count == 1:
             g = self.g_soil('surface')
             self.em.G_0[:] = g
             self.em.G[:] = g
-                
+                  
             ind = self.snow.layer_count == 2
             if np.any(ind):
                 g = self.g_soil ('lower')
                 self.em.G[ind] = g[ind]
                 gs = self.g_snow()
                 self.em.G_0[ind] = gs[ind]
-                
+                  
             # calculate advection
             self.advec()
-            
+              
             # sum E.B. terms
             # surface energy budget
             self.em.delta_Q_0 = self.em.R_n + self.em.H + self.em.L_v_E + self.em.G_0 + self.em.M
-            
+              
             # total snowpck energy budget
 #             if self.snow.layer_count == 1:
             self.em.delta_Q[:] = self.em.delta_Q_0
@@ -1616,22 +1533,14 @@ class snobal(object):
             ind = self.snow.layer_count == 2
             if np.any(ind):
                 self.em.delta_Q[ind] += self.em.G[ind] - self.em.G_0[ind]
-                
+                 
             # since this is iSNOWbal, remove the energy balance components where
             # there is no snow
             self.em.set_value(['R_n', 'H', 'L_v_E', 'E', 'G', 'G_0', 'delta_Q', 'delta_Q_0'], 
                               ~self.snowcover, 0)
-                
+                 
         else:
             self.em.reset(['R_n', 'H', 'L_v_E', 'E', 'G', 'G_0', 'delta_Q', 'delta_Q_0'], 0)
-#             self.em.R_n = 0
-#             self.em.H = 0
-#             self.em.L_v_E = 0
-#             self.em.E = 0
-#             self.em.G = 0
-#             self.em.G_0 = 0
-#             self.em.delta_Q = 0
-#             self.em.delta_Q_0 = 0
         
                
                        
@@ -1689,17 +1598,18 @@ class snobal(object):
         # /***    note: Kt should be passed as an argument        ***/
         # /***    k_g = efcon(KT_WETSAND, tg, pa);            ***/
         kts = KT_MOISTSAND * np.ones(self.P_a.shape)
-        k_g = libsnobal.efcon(kts, self.input1['T_g'], self.P_a, self.input1['e_g'])
+        k_g = core_c.efcon_gridded(kts, self.input1['T_g'], self.P_a, self.input1['e_g'])
         
         # calculate G    
         # set snow conductivity
         kcs = KTS(self.snow.rho)
-        k_s = libsnobal.efcon(kcs, tsno, self.P_a, es)
+        k_s = core_c.efcon_gridded(kcs, tsno, self.P_a, es)
         g = libsnobal.ssxfr(k_s, k_g, tsno, self.input1['T_g'], ds, self.z_g)
+        
         
         return g
         
-        
+    
     def g_snow(self):
         """
         conduction heat flow between snow layers
@@ -1712,16 +1622,19 @@ class snobal(object):
 #         if self.snow.T_s_0 == self.snow.T_s_l:
 #             g = 0
 #         else:
-        kcs1 = KTS(self.snow.rho)
-        kcs2 = KTS(self.snow.rho)
-        k_s1 = libsnobal.efcon(kcs1, self.snow.T_s_0, self.P_a, self.snow.es_0)
-        k_s2 = libsnobal.efcon(kcs2, self.snow.T_s_l, self.P_a, self.snow.es_l)
+
+        # simplify the equations, since rho is for the whole snowpack, we don't need
+        # to calculate KTS for both layers and just use the same for each layer
+        kcs = KTS(self.snow.rho)
+#         kcs2 = KTS(self.snow.rho)
+        k_s1 = core_c.efcon_gridded(kcs, self.snow.T_s_0, self.P_a, self.snow.es_0)
+        k_s2 = core_c.efcon_gridded(kcs, self.snow.T_s_l, self.P_a, self.snow.es_l)
         
         g = libsnobal.ssxfr(k_s1, k_s2, self.snow.T_s_0, self.snow.T_s_l, self.snow.z_s_0, self.snow.z_s_l)
         
         return g
             
-#     @profile    
+#     @profile
     def h_le(self):
         """
         Calculates point turbulent transfer (H and L_v_E) for a 2-layer snowcover
@@ -1736,7 +1649,7 @@ class snobal(object):
 #         e_s = libsnobal.sati_np(self.snow.T_s_0)
         
         # error check for bad vapor pressures
-        sat_vp = libsnobal.sati_np(self.input1['T_a'])
+        sat_vp = core_c.sati_gridded(self.input1['T_a'])
         
         ind = self.input1['e_a'] > sat_vp
         if np.any(ind):
@@ -1750,17 +1663,26 @@ class snobal(object):
             rel_z_t = self.z_t - self.snow.z_s
             rel_z_u = self.z_u - self.snow.z_s
         
-        # calculate H & L_v_E
-#         (rel_z_t, rel_z_u, self.z_0, self.input1['T_a'], self.snow.T_s_0, self.input1['e_a'], self.snow.es_0, self.input1['u'], 0.0)
-        H, L_v_E, E, status = libsnobal.hle1_grid(self.P_a, self.input1['T_a'], self.snow.T_s_0, rel_z_t, \
+        # calculate H & L_v_E, the three different version all do the exact same thing but at different complexity and speed
+        
+#         2nd fastest, using numpy
+#         H, L_v_E, E, status = libsnobal.hle1_np2(self.P_a, self.input1['T_a'], self.snow.T_s_0, rel_z_t, \
+#                                              self.input1['e_a'], self.snow.es_0, rel_z_t, self.input1['u'], rel_z_u, \
+#                                              self.z_0)
+#         
+#         # 3rd, looping in pyx file
+#         H2, L_v_E2, E2, status = core_c.hle1_c(self.P_a, self.input1['T_a'], self.snow.T_s_0, rel_z_t, \
+#                                              self.input1['e_a'], self.snow.es_0, rel_z_t, self.input1['u'], rel_z_u, \
+#                                              self.z_0)
+        
+        # fastest, passing all variables to C to perform the loop
+        H, L_v_E, E, status = core_c.hle1_gridded(self.P_a, self.input1['T_a'], self.snow.T_s_0, rel_z_t, \
                                              self.input1['e_a'], self.snow.es_0, rel_z_t, self.input1['u'], rel_z_u, \
-                                             self.z_0, self.snowcover)
+                                             self.z_0, error_check=0)
                 
         if status != 0:
-#             h, le, e, st = libsnobal.hle1(self.P_a[status], self.input1['T_a'][status], self.snow.T_s_0[status], rel_z_t[status], \
-#                                                  self.input1['e_a'][status], self.snow.es_0[status], rel_z_t[status], self.input1['u'][status], rel_z_u[status], \
-#                                                  self.z_0[status])
-            raise Exception("hle1 did not converge at point y=%i, x=%i) , sorry... :(" % (self.index[0][status], self.index[1][status]))
+            idx = np.where(self.index)
+            raise Exception("hle1 did not converge at point y=%i, x=%i) , sorry... :(" % (idx[0][status], idx[1][status]))
             
         self.em.H = H
         self.em.L_v_E = L_v_E

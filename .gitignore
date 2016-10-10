@@ -5,6 +5,7 @@
 .settings/
 
 test_data_spatial/
+test_data_BRB/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -23,8 +24,8 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
-lib64/
+./lib/
+./lib64/
 parts/
 sdist/
 var/

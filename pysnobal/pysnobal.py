@@ -10,7 +10,7 @@ snobal -z 2061 -t 60 -m 0.01 -s snow.properties.input
 """
 
 # from libsnobal import libsnobal
-from libsnobal.py_snobal import snobal
+from lib.py_snobal import snobal
 # from libsnobal.snobal import snobal
 
 import sys, getopt
