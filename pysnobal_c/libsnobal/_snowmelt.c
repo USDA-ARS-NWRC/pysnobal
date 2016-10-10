@@ -23,6 +23,8 @@
 #include        "envphys.h"
 #include        "snow.h"
 
+#define ABS(x) ( (x) < 0 ? -(x) : (x) )
+
 void
 _snowmelt(void)
 {

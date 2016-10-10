@@ -38,7 +38,7 @@ sources = glob.glob(os.path.join(loc, '*.c'))
 # sources = ['_adj_layers.c']
 ext_modules += [
                 Extension(
-                    "pysnobal.libsnobal",
+                    "pysnobal_c.libsnobal",
                     sources,
                     include_dirs=["pysnobal_c/h"],
                     extra_compile_args=['-fopenmp', '-O3'],
