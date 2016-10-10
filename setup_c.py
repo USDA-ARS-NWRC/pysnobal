@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os, glob
+import os, glob, sys
 import numpy
 
 try:
@@ -33,6 +33,11 @@ ext_modules = []
 # make sure we're using GCC
 os.environ["CC"] = "gcc"
 
+if sys.platform == 'darwin':
+    from distutils import sysconfig
+    vars = sysconfig.get_config_vars()
+    vars['LDSHARED'] = vars['LDSHARED'].replace('-bundle', '-dynamiclib')
+
 #------------------------------------------------------------------------------ 
 # Compiling the C code for the Snobal libary
 loc = 'pysnobal_c/libsnobal'
@@ -58,9 +63,10 @@ ext_modules += [
                 Extension(
                     "pysnobal_c.snobal",
                     sources,
+                    libraries=["snobal"],
                     include_dirs=[numpy.get_include(), "pysnobal_c/h"],
-                    extra_compile_args=['-fopenmp', '-O3'],
-                    extra_link_args=['-fopenmp', '-O3'],
+                    extra_compile_args=['-fopenmp', '-O3', '-L./pysnobal_c'],
+                    extra_link_args=['-fopenmp', '-O3', '-L./pysnobal_c'],
                     )
                 ]
 

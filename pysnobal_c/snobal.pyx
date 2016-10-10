@@ -20,6 +20,14 @@ cdef extern from "snobal.h":
     void init_snow();
     int do_data_tstep();
 
+cdef extern from "envphys.h":
+    cdef double SEA_LEVEL;
+    cdef double STD_AIRTMP;
+    cdef double STD_LAPSE;
+    cdef double GRAVITY;
+    cdef double MOL_AIR;
+    cdef double HYSTAT(double pb, double tb, double L, double h, double g, double m); 
+
 
 
 def initialize(params, tstep_info, sn, mh):
@@ -61,7 +69,7 @@ def do_tstep(input1, input2, output_rec, mh):
         T_s             = output_rec['T_s'][n]
         h2o_sat         = output_rec['h2o_sat'][n]
         layer_count     = output_rec['layer_count'][n]
-
+ 
         R_n_bar         = output_rec['R_n_bar'][n]
         H_bar           = output_rec['H_bar'][n]
         L_v_E_bar       = output_rec['L_v_E_bar'][n]
@@ -75,6 +83,9 @@ def do_tstep(input1, input2, output_rec, mh):
         # establish conditions for snowpack
         init_snow()
 
+        # set air pressure from site elev
+        P_a = HYSTAT(SEA_LEVEL, STD_AIRTMP, STD_LAPSE, (elevation / 1000.0),
+            GRAVITY, MOL_AIR)
     
     
     # do_data_tstep.c
@@ -82,6 +93,7 @@ def do_tstep(input1, input2, output_rec, mh):
     
     
     # assign_buffers.c
+    
 
     return rt
 
