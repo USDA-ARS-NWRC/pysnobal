@@ -53,6 +53,9 @@ def do_tstep(input1, input2, output_rec, mh):
     
     n = 0
     
+    cdef double cc_s_0
+    global cc_s_0
+    
     # extract_data.c
     #check to see if point is masked
     masked = output_rec['masked'][n]
@@ -87,13 +90,33 @@ def do_tstep(input1, input2, output_rec, mh):
         P_a = HYSTAT(SEA_LEVEL, STD_AIRTMP, STD_LAPSE, (elevation / 1000.0),
             GRAVITY, MOL_AIR)
     
+#         print cc_s_0
     
-    # do_data_tstep.c
+        # do_data_tstep.c
+        do_data_tstep()
     
     
-    
-    # assign_buffers.c
-    
+        # assign_buffers.c
+        print R_n_bar
+        output_rec['elevation'][n] = elevation
+        output_rec['z_0'][n] = z_0
+        output_rec['z_s'][n] = z_s
+        output_rec['rho'][n] = rho
+        output_rec['T_s_0'][n] = T_s_0
+        output_rec['T_s_l'][n] = T_s_l
+        output_rec['T_s'][n] = T_s
+        output_rec['h2o_sat'][n] = h2o_sat
+        output_rec['layer_count'][n] = layer_count
+
+        output_rec['R_n_bar'][n] = R_n_bar
+        output_rec['H_bar'][n] = H_bar
+        output_rec['L_v_E_bar'][n] = L_v_E_bar
+        output_rec['G_bar'][n] = G_bar
+        output_rec['M_bar'][n] = M_bar
+        output_rec['delta_Q_bar'][n] = delta_Q_bar
+        output_rec['E_s_sum'][n] = E_s_sum
+        output_rec['melt_sum'][n] = melt_sum
+        output_rec['ro_pred_sum'][n] = ro_pred_sum
 
     return rt
 
