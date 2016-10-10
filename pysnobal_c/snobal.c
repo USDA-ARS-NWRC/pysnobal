@@ -1088,7 +1088,7 @@ static PyObject *__pyx_tuple__5;
 static PyObject *__pyx_tuple__6;
 static PyObject *__pyx_codeobj__7;
 
-/* "pysnobal_c/snobal.pyx":26
+/* "pysnobal_c/snobal.pyx":31
  * @cython.wraparound(False)
  * # https://github.com/cython/cython/wiki/tutorials-NumpyPointerToC
  * def call_grid():             # <<<<<<<<<<<<<<
@@ -1116,7 +1116,7 @@ static PyObject *__pyx_pf_10pysnobal_c_6snobal_call_grid(CYTHON_UNUSED PyObject 
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("call_grid", 0);
 
-  /* "pysnobal_c/snobal.pyx":58
+  /* "pysnobal_c/snobal.pyx":63
  * #     krige_grid(nsta, ngrid, &ad_arr[0,0], &grid[0,0], &elevations[0], nthreads, &weights[0,0])
  * 
  *     return None             # <<<<<<<<<<<<<<
@@ -1126,7 +1126,7 @@ static PyObject *__pyx_pf_10pysnobal_c_6snobal_call_grid(CYTHON_UNUSED PyObject 
   __pyx_r = Py_None;
   goto __pyx_L0;
 
-  /* "pysnobal_c/snobal.pyx":26
+  /* "pysnobal_c/snobal.pyx":31
  * @cython.wraparound(False)
  * # https://github.com/cython/cython/wiki/tutorials-NumpyPointerToC
  * def call_grid():             # <<<<<<<<<<<<<<
@@ -3405,14 +3405,14 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
 
-  /* "pysnobal_c/snobal.pyx":26
+  /* "pysnobal_c/snobal.pyx":31
  * @cython.wraparound(False)
  * # https://github.com/cython/cython/wiki/tutorials-NumpyPointerToC
  * def call_grid():             # <<<<<<<<<<<<<<
  *     '''
  *     Call the function krige_grid in krige.c which will iterate over the grid
  */
-  __pyx_codeobj__7 = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_call_grid, 26, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__7)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_codeobj__7 = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Users_scott_Documents_Projects, __pyx_n_s_call_grid, 31, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__7)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -3545,16 +3545,25 @@ PyMODINIT_FUNC PyInit_snobal(void)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pysnobal_c/snobal.pyx":26
+  /* "pysnobal_c/snobal.pyx":16
+ * # Numpy must be initialized. When using numpy from C or Cython you must
+ * # _always_ do that, or you will have segfaults
+ * np.import_array()             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  import_array();
+
+  /* "pysnobal_c/snobal.pyx":31
  * @cython.wraparound(False)
  * # https://github.com/cython/cython/wiki/tutorials-NumpyPointerToC
  * def call_grid():             # <<<<<<<<<<<<<<
  *     '''
  *     Call the function krige_grid in krige.c which will iterate over the grid
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_10pysnobal_c_6snobal_1call_grid, NULL, __pyx_n_s_pysnobal_c_snobal); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_10pysnobal_c_6snobal_1call_grid, NULL, __pyx_n_s_pysnobal_c_snobal); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_call_grid, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_call_grid, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "pysnobal_c/snobal.pyx":1
