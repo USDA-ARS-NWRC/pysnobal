@@ -480,7 +480,7 @@ class snobal(object):
         
         return level
             
-#     @profile
+    @profile
     def divide_tstep(self):
         """
         This routine divides the data timestep into the appropriate number
@@ -503,7 +503,7 @@ class snobal(object):
         """
         
 #         print np.max(self.current_time)/3600.0
-        if np.max(self.current_time)/3600.0 > 800:
+        if np.max(self.current_time)/3600.0 > 801:
             self.curr_level
                       
         # determine the levels at which each pixel will be calculated
@@ -674,7 +674,7 @@ class snobal(object):
         return True
         
         
-#     @profile
+    @profile
     def do_tstep(self, tstep, index, step):
         """
         This routine performs the model's calculations for a single timestep.
@@ -808,7 +808,7 @@ class snobal(object):
             self.input1['T_g'] += self.input_deltas['T_g']
         
         
-#     @profile    
+    @profile    
     def mass_bal(self):
         """
         Calculates the point mass budget for 2-layer energy budget snowmelt
@@ -1565,7 +1565,7 @@ class snobal(object):
 #                 self.em.cc_s_l = 0
             
         
-#     @profile
+    @profile
     def e_bal(self):
         """
         Calculates point energy budget for 2-layer snowcover.
