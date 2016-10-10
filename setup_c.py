@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os, glob
+import numpy
 
 try:
     from setuptools import setup
@@ -32,6 +33,8 @@ ext_modules = []
 # make sure we're using GCC
 os.environ["CC"] = "gcc"
 
+#------------------------------------------------------------------------------ 
+# Compiling the C code for the Snobal libary
 loc = 'pysnobal_c/libsnobal'
 # sources=[os.path.join(loc, val) for val in ["_adj_layers.c"]]
 sources = glob.glob(os.path.join(loc, '*.c'))
@@ -41,6 +44,21 @@ ext_modules += [
                     "pysnobal_c.libsnobal",
                     sources,
                     include_dirs=["pysnobal_c/h"],
+                    extra_compile_args=['-fopenmp', '-O3'],
+                    extra_link_args=['-fopenmp', '-O3'],
+                    )
+                ]
+
+
+#------------------------------------------------------------------------------ 
+# Create module to call the C libary
+loc = 'pysnobal_c'
+sources = [os.path.join(loc, val) for val in ["snobal.pyx"]]
+ext_modules += [
+                Extension(
+                    "pysnobal_c.snobal",
+                    sources,
+                    include_dirs=[numpy.get_include(), "pysnobal_c/h"],
                     extra_compile_args=['-fopenmp', '-O3'],
                     extra_link_args=['-fopenmp', '-O3'],
                     )
