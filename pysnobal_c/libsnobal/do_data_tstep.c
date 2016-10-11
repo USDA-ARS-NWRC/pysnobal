@@ -107,6 +107,9 @@ do_data_tstep(void)
 	if (ro_data)
 		ro = input_rec1.ro;
 
+//	printf("%f - %f - %f - %f - %f - %f\n", S_n, I_lw, T_a, e_a, u, T_g);
+//	printf("%f\n", m_s);
+
 	/*
 	 *  Compute deltas for the climate input parameters over
 	 *  the data timestep.

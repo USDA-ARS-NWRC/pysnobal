@@ -19,6 +19,66 @@ np.import_array()
 cdef extern from "snobal.h":
     void init_snow();
     int do_data_tstep();
+    
+    ctypedef struct INPUT_REC:
+        double S_n;
+        double I_lw;
+        double T_a;
+        double e_a;
+        double u;
+        double T_g;
+        double ro;
+    
+    INPUT_REC  input_rec1;
+    INPUT_REC  input_rec2;
+    
+    ctypedef struct TSTEP_REC:
+        int level;
+        double time_step;
+        int intervals;
+        double threshold;
+        int output;
+    
+    TSTEP_REC tstep_info[4];
+    
+    int precip_now;
+    double m_pp;
+    double percent_snow;
+    double rho_snow;
+    double T_pp;
+    
+    int layer_count;
+    double z_0;
+    double z_s;
+    double rho;
+    double T_s;
+    double T_s_0;
+    double T_s_l;
+    double h2o_sat;
+    double P_a;
+        
+    double R_n_bar;
+    double H_bar;
+    double L_v_E_bar;
+    double G_bar;
+    double G_0_bar;
+    double M_bar;
+    double delta_Q_bar;
+    double delta_Q_0_bar;
+    double E_s_sum;
+    double melt_sum;
+    double ro_pred_sum;
+    
+    double current_time;
+    double time_since_out;
+    
+    int relative_hts;
+    double z_g;
+    double z_u;
+    double z_T;
+    double max_h2o_vol;
+    double max_z_s_0;
+
 
 cdef extern from "envphys.h":
     cdef double SEA_LEVEL;
@@ -43,7 +103,7 @@ def initialize(params, tstep_info, sn, mh):
     
     return None
 
-def do_tstep(input1, input2, output_rec, mh):
+def do_tstep(input1, input2, output_rec, tstep_rec, mh, params):
     """
     Do the timestep given the inputs, model state, and measurement heights
     There is no first_step value since the snow state records were already
@@ -53,16 +113,72 @@ def do_tstep(input1, input2, output_rec, mh):
     
     n = 0
     
-    cdef double cc_s_0
-    global cc_s_0
+    for i in range(len(tstep_rec)):
+        tstep_info[i].level = int(tstep_rec[i]['level'])
+        if tstep_rec[i]['time_step'] is not None:
+            tstep_info[i].time_step = tstep_rec[i]['time_step']
+        if tstep_rec[i]['intervals'] is not None:
+            tstep_info[i].intervals = int(tstep_rec[i]['intervals'])
+        if tstep_rec[i]['threshold'] is not None:
+            tstep_info[i].threshold = tstep_rec[i]['threshold']
+        tstep_info[i].output = int(tstep_rec[i]['output'])
     
+    
+    rt = True
     # extract_data.c
     #check to see if point is masked
     masked = output_rec['masked'][n]
     if masked:
         rt = False
-
+ 
     else:
+        
+        # since snobal use global variables extensively, here is the ugly
+        # interface with Python
+        global current_time, time_since_out
+        global m_pp, percent_snow, rho_snow, T_pp, precip_now
+        global z_0, z_s, rho, T_s_0, T_s_l, T_s, h2o_sat, layer_count, P_a
+        global z_u, z_T, z_g, relative_heights, max_h2o_vol, max_z_s_0
+        global R_n_bar, H_bar, L_v_E_bar, G_bar, G_0_bar, M_bar, delta_Q_bar, delta_Q_0_bar
+        global E_s_sum, melt_sum, ro_pred_sum 
+         
+        # time variables
+        current_time = output_rec['current_time'][n]
+        time_since_out = output_rec['time_since_out'][n]
+        
+        # measurement heights and parameters
+        z_u = mh['z_u'][n]
+        z_T = mh['z_t'][n]
+        z_g = mh['z_g'][n]
+        relative_heights = int(params['relative_heights'])
+        max_h2o_vol = params['max_h2o_vol']
+        max_z_s_0 = params['max_z_s_0']
+         
+        # get the input records
+        input_rec1.I_lw = input1['I_lw'][n]
+        input_rec1.T_a  = input1['T_a'][n]
+        input_rec1.e_a  = input1['e_a'][n]
+        input_rec1.u    = input1['u'][n]
+        input_rec1.T_g  = input1['T_g'][n] 
+        input_rec1.S_n  = input1['S_n'][n]
+         
+        input_rec2.I_lw = input2['I_lw'][n]
+        input_rec2.T_a  = input2['T_a'][n]
+        input_rec2.e_a  = input2['e_a'][n]
+        input_rec2.u    = input2['u'][n]
+        input_rec2.T_g  = input2['T_g'][n] 
+        input_rec2.S_n  = input2['S_n'][n]
+        
+        m_pp         = input1['m_pp'][n]
+        percent_snow = input1['percent_snow'][n]
+        rho_snow     = input1['rho_snow'][n]
+        T_pp         = input1['T_pp'][n]
+        
+        precip_now = 1
+        if m_pp > 0:
+            precip_now = 1
+         
+        # get the model state
         elevation       = output_rec['elevation'][n]
         z_0             = output_rec['z_0'][n]
         z_s             = output_rec['z_s'][n]
@@ -72,7 +188,7 @@ def do_tstep(input1, input2, output_rec, mh):
         T_s             = output_rec['T_s'][n]
         h2o_sat         = output_rec['h2o_sat'][n]
         layer_count     = output_rec['layer_count'][n]
- 
+  
         R_n_bar         = output_rec['R_n_bar'][n]
         H_bar           = output_rec['H_bar'][n]
         L_v_E_bar       = output_rec['L_v_E_bar'][n]
@@ -82,22 +198,28 @@ def do_tstep(input1, input2, output_rec, mh):
         E_s_sum         = output_rec['E_s_sum'][n]
         melt_sum        = output_rec['melt_sum'][n]
         ro_pred_sum     = output_rec['ro_pred_sum'][n]
-
+ 
+#         print z_0
+ 
         # establish conditions for snowpack
         init_snow()
-
+ 
         # set air pressure from site elev
         P_a = HYSTAT(SEA_LEVEL, STD_AIRTMP, STD_LAPSE, (elevation / 1000.0),
             GRAVITY, MOL_AIR)
-    
+     
 #         print cc_s_0
-    
+     
         # do_data_tstep.c
         do_data_tstep()
-    
-    
+     
+     
         # assign_buffers.c
-        print R_n_bar
+#         print R_n_bar
+    
+        output_rec['current_time'][n] = current_time
+        output_rec['time_since_out'][n] = time_since_out
+
         output_rec['elevation'][n] = elevation
         output_rec['z_0'][n] = z_0
         output_rec['z_s'][n] = z_s
@@ -107,7 +229,7 @@ def do_tstep(input1, input2, output_rec, mh):
         output_rec['T_s'][n] = T_s
         output_rec['h2o_sat'][n] = h2o_sat
         output_rec['layer_count'][n] = layer_count
-
+ 
         output_rec['R_n_bar'][n] = R_n_bar
         output_rec['H_bar'][n] = H_bar
         output_rec['L_v_E_bar'][n] = L_v_E_bar

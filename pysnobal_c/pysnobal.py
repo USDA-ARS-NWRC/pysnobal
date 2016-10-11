@@ -141,9 +141,7 @@ def parseOptions(options):
     
     tstep_info = []
     for i in range(4):
-        t = {}
-        t['level'] = i;
-        t['output'] = False;
+        t = {'level': i, 'output': False, 'threshold': None, 'time_step': None, 'intervals': None}
         tstep_info.append(t)
     
 
@@ -290,7 +288,8 @@ def initialize(params, tstep_info, sn, mh):
     sz = sn['elevation'].shape
     flds = ['masked', 'elevation', 'z_0', 'z_s', 'rho', 'T_s_0', 'T_s_l', 'T_s', \
             'h2o_sat', 'layer_count', 'R_n_bar', 'H_bar', 'L_v_E_bar', 'G_bar', \
-            'M_bar', 'delta_Q_bar', 'E_s_sum', 'melt_sum', 'ro_pred_sum']
+            'M_bar', 'delta_Q_bar', 'E_s_sum', 'melt_sum', 'ro_pred_sum',\
+            'current_time', 'time_since_out']
     s = {key: np.zeros(sz) for key in flds} # the structure fields
     
     # go through each sn value and fill
@@ -339,6 +338,15 @@ def main(argv):
 #     input1 = pd.concat([in1, pr.loc[index]])
     pbar = progressbar.ProgressBar(max_value=len(force)-1)
     j = 0
+    
+    data_tstep = tstep_info[0]['time_step']
+    timeSinceOut = 0.0
+    start_step = 0 # if restart then it would be higher if this were iSnobal
+    step_time = start_step * data_tstep
+    
+    output_rec['current_time'] = step_time * np.ones(output_rec['elevation'].shape)
+    output_rec['time_since_out'] = timeSinceOut * np.ones(output_rec['elevation'].shape)
+    
     for index,input2 in it:
     
         # add the precip to the data Series
@@ -346,12 +354,24 @@ def main(argv):
     
         try:
             # call do_data_tstep()
-            snobal.do_tstep(dict2np(input1.to_dict()), dict2np(input2.to_dict()), output_rec, mh)
+            snobal.do_tstep(dict2np(input1.to_dict()), dict2np(input2.to_dict()), output_rec, tstep_info, mh, params)
 #             s.do_data_tstep(dict2np(input1.to_dict()), dict2np(input2.to_dict()))
+        
+            if np.isnan(output_rec['z_s'][0,0]):
+                output_rec['z_s']
+                
+                
+#             output_rec['current_time'] += data_tstep
+#             output_rec['time_since_out'] += data_tstep
+#             if (j % options['output']['frequency'] == 0) or (j == len(options['time']['date_time'])):
+# #                 output_timestep(s, tstep, options)
+#                 output_rec['time_since_out'] = np.zeros(output_rec['elevation'].shape)
+            
+                
         
         except Exception, e:
             traceback.print_exc()
-            print('pysnobal error on time step %f' % (output_rec.current_time[0,0]/3600.0))
+            print('pysnobal error on time step %f' % (output_rec['current_time'][0,0]/3600.0))
             print(e)
             return
 #             

@@ -181,11 +181,11 @@ _do_tstep(
 	/* increment time */
 	current_time += time_step;
 
-	if (tstep->output & WHOLE_TSTEP) {
-		(*out_func)();
-		if (!run_no_snow && (layer_count == 0))
-			stop_no_snow = TRUE;
-	}
+//	if (tstep->output & WHOLE_TSTEP) {
+//		(*out_func)();
+//		if (!run_no_snow && (layer_count == 0))
+//			stop_no_snow = TRUE;
+//	}
 
 	/*
 	 *  Update the model's input parameters
