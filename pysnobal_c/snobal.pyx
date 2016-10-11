@@ -49,13 +49,22 @@ cdef extern from "snobal.h":
     
     int layer_count;
     double z_0;
-    double z_s;
     double rho;
     double T_s;
     double T_s_0;
     double T_s_l;
     double h2o_sat;
+    double h2o;
     double P_a;
+    double m_s;
+    double m_s_0;
+    double m_s_l;
+    double cc_s;
+    double cc_s_0;
+    double cc_s_l;
+    double z_s;
+    double z_s_0;
+    double z_s_l;
         
     double R_n_bar;
     double H_bar;
@@ -137,7 +146,8 @@ def do_tstep(input1, input2, output_rec, tstep_rec, mh, params):
         # interface with Python
         global current_time, time_since_out
         global m_pp, percent_snow, rho_snow, T_pp, precip_now
-        global z_0, z_s, rho, T_s_0, T_s_l, T_s, h2o_sat, layer_count, P_a
+        global z_0, rho, T_s_0, T_s_l, T_s, h2o_sat, layer_count, P_a, h2o
+        global m_s_0, m_s_l, m_s, cc_s_0, cc_s_l, cc_s, z_s_0, z_s_l, z_s
         global z_u, z_T, z_g, relative_heights, max_h2o_vol, max_z_s_0
         global R_n_bar, H_bar, L_v_E_bar, G_bar, G_0_bar, M_bar, delta_Q_bar, delta_Q_0_bar
         global E_s_sum, melt_sum, ro_pred_sum 
@@ -193,8 +203,10 @@ def do_tstep(input1, input2, output_rec, tstep_rec, mh, params):
         H_bar           = output_rec['H_bar'][n]
         L_v_E_bar       = output_rec['L_v_E_bar'][n]
         G_bar           = output_rec['G_bar'][n]
+        G_0_bar         = output_rec['G_0_bar'][n]
         M_bar           = output_rec['M_bar'][n]
         delta_Q_bar     = output_rec['delta_Q_bar'][n]
+        delta_Q_0_bar   = output_rec['delta_Q_0_bar'][n]
         E_s_sum         = output_rec['E_s_sum'][n]
         melt_sum        = output_rec['melt_sum'][n]
         ro_pred_sum     = output_rec['ro_pred_sum'][n]
@@ -222,20 +234,31 @@ def do_tstep(input1, input2, output_rec, tstep_rec, mh, params):
 
         output_rec['elevation'][n] = elevation
         output_rec['z_0'][n] = z_0
-        output_rec['z_s'][n] = z_s
         output_rec['rho'][n] = rho
         output_rec['T_s_0'][n] = T_s_0
         output_rec['T_s_l'][n] = T_s_l
         output_rec['T_s'][n] = T_s
         output_rec['h2o_sat'][n] = h2o_sat
+        output_rec['h2o'][n] = h2o
         output_rec['layer_count'][n] = layer_count
+        output_rec['cc_s_0'][n] = cc_s_0
+        output_rec['cc_s_l'][n] = cc_s_l
+        output_rec['cc_s'][n] = cc_s
+        output_rec['m_s_0'][n] = m_s_0
+        output_rec['m_s_l'][n] = m_s_l
+        output_rec['m_s'][n] = m_s
+        output_rec['z_s_0'][n] = z_s_0
+        output_rec['z_s_l'][n] = z_s_l
+        output_rec['z_s'][n] = z_s
  
         output_rec['R_n_bar'][n] = R_n_bar
         output_rec['H_bar'][n] = H_bar
         output_rec['L_v_E_bar'][n] = L_v_E_bar
         output_rec['G_bar'][n] = G_bar
+        output_rec['G_0_bar'][n] = G_0_bar
         output_rec['M_bar'][n] = M_bar
         output_rec['delta_Q_bar'][n] = delta_Q_bar
+        output_rec['delta_Q_0_bar'][n] = delta_Q_0_bar
         output_rec['E_s_sum'][n] = E_s_sum
         output_rec['melt_sum'][n] = melt_sum
         output_rec['ro_pred_sum'][n] = ro_pred_sum

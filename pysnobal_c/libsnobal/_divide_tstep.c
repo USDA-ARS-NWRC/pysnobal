@@ -121,11 +121,11 @@ _divide_tstep(
 	/*
 	 *  Output if this timestep is divided?
 	 */
-	if (tstep->output & DIVIDED_TSTEP) {
-		(*out_func)();
-		if (!run_no_snow && (layer_count == 0))
-			stop_no_snow = TRUE;
-	}
+//	if (tstep->output & DIVIDED_TSTEP) {
+//		(*out_func)();
+//		if (!run_no_snow && (layer_count == 0))
+//			stop_no_snow = TRUE;
+//	}
 
 	return TRUE;
 }

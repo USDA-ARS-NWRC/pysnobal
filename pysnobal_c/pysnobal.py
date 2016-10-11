@@ -17,6 +17,7 @@ import pandas as pd
 import progressbar
 import traceback
 
+
 # class MyApplication():
 #     # My code here
 #     pass
@@ -40,6 +41,11 @@ hrs2min = lambda x: x * 60
 min2sec = lambda x: x * 60
 C_TO_K = 273.16
 FREEZE = C_TO_K
+
+SEC_TO_HR = lambda x: x / 3600.0
+
+# Kelvin to Celcius
+K_TO_C = lambda x: x - FREEZE
 
 
 def check_range(value, min_val, max_val, descrip):
@@ -117,8 +123,8 @@ def get_args(argv):
         'h': '../test_data_spatial/point/inheight.input',
         'p': '../test_data_spatial/point/snobal.ppt.input',
         'i': '../test_data_spatial/point/snobal.input',
-        'o': '../test_data_spatial/point/snobal.exact',
-        'O': 'all',
+        'o': '../test_data_spatial/point/snobal.pysnobal_c',
+        'O': 'data',
         'c': True,
         'K': True,
         'T': DEFAULT_NORMAL_THRESHOLD,
@@ -285,10 +291,15 @@ def initialize(params, tstep_info, sn, mh):
     """
     
     # create the OUTPUT_REC with additional fields and fill
+    # There are a lot of additional terms that the original output_rec does not 
+    # have due to the output function being outside the C code which doesn't
+    # have access to those variables
     sz = sn['elevation'].shape
-    flds = ['masked', 'elevation', 'z_0', 'z_s', 'rho', 'T_s_0', 'T_s_l', 'T_s', \
-            'h2o_sat', 'layer_count', 'R_n_bar', 'H_bar', 'L_v_E_bar', 'G_bar', \
-            'M_bar', 'delta_Q_bar', 'E_s_sum', 'melt_sum', 'ro_pred_sum',\
+    flds = ['masked', 'elevation', 'z_0', 'rho', 'T_s_0', 'T_s_l', 'T_s', \
+            'cc_s_0', 'cc_s_l', 'cc_s', 'm_s', 'm_s_0', 'm_s_l', 'z_s', 'z_s_0', 'z_s_l',\
+            'h2o_sat', 'layer_count', 'h2o',\
+            'R_n_bar', 'H_bar', 'L_v_E_bar', 'G_bar', 'G_0_bar',\
+            'M_bar', 'delta_Q_bar', 'delta_Q_0_bar', 'E_s_sum', 'melt_sum', 'ro_pred_sum',\
             'current_time', 'time_since_out']
     s = {key: np.zeros(sz) for key in flds} # the structure fields
     
@@ -303,7 +314,97 @@ def initialize(params, tstep_info, sn, mh):
         
     return s
     
+def output_timestep(output_rec, params):
+    """
+    Output the model results to a file
+    ** 
+    This is a departure from Snobal that can print out the
+    sub-time steps, this will only print out on the data tstep
+    (for now) 
+    **
     
+    """
+    
+    # write out to a file
+    f = params['out_file']
+    n = 0
+    if f is not None:
+     
+        curr_time_hrs =  SEC_TO_HR(output_rec['current_time'][n])
+         
+        #             # time
+        #             f.write('%g,' % curr_time_hrs)
+        #             
+        #             # energy budget terms
+        #             f.write("%.1f,%.1f,%.1f,%.1f,%.1f,%.1f," % \
+        #                     (output_rec['R_n_bar'][n], output_rec['H_bar'][n], output_rec['L_v_E_bar'][n], \
+        #                     output_rec['G_bar'][n], output_rec['M_bar'][n], output_rec['delta_Q_bar'][n]))
+        # 
+        #             # layer terms
+        #             f.write("%.1f,%.1f," % \
+        #                     (output_rec['G_0_bar'][n], output_rec['delta_Q_0_bar'][n]))
+        #     
+        #             # heat storage and mass changes
+        #             f.write("%.6e,%.6e,%.6e," % \
+        #                     (output_rec['cc_s_0'][n], output_rec['cc_s_l'][n], output_rec['cc_s'][n]))
+        #             f.write("%.5f,%.5f,%.5f," % \
+        #                     (output_rec['E_s_sum'][n], output_rec['melt_sum'][n], output_rec['ro_pred_sum'][n]))
+        #     
+        # #             # runoff error if data included */
+        # #             if (ro_data)
+        # #                 fprintf(out, " %.1f",
+        # #                         (ro_pred_sum - (ro * time_since_out)))
+        #     
+        #             # sno properties */
+        #             f.write("%.3f,%.3f,%.3f,%.1f," % \
+        #                     (output_rec['z_s_0'][n], output_rec['z_s_l'][n], output_rec['z_s'][n], output_rec['rho'][n]))
+        #             f.write("%.1f,%.1f,%.1f,%.1f," % \
+        #                     (output_rec['m_s_0'][n], output_rec['m_s_l'][n], output_rec['m_s'][n], output_rec['h2o'][n]))
+        #             if self.params['temps_in_C']:
+        #                 f.write("%.2f,%.2f,%.2f\n" % 
+        #                         (K_TO_C(output_rec['T_s_0'][n]), K_TO_C(output_rec['T_s_l'][n]), K_TO_C(output_rec['T_s'][n])))
+        #             else:
+        #                 f.write("%.2f,%.2f,%.2f\n" % \
+        #                         (output_rec['T_s_0'][n], output_rec['T_s_l'][n], output_rec['T_s'][n]))
+         
+         
+        # time
+        f.write('%g,' % curr_time_hrs)
+          
+        # energy budget terms
+        f.write("%.3f,%.3f,%.3f,%.3f,%.3f,%.3f," % \
+                (output_rec['R_n_bar'][n], output_rec['H_bar'][n], output_rec['L_v_E_bar'][n], \
+                output_rec['G_bar'][n], output_rec['M_bar'][n], output_rec['delta_Q_bar'][n]))
+         
+        # layer terms
+        f.write("%.3f,%.3f," % \
+                (output_rec['G_0_bar'][n], output_rec['delta_Q_0_bar'][n]))
+         
+        # heat storage and mass changes
+        f.write("%.9e,%.9e,%.9e," % \
+                (output_rec['cc_s_0'][n], output_rec['cc_s_l'][n], output_rec['cc_s'][n]))
+        f.write("%.8f,%.8f,%.8f," % \
+                (output_rec['E_s_sum'][n], output_rec['melt_sum'][n], output_rec['ro_pred_sum'][n]))
+         
+        #             # runoff error if data included */
+        #             if (ro_data)
+        #                 fprintf(out, " %.3f",
+        #                         (ro_pred_sum - (ro * time_since_out)))
+         
+        # sno properties */
+        f.write("%.6f,%.6f,%.6f,%.3f," % \
+                (output_rec['z_s_0'][n], output_rec['z_s_l'][n], output_rec['z_s'][n], output_rec['rho'][n]))
+        f.write("%.3f,%.3f,%.3f,%.3f," % \
+                (output_rec['m_s_0'][n], output_rec['m_s_l'][n], output_rec['m_s'][n], output_rec['h2o'][n]))
+        if params['temps_in_C']:
+            f.write("%.5f,%.5f,%.5f\n" % 
+                    (K_TO_C(output_rec['T_s_0'][n]), K_TO_C(output_rec['T_s_l'][n]), K_TO_C(output_rec['T_s'][n])))
+        else:
+            f.write("%.5f,%.5f,%.5f\n" % \
+                    (output_rec['T_s_0'][n], output_rec['T_s_l'][n], output_rec['T_s'][n]))    
+        
+        # reset the time since out
+        output_rec['time_since_out'][n] = 0
     
 def run(data):
     """
@@ -357,8 +458,8 @@ def main(argv):
             snobal.do_tstep(dict2np(input1.to_dict()), dict2np(input2.to_dict()), output_rec, tstep_info, mh, params)
 #             s.do_data_tstep(dict2np(input1.to_dict()), dict2np(input2.to_dict()))
         
-            if np.isnan(output_rec['z_s'][0,0]):
-                output_rec['z_s']
+            # output the results
+            output_timestep(output_rec, params)
                 
                 
 #             output_rec['current_time'] += data_tstep
