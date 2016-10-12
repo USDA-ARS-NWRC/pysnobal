@@ -115,7 +115,7 @@ def get_args(argv):
 #     print 'Output file is "', outputfile
 
     options = {
-        'z': 2061,
+        'z': 2075.99414062,
         't': 60,
         'm': 0.01,
         'd': DEFAULT_MAX_Z_S_0,
@@ -332,65 +332,65 @@ def output_timestep(output_rec, params):
      
         curr_time_hrs =  SEC_TO_HR(output_rec['current_time'][n])
          
-        #             # time
-        #             f.write('%g,' % curr_time_hrs)
-        #             
-        #             # energy budget terms
-        #             f.write("%.1f,%.1f,%.1f,%.1f,%.1f,%.1f," % \
-        #                     (output_rec['R_n_bar'][n], output_rec['H_bar'][n], output_rec['L_v_E_bar'][n], \
-        #                     output_rec['G_bar'][n], output_rec['M_bar'][n], output_rec['delta_Q_bar'][n]))
-        # 
-        #             # layer terms
-        #             f.write("%.1f,%.1f," % \
-        #                     (output_rec['G_0_bar'][n], output_rec['delta_Q_0_bar'][n]))
-        #     
-        #             # heat storage and mass changes
-        #             f.write("%.6e,%.6e,%.6e," % \
-        #                     (output_rec['cc_s_0'][n], output_rec['cc_s_l'][n], output_rec['cc_s'][n]))
-        #             f.write("%.5f,%.5f,%.5f," % \
-        #                     (output_rec['E_s_sum'][n], output_rec['melt_sum'][n], output_rec['ro_pred_sum'][n]))
-        #     
-        # #             # runoff error if data included */
-        # #             if (ro_data)
-        # #                 fprintf(out, " %.1f",
-        # #                         (ro_pred_sum - (ro * time_since_out)))
-        #     
-        #             # sno properties */
-        #             f.write("%.3f,%.3f,%.3f,%.1f," % \
-        #                     (output_rec['z_s_0'][n], output_rec['z_s_l'][n], output_rec['z_s'][n], output_rec['rho'][n]))
-        #             f.write("%.1f,%.1f,%.1f,%.1f," % \
-        #                     (output_rec['m_s_0'][n], output_rec['m_s_l'][n], output_rec['m_s'][n], output_rec['h2o'][n]))
-        #             if self.params['temps_in_C']:
-        #                 f.write("%.2f,%.2f,%.2f\n" % 
-        #                         (K_TO_C(output_rec['T_s_0'][n]), K_TO_C(output_rec['T_s_l'][n]), K_TO_C(output_rec['T_s'][n])))
-        #             else:
-        #                 f.write("%.2f,%.2f,%.2f\n" % \
-        #                         (output_rec['T_s_0'][n], output_rec['T_s_l'][n], output_rec['T_s'][n]))
+#         # time
+#         f.write('%g,' % curr_time_hrs)
+#          
+#         # energy budget terms
+#         f.write("%.1f,%.1f,%.1f,%.1f,%.1f,%.1f," % \
+#                 (output_rec['R_n_bar'][n], output_rec['H_bar'][n], output_rec['L_v_E_bar'][n], \
+#                 output_rec['G_bar'][n], output_rec['M_bar'][n], output_rec['delta_Q_bar'][n]))
+#         
+#         # layer terms
+#         f.write("%.1f,%.1f," % \
+#                 (output_rec['G_0_bar'][n], output_rec['delta_Q_0_bar'][n]))
+#         
+#         # heat storage and mass changes
+#         f.write("%.6e,%.6e,%.6e," % \
+#                 (output_rec['cc_s_0'][n], output_rec['cc_s_l'][n], output_rec['cc_s'][n]))
+#         f.write("%.5f,%.5f,%.5f," % \
+#                 (output_rec['E_s_sum'][n], output_rec['melt_sum'][n], output_rec['ro_pred_sum'][n]))
+#         
+#         #             # runoff error if data included */
+#         #             if (ro_data)
+#         #                 fprintf(out, " %.1f",
+#         #                         (ro_pred_sum - (ro * time_since_out)))
+#         
+#         # sno properties */
+#         f.write("%.3f,%.3f,%.3f,%.1f," % \
+#                 (output_rec['z_s_0'][n], output_rec['z_s_l'][n], output_rec['z_s'][n], output_rec['rho'][n]))
+#         f.write("%.1f,%.1f,%.1f,%.1f," % \
+#                 (output_rec['m_s_0'][n], output_rec['m_s_l'][n], output_rec['m_s'][n], output_rec['h2o'][n]))
+#         if params['temps_in_C']:
+#             f.write("%.2f,%.2f,%.2f\n" % 
+#                     (K_TO_C(output_rec['T_s_0'][n]), K_TO_C(output_rec['T_s_l'][n]), K_TO_C(output_rec['T_s'][n])))
+#         else:
+#             f.write("%.2f,%.2f,%.2f\n" % \
+#                     (output_rec['T_s_0'][n], output_rec['T_s_l'][n], output_rec['T_s'][n]))
          
          
         # time
         f.write('%g,' % curr_time_hrs)
-          
+           
         # energy budget terms
         f.write("%.3f,%.3f,%.3f,%.3f,%.3f,%.3f," % \
                 (output_rec['R_n_bar'][n], output_rec['H_bar'][n], output_rec['L_v_E_bar'][n], \
                 output_rec['G_bar'][n], output_rec['M_bar'][n], output_rec['delta_Q_bar'][n]))
-         
+          
         # layer terms
         f.write("%.3f,%.3f," % \
                 (output_rec['G_0_bar'][n], output_rec['delta_Q_0_bar'][n]))
-         
+          
         # heat storage and mass changes
         f.write("%.9e,%.9e,%.9e," % \
                 (output_rec['cc_s_0'][n], output_rec['cc_s_l'][n], output_rec['cc_s'][n]))
         f.write("%.8f,%.8f,%.8f," % \
                 (output_rec['E_s_sum'][n], output_rec['melt_sum'][n], output_rec['ro_pred_sum'][n]))
-         
+          
         #             # runoff error if data included */
         #             if (ro_data)
         #                 fprintf(out, " %.3f",
         #                         (ro_pred_sum - (ro * time_since_out)))
-         
+          
         # sno properties */
         f.write("%.6f,%.6f,%.6f,%.3f," % \
                 (output_rec['z_s_0'][n], output_rec['z_s_l'][n], output_rec['z_s'][n], output_rec['rho'][n]))
@@ -461,15 +461,6 @@ def main(argv):
             # output the results
             output_timestep(output_rec, params)
                 
-                
-#             output_rec['current_time'] += data_tstep
-#             output_rec['time_since_out'] += data_tstep
-#             if (j % options['output']['frequency'] == 0) or (j == len(options['time']['date_time'])):
-# #                 output_timestep(s, tstep, options)
-#                 output_rec['time_since_out'] = np.zeros(output_rec['elevation'].shape)
-            
-                
-        
         except Exception, e:
             traceback.print_exc()
             print('pysnobal error on time step %f' % (output_rec['current_time'][0,0]/3600.0))

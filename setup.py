@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
+import os, numpy
 
 try:
     from setuptools import setup
@@ -29,6 +29,8 @@ test_requirements = [
 cmdclass = {}
 ext_modules = []
 
+# make sure we're using GCC
+os.environ["CC"] = "gcc"
 
 loc = 'pysnobal/lib/core_c'
 sources=[os.path.join(loc, val) for val in ["c_functions.pyx", "envphys.c"]]
@@ -36,6 +38,7 @@ ext_modules += [
                 Extension(
                     "pysnobal.lib.core_c.c_functions",
                     sources,
+                    include_dirs=[numpy.get_include()],
                     extra_compile_args=['-fopenmp', '-O3'],
                     extra_link_args=['-fopenmp', '-O3'],
                     )
