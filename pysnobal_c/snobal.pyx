@@ -184,7 +184,7 @@ def do_tstep(input1, input2, output_rec, tstep_rec, mh, params):
         rho_snow     = input1['rho_snow'][n]
         T_pp         = input1['T_pp'][n]
         
-        precip_now = 1
+        precip_now = 0
         if m_pp > 0:
             precip_now = 1
          
@@ -197,7 +197,8 @@ def do_tstep(input1, input2, output_rec, tstep_rec, mh, params):
         T_s_l           = output_rec['T_s_l'][n]
         T_s             = output_rec['T_s'][n]
         h2o_sat         = output_rec['h2o_sat'][n]
-        layer_count     = output_rec['layer_count'][n]
+#         h2o             = output_rec['h2o'][n]
+#         layer_count     = output_rec['layer_count'][n]
   
         R_n_bar         = output_rec['R_n_bar'][n]
         H_bar           = output_rec['H_bar'][n]

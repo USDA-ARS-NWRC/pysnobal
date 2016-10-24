@@ -1,6 +1,6 @@
-===============================
+=============
 Python Snobal
-===============================
+=============
 
 .. image:: https://img.shields.io/pypi/v/pysnobal.svg
         :target: https://pypi.python.org/pypi/pysnobal
@@ -13,6 +13,9 @@ Python Snobal
         :alt: Documentation Status
 
 
+For Linux systems when installing pysnobal_c:
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+
 Python implementation of the Snobal model
 
 * Free software: ISC license
@@ -24,7 +27,7 @@ Features
 * TODO
 
 Credits
----------
+-------
 
 This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
 
