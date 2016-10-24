@@ -115,7 +115,7 @@ def get_args(argv):
 #     print 'Output file is "', outputfile
 
     options = {
-        'z': 2075.99414062,
+        'z': 2046.00463867,
         't': 60,
         'm': 0.01,
         'd': DEFAULT_MAX_Z_S_0,
