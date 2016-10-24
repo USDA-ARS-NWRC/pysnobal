@@ -584,14 +584,8 @@ class snobal(object):
         
         
     
-        
-# <<<<<<< HEAD:pysnobal/libsnobal/py_snobal.py
-#     @profile
-#     def do_tstep(self, tstep, index, step):
-# =======
 #     @profile
     def do_tstep(self, tstep, index, step, copy_flag=[True,True]):
-# >>>>>>> f8eb08efebea59287c24b0243afdc3f5e423abae:pysnobal/lib/py_snobal.py
         """
         This routine performs the model's calculations for a single timestep.
         It requires that these climate variables have been initialized:
