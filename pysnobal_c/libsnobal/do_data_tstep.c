@@ -108,7 +108,7 @@ do_data_tstep(void)
 		ro = input_rec1.ro;
 
 //	printf("%f - %f - %f - %f - %f - %f\n", S_n, I_lw, T_a, e_a, u, T_g);
-//	printf("%f\n", m_s);
+//	printf("%f\n", max_h2o_vol);
 
 	/*
 	 *  Compute deltas for the climate input parameters over

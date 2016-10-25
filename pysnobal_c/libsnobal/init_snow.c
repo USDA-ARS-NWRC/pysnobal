@@ -120,6 +120,6 @@ init_snow(void)
 		 *  and the actual liquid water content (as specific mass).
 		 */
 		h2o_max = H2O_LEFT(z_s, rho_dry, max_h2o_vol);
-		h2o = max_h2o_vol; //h2o_sat * h2o_max;
+		h2o = h2o_sat * h2o_max;
 	}
 }

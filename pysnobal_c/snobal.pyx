@@ -55,6 +55,7 @@ cdef extern from "snobal.h":
     double T_s_l;
     double h2o_sat;
     double h2o;
+    double h2o_max;
     double P_a;
     double m_s;
     double m_s_0;
@@ -112,7 +113,7 @@ def initialize(params, tstep_info, sn, mh):
     
     return None
 
-def do_tstep(input1, input2, output_rec, tstep_rec, mh, params):
+def do_tstep(input1, input2, output_rec, tstep_rec, mh, params, first_step=False):
     """
     Do the timestep given the inputs, model state, and measurement heights
     There is no first_step value since the snow state records were already
@@ -146,7 +147,7 @@ def do_tstep(input1, input2, output_rec, tstep_rec, mh, params):
         # interface with Python
         global current_time, time_since_out
         global m_pp, percent_snow, rho_snow, T_pp, precip_now
-        global z_0, rho, T_s_0, T_s_l, T_s, h2o_sat, layer_count, P_a, h2o
+        global z_0, rho, T_s_0, T_s_l, T_s, h2o_sat, h2o_max, layer_count, P_a, h2o
         global m_s_0, m_s_l, m_s, cc_s_0, cc_s_l, cc_s, z_s_0, z_s_l, z_s
         global z_u, z_T, z_g, relative_heights, max_h2o_vol, max_z_s_0
         global R_n_bar, H_bar, L_v_E_bar, G_bar, G_0_bar, M_bar, delta_Q_bar, delta_Q_0_bar
@@ -184,7 +185,7 @@ def do_tstep(input1, input2, output_rec, tstep_rec, mh, params):
         rho_snow     = input1['rho_snow'][n]
         T_pp         = input1['T_pp'][n]
         
-        precip_now = 0
+        precip_now = 1
         if m_pp > 0:
             precip_now = 1
          
@@ -197,8 +198,7 @@ def do_tstep(input1, input2, output_rec, tstep_rec, mh, params):
         T_s_l           = output_rec['T_s_l'][n]
         T_s             = output_rec['T_s'][n]
         h2o_sat         = output_rec['h2o_sat'][n]
-#         h2o             = output_rec['h2o'][n]
-#         layer_count     = output_rec['layer_count'][n]
+        layer_count     = output_rec['layer_count'][n]
   
         R_n_bar         = output_rec['R_n_bar'][n]
         H_bar           = output_rec['H_bar'][n]
@@ -215,7 +215,12 @@ def do_tstep(input1, input2, output_rec, tstep_rec, mh, params):
 #         print z_0
  
         # establish conditions for snowpack
-        init_snow()
+        # the firs step mimic's snobal which only calls init_snow once. This
+        # might mean that the model states will need to be saved in memory
+        # or there will be a slight descrepancy with isnobal. But with this,
+        # there should be a descrepancy in isnobal as well
+        if first_step:
+            init_snow()
  
         # set air pressure from site elev
         P_a = HYSTAT(SEA_LEVEL, STD_AIRTMP, STD_LAPSE, (elevation / 1000.0),
@@ -240,6 +245,7 @@ def do_tstep(input1, input2, output_rec, tstep_rec, mh, params):
         output_rec['T_s_l'][n] = T_s_l
         output_rec['T_s'][n] = T_s
         output_rec['h2o_sat'][n] = h2o_sat
+        output_rec['h2o_max'][n] = h2o_max
         output_rec['h2o'][n] = h2o
         output_rec['layer_count'][n] = layer_count
         output_rec['cc_s_0'][n] = cc_s_0
