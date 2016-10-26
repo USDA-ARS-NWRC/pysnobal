@@ -258,7 +258,7 @@ def open_files(params):
     # convert all to numpy arrays within the dict
     sn['z_0'] = mh['z_0']
     sn = dict2np(sn)
-    mh = dict2np(mh)
+#     mh = dict2np(mh)
                    
     # check the ranges for the input values
     
@@ -295,7 +295,7 @@ def initialize(params, tstep_info, sn, mh):
     # have due to the output function being outside the C code which doesn't
     # have access to those variables
     sz = sn['elevation'].shape
-    flds = ['masked', 'elevation', 'z_0', 'rho', 'T_s_0', 'T_s_l', 'T_s', \
+    flds = ['mask', 'elevation', 'z_0', 'rho', 'T_s_0', 'T_s_l', 'T_s', \
             'cc_s_0', 'cc_s_l', 'cc_s', 'm_s', 'm_s_0', 'm_s_l', 'z_s', 'z_s_0', 'z_s_l',\
             'h2o_sat', 'layer_count', 'h2o', 'h2o_max',\
             'R_n_bar', 'H_bar', 'L_v_E_bar', 'G_bar', 'G_0_bar',\
@@ -308,10 +308,12 @@ def initialize(params, tstep_info, sn, mh):
         if key in flds:
             s[key] = val
             
-    for key, val in mh.items():
+    mh2 = dict2np(mh)
+    for key, val in mh2.items():
         if key in flds:
             s[key] = val
         
+    s['mask'] = np.ones(sz)
     return s
     
 def output_timestep(output_rec, params):

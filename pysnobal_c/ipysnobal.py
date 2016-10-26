@@ -10,7 +10,7 @@ interpretation
 """
 
 # from libsnobal import libsnobal
-from lib.py_snobal import snobal
+import snobal
 
 import ConfigParser
 import sys, os
@@ -45,8 +45,12 @@ DIVIDED_TSTEP = 0x2  # output when timestep is divided
 
 hrs2min = lambda x: x * 60
 min2sec = lambda x: x * 60
+SEC_TO_HR = lambda x: x / 3600.0
 C_TO_K = 273.16
 FREEZE = C_TO_K
+
+# Kelvin to Celcius
+K_TO_C = lambda x: x - FREEZE
 
 
 # parse configuration file
@@ -262,9 +266,7 @@ def get_tstep_info(options, config):
     
     tstep_info = []
     for i in range(4):
-        t = {}
-        t['level'] = i;
-        t['output'] = False;
+        t = {'level': i, 'output': False, 'threshold': None, 'time_step': None, 'intervals': None}
         tstep_info.append(t)
     
 
@@ -347,11 +349,11 @@ def open_files(options):
     init = {}
     init['x'] = i.variables['x'][:]         # get the x coordinates
     init['y'] = i.variables['y'][:]         # get the y coordinates
-    init['z'] = i.variables['z'][:]         # get the elevation
+    init['elevation'] = i.variables['z'][:]         # get the elevation
     init['z_0'] = i.variables['z_0'][:]     # get the roughness length
     
     # All other variables will be assumed zero if not present
-    all_zeros = np.zeros_like(init['z'])
+    all_zeros = np.zeros_like(init['elevation'])
     flds = ['z_s', 'rho', 'T_s_0', 'T_s', 'h2o_sat', 'mask']
     
     for f in flds:  
@@ -385,7 +387,7 @@ def open_files(options):
     try:
         force['soil_temp'] = nc.Dataset(options['inputs']['soil_temp'], 'r')
     except:
-        force['soil_temp'] = float(options['inputs']['soil_temp']) * np.ones_like(init['z'])
+        force['soil_temp'] = float(options['inputs']['soil_temp']) * np.ones_like(init['elevation'])
         
     force['precip_mass'] = nc.Dataset(options['inputs']['precip_mass'], 'r')
     force['percent_snow'] = nc.Dataset(options['inputs']['percent_snow'], 'r')
@@ -511,18 +513,20 @@ def output_timestep(s, tstep, options):
                 'water_saturation': 'h2o_sat'}
         
     # preallocate
-    em = {}
-    snow = {}
+    all_zeros = np.zeros(s['elevation'].shape)
+    em = {key: all_zeros for key in em_out.keys()}
+    snow = {key: all_zeros for key in snow_out.keys()}
+    
     
     # gather all the data together
 #     for index, si in np.ndenumerate(s):
 #         
 #         if si is not None:
     for key,value in em_out.iteritems():
-        em[key] = getattr(s.gridded_em, value)
+        em[key][:] = s[value] 
         
     for key,value in snow_out.iteritems():
-        snow[key] = getattr(s.gridded_snow, value).copy()
+        snow[key][:] = s[value]
     
     # convert from K to C
     snow['temp_snowcover'] -= FREEZE
@@ -559,6 +563,59 @@ def output_timestep(s, tstep, options):
     options['output']['snow'].sync()
     options['output']['em'].sync()
     
+    
+ 
+def output_timestep_point(output_rec, params):
+    """
+    Output the model results to a file
+    ** 
+    This is a departure from Snobal that can print out the
+    sub-time steps, this will only print out on the data tstep
+    (for now) 
+    **
+    
+    """
+    
+    # write out to a file
+    f = params['out_file']
+    n = np.unravel_index(0, output_rec['elevation'])
+    if f is not None:
+     
+        curr_time_hrs =  SEC_TO_HR(output_rec['current_time'][n])
+         
+        # time
+        f.write('%g,' % curr_time_hrs)
+          
+        # energy budget terms
+        f.write("%.1f,%.1f,%.1f,%.1f,%.1f,%.1f," % \
+                (output_rec['R_n_bar'][n], output_rec['H_bar'][n], output_rec['L_v_E_bar'][n], \
+                output_rec['G_bar'][n], output_rec['M_bar'][n], output_rec['delta_Q_bar'][n]))
+         
+        # layer terms
+        f.write("%.1f,%.1f," % \
+                (output_rec['G_0_bar'][n], output_rec['delta_Q_0_bar'][n]))
+         
+        # heat storage and mass changes
+        f.write("%.6e,%.6e,%.6e," % \
+                (output_rec['cc_s_0'][n], output_rec['cc_s_l'][n], output_rec['cc_s'][n]))
+        f.write("%.5f,%.5f,%.5f," % \
+                (output_rec['E_s_sum'][n], output_rec['melt_sum'][n], output_rec['ro_pred_sum'][n]))
+         
+        # sno properties */
+        f.write("%.3f,%.3f,%.3f,%.1f," % \
+                (output_rec['z_s_0'][n], output_rec['z_s_l'][n], output_rec['z_s'][n], output_rec['rho'][n]))
+        f.write("%.1f,%.1f,%.1f,%.1f," % \
+                (output_rec['m_s_0'][n], output_rec['m_s_l'][n], output_rec['m_s'][n], output_rec['h2o'][n]))
+        if params['temps_in_C']:
+            f.write("%.2f,%.2f,%.2f\n" % 
+                    (K_TO_C(output_rec['T_s_0'][n]), K_TO_C(output_rec['T_s_l'][n]), K_TO_C(output_rec['T_s'][n])))
+        else:
+            f.write("%.2f,%.2f,%.2f\n" % \
+                    (output_rec['T_s_0'][n], output_rec['T_s_l'][n], output_rec['T_s'][n]))
+        
+        # reset the time since out
+        output_rec['time_since_out'][n] = 0   
+        
     
 def get_timestep(force, tstep, point=None):
     """
@@ -615,30 +672,59 @@ def get_timestep(force, tstep, point=None):
     
         
 
-def initialize(params, tstep_info, mh, init):
+# def initialize(params, tstep_info, mh, init):
+#     """
+#     Initialize pysnobal over the grid
+#     
+#     Args:
+#         params: parameters from get_tstep_info
+#         tstep_info: time step information
+#         mh: measurement height dict
+#         init: initial conditions dictionary
+#         
+#     Outputs:
+#         s: array of pysnobal classes
+#     """
+#     
+#     # variables needed for the snow properties
+#     # time_s will always be zero since the indicies will always
+#     # start at zero for ipysnobal
+#     v = ['time_s', 'z_s', 'rho', 'T_s', 'T_s_0', 'h2o_sat']
+#     sn = {key: 0.0 for key in v}
+#     
+#     init['time_s'] = 0.0
+#     
+#     s = snobal(params, tstep_info, init, mh)
+#                 
+#     return s
+
+def initialize(params, tstep_info, init):
     """
-    Initialize pysnobal over the grid
-    
-    Args:
-        params: parameters from get_tstep_info
-        tstep_info: time step information
-        mh: measurement height dict
-        init: initial conditions dictionary
-        
-    Outputs:
-        s: array of pysnobal classes
+    initialize
     """
     
-    # variables needed for the snow properties
-    # time_s will always be zero since the indicies will always
-    # start at zero for ipysnobal
-    v = ['time_s', 'z_s', 'rho', 'T_s', 'T_s_0', 'h2o_sat']
-    sn = {key: 0.0 for key in v}
+    # create the OUTPUT_REC with additional fields and fill
+    # There are a lot of additional terms that the original output_rec does not 
+    # have due to the output function being outside the C code which doesn't
+    # have access to those variables
+    sz = init['elevation'].shape
+    flds = ['mask', 'elevation', 'z_0', 'rho', 'T_s_0', 'T_s_l', 'T_s', \
+            'cc_s_0', 'cc_s_l', 'cc_s', 'm_s', 'm_s_0', 'm_s_l', 'z_s', 'z_s_0', 'z_s_l',\
+            'h2o_sat', 'layer_count', 'h2o', 'h2o_max',\
+            'R_n_bar', 'H_bar', 'L_v_E_bar', 'G_bar', 'G_0_bar',\
+            'M_bar', 'delta_Q_bar', 'delta_Q_0_bar', 'E_s_sum', 'melt_sum', 'ro_pred_sum',\
+            'current_time', 'time_since_out']
+    s = {key: np.zeros(sz) for key in flds} # the structure fields
     
-    init['time_s'] = 0.0
-    
-    s = snobal(params, tstep_info, init, mh)
-                
+    # go through each sn value and fill
+    for key, val in init.items():
+        if key in flds:
+            s[key] = val
+            
+#     for key, val in mh.items():
+#         if key in flds:
+#             s[key] = val
+         
     return s
            
 
@@ -675,7 +761,8 @@ def main(configFile):
         
     
     # initialize
-    s = initialize(params, tstep_info, options['constants'], init)
+#     s = initialize(params, tstep_info, options['constants'], init)
+    output_rec = initialize(params, tstep_info, init)
     
     # create the output files
     if not point_run:
@@ -692,22 +779,31 @@ def main(configFile):
     
     pbar = progressbar.ProgressBar(max_value=len(options['time']['date_time'])-1)
     j = 1
+    first_step = False;
     for tstep in options['time']['date_time'][1:-1]:
+        
+        if j >= 689:
+            input1
         
         input2 = get_timestep(force, tstep, point)
         
-#         if point_run:
-#             input2 = {i: np.atleast_2d(input2[i][point]) for i in input2.keys()}
+        # this should replicate a Snobal point run but will not mimic the iSnobal results at the point
+        if point_run:
+            first_step = False;
+            if j == 1:
+                first_step = True;
     
-        s.do_data_tstep(input1, input2)
+        snobal.do_tstep(input1, input2, output_rec, tstep_info, options['constants'], params, first_step)
             
         input1 = input2.copy()
         
         # output at the frequency and the last time step
-        if not point_run:
+        if point_run:
+            output_timestep_point(output_rec, params)
+        else:
             if (j % options['output']['frequency'] == 0) or (j == len(options['time']['date_time'])):
-                output_timestep(s, tstep, options)
-                s.time_since_out = np.zeros(s.shape)
+                output_timestep(output_rec, tstep, options)
+                output_rec['time_since_out'] = np.zeros(output_rec['elevation'].shape)
         
         j += 1
         pbar.update(j)
