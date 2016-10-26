@@ -454,7 +454,7 @@ def main(argv):
 #         input2 = pd.concat([in2, pr.loc[index]])
     
         first_step = False;
-        if index == 0:
+        if index == 1:
             first_step = True;
     
         try:
