@@ -219,8 +219,8 @@ def do_tstep(input1, input2, output_rec, tstep_rec, mh, params, first_step=False
         # might mean that the model states will need to be saved in memory
         # or there will be a slight descrepancy with isnobal. But with this,
         # there should be a descrepancy in isnobal as well
-#         if first_step:
-        init_snow()
+        if first_step:
+            init_snow()
  
         # set air pressure from site elev
         P_a = HYSTAT(SEA_LEVEL, STD_AIRTMP, STD_LAPSE, (elevation / 1000.0),

@@ -1260,7 +1260,7 @@ static PyObject *__pyx_n_s_z_s_l;
 static PyObject *__pyx_n_s_z_t;
 static PyObject *__pyx_n_s_z_u;
 static PyObject *__pyx_pf_10pysnobal_c_6snobal_initialize(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_params, CYTHON_UNUSED PyObject *__pyx_v_tstep_info, CYTHON_UNUSED PyObject *__pyx_v_sn, CYTHON_UNUSED PyObject *__pyx_v_mh); /* proto */
-static PyObject *__pyx_pf_10pysnobal_c_6snobal_2do_tstep(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_input1, PyObject *__pyx_v_input2, PyObject *__pyx_v_output_rec, PyObject *__pyx_v_tstep_rec, PyObject *__pyx_v_mh, PyObject *__pyx_v_params, CYTHON_UNUSED PyObject *__pyx_v_first_step); /* proto */
+static PyObject *__pyx_pf_10pysnobal_c_6snobal_2do_tstep(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_input1, PyObject *__pyx_v_input2, PyObject *__pyx_v_output_rec, PyObject *__pyx_v_tstep_rec, PyObject *__pyx_v_mh, PyObject *__pyx_v_params, PyObject *__pyx_v_first_step); /* proto */
 static PyObject *__pyx_pf_10pysnobal_c_6snobal_4call_grid(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
 static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
@@ -1417,7 +1417,7 @@ static PyObject *__pyx_pw_10pysnobal_c_6snobal_3do_tstep(PyObject *__pyx_self, P
   PyObject *__pyx_v_tstep_rec = 0;
   PyObject *__pyx_v_mh = 0;
   PyObject *__pyx_v_params = 0;
-  CYTHON_UNUSED PyObject *__pyx_v_first_step = 0;
+  PyObject *__pyx_v_first_step = 0;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -1517,7 +1517,7 @@ static PyObject *__pyx_pw_10pysnobal_c_6snobal_3do_tstep(PyObject *__pyx_self, P
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10pysnobal_c_6snobal_2do_tstep(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_input1, PyObject *__pyx_v_input2, PyObject *__pyx_v_output_rec, PyObject *__pyx_v_tstep_rec, PyObject *__pyx_v_mh, PyObject *__pyx_v_params, CYTHON_UNUSED PyObject *__pyx_v_first_step) {
+static PyObject *__pyx_pf_10pysnobal_c_6snobal_2do_tstep(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_input1, PyObject *__pyx_v_input2, PyObject *__pyx_v_output_rec, PyObject *__pyx_v_tstep_rec, PyObject *__pyx_v_mh, PyObject *__pyx_v_params, PyObject *__pyx_v_first_step) {
   long __pyx_v_n;
   Py_ssize_t __pyx_v_i;
   int __pyx_v_rt;
@@ -2521,14 +2521,33 @@ static PyObject *__pyx_pf_10pysnobal_c_6snobal_2do_tstep(CYTHON_UNUSED PyObject 
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     ro_pred_sum = __pyx_t_8;
 
-    /* "pysnobal_c/snobal.pyx":223
+    /* "pysnobal_c/snobal.pyx":222
+ *         # or there will be a slight descrepancy with isnobal. But with this,
  *         # there should be a descrepancy in isnobal as well
- * #         if first_step:
- *         init_snow()             # <<<<<<<<<<<<<<
+ *         if first_step:             # <<<<<<<<<<<<<<
+ *             init_snow()
+ * 
+ */
+    __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_v_first_step); if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 222; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (__pyx_t_7) {
+
+      /* "pysnobal_c/snobal.pyx":223
+ *         # there should be a descrepancy in isnobal as well
+ *         if first_step:
+ *             init_snow()             # <<<<<<<<<<<<<<
  * 
  *         # set air pressure from site elev
  */
-    init_snow();
+      init_snow();
+
+      /* "pysnobal_c/snobal.pyx":222
+ *         # or there will be a slight descrepancy with isnobal. But with this,
+ *         # there should be a descrepancy in isnobal as well
+ *         if first_step:             # <<<<<<<<<<<<<<
+ *             init_snow()
+ * 
+ */
+    }
 
     /* "pysnobal_c/snobal.pyx":226
  * 
