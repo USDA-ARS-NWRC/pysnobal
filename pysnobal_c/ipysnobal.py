@@ -20,6 +20,7 @@ from datetime import timedelta
 import netCDF4 as nc
 import matplotlib.pyplot as plt
 import progressbar
+from copy import copy
 # from multiprocessing import Pool
 # from functools import partial
 # import itertools
@@ -513,9 +514,11 @@ def output_timestep(s, tstep, options):
                 'water_saturation': 'h2o_sat'}
         
     # preallocate
-    all_zeros = np.zeros(s['elevation'].shape)
-    em = {key: all_zeros for key in em_out.keys()}
-    snow = {key: all_zeros for key in snow_out.keys()}
+#     all_zeros = np.zeros(s['elevation'].shape)
+#     em = {key: all_zeros for key in em_out.keys()}
+#     snow = {key: all_zeros for key in snow_out.keys()}
+    em = {}
+    snow = {}
     
     
     # gather all the data together
@@ -523,10 +526,10 @@ def output_timestep(s, tstep, options):
 #         
 #         if si is not None:
     for key,value in em_out.iteritems():
-        em[key][:] = s[value] 
+        em[key] = copy(s[value]) 
         
     for key,value in snow_out.iteritems():
-        snow[key][:] = s[value]
+        snow[key] = copy(s[value])
     
     # convert from K to C
     snow['temp_snowcover'] -= FREEZE
@@ -779,7 +782,7 @@ def main(configFile):
     
     pbar = progressbar.ProgressBar(max_value=len(options['time']['date_time'])-1)
     j = 1
-    first_step = False;
+    first_step = True;
     for tstep in options['time']['date_time'][1:-1]:
         
         if j >= 689:
@@ -793,7 +796,11 @@ def main(configFile):
             if j == 1:
                 first_step = True;
     
-        snobal.do_tstep(input1, input2, output_rec, tstep_info, options['constants'], params, first_step)
+        rt = snobal.do_tstep(input1, input2, output_rec, tstep_info, options['constants'], params, first_step)
+        
+        if not rt:
+            print('ipysnobal error on time step %s' % (tstep))
+            break
             
         input1 = input2.copy()
         

@@ -7,6 +7,7 @@ Wrapper functions to the C function in libsnobal
 import cython
 import numpy as np
 cimport numpy as np
+from copy import copy
 
 # from libc.stdlib cimport free
 # from cpython cimport PyObject, Py_INCREF
@@ -113,7 +114,7 @@ def initialize(params, tstep_info, sn, mh):
     
     return None
 
-def do_tstep(input1, input2, output_rec, tstep_rec, mh, params, first_step=False):
+def do_tstep(input1, input2, output_rec, tstep_rec, mh, params, first_step=True):
     """
     Do the timestep given the inputs, model state, and measurement heights
     There is no first_step value since the snow state records were already
@@ -135,6 +136,7 @@ def do_tstep(input1, input2, output_rec, tstep_rec, mh, params, first_step=False
         tstep_info[i].output = int(tstep_rec[i]['output'])
     
     # loop through the grid
+    rt = True
     for n, z in np.ndenumerate(output_rec['elevation']):
             
         # extract_data.c
@@ -157,9 +159,9 @@ def do_tstep(input1, input2, output_rec, tstep_rec, mh, params, first_step=False
             time_since_out = output_rec['time_since_out'][n]
             
             # measurement heights and parameters
-            z_u = mh['z_u']
-            z_T = mh['z_t']
-            z_g = mh['z_g']
+            z_u = copy(mh['z_u'])
+            z_T = copy(mh['z_t'])
+            z_g = copy(mh['z_g'])
             relative_heights = int(params['relative_heights'])
             max_h2o_vol = params['max_h2o_vol']
             max_z_s_0 = params['max_z_s_0']
@@ -228,7 +230,10 @@ def do_tstep(input1, input2, output_rec, tstep_rec, mh, params, first_step=False
     #         print cc_s_0
          
             # do_data_tstep.c
-            do_data_tstep()
+            dt = do_data_tstep()
+            if dt == 0:
+                rt = False
+                break
          
          
             # assign_buffers.c
@@ -269,7 +274,7 @@ def do_tstep(input1, input2, output_rec, tstep_rec, mh, params, first_step=False
             output_rec['melt_sum'][n] = melt_sum
             output_rec['ro_pred_sum'][n] = ro_pred_sum
 
-    return None
+    return rt
 
 
 @cython.boundscheck(False)
