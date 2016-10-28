@@ -5,12 +5,14 @@ Wrapper functions to the C function in libsnobal
 """
 
 import cython
+from cython.parallel import prange, parallel
 import numpy as np
 cimport numpy as np
-from copy import copy
 
-# from libc.stdlib cimport free
-# from cpython cimport PyObject, Py_INCREF
+from libc.stdlib cimport abort, calloc, malloc
+
+from libc.stdlib cimport free
+from cpython cimport PyObject, Py_INCREF
 
 # Numpy must be initialized. When using numpy from C or Cython you must
 # _always_ do that, or you will have segfaults
@@ -99,6 +101,64 @@ cdef extern from "envphys.h":
     cdef double MOL_AIR;
     cdef double HYSTAT(double pb, double tb, double L, double h, double g, double m); 
 
+ctypedef struct OUTPUT_REC:
+        int masked;
+        double elevation;
+        double z_0;
+        double z_s;
+        double rho;
+        double T_s_0;          
+        double T_s_l;        
+        double T_s;
+        double h2o_sat;
+        int layer_count;
+        double R_n_bar;
+        double H_bar;
+        double L_v_E_bar;
+        double G_bar;
+        double M_bar;
+        double delta_Q_bar;
+        double E_s_sum;
+        double melt_sum;
+        double ro_pred_sum;
+
+
+
+# We need to build an array-wrapper class to deallocate our array when
+# the Python object is deleted.
+# From https://gist.github.com/GaelVaroquaux/1249305
+cdef class ArrayWrapper:
+    cdef void* data_ptr
+    cdef int size
+
+    cdef set_data(self, int size, void* data_ptr):
+        """ Set the data of the array
+        This cannot be done in the constructor as it must recieve C-level
+        arguments.
+        Parameters:
+        -----------
+        size: int
+            Length of the array.
+        data_ptr: void*
+            Pointer to the data            
+        """
+        self.data_ptr = data_ptr
+        self.size = size
+
+    def __array__(self):
+        """ Here we use the __array__ method, that is called when numpy
+            tries to get an array from the object."""
+        cdef np.npy_intp shape[1]
+        shape[0] = <np.npy_intp> self.size
+        # Create a 1D array, of length 'size'
+        ndarray = np.PyArray_SimpleNewFromData(1, shape,
+                                               np.NPY_INT, self.data_ptr)
+        return ndarray
+
+    def __dealloc__(self):
+        """ Frees the array. This is called by Python when all the
+        references to the object are gone. """
+        free(<void*>self.data_ptr)
 
 
 def initialize(params, tstep_info, sn, mh):
@@ -114,6 +174,8 @@ def initialize(params, tstep_info, sn, mh):
     
     return None
 
+@cython.boundscheck(False)
+@cython.wraparound(False)
 def do_tstep(input1, input2, output_rec, tstep_rec, mh, params, first_step=True):
     """
     Do the timestep given the inputs, model state, and measurement heights
@@ -122,8 +184,7 @@ def do_tstep(input1, input2, output_rec, tstep_rec, mh, params, first_step=True)
     out before calling 'init_snow()'
     """
     
-#     n = 0
-#     n = np.unravel_index(n, output_rec['elevation'].shape)
+    cdef int N = len(output_rec['elevation'])
     
     for i in range(len(tstep_rec)):
         tstep_info[i].level = int(tstep_rec[i]['level'])
@@ -134,14 +195,29 @@ def do_tstep(input1, input2, output_rec, tstep_rec, mh, params, first_step=True)
         if tstep_rec[i]['threshold'] is not None:
             tstep_info[i].threshold = tstep_rec[i]['threshold']
         tstep_info[i].output = int(tstep_rec[i]['output'])
+        
+        
+    
+    # array of pointers to OUTPUT_REC
+#     cdef OUTPUT_REC **out_c = <OUTPUT_REC**> malloc(N * sizeof(OUTPUT_REC*));
+#     cdef int n
+#     cdef OUTPUT_REC tmp
+#     for n in range(N):
+# #         tmp = 
+#         out_c[n] = malloc(sizeof(OUTPUT_REC))    # initialize the memory (in heap) at that pointer
+    
+        
+    
     
     # loop through the grid
-    rt = True
-    for n, z in np.ndenumerate(output_rec['elevation']):
-            
+    rt = True    
+    for (i,j), z in np.ndenumerate(output_rec['elevation']):
+#     with gil, parallel(num_threads=4):
+#         for n in prange(N):
+                
         # extract_data.c
         #check to see if point is masked, since 1=run point, it's "not" masked
-        masked = output_rec['mask'][n]
+        masked = output_rec['mask'][i,j]
         if masked:
             
             # since snobal use global variables extensively, here is the ugly
@@ -155,63 +231,63 @@ def do_tstep(input1, input2, output_rec, tstep_rec, mh, params, first_step=True)
             global E_s_sum, melt_sum, ro_pred_sum 
              
             # time variables
-            current_time = output_rec['current_time'][n]
-            time_since_out = output_rec['time_since_out'][n]
+            current_time = output_rec['current_time'][i,j]
+            time_since_out = output_rec['time_since_out'][i,j]
             
             # measurement heights and parameters
-            z_u = copy(mh['z_u'])
-            z_T = copy(mh['z_t'])
-            z_g = copy(mh['z_g'])
+            z_u = mh['z_u']
+            z_T = mh['z_t']
+            z_g = mh['z_g']
             relative_heights = int(params['relative_heights'])
             max_h2o_vol = params['max_h2o_vol']
             max_z_s_0 = params['max_z_s_0']
              
             # get the input records
-            input_rec1.I_lw = input1['I_lw'][n]
-            input_rec1.T_a  = input1['T_a'][n]
-            input_rec1.e_a  = input1['e_a'][n]
-            input_rec1.u    = input1['u'][n]
-            input_rec1.T_g  = input1['T_g'][n] 
-            input_rec1.S_n  = input1['S_n'][n]
+            input_rec1.I_lw = input1['I_lw'][i,j]
+            input_rec1.T_a  = input1['T_a'][i,j]
+            input_rec1.e_a  = input1['e_a'][i,j]
+            input_rec1.u    = input1['u'][i,j]
+            input_rec1.T_g  = input1['T_g'][i,j] 
+            input_rec1.S_n  = input1['S_n'][i,j]
              
-            input_rec2.I_lw = input2['I_lw'][n]
-            input_rec2.T_a  = input2['T_a'][n]
-            input_rec2.e_a  = input2['e_a'][n]
-            input_rec2.u    = input2['u'][n]
-            input_rec2.T_g  = input2['T_g'][n] 
-            input_rec2.S_n  = input2['S_n'][n]
+            input_rec2.I_lw = input2['I_lw'][i,j]
+            input_rec2.T_a  = input2['T_a'][i,j]
+            input_rec2.e_a  = input2['e_a'][i,j]
+            input_rec2.u    = input2['u'][i,j]
+            input_rec2.T_g  = input2['T_g'][i,j] 
+            input_rec2.S_n  = input2['S_n'][i,j]
             
-            m_pp         = input1['m_pp'][n]
-            percent_snow = input1['percent_snow'][n]
-            rho_snow     = input1['rho_snow'][n]
-            T_pp         = input1['T_pp'][n]
+            m_pp         = input1['m_pp'][i,j]
+            percent_snow = input1['percent_snow'][i,j]
+            rho_snow     = input1['rho_snow'][i,j]
+            T_pp         = input1['T_pp'][i,j]
             
             precip_now = 0
             if m_pp > 0:
                 precip_now = 1
              
             # get the model state
-            elevation       = output_rec['elevation'][n]
-            z_0             = output_rec['z_0'][n]
-            z_s             = output_rec['z_s'][n]
-            rho             = output_rec['rho'][n]
-            T_s_0           = output_rec['T_s_0'][n]
-            T_s_l           = output_rec['T_s_l'][n]
-            T_s             = output_rec['T_s'][n]
-            h2o_sat         = output_rec['h2o_sat'][n]
-            layer_count     = output_rec['layer_count'][n]
+            elevation       = output_rec['elevation'][i,j]
+            z_0             = output_rec['z_0'][i,j]
+            z_s             = output_rec['z_s'][i,j]
+            rho             = output_rec['rho'][i,j]
+            T_s_0           = output_rec['T_s_0'][i,j]
+            T_s_l           = output_rec['T_s_l'][i,j]
+            T_s             = output_rec['T_s'][i,j]
+            h2o_sat         = output_rec['h2o_sat'][i,j]
+            layer_count     = output_rec['layer_count'][i,j]
       
-            R_n_bar         = output_rec['R_n_bar'][n]
-            H_bar           = output_rec['H_bar'][n]
-            L_v_E_bar       = output_rec['L_v_E_bar'][n]
-            G_bar           = output_rec['G_bar'][n]
-            G_0_bar         = output_rec['G_0_bar'][n]
-            M_bar           = output_rec['M_bar'][n]
-            delta_Q_bar     = output_rec['delta_Q_bar'][n]
-            delta_Q_0_bar   = output_rec['delta_Q_0_bar'][n]
-            E_s_sum         = output_rec['E_s_sum'][n]
-            melt_sum        = output_rec['melt_sum'][n]
-            ro_pred_sum     = output_rec['ro_pred_sum'][n]
+            R_n_bar         = output_rec['R_n_bar'][i,j]
+            H_bar           = output_rec['H_bar'][i,j]
+            L_v_E_bar       = output_rec['L_v_E_bar'][i,j]
+            G_bar           = output_rec['G_bar'][i,j]
+            G_0_bar         = output_rec['G_0_bar'][i,j]
+            M_bar           = output_rec['M_bar'][i,j]
+            delta_Q_bar     = output_rec['delta_Q_bar'][i,j]
+            delta_Q_0_bar   = output_rec['delta_Q_0_bar'][i,j]
+            E_s_sum         = output_rec['E_s_sum'][i,j]
+            melt_sum        = output_rec['melt_sum'][i,j]
+            ro_pred_sum     = output_rec['ro_pred_sum'][i,j]
      
     #         print z_0
      
@@ -226,55 +302,61 @@ def do_tstep(input1, input2, output_rec, tstep_rec, mh, params, first_step=True)
             # set air pressure from site elev
             P_a = HYSTAT(SEA_LEVEL, STD_AIRTMP, STD_LAPSE, (elevation / 1000.0),
                 GRAVITY, MOL_AIR)
-         
-    #         print cc_s_0
-         
+                  
             # do_data_tstep.c
             dt = do_data_tstep()
             if dt == 0:
                 rt = False
-                break
-         
-         
-            # assign_buffers.c
-    #         print R_n_bar
-        
-            output_rec['current_time'][n] = current_time
-            output_rec['time_since_out'][n] = time_since_out
+                if N > 1:
+                    abort()
+                else:
+                    break
+                 
+            output_rec['current_time'][i,j] = current_time
+            output_rec['time_since_out'][i,j] = time_since_out
     
-            output_rec['elevation'][n] = elevation
-            output_rec['z_0'][n] = z_0
-            output_rec['rho'][n] = rho
-            output_rec['T_s_0'][n] = T_s_0
-            output_rec['T_s_l'][n] = T_s_l
-            output_rec['T_s'][n] = T_s
-            output_rec['h2o_sat'][n] = h2o_sat
-            output_rec['h2o_max'][n] = h2o_max
-            output_rec['h2o'][n] = h2o
-            output_rec['layer_count'][n] = layer_count
-            output_rec['cc_s_0'][n] = cc_s_0
-            output_rec['cc_s_l'][n] = cc_s_l
-            output_rec['cc_s'][n] = cc_s
-            output_rec['m_s_0'][n] = m_s_0
-            output_rec['m_s_l'][n] = m_s_l
-            output_rec['m_s'][n] = m_s
-            output_rec['z_s_0'][n] = z_s_0
-            output_rec['z_s_l'][n] = z_s_l
-            output_rec['z_s'][n] = z_s
+            output_rec['elevation'][i,j] = elevation
+            output_rec['z_0'][i,j] = z_0
+            output_rec['rho'][i,j] = rho
+            output_rec['T_s_0'][i,j] = T_s_0
+            output_rec['T_s_l'][i,j] = T_s_l
+            output_rec['T_s'][i,j] = T_s
+            output_rec['h2o_sat'][i,j] = h2o_sat
+            output_rec['h2o_max'][i,j] = h2o_max
+            output_rec['h2o'][i,j] = h2o
+            output_rec['layer_count'][i,j] = layer_count
+            output_rec['cc_s_0'][i,j] = cc_s_0
+            output_rec['cc_s_l'][i,j] = cc_s_l
+            output_rec['cc_s'][i,j] = cc_s
+            output_rec['m_s_0'][i,j] = m_s_0
+            output_rec['m_s_l'][i,j] = m_s_l
+            output_rec['m_s'][i,j] = m_s
+            output_rec['z_s_0'][i,j] = z_s_0
+            output_rec['z_s_l'][i,j] = z_s_l
+            output_rec['z_s'][i,j] = z_s
      
-            output_rec['R_n_bar'][n] = R_n_bar
-            output_rec['H_bar'][n] = H_bar
-            output_rec['L_v_E_bar'][n] = L_v_E_bar
-            output_rec['G_bar'][n] = G_bar
-            output_rec['G_0_bar'][n] = G_0_bar
-            output_rec['M_bar'][n] = M_bar
-            output_rec['delta_Q_bar'][n] = delta_Q_bar
-            output_rec['delta_Q_0_bar'][n] = delta_Q_0_bar
-            output_rec['E_s_sum'][n] = E_s_sum
-            output_rec['melt_sum'][n] = melt_sum
-            output_rec['ro_pred_sum'][n] = ro_pred_sum
+            output_rec['R_n_bar'][i,j] = R_n_bar
+            output_rec['H_bar'][i,j] = H_bar
+            output_rec['L_v_E_bar'][i,j] = L_v_E_bar
+            output_rec['G_bar'][i,j] = G_bar
+            output_rec['G_0_bar'][i,j] = G_0_bar
+            output_rec['M_bar'][i,j] = M_bar
+            output_rec['delta_Q_bar'][i,j] = delta_Q_bar
+            output_rec['delta_Q_0_bar'][i,j] = delta_Q_0_bar
+            output_rec['E_s_sum'][i,j] = E_s_sum
+            output_rec['melt_sum'][i,j] = melt_sum
+            output_rec['ro_pred_sum'][i,j] = ro_pred_sum
 
     return rt
+
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+# https://github.com/cython/cython/wiki/tutorials-NumpyPointerToC
+def do_tstep_grid(input1, input2, output_rec, tstep_rec, mh, params, first_step=True):
+    
+    
+
 
 
 @cython.boundscheck(False)
