@@ -461,7 +461,7 @@ def main(argv):
     
         try:
             # call do_data_tstep()
-            snobal.do_tstep(dict2np(input1.to_dict()), dict2np(input2.to_dict()), output_rec, tstep_info, mh, params, first_step)
+            snobal.do_tstep_grid(dict2np(input1.to_dict()), dict2np(input2.to_dict()), output_rec, tstep_info, mh, params, first_step)
 #             s.do_data_tstep(dict2np(input1.to_dict()), dict2np(input2.to_dict()))
         
             # output the results
