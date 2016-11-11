@@ -796,10 +796,10 @@ def main(configFile):
             if j == 1:
                 first_step = True;
     
-        rt = snobal.do_tstep_grid(input1, input2, output_rec, tstep_info, options['constants'], params, first_step)
+        rt = snobal.do_tstep_grid(input1, input2, output_rec, tstep_info, options['constants'], params, first_step, 4)
         
-        if not rt:
-            print('ipysnobal error on time step %s' % (tstep))
+        if rt != -1:
+            print('ipysnobal error on time step %s, pixel %i' % (tstep, rt))
             break
             
         input1 = input2.copy()

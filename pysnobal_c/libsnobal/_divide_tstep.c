@@ -58,6 +58,7 @@ _divide_tstep(
 	/*
 	 *  Fetch the record for the timestep at the next level.
 	 */
+//	printf("Current %i\n")
 	next_level = tstep->level + 1;
 	next_lvl_tstep = tstep_info+ next_level;
 
@@ -107,7 +108,7 @@ _divide_tstep(
 	 *  For each the new smaller timestep, either subdivide them if
 	 *  below their mass threshold, or run the model for them.
 	 */
-	for (i = 0; (i < next_lvl_tstep->intervals) && !stop_no_snow; i++)
+	for (i = 0; (i < next_lvl_tstep->intervals); i++)
 		if ((next_level != SMALL_TSTEP) &&
 				_below_thold(next_lvl_tstep->threshold)) {
 			if (! _divide_tstep(next_lvl_tstep))

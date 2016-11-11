@@ -196,7 +196,7 @@ extern  double  ro;             /* measured runoff (m/sec) */
 
 
 /*   other climate input   */
-
+extern	double	elevation;	/* pixel elevation (m)		     */
 extern  double  P_a;            /* air pressure (Pa) */
 
 
@@ -272,7 +272,7 @@ extern	double	melt_sum;
 extern	double	E_s_sum;
 extern	double	ro_pred_sum;
 
-#pragma omp threadprivate(run_no_snow, stop_no_snow, max_z_s_0, max_h2o_vol, tstep_info, time_step, current_time, time_since_out, \
+#pragma omp threadprivate(elevation, run_no_snow, stop_no_snow, max_z_s_0, max_h2o_vol, tstep_info, time_step, current_time, time_since_out, \
 		layer_count, z_s, z_s_0, z_s_l, rho, m_s, m_s_0, m_s_l, T_s, T_s_0, T_s_l, cc_s, cc_s_0, cc_s_l, h2o_sat, \
 		h2o_vol, h2o, h2o_max, h2o_total, ro_data, input_rec1, input_rec2, S_n, I_lw, T_a, e_a, u, T_g, ro, \
 		P_a, relative_hts, z_g, z_u, z_T, z_0, precip_now, m_pp, percent_snow, rho_snow, T_pp, T_rain, T_snow, \

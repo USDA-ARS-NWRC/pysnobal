@@ -28,27 +28,27 @@ _mass_bal(void)
 	/***    adjust mass and calc. runoff    ***/
 
 	/*	age snow by compacting snow due to time passing */
-	_time_compact();
+//	_time_compact();
 
 	/*	process precipitation event */
 	_precip();
 
 	/*      calculate melt or freezing and adjust cold content */
 
-	_snowmelt();
+//	_snowmelt();
 
 	/*      calculate evaporation and adjust snowpack       */
 
-	if(! _evap_cond())
-		return FALSE;
+//	if(! _evap_cond())
+//		return FALSE;
 
 
 	/*	compact snow due to H2O generated (melt & rain) */
-	_h2o_compact();
+//	_h2o_compact();
 
 	/*      calculate runoff, and adjust snowcover */
 
-	_runoff();
+//	_runoff();
 
 	/*
 	 *  adjust layer temps if there was a snowcover at start of thes

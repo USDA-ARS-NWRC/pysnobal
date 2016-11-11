@@ -42,8 +42,8 @@ cdef extern from "snobal.h":
         int intervals;
         double threshold;
         int output;
-    
-    TSTEP_REC tstep_info[4];
+        
+    cdef TSTEP_REC tstep_info[4]
     
     int precip_now;
     double m_pp;
@@ -52,6 +52,7 @@ cdef extern from "snobal.h":
     double T_pp;
     
     int layer_count;
+    double elevation;
     double z_0;
     double rho;
     double T_s;
@@ -126,9 +127,9 @@ cdef extern from "envphys.h":
 #         double ro_pred_sum;
 
 cdef extern from "pysnobal.h":
-    cdef int call_snobal(int N, TSTEP_REC* tstep_info, OUTPUT_REC** output_rec, INPUT_REC_ARR* input1);
+    cdef int call_snobal(int N, int nthreads, int first_step, TSTEP_REC tstep_info[4], OUTPUT_REC** output_rec, INPUT_REC_ARR* input1, INPUT_REC_ARR* input2, PARAMS params);
 
-ctypedef struct OUTPUT_REC:
+    ctypedef struct OUTPUT_REC:
         int masked;
         double current_time;
         double time_since_out;
@@ -162,14 +163,26 @@ ctypedef struct OUTPUT_REC:
         double E_s_sum;
         double melt_sum;
         double ro_pred_sum;
+            
+    ctypedef struct INPUT_REC_ARR:
+        double* S_n;  
+        double* I_lw; 
+        double* T_a; 
+        double* e_a;   
+        double* u;  
+        double* T_g;
+        double* m_pp;
+        double* percent_snow;
+        double* rho_snow;
+        double* T_pp;
         
-ctypedef struct INPUT_REC_ARR:
-    double* S_n;  
-    double* I_lw; 
-    double* T_a; 
-    double* e_a;   
-    double* u;  
-    double* T_g;
+    ctypedef struct PARAMS:
+        double z_u;
+        double z_T;
+        double z_g;
+        int relative_heights;
+        double max_h2o_vol;
+        double max_z_s_0;
 
 
 
@@ -177,7 +190,7 @@ ctypedef struct INPUT_REC_ARR:
 @cython.boundscheck(False)
 @cython.wraparound(False)
 # https://github.com/cython/cython/wiki/tutorials-NumpyPointerToC
-def do_tstep_grid(input1, input2, output_rec, tstep_rec, mh, params, first_step=True):
+def do_tstep_grid(input1, input2, output_rec, tstep_rec, mh, params, int first_step=1, int nthreads=1):
     """
     Do the timestep given the inputs, model state, and measurement heights
     There is no first_step value since the snow state records were already
@@ -186,7 +199,25 @@ def do_tstep_grid(input1, input2, output_rec, tstep_rec, mh, params, first_step=
     """
     
     cdef int N = len(output_rec['elevation'])
+    cdef int n
     shp = output_rec['elevation'].shape
+    
+    # measurement heights and parameters
+    cdef PARAMS c_params
+    c_params.z_u = mh['z_u']
+    c_params.z_T = mh['z_t']
+    c_params.z_g = mh['z_g']
+    c_params.relative_heights = int(params['relative_heights'])
+    c_params.max_h2o_vol = params['max_h2o_vol']
+    c_params.max_z_s_0 = params['max_z_s_0']
+#              
+    
+    
+#     cdef TSTEP_REC tstep_info[4]
+#     cdef TSTEP_REC **tstep_info = <TSTEP_REC**> PyMem_Malloc(4 * sizeof(TSTEP_REC*));
+#     for n in range(N):
+#         tstep_info[n] = <TSTEP_REC *>PyMem_Malloc(sizeof(TSTEP_REC))
+#         tstep_info[n].level = n
     
     for i in range(len(tstep_rec)):
         tstep_info[i].level = int(tstep_rec[i]['level'])
@@ -197,20 +228,21 @@ def do_tstep_grid(input1, input2, output_rec, tstep_rec, mh, params, first_step=
         if tstep_rec[i]['threshold'] is not None:
             tstep_info[i].threshold = tstep_rec[i]['threshold']
         tstep_info[i].output = int(tstep_rec[i]['output'])
-        
-        
+    
+           
     
     # array of pointers to OUTPUT_REC
     cdef OUTPUT_REC **out_c = <OUTPUT_REC**> PyMem_Malloc(N * sizeof(OUTPUT_REC*));
-    cdef int n
-    cdef OUTPUT_REC tmp
     for n in range(N):
         out_c[n] = <OUTPUT_REC *>PyMem_Malloc(sizeof(OUTPUT_REC))    # initialize the memory (in heap) at that pointer
+#     cdef OUTPUT_REC out_c[N]
     
     # assign the values from output_rec to out_c
 #     for (i,j), z in np.ndenumerate(output_rec['elevation']):    
     for n in range(N):
         idx = np.unravel_index(n, shp)
+        out_c[n].current_time    = output_rec['current_time'][idx[0],idx[1]]
+        out_c[n].time_since_out  = output_rec['time_since_out'][idx[0],idx[1]]
         out_c[n].masked          = output_rec['mask'][idx[0],idx[1]]
         out_c[n].elevation       = output_rec['elevation'][idx[0],idx[1]]
         out_c[n].z_0             = output_rec['z_0'][idx[0],idx[1]]
@@ -220,20 +252,21 @@ def do_tstep_grid(input1, input2, output_rec, tstep_rec, mh, params, first_step=
         out_c[n].T_s_l           = output_rec['T_s_l'][idx[0],idx[1]]
         out_c[n].T_s             = output_rec['T_s'][idx[0],idx[1]]
         out_c[n].h2o_sat         = output_rec['h2o_sat'][idx[0],idx[1]]
-        out_c[n].layer_count     = output_rec['layer_count'][idx[0],idx[1]]
+#         out_c[n].layer_count     = output_rec['layer_count'][idx[0],idx[1]]
   
-        out_c[n].R_n_bar         = output_rec['R_n_bar'][idx[0],idx[1]]
-        out_c[n].H_bar           = output_rec['H_bar'][idx[0],idx[1]]
-        out_c[n].L_v_E_bar       = output_rec['L_v_E_bar'][idx[0],idx[1]]
-        out_c[n].G_bar           = output_rec['G_bar'][idx[0],idx[1]]
-        out_c[n].G_0_bar         = output_rec['G_0_bar'][idx[0],idx[1]]
-        out_c[n].M_bar           = output_rec['M_bar'][idx[0],idx[1]]
-        out_c[n].delta_Q_bar     = output_rec['delta_Q_bar'][idx[0],idx[1]]
-        out_c[n].delta_Q_0_bar   = output_rec['delta_Q_0_bar'][idx[0],idx[1]]
-        out_c[n].E_s_sum         = output_rec['E_s_sum'][idx[0],idx[1]]
-        out_c[n].melt_sum        = output_rec['melt_sum'][idx[0],idx[1]]
-        out_c[n].ro_pred_sum     = output_rec['ro_pred_sum'][idx[0],idx[1]]
+#         out_c[n].R_n_bar         = output_rec['R_n_bar'][idx[0],idx[1]]
+#         out_c[n].H_bar           = output_rec['H_bar'][idx[0],idx[1]]
+#         out_c[n].L_v_E_bar       = output_rec['L_v_E_bar'][idx[0],idx[1]]
+#         out_c[n].G_bar           = output_rec['G_bar'][idx[0],idx[1]]
+#         out_c[n].G_0_bar         = output_rec['G_0_bar'][idx[0],idx[1]]
+#         out_c[n].M_bar           = output_rec['M_bar'][idx[0],idx[1]]
+#         out_c[n].delta_Q_bar     = output_rec['delta_Q_bar'][idx[0],idx[1]]
+#         out_c[n].delta_Q_0_bar   = output_rec['delta_Q_0_bar'][idx[0],idx[1]]
+#         out_c[n].E_s_sum         = output_rec['E_s_sum'][idx[0],idx[1]]
+#         out_c[n].melt_sum        = output_rec['melt_sum'][idx[0],idx[1]]
+#         out_c[n].ro_pred_sum     = output_rec['ro_pred_sum'][idx[0],idx[1]]
     
+        
     #------------------------------------------------------------------------------
     # PREPARE INPUT1 FOR C 
 
@@ -267,13 +300,70 @@ def do_tstep_grid(input1, input2, output_rec, tstep_rec, mh, params, first_step=
     # convert the T_g to C
     cdef np.ndarray[double, mode="c", ndim=2] input1_T_g
     input1_T_g = np.ascontiguousarray(input1['T_g'], dtype=np.float64)
-    input1_c.T_g = &input1_T_g[0,0] 
+    input1_c.T_g = &input1_T_g[0,0]
+    
+    # convert the m_pp to C
+    cdef np.ndarray[double, mode="c", ndim=2] input1_m_pp
+    input1_m_pp = np.ascontiguousarray(input1['m_pp'], dtype=np.float64)
+    input1_c.m_pp = &input1_m_pp[0,0]
+    
+    # convert the percent_snow to C
+    cdef np.ndarray[double, mode="c", ndim=2] input1_percent_snow
+    input1_percent_snow = np.ascontiguousarray(input1['percent_snow'], dtype=np.float64)
+    input1_c.percent_snow = &input1_percent_snow[0,0]
+    
+    # convert the rho_snow to C
+    cdef np.ndarray[double, mode="c", ndim=2] input1_rho_snow
+    input1_rho_snow = np.ascontiguousarray(input1['rho_snow'], dtype=np.float64)
+    input1_c.rho_snow = &input1_rho_snow[0,0]
+    
+    # convert the T_pp to C
+    cdef np.ndarray[double, mode="c", ndim=2] input1_T_pp
+    input1_T_pp = np.ascontiguousarray(input1['T_pp'], dtype=np.float64)
+    input1_c.T_pp = &input1_T_pp[0,0]
+    
+    
+    #------------------------------------------------------------------------------
+    # PREPARE INPUT2 FOR C 
+
+    cdef INPUT_REC_ARR input2_c
+        
+    # convert the S_n to C
+    cdef np.ndarray[double, mode="c", ndim=2] input2_Sn
+    input2_Sn = np.ascontiguousarray(input2['S_n'], dtype=np.float64)
+    input2_c.S_n = &input2_Sn[0,0]
+    
+    # convert the I_lw to C
+    cdef np.ndarray[double, mode="c", ndim=2] input2_I_lw
+    input2_I_lw = np.ascontiguousarray(input2['I_lw'], dtype=np.float64)
+    input2_c.I_lw = &input2_I_lw[0,0]
+    
+    # convert the T_a to C
+    cdef np.ndarray[double, mode="c", ndim=2] input2_Ta
+    input2_Ta = np.ascontiguousarray(input2['T_a'], dtype=np.float64)
+    input2_c.T_a = &input2_Ta[0,0] 
+    
+    # convert the e_a to C
+    cdef np.ndarray[double, mode="c", ndim=2] input2_e_a
+    input2_e_a = np.ascontiguousarray(input2['e_a'], dtype=np.float64)
+    input2_c.e_a = &input2_e_a[0,0]
+    
+    # convert the u to C
+    cdef np.ndarray[double, mode="c", ndim=2] input2_u
+    input2_u = np.ascontiguousarray(input2['u'], dtype=np.float64)
+    input2_c.u = &input2_u[0,0] 
+    
+    # convert the T_g to C
+    cdef np.ndarray[double, mode="c", ndim=2] input2_T_g
+    input2_T_g = np.ascontiguousarray(input2['T_g'], dtype=np.float64)
+    input2_c.T_g = &input2_T_g[0,0] 
     
     
     #------------------------------------------------------------------------------
     # Call the model
-    rt = call_snobal(N, tstep_info, out_c, &input1_c)
-    
+    rt = call_snobal(N, nthreads, first_step, tstep_info, out_c, &input1_c, &input2_c, c_params)
+    if rt != -1:
+        return rt
     
     
 #     # loop through the grid
@@ -442,17 +532,17 @@ def do_tstep_grid(input1, input2, output_rec, tstep_rec, mh, params, first_step=
         output_rec['z_s_l'][idx[0],idx[1]] = out_c[n].z_s_l
         output_rec['z_s'][idx[0],idx[1]] = out_c[n].z_s
  
-        output_rec['R_n_bar'][idx[0],idx[1]] = out_c[n].R_n_bar
-        output_rec['H_bar'][idx[0],idx[1]] = out_c[n].H_bar
-        output_rec['L_v_E_bar'][idx[0],idx[1]] = out_c[n].L_v_E_bar
-        output_rec['G_bar'][idx[0],idx[1]] = out_c[n].G_bar
-        output_rec['G_0_bar'][idx[0],idx[1]] = out_c[n].G_0_bar
-        output_rec['M_bar'][idx[0],idx[1]] = out_c[n].M_bar
-        output_rec['delta_Q_bar'][idx[0],idx[1]] = out_c[n].delta_Q_bar
-        output_rec['delta_Q_0_bar'][idx[0],idx[1]] = out_c[n].delta_Q_0_bar
-        output_rec['E_s_sum'][idx[0],idx[1]] = out_c[n].E_s_sum
-        output_rec['melt_sum'][idx[0],idx[1]] = out_c[n].melt_sum
-        output_rec['ro_pred_sum'][idx[0],idx[1]] = out_c[n].ro_pred_sum
+#         output_rec['R_n_bar'][idx[0],idx[1]] = out_c[n].R_n_bar
+#         output_rec['H_bar'][idx[0],idx[1]] = out_c[n].H_bar
+#         output_rec['L_v_E_bar'][idx[0],idx[1]] = out_c[n].L_v_E_bar
+#         output_rec['G_bar'][idx[0],idx[1]] = out_c[n].G_bar
+#         output_rec['G_0_bar'][idx[0],idx[1]] = out_c[n].G_0_bar
+#         output_rec['M_bar'][idx[0],idx[1]] = out_c[n].M_bar
+#         output_rec['delta_Q_bar'][idx[0],idx[1]] = out_c[n].delta_Q_bar
+#         output_rec['delta_Q_0_bar'][idx[0],idx[1]] = out_c[n].delta_Q_0_bar
+#         output_rec['E_s_sum'][idx[0],idx[1]] = out_c[n].E_s_sum
+#         output_rec['melt_sum'][idx[0],idx[1]] = out_c[n].melt_sum
+#         output_rec['ro_pred_sum'][idx[0],idx[1]] = out_c[n].ro_pred_sum
         
         
     # free up the memory
@@ -524,6 +614,7 @@ def do_tstep(input1, input2, output_rec, tstep_rec, mh, params, first_step=True)
     """
     
     cdef int N = len(output_rec['elevation'])
+    cdef TSTEP_REC tstep_info[4]
     
     for i in range(len(tstep_rec)):
         tstep_info[i].level = int(tstep_rec[i]['level'])

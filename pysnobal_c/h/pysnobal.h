@@ -68,10 +68,21 @@ typedef struct {
 	double* e_a;
 	double* u;
 	double* T_g;
+	double* m_pp;
+	double* percent_snow;
+	double* rho_snow;
+	double* T_pp;
 } INPUT_REC_ARR;
 
 
-
+typedef struct {
+	double z_u;
+	double z_T;
+	double z_g;
+	int relative_heights;
+	double max_h2o_vol;
+	double max_z_s_0;
+} PARAMS;
 
 /* ------------------------------------------------------------------------- */
 
@@ -79,7 +90,7 @@ typedef struct {
  *  Routines that are part of isnobal program.
  */
 
-extern int call_snobal(int N, TSTEP_REC* tstep_info, OUTPUT_REC** output_rec, INPUT_REC_ARR* input1);
+extern int call_snobal(int N, int nthreads, int first_step, TSTEP_REC tstep_info[4], OUTPUT_REC** output_rec, INPUT_REC_ARR* input1, INPUT_REC_ARR* input2, PARAMS params);
 
 //extern	void	assign_buffers (int masked, int n, int output, OUTPUT_REC **output_rec);
 //extern	void	buffers        (void);
@@ -127,8 +138,8 @@ extern	bool_t		restart;	/* restart flag			     */
 
 /* model variables */
 
-extern	double		elevation;	/* pixel elevation (m)		     */
 
-#pragma omp threadprivate(elevation)
+extern double elevation;
+//#pragma omp threadprivate(elevation)
 
 #endif /* _ISNOBAL_H_ */

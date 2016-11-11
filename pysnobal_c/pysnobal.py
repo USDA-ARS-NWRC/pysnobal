@@ -31,6 +31,8 @@ MEDIUM_TSTEP = 2
 SMALL_TSTEP = 3
 
 DEFAULT_NORMAL_THRESHOLD = 60.0
+DEFAULT_MEDIUM_THRESHOLD = 10.0
+DEFAULT_SMALL_THRESHOLD = 1.0
 DEFAULT_MEDIUM_TSTEP = 15.0
 DEFAULT_SMALL_TSTEP = 1.0
 
@@ -185,15 +187,20 @@ def parseOptions(options):
     else:
         tstep_info[DATA_TSTEP]['output'] = DIVIDED_TSTEP
     
-    # mas thresholds for run timesteps
-    threshold = DEFAULT_NORMAL_THRESHOLD
-    tstep_info[NORMAL_TSTEP]['threshold'] = threshold
-    
-    threshold = DEFAULT_MEDIUM_TSTEP
-    tstep_info[MEDIUM_TSTEP]['threshold'] = threshold
-    
-    threshold = DEFAULT_SMALL_TSTEP
-    tstep_info[SMALL_TSTEP]['threshold'] = threshold
+#     # mas thresholds for run timesteps
+#     threshold = DEFAULT_NORMAL_THRESHOLD
+#     tstep_info[NORMAL_TSTEP]['threshold'] = threshold
+#     
+#     threshold = DEFAULT_MEDIUM_TSTEP
+#     tstep_info[MEDIUM_TSTEP]['threshold'] = threshold
+#     
+#     threshold = DEFAULT_SMALL_TSTEP
+#     tstep_info[SMALL_TSTEP]['threshold'] = threshold
+
+    # mass thresholds for run timesteps
+    tstep_info[NORMAL_TSTEP]['threshold'] = DEFAULT_NORMAL_THRESHOLD
+    tstep_info[MEDIUM_TSTEP]['threshold'] = DEFAULT_MEDIUM_THRESHOLD
+    tstep_info[SMALL_TSTEP]['threshold'] = DEFAULT_SMALL_THRESHOLD
     
     
     # get the rest of the parameters
@@ -455,9 +462,9 @@ def main(argv):
         # add the precip to the data Series
 #         input2 = pd.concat([in2, pr.loc[index]])
     
-        first_step = False;
+        first_step = 0;
         if index == 1:
-            first_step = True;
+            first_step = 1;
     
         try:
             # call do_data_tstep()
