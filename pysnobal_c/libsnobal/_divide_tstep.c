@@ -58,9 +58,11 @@ _divide_tstep(
 	/*
 	 *  Fetch the record for the timestep at the next level.
 	 */
-//	printf("Current %i\n")
+
 	next_level = tstep->level + 1;
-	next_lvl_tstep = tstep_info+ next_level;
+	next_lvl_tstep = &tstep_info[next_level]; // + next_level;
+
+	printf("Current %i, next %i\n", tstep->level, next_lvl_tstep->level);
 
 	curr_lvl_deltas = input_deltas + tstep->level;
 	next_lvl_deltas = input_deltas + next_level;
@@ -108,9 +110,10 @@ _divide_tstep(
 	 *  For each the new smaller timestep, either subdivide them if
 	 *  below their mass threshold, or run the model for them.
 	 */
-	for (i = 0; (i < next_lvl_tstep->intervals); i++)
-		if ((next_level != SMALL_TSTEP) &&
-				_below_thold(next_lvl_tstep->threshold)) {
+	printf("intervals: %i\n", next_lvl_tstep->intervals);
+	for (i = 0; i < next_lvl_tstep->intervals; i++) {
+		printf("below thold %i\n", _below_thold(next_lvl_tstep->threshold));
+		if ((next_level != SMALL_TSTEP) && _below_thold(next_lvl_tstep->threshold)) {
 			if (! _divide_tstep(next_lvl_tstep))
 				return FALSE;
 		}
@@ -118,15 +121,16 @@ _divide_tstep(
 			if (! _do_tstep(next_lvl_tstep))
 				return FALSE;
 		}
+	}
 
 	/*
 	 *  Output if this timestep is divided?
 	 */
-//	if (tstep->output & DIVIDED_TSTEP) {
-//		(*out_func)();
-//		if (!run_no_snow && (layer_count == 0))
-//			stop_no_snow = TRUE;
-//	}
+	//	if (tstep->output & DIVIDED_TSTEP) {
+	//		(*out_func)();
+	//		if (!run_no_snow && (layer_count == 0))
+	//			stop_no_snow = TRUE;
+	//	}
 
 	return TRUE;
 }

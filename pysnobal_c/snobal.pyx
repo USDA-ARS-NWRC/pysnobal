@@ -614,7 +614,7 @@ def do_tstep(input1, input2, output_rec, tstep_rec, mh, params, first_step=True)
     """
     
     cdef int N = len(output_rec['elevation'])
-    cdef TSTEP_REC tstep_info[4]
+#     cdef TSTEP_REC tstep_info[4]
     
     for i in range(len(tstep_rec)):
         tstep_info[i].level = int(tstep_rec[i]['level'])
