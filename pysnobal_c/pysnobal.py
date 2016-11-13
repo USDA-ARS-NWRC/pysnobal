@@ -304,7 +304,7 @@ def initialize(params, tstep_info, sn, mh):
     sz = sn['elevation'].shape
     flds = ['mask', 'elevation', 'z_0', 'rho', 'T_s_0', 'T_s_l', 'T_s', \
             'cc_s_0', 'cc_s_l', 'cc_s', 'm_s', 'm_s_0', 'm_s_l', 'z_s', 'z_s_0', 'z_s_l',\
-            'h2o_sat', 'layer_count', 'h2o', 'h2o_max',\
+            'h2o_sat', 'layer_count', 'h2o', 'h2o_max', 'h2o_vol','h2o_total',\
             'R_n_bar', 'H_bar', 'L_v_E_bar', 'G_bar', 'G_0_bar',\
             'M_bar', 'delta_Q_bar', 'delta_Q_0_bar', 'E_s_sum', 'melt_sum', 'ro_pred_sum',\
             'current_time', 'time_since_out']

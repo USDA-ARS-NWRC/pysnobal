@@ -107,7 +107,7 @@ _do_tstep(
 		TSTEP_REC *tstep)  /* timestep's record */
 {
 	time_step = tstep->time_step;
-	printf("%f - %i - %f - %f\n", current_time/3600.0, tstep->level, time_step, m_s);
+//	printf("%f - %i - %f - %f\n", current_time/3600.0, tstep->level, time_step, m_s);
 
 	if (precip_now) {
 		m_precip = precip_info[tstep->level].m_pp;
@@ -126,8 +126,8 @@ _do_tstep(
 	/*
 	 *  Calculate energy transfer terms
 	 */
-//	if (! _e_bal())
-//		return FALSE;
+	if (! _e_bal())
+		return FALSE;
 
 	/*
 	 *  Adjust mass and calculate runoff

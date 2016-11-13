@@ -23,7 +23,7 @@
 #define NO_DATA   -999999	/* output value for masked pnt (no data) */
 
 typedef struct {
-	bool_t masked;
+	int masked;
 	double current_time;
 	double time_since_out;
 	double elevation;
@@ -35,6 +35,8 @@ typedef struct {
 	double h2o_sat;
 	double h2o_max;
 	double h2o;
+	double h2o_vol;
+	double h2o_total;
 	int layer_count;
 	double cc_s_0;
 	double cc_s_l;
