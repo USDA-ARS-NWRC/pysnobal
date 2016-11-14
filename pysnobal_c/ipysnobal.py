@@ -18,7 +18,7 @@ import numpy as np
 import pandas as pd
 from datetime import timedelta
 import netCDF4 as nc
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import progressbar
 from copy import copy
 # from multiprocessing import Pool
@@ -581,40 +581,75 @@ def output_timestep_point(output_rec, params):
     
     # write out to a file
     f = params['out_file']
-    n = np.unravel_index(0, output_rec['elevation'])
+    n = 0 #np.unravel_index(0, output_rec['elevation'])
     if f is not None:
      
         curr_time_hrs =  SEC_TO_HR(output_rec['current_time'][n])
          
+#         # time
+#         f.write('%g,' % curr_time_hrs)
+#           
+#         # energy budget terms
+#         f.write("%.1f,%.1f,%.1f,%.1f,%.1f,%.1f," % \
+#                 (output_rec['R_n_bar'][n], output_rec['H_bar'][n], output_rec['L_v_E_bar'][n], \
+#                 output_rec['G_bar'][n], output_rec['M_bar'][n], output_rec['delta_Q_bar'][n]))
+#          
+#         # layer terms
+#         f.write("%.1f,%.1f," % \
+#                 (output_rec['G_0_bar'][n], output_rec['delta_Q_0_bar'][n]))
+#          
+#         # heat storage and mass changes
+#         f.write("%.6e,%.6e,%.6e," % \
+#                 (output_rec['cc_s_0'][n], output_rec['cc_s_l'][n], output_rec['cc_s'][n]))
+#         f.write("%.5f,%.5f,%.5f," % \
+#                 (output_rec['E_s_sum'][n], output_rec['melt_sum'][n], output_rec['ro_pred_sum'][n]))
+#          
+#         # sno properties */
+#         f.write("%.3f,%.3f,%.3f,%.1f," % \
+#                 (output_rec['z_s_0'][n], output_rec['z_s_l'][n], output_rec['z_s'][n], output_rec['rho'][n]))
+#         f.write("%.1f,%.1f,%.1f,%.1f," % \
+#                 (output_rec['m_s_0'][n], output_rec['m_s_l'][n], output_rec['m_s'][n], output_rec['h2o'][n]))
+#         if params['temps_in_C']:
+#             f.write("%.2f,%.2f,%.2f\n" % 
+#                     (K_TO_C(output_rec['T_s_0'][n]), K_TO_C(output_rec['T_s_l'][n]), K_TO_C(output_rec['T_s'][n])))
+#         else:
+#             f.write("%.2f,%.2f,%.2f\n" % \
+#                     (output_rec['T_s_0'][n], output_rec['T_s_l'][n], output_rec['T_s'][n]))
+            
         # time
         f.write('%g,' % curr_time_hrs)
-          
+            
         # energy budget terms
-        f.write("%.1f,%.1f,%.1f,%.1f,%.1f,%.1f," % \
+        f.write("%.3f,%.3f,%.3f,%.3f,%.3f,%.3f," % \
                 (output_rec['R_n_bar'][n], output_rec['H_bar'][n], output_rec['L_v_E_bar'][n], \
                 output_rec['G_bar'][n], output_rec['M_bar'][n], output_rec['delta_Q_bar'][n]))
-         
+           
         # layer terms
-        f.write("%.1f,%.1f," % \
+        f.write("%.3f,%.3f," % \
                 (output_rec['G_0_bar'][n], output_rec['delta_Q_0_bar'][n]))
-         
+           
         # heat storage and mass changes
-        f.write("%.6e,%.6e,%.6e," % \
+        f.write("%.9e,%.9e,%.9e," % \
                 (output_rec['cc_s_0'][n], output_rec['cc_s_l'][n], output_rec['cc_s'][n]))
-        f.write("%.5f,%.5f,%.5f," % \
+        f.write("%.8f,%.8f,%.8f," % \
                 (output_rec['E_s_sum'][n], output_rec['melt_sum'][n], output_rec['ro_pred_sum'][n]))
-         
+           
+        #             # runoff error if data included */
+        #             if (ro_data)
+        #                 fprintf(out, " %.3f",
+        #                         (ro_pred_sum - (ro * time_since_out)))
+           
         # sno properties */
-        f.write("%.3f,%.3f,%.3f,%.1f," % \
+        f.write("%.6f,%.6f,%.6f,%.3f," % \
                 (output_rec['z_s_0'][n], output_rec['z_s_l'][n], output_rec['z_s'][n], output_rec['rho'][n]))
-        f.write("%.1f,%.1f,%.1f,%.1f," % \
+        f.write("%.3f,%.3f,%.3f,%.3f," % \
                 (output_rec['m_s_0'][n], output_rec['m_s_l'][n], output_rec['m_s'][n], output_rec['h2o'][n]))
         if params['temps_in_C']:
-            f.write("%.2f,%.2f,%.2f\n" % 
+            f.write("%.5f,%.5f,%.5f\n" % 
                     (K_TO_C(output_rec['T_s_0'][n]), K_TO_C(output_rec['T_s_l'][n]), K_TO_C(output_rec['T_s'][n])))
         else:
-            f.write("%.2f,%.2f,%.2f\n" % \
-                    (output_rec['T_s_0'][n], output_rec['T_s_l'][n], output_rec['T_s'][n]))
+            f.write("%.5f,%.5f,%.5f\n" % \
+                    (output_rec['T_s_0'][n], output_rec['T_s_l'][n], output_rec['T_s'][n]))   
         
         # reset the time since out
         output_rec['time_since_out'][n] = 0   
@@ -713,7 +748,7 @@ def initialize(params, tstep_info, init):
     sz = init['elevation'].shape
     flds = ['mask', 'elevation', 'z_0', 'rho', 'T_s_0', 'T_s_l', 'T_s', \
             'cc_s_0', 'cc_s_l', 'cc_s', 'm_s', 'm_s_0', 'm_s_l', 'z_s', 'z_s_0', 'z_s_l',\
-            'h2o_sat', 'layer_count', 'h2o', 'h2o_max',\
+            'h2o_sat', 'layer_count', 'h2o', 'h2o_max', 'h2o_vol','h2o_total',\
             'R_n_bar', 'H_bar', 'L_v_E_bar', 'G_bar', 'G_0_bar',\
             'M_bar', 'delta_Q_bar', 'delta_Q_0_bar', 'E_s_sum', 'melt_sum', 'ro_pred_sum',\
             'current_time', 'time_since_out']
@@ -776,25 +811,30 @@ def main(configFile):
     # do_data_tstep needs two input records so only go 
     # to the last record-1
     
+    data_tstep = tstep_info[0]['time_step']
+    timeSinceOut = 0.0
+    start_step = 0 # if restart then it would be higher if this were iSnobal
+    step_time = start_step * data_tstep
+    
+    output_rec['current_time'] = step_time * np.ones(output_rec['elevation'].shape)
+    output_rec['time_since_out'] = timeSinceOut * np.ones(output_rec['elevation'].shape)
+    
     input1 = get_timestep(force, options['time']['date_time'][0], point)
 #     if point_run:
 #         input1 = {i: np.atleast_2d(input1[i][point]) for i in input1.keys()}
     
-    pbar = progressbar.ProgressBar(max_value=len(options['time']['date_time'])-1)
+    pbar = progressbar.ProgressBar(max_value=len(options['time']['date_time']))
     j = 1
-    first_step = True;
-    for tstep in options['time']['date_time'][1:-1]:
-        
-        if j >= 689:
-            input1
+    first_step = 1;
+    for tstep in options['time']['date_time'][1:]:
         
         input2 = get_timestep(force, tstep, point)
         
         # this should replicate a Snobal point run but will not mimic the iSnobal results at the point
         if point_run:
-            first_step = False;
+            first_step = 0;
             if j == 1:
-                first_step = True;
+                first_step = 1;
     
         rt = snobal.do_tstep_grid(input1, input2, output_rec, tstep_info, options['constants'], params, first_step, 4)
         

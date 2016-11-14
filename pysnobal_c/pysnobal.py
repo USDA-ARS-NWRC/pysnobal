@@ -341,76 +341,76 @@ def output_timestep(output_rec, params):
      
         curr_time_hrs =  SEC_TO_HR(output_rec['current_time'][n])
          
-        # time
-        f.write('%g,' % curr_time_hrs)
-          
-        # energy budget terms
-        f.write("%.1f,%.1f,%.1f,%.1f,%.1f,%.1f," % \
-                (output_rec['R_n_bar'][n], output_rec['H_bar'][n], output_rec['L_v_E_bar'][n], \
-                output_rec['G_bar'][n], output_rec['M_bar'][n], output_rec['delta_Q_bar'][n]))
-         
-        # layer terms
-        f.write("%.1f,%.1f," % \
-                (output_rec['G_0_bar'][n], output_rec['delta_Q_0_bar'][n]))
-         
-        # heat storage and mass changes
-        f.write("%.6e,%.6e,%.6e," % \
-                (output_rec['cc_s_0'][n], output_rec['cc_s_l'][n], output_rec['cc_s'][n]))
-        f.write("%.5f,%.5f,%.5f," % \
-                (output_rec['E_s_sum'][n], output_rec['melt_sum'][n], output_rec['ro_pred_sum'][n]))
-         
-        #             # runoff error if data included */
-        #             if (ro_data)
-        #                 fprintf(out, " %.1f",
-        #                         (ro_pred_sum - (ro * time_since_out)))
-         
-        # sno properties */
-        f.write("%.3f,%.3f,%.3f,%.1f," % \
-                (output_rec['z_s_0'][n], output_rec['z_s_l'][n], output_rec['z_s'][n], output_rec['rho'][n]))
-        f.write("%.1f,%.1f,%.1f,%.1f," % \
-                (output_rec['m_s_0'][n], output_rec['m_s_l'][n], output_rec['m_s'][n], output_rec['h2o'][n]))
-        if params['temps_in_C']:
-            f.write("%.2f,%.2f,%.2f\n" % 
-                    (K_TO_C(output_rec['T_s_0'][n]), K_TO_C(output_rec['T_s_l'][n]), K_TO_C(output_rec['T_s'][n])))
-        else:
-            f.write("%.2f,%.2f,%.2f\n" % \
-                    (output_rec['T_s_0'][n], output_rec['T_s_l'][n], output_rec['T_s'][n]))
-         
-         
 #         # time
 #         f.write('%g,' % curr_time_hrs)
-#            
+#           
 #         # energy budget terms
-#         f.write("%.3f,%.3f,%.3f,%.3f,%.3f,%.3f," % \
+#         f.write("%.1f,%.1f,%.1f,%.1f,%.1f,%.1f," % \
 #                 (output_rec['R_n_bar'][n], output_rec['H_bar'][n], output_rec['L_v_E_bar'][n], \
 #                 output_rec['G_bar'][n], output_rec['M_bar'][n], output_rec['delta_Q_bar'][n]))
-#           
+#          
 #         # layer terms
-#         f.write("%.3f,%.3f," % \
+#         f.write("%.1f,%.1f," % \
 #                 (output_rec['G_0_bar'][n], output_rec['delta_Q_0_bar'][n]))
-#           
+#          
 #         # heat storage and mass changes
-#         f.write("%.9e,%.9e,%.9e," % \
+#         f.write("%.6e,%.6e,%.6e," % \
 #                 (output_rec['cc_s_0'][n], output_rec['cc_s_l'][n], output_rec['cc_s'][n]))
-#         f.write("%.8f,%.8f,%.8f," % \
+#         f.write("%.5f,%.5f,%.5f," % \
 #                 (output_rec['E_s_sum'][n], output_rec['melt_sum'][n], output_rec['ro_pred_sum'][n]))
-#           
+#          
 #         #             # runoff error if data included */
 #         #             if (ro_data)
-#         #                 fprintf(out, " %.3f",
+#         #                 fprintf(out, " %.1f",
 #         #                         (ro_pred_sum - (ro * time_since_out)))
-#           
+#          
 #         # sno properties */
-#         f.write("%.6f,%.6f,%.6f,%.3f," % \
+#         f.write("%.3f,%.3f,%.3f,%.1f," % \
 #                 (output_rec['z_s_0'][n], output_rec['z_s_l'][n], output_rec['z_s'][n], output_rec['rho'][n]))
-#         f.write("%.3f,%.3f,%.3f,%.3f," % \
+#         f.write("%.1f,%.1f,%.1f,%.1f," % \
 #                 (output_rec['m_s_0'][n], output_rec['m_s_l'][n], output_rec['m_s'][n], output_rec['h2o'][n]))
 #         if params['temps_in_C']:
-#             f.write("%.5f,%.5f,%.5f\n" % 
+#             f.write("%.2f,%.2f,%.2f\n" % 
 #                     (K_TO_C(output_rec['T_s_0'][n]), K_TO_C(output_rec['T_s_l'][n]), K_TO_C(output_rec['T_s'][n])))
 #         else:
-#             f.write("%.5f,%.5f,%.5f\n" % \
-#                     (output_rec['T_s_0'][n], output_rec['T_s_l'][n], output_rec['T_s'][n]))    
+#             f.write("%.2f,%.2f,%.2f\n" % \
+#                     (output_rec['T_s_0'][n], output_rec['T_s_l'][n], output_rec['T_s'][n]))
+         
+         
+        # time
+        f.write('%g,' % curr_time_hrs)
+            
+        # energy budget terms
+        f.write("%.3f,%.3f,%.3f,%.3f,%.3f,%.3f," % \
+                (output_rec['R_n_bar'][n], output_rec['H_bar'][n], output_rec['L_v_E_bar'][n], \
+                output_rec['G_bar'][n], output_rec['M_bar'][n], output_rec['delta_Q_bar'][n]))
+           
+        # layer terms
+        f.write("%.3f,%.3f," % \
+                (output_rec['G_0_bar'][n], output_rec['delta_Q_0_bar'][n]))
+           
+        # heat storage and mass changes
+        f.write("%.9e,%.9e,%.9e," % \
+                (output_rec['cc_s_0'][n], output_rec['cc_s_l'][n], output_rec['cc_s'][n]))
+        f.write("%.8f,%.8f,%.8f," % \
+                (output_rec['E_s_sum'][n], output_rec['melt_sum'][n], output_rec['ro_pred_sum'][n]))
+           
+        #             # runoff error if data included */
+        #             if (ro_data)
+        #                 fprintf(out, " %.3f",
+        #                         (ro_pred_sum - (ro * time_since_out)))
+           
+        # sno properties */
+        f.write("%.6f,%.6f,%.6f,%.3f," % \
+                (output_rec['z_s_0'][n], output_rec['z_s_l'][n], output_rec['z_s'][n], output_rec['rho'][n]))
+        f.write("%.3f,%.3f,%.3f,%.3f," % \
+                (output_rec['m_s_0'][n], output_rec['m_s_l'][n], output_rec['m_s'][n], output_rec['h2o'][n]))
+        if params['temps_in_C']:
+            f.write("%.5f,%.5f,%.5f\n" % 
+                    (K_TO_C(output_rec['T_s_0'][n]), K_TO_C(output_rec['T_s_l'][n]), K_TO_C(output_rec['T_s'][n])))
+        else:
+            f.write("%.5f,%.5f,%.5f\n" % \
+                    (output_rec['T_s_0'][n], output_rec['T_s_l'][n], output_rec['T_s'][n]))    
         
         # reset the time since out
         output_rec['time_since_out'][n] = 0
