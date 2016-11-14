@@ -836,7 +836,7 @@ def main(configFile):
             if j == 1:
                 first_step = 1;
     
-        rt = snobal.do_tstep_grid(input1, input2, output_rec, tstep_info, options['constants'], params, first_step, 4)
+        rt = snobal.do_tstep_grid(input1, input2, output_rec, tstep_info, options['constants'], params, first_step, nthreads=4)
         
         if rt != -1:
             print('ipysnobal error on time step %s, pixel %i' % (tstep, rt))
