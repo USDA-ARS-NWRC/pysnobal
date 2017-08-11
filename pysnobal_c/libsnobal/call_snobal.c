@@ -23,6 +23,7 @@ int call_snobal (
 )
 {
 	int n;
+	printf("number of threads %d\n", nthreads);
 	//	double current_time, time_since_out;
 	//	double data_tstep;
 
