@@ -361,7 +361,7 @@ def open_files(options):
         if i.variables.has_key(f):
             init[f] = i.variables[f][:]         # read in the variables
         elif f == 'mask':
-            init[f] = np.ones_like(init['z'])   # if no mask set all to ones so all will be ran
+            init[f] = np.ones_like(init['elevation'])   # if no mask set all to ones so all will be ran
         else:
             init[f] = all_zeros                 # default is set to zeros
 
@@ -843,8 +843,8 @@ def main(configFile):
             if j == 1:
                 first_step = 1;
 
-        rt = snobal.do_tstep_grid(input1, input2, output_rec, tstep_info, options['constants'], params, first_step, nthreads=4)
-        #rt = snobal.do_tstep_grid(input1, input2, output_rec, tstep_info, options['constants'], params, first_step, nthreads=1)
+        #rt = snobal.do_tstep_grid(input1, input2, output_rec, tstep_info, options['constants'], params, first_step, nthreads=8)
+        rt = snobal.do_tstep_grid(input1, input2, output_rec, tstep_info, options['constants'], params, first_step, nthreads=1)
         #print output_rec
         if rt != -1:
             print('ipysnobal error on time step %s, pixel %i' % (tstep, rt))

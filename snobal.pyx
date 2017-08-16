@@ -424,6 +424,10 @@ def do_tstep_grid(input1, input2, output_rec, tstep_rec, mh, params, int first_s
 
     # free up the memory
 #     PyMem_Free(input1_c.T_a)
+    for n in range(N):
+      if out_c[n] != NULL:
+        PyMem_Free(out_c[n])
+    PyMem_Free(out_c)
 
     return rt
 
