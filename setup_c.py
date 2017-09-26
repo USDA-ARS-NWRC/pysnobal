@@ -58,8 +58,6 @@ ext_modules += [
 
 #------------------------------------------------------------------------------
 # Create module to call the C libary
-macros = []
-macros.append(('CYTHON_TRACE_NOGIL',1))
 loc = '.'
 sources = [os.path.join(loc, val) for val in ["snobal.pyx"]]
 ext_modules += [
@@ -71,7 +69,6 @@ ext_modules += [
                     runtime_library_dirs=['.'],
                     extra_compile_args=['-shared','-fopenmp', '-O3', '-L./.'],
                     extra_link_args=['-shared','-fopenmp', '-O3', '-L./.'],
-                    #define_macros=macros,
                     )
                 ]
 

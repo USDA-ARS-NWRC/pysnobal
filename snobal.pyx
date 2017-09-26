@@ -13,8 +13,7 @@ from cpython.mem cimport PyMem_Malloc, PyMem_Realloc, PyMem_Free
 
 from libc.stdlib cimport free
 from cpython cimport PyObject, Py_INCREF
-import pstats, cProfile
-from cython.parallel import parallel, prange
+
 
 # Numpy must be initialized. When using numpy from C or Cython you must
 # _always_ do that, or you will have segfaults
