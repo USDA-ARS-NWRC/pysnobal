@@ -23,6 +23,16 @@ Python implementation of the Snobal model
 
 Features
 --------
+Currently not using anything in the pysnobal_c/ directory
+
+Compiling
+--------
+python setup.py build_ext --inplace --force
+python setup.py install
+
+Running
+--------
+Run ipysonbal.py in main directory
 
 * TODO
 
