@@ -62,6 +62,43 @@ typedef struct {
 //typedef OUTPUT_REC *out_p;
 //extern OUTPUT_REC output_rec[100];	/* output data structure */
 
+typedef struct {
+	int* masked;
+	double* current_time;
+	double* time_since_out;
+	double* elevation;
+	double* z_0;
+	double* rho;
+	double* T_s_0;
+	double* T_s_l;
+	double* T_s;
+	double* h2o_sat;
+	double* h2o_max;
+	double* h2o_vol;
+	double* h2o;
+	double* h2o_total;
+	int* layer_count;
+	double* cc_s_0;
+	double* cc_s_l;
+	double* cc_s;
+	double* m_s_0;
+	double* m_s_l;
+	double* m_s;
+	double* z_s_0;
+	double* z_s_l;
+	double* z_s;
+	double* R_n_bar;
+	double* H_bar;
+	double* L_v_E_bar;
+	double* G_bar;
+	double* G_0_bar;
+	double* M_bar;
+	double* delta_Q_bar;
+	double* delta_Q_0_bar;
+	double* E_s_sum;
+	double* melt_sum;
+	double* ro_pred_sum;
+} OUTPUT_REC_ARR;
 
 typedef struct {
 	double* S_n;
@@ -92,7 +129,8 @@ typedef struct {
  *  Routines that are part of isnobal program.
  */
 
-extern int call_snobal(int N, int nthreads, int first_step, TSTEP_REC tstep_info[4], OUTPUT_REC** output_rec, INPUT_REC_ARR* input1, INPUT_REC_ARR* input2, PARAMS params);
+//extern int call_snobal(int N, int nthreads, int first_step, TSTEP_REC tstep_info[4], OUTPUT_REC** output_rec, INPUT_REC_ARR* input1, INPUT_REC_ARR* input2, PARAMS params, OUTPUT_REC_ARR* output1);
+extern int call_snobal(int N, int nthreads, int first_step, TSTEP_REC tstep_info[4], INPUT_REC_ARR* input1, INPUT_REC_ARR* input2, PARAMS params, OUTPUT_REC_ARR* output1);
 
 //extern	void	assign_buffers (int masked, int n, int output, OUTPUT_REC **output_rec);
 //extern	void	buffers        (void);

@@ -24,6 +24,10 @@ from copy import copy
 # from multiprocessing import Pool
 # from functools import partial
 # import itertools
+import pyximport
+pyximport.install()
+import pstats, cProfile
+
 
 # os.system("taskset -p 0xff %d" % os.getpid())
 
@@ -771,7 +775,6 @@ def initialize(params, tstep_info, init):
 
 
 
-# @profile
 def main(configFile):
     """
     mimic the main.c from the Snobal model
@@ -843,8 +846,15 @@ def main(configFile):
             if j == 1:
                 first_step = 1;
 
-        #rt = snobal.do_tstep_grid(input1, input2, output_rec, tstep_info, options['constants'], params, first_step, nthreads=8)
-        rt = snobal.do_tstep_grid(input1, input2, output_rec, tstep_info, options['constants'], params, first_step, nthreads=1)
+        rt = snobal.do_tstep_grid(input1, input2, output_rec, tstep_info, options['constants'], params, first_step, nthreads=32)
+        #rt = snobal.do_tstep_grid(input1, input2, output_rec, tstep_info, options['constants'], params, first_step, nthreads=1)
+        # run iPySnobal and profile
+        # cProfile.runctx("result = snobal.do_tstep_grid(input1, input2, output_rec, tstep_info, options['constants'], params, first_step, nthreads=16)",
+        #                 globals(), locals(), "Profile.prof")
+
+        # s = pstats.Stats("Profile.prof")
+        # s.strip_dirs().sort_stats("time").print_stats()
+        # rt = locals()['result']
         #print output_rec
         if rt != -1:
             print('ipysnobal error on time step %s, pixel %i' % (tstep, rt))

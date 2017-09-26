@@ -25,6 +25,8 @@ from copy import copy
 # from functools import partial
 # import itertools
 
+import pstats, cProfile
+
 # os.system("taskset -p 0xff %d" % os.getpid())
 
 DEFAULT_MAX_Z_S_0 = 0.25
@@ -844,7 +846,15 @@ def main(configFile):
                 first_step = 1;
 
         #rt = snobal.do_tstep_grid(input1, input2, output_rec, tstep_info, options['constants'], params, first_step, nthreads=4)
-        rt = snobal.do_tstep_grid(input1, input2, output_rec, tstep_info, options['constants'], params, first_step, nthreads=1)
+        #rt = snobal.do_tstep_grid(input1, input2, output_rec, tstep_info, options['constants'], params, first_step, nthreads=1)
+        # run iPySnobal and profile
+        cProfile.runctx("rt = snobal.do_tstep_grid(input1, input2, output_rec, tstep_info, options['constants'], params, first_step, nthreads=1)",
+                        globals(), locals(), "Profile.prof")
+
+        s = pstats.Stats("Profile.prof")
+        s.strip_dirs().sort_stats("time").print_stats()
+
+        rt = locals()['rt']
         #print output_rec
         if rt != -1:
             print('ipysnobal error on time step %s, pixel %i' % (tstep, rt))
