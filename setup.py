@@ -40,7 +40,7 @@ os.environ["CC"] = "gcc"
 
 #------------------------------------------------------------------------------
 # Compiling the C code for the Snobal libary
-loc = 'libsnobal'
+loc = 'pysnobal/libsnobal'
 # sources=[os.path.join(loc, val) for val in ["_adj_layers.c"]]
 sources = glob.glob(os.path.join(loc, '*.c'))
 # sources = ['_adj_layers.c']
@@ -48,8 +48,8 @@ ext_modules += [
                 Extension(
                     "libsnobal",
                     sources,
-                    include_dirs=['.',"./h"],
-                    runtime_library_dirs=['.'],
+                    include_dirs=['./pysnobal',"./h"],
+                    runtime_library_dirs=['./pysnobal'],
                     extra_compile_args=['-shared','-fopenmp', '-O3'],
                     extra_link_args=['-shared','-fopenmp', '-O3'],
                     )
@@ -58,14 +58,14 @@ ext_modules += [
 
 #------------------------------------------------------------------------------
 # Create module to call the C libary
-loc = '.'
+loc = './pysnobal'
 sources = [os.path.join(loc, val) for val in ["snobal.pyx"]]
 ext_modules += [
                 Extension(
                     "snobal",
                     sources,
                     libraries=["snobal"],
-                    include_dirs=['.', numpy.get_include(), "./h"],
+                    include_dirs=['./pysnobal', numpy.get_include(), "./h"],
                     runtime_library_dirs=['.'],
                     extra_compile_args=['-shared','-fopenmp', '-O3', '-L./.'],
                     extra_link_args=['-shared','-fopenmp', '-O3', '-L./.'],
@@ -75,7 +75,7 @@ ext_modules += [
 cmdclass.update({ 'build_ext': build_ext })
 
 setup(
-    name='pysnobal_c',
+    name='pysnobal',
     version='0.1.0',
     description="Python wrapper of the Snobal point model",
     long_description=readme + '\n\n' + history,
@@ -83,7 +83,7 @@ setup(
     author_email='scott.havens@ars.usda.gov',
     url='https://gitlab.com/ars-snow/pysnobal',
     packages=[
-        'pysnobal_c', 'pysnobal_c.libsnobal'
+        'pysnobal', 'pysnobal.libsnobal'
     ],
 #     package_dir={'pysnobal':
 #                  'pysnobal'},
@@ -91,7 +91,7 @@ setup(
     install_requires=requirements,
     license="ISCL",
     zip_safe=False,
-    keywords='pysnobal_c',
+    keywords='pysnobal',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',

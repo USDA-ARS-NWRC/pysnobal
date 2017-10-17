@@ -3,7 +3,6 @@ Wrapper functions to the C function in libsnobal
 
 20161010 Scott Havens
 """
-
 import cython
 from cython.parallel import prange, parallel
 import numpy as np
@@ -15,10 +14,16 @@ from cpython.mem cimport PyMem_Malloc, PyMem_Realloc, PyMem_Free
 from libc.stdlib cimport free
 from cpython cimport PyObject, Py_INCREF
 
+
 # Numpy must be initialized. When using numpy from C or Cython you must
 # _always_ do that, or you will have segfaults
 np.import_array()
 
+cdef extern from "time.h":
+    ctypedef unsigned long clock_t
+    cdef clock_t clock()
+    cdef enum:
+        CLOCKS_PER_SEC
 
 cdef extern from "snobal.h":
     void init_snow();
@@ -127,7 +132,8 @@ cdef extern from "envphys.h":
 #         double ro_pred_sum;
 
 cdef extern from "pysnobal.h":
-    cdef int call_snobal(int N, int nthreads, int first_step, TSTEP_REC tstep_info[4], OUTPUT_REC** output_rec, INPUT_REC_ARR* input1, INPUT_REC_ARR* input2, PARAMS params);
+    #cdef int call_snobal(int N, int nthreads, int first_step, TSTEP_REC tstep_info[4], OUTPUT_REC** output_rec, INPUT_REC_ARR* input1, INPUT_REC_ARR* input2, PARAMS params, OUTPUT_REC_ARR* output1);
+    cdef int call_snobal(int N, int nthreads, int first_step, TSTEP_REC tstep_info[4], INPUT_REC_ARR* input1, INPUT_REC_ARR* input2, PARAMS params, OUTPUT_REC_ARR* output1);
 
     ctypedef struct OUTPUT_REC:
         int masked;
@@ -166,6 +172,43 @@ cdef extern from "pysnobal.h":
         double melt_sum;
         double ro_pred_sum;
 
+    ctypedef struct OUTPUT_REC_ARR:
+        int* masked;
+        double* current_time;
+        double* time_since_out;
+        double* elevation;
+        double* z_0;
+        double* rho;
+        double* T_s_0;
+        double* T_s_l;
+        double* T_s;
+        double* h2o_sat;
+        double* h2o_max;
+        double* h2o;
+        double* h2o_vol;
+        double* h2o_total;
+        int* layer_count;
+        double* cc_s_0;
+        double* cc_s_l;
+        double* cc_s;
+        double* m_s_0;
+        double* m_s_l;
+        double* m_s;
+        double* z_s_0;
+        double* z_s_l;
+        double* z_s;
+        double* R_n_bar;
+        double* H_bar;
+        double* L_v_E_bar;
+        double* G_bar;
+        double* G_0_bar;
+        double* M_bar;
+        double* delta_Q_bar;
+        double* delta_Q_0_bar;
+        double* E_s_sum;
+        double* melt_sum;
+        double* ro_pred_sum;
+
     ctypedef struct INPUT_REC_ARR:
         double* S_n;
         double* I_lw;
@@ -188,7 +231,6 @@ cdef extern from "pysnobal.h":
 
 
 
-
 @cython.boundscheck(False)
 @cython.wraparound(False)
 # https://github.com/cython/cython/wiki/tutorials-NumpyPointerToC
@@ -199,9 +241,13 @@ def do_tstep_grid(input1, input2, output_rec, tstep_rec, mh, params, int first_s
     pulled in an initialized. Therefore only the values need to be pulled
     out before calling 'init_snow()'
     """
-    cdef int N = len(output_rec['elevation'])
+    #cdef int N = len(output_rec['elevation'])
+    cdef int N = (output_rec['elevation']).size
     cdef int n
     shp = output_rec['elevation'].shape
+    # timing stuff
+    cdef clock_t start1, end1, start2, end2, start3, end3
+    cdef double cpu_time_used1, cpu_time_used2, cpu_time_used3
 
     # measurement heights and parameters
     cdef PARAMS c_params
@@ -230,56 +276,153 @@ def do_tstep_grid(input1, input2, output_rec, tstep_rec, mh, params, int first_s
             tstep_info[i].threshold = tstep_rec[i]['threshold']
         tstep_info[i].output = int(tstep_rec[i]['output'])
 
+    # start1 = clock()
+    cdef OUTPUT_REC_ARR output1_c
 
+    cdef np.ndarray[double, mode="c", ndim=2] output1_z_0
+    output1_z_0 = np.ascontiguousarray(output_rec['z_0'], dtype=np.float64)
+    output1_c.z_0 = &output1_z_0[0,0]
 
-    # array of pointers to OUTPUT_REC
-    cdef OUTPUT_REC **out_c = <OUTPUT_REC**> PyMem_Malloc(N * sizeof(OUTPUT_REC*));
-    for n in range(N):
-        out_c[n] = <OUTPUT_REC *>PyMem_Malloc(sizeof(OUTPUT_REC))    # initialize the memory (in heap) at that pointer
-#     cdef OUTPUT_REC out_c[N]
+    cdef np.ndarray[double, mode="c", ndim=2] output1_z_s_0
+    output1_z_s_0 = np.ascontiguousarray(output_rec['z_s_0'], dtype=np.float64)
+    output1_c.z_s_0 = &output1_z_s_0[0,0]
 
-    # assign the values from output_rec to out_c
-#     for (i,j), z in np.ndenumerate(output_rec['elevation']):
-    for n in range(N):
-        idx = np.unravel_index(n, shp)
-        out_c[n].current_time    = output_rec['current_time'][idx[0],idx[1]]
-        out_c[n].time_since_out  = output_rec['time_since_out'][idx[0],idx[1]]
-        out_c[n].masked          = output_rec['mask'][idx[0],idx[1]]
-        out_c[n].elevation       = output_rec['elevation'][idx[0],idx[1]]
-        out_c[n].z_0             = output_rec['z_0'][idx[0],idx[1]]
-        out_c[n].z_s_0           = output_rec['z_s_0'][idx[0],idx[1]]
-        out_c[n].z_s_l           = output_rec['z_s_l'][idx[0],idx[1]]
-        out_c[n].z_s             = output_rec['z_s'][idx[0],idx[1]]
-        out_c[n].rho             = output_rec['rho'][idx[0],idx[1]]
-        out_c[n].T_s_0           = output_rec['T_s_0'][idx[0],idx[1]]
-        out_c[n].T_s_l           = output_rec['T_s_l'][idx[0],idx[1]]
-        out_c[n].T_s             = output_rec['T_s'][idx[0],idx[1]]
-        out_c[n].cc_s_0          = output_rec['cc_s_0'][idx[0],idx[1]]
-        out_c[n].cc_s_l          = output_rec['cc_s_l'][idx[0],idx[1]]
-        out_c[n].cc_s            = output_rec['cc_s'][idx[0],idx[1]]
-        out_c[n].m_s_0           = output_rec['m_s_0'][idx[0],idx[1]]
-        out_c[n].m_s_l           = output_rec['m_s_l'][idx[0],idx[1]]
-        out_c[n].m_s             = output_rec['m_s'][idx[0],idx[1]]
-        out_c[n].h2o_sat         = output_rec['h2o_sat'][idx[0],idx[1]]
-        out_c[n].h2o_max         = output_rec['h2o_max'][idx[0],idx[1]]
-        out_c[n].h2o             = output_rec['h2o'][idx[0],idx[1]]
-        out_c[n].h2o_vol         = output_rec['h2o_vol'][idx[0],idx[1]]
-        out_c[n].h2o_total       = output_rec['h2o_total'][idx[0],idx[1]]
-        out_c[n].layer_count     = output_rec['layer_count'][idx[0],idx[1]]
+    cdef np.ndarray[double, mode="c", ndim=2] output1_current_time
+    output1_current_time = np.ascontiguousarray(output_rec['current_time'], dtype=np.float64)
+    output1_c.current_time = &output1_current_time[0,0]
 
-        out_c[n].R_n_bar         = output_rec['R_n_bar'][idx[0],idx[1]]
-        out_c[n].H_bar           = output_rec['H_bar'][idx[0],idx[1]]
-        out_c[n].L_v_E_bar       = output_rec['L_v_E_bar'][idx[0],idx[1]]
-        out_c[n].G_bar           = output_rec['G_bar'][idx[0],idx[1]]
-        out_c[n].G_0_bar         = output_rec['G_0_bar'][idx[0],idx[1]]
-        out_c[n].M_bar           = output_rec['M_bar'][idx[0],idx[1]]
-        out_c[n].delta_Q_bar     = output_rec['delta_Q_bar'][idx[0],idx[1]]
-        out_c[n].delta_Q_0_bar   = output_rec['delta_Q_0_bar'][idx[0],idx[1]]
-        out_c[n].E_s_sum         = output_rec['E_s_sum'][idx[0],idx[1]]
-        out_c[n].melt_sum        = output_rec['melt_sum'][idx[0],idx[1]]
-        out_c[n].ro_pred_sum     = output_rec['ro_pred_sum'][idx[0],idx[1]]
+    cdef np.ndarray[double, mode="c", ndim=2] output1_time_since_out
+    output1_time_since_out = np.ascontiguousarray(output_rec['time_since_out'], dtype=np.float64)
+    output1_c.time_since_out = &output1_time_since_out[0,0]
 
+    cdef np.ndarray[int, mode="c", ndim=2] output1_masked
+    output1_masked = np.ascontiguousarray(output_rec['mask'], dtype=np.int32)
+    output1_c.masked = &output1_masked[0,0]
 
+    cdef np.ndarray[double, mode="c", ndim=2] output1_elevation
+    output1_elevation = np.ascontiguousarray(output_rec['elevation'], dtype=np.float64)
+    output1_c.elevation = &output1_elevation[0,0]
+
+    cdef np.ndarray[double, mode="c", ndim=2] output1_z_s_l
+    output1_z_s_l = np.ascontiguousarray(output_rec['z_s_l'], dtype=np.float64)
+    output1_c.z_s_l = &output1_z_s_l[0,0]
+
+    cdef np.ndarray[double, mode="c", ndim=2] output1_z_s
+    output1_z_s = np.ascontiguousarray(output_rec['z_s'], dtype=np.float64)
+    output1_c.z_s = &output1_z_s[0,0]
+
+    cdef np.ndarray[double, mode="c", ndim=2] output1_rho
+    output1_rho = np.ascontiguousarray(output_rec['rho'], dtype=np.float64)
+    output1_c.rho = &output1_rho[0,0]
+
+    cdef np.ndarray[double, mode="c", ndim=2] output1_T_s_0
+    output1_T_s_0 = np.ascontiguousarray(output_rec['T_s_0'], dtype=np.float64)
+    output1_c.T_s_0 = &output1_T_s_0[0,0]
+
+    cdef np.ndarray[double, mode="c", ndim=2] output1_T_s_l
+    output1_T_s_l = np.ascontiguousarray(output_rec['T_s_l'], dtype=np.float64)
+    output1_c.T_s_l = &output1_T_s_l[0,0]
+
+    cdef np.ndarray[double, mode="c", ndim=2] output1_T_s
+    output1_T_s = np.ascontiguousarray(output_rec['T_s'], dtype=np.float64)
+    output1_c.T_s = &output1_T_s[0,0]
+
+    cdef np.ndarray[double, mode="c", ndim=2] output1_cc_s_0
+    output1_cc_s_0 = np.ascontiguousarray(output_rec['cc_s_0'], dtype=np.float64)
+    output1_c.cc_s_0 = &output1_cc_s_0[0,0]
+
+    cdef np.ndarray[double, mode="c", ndim=2] output1_cc_s_l
+    output1_cc_s_l = np.ascontiguousarray(output_rec['cc_s_l'], dtype=np.float64)
+    output1_c.cc_s_l = &output1_cc_s_l[0,0]
+
+    cdef np.ndarray[double, mode="c", ndim=2] output1_cc_s
+    output1_cc_s = np.ascontiguousarray(output_rec['cc_s'], dtype=np.float64)
+    output1_c.cc_s = &output1_cc_s[0,0]
+
+    cdef np.ndarray[double, mode="c", ndim=2] output1_m_s_0
+    output1_m_s_0 = np.ascontiguousarray(output_rec['m_s_0'], dtype=np.float64)
+    output1_c.m_s_0 = &output1_m_s_0[0,0]
+
+    cdef np.ndarray[double, mode="c", ndim=2] output1_m_s_l
+    output1_m_s_l = np.ascontiguousarray(output_rec['m_s_l'], dtype=np.float64)
+    output1_c.m_s_l = &output1_m_s_l[0,0]
+
+    cdef np.ndarray[double, mode="c", ndim=2] output1_m_s
+    output1_m_s = np.ascontiguousarray(output_rec['m_s'], dtype=np.float64)
+    output1_c.m_s = &output1_m_s[0,0]
+
+    cdef np.ndarray[double, mode="c", ndim=2] output1_h2o_sat
+    output1_h2o_sat = np.ascontiguousarray(output_rec['h2o_sat'], dtype=np.float64)
+    output1_c.h2o_sat = &output1_h2o_sat[0,0]
+
+    cdef np.ndarray[double, mode="c", ndim=2] output1_h2o_max
+    output1_h2o_max = np.ascontiguousarray(output_rec['h2o_max'], dtype=np.float64)
+    output1_c.h2o_max = &output1_h2o_max[0,0]
+
+    cdef np.ndarray[double, mode="c", ndim=2] output1_h2o
+    output1_h2o = np.ascontiguousarray(output_rec['h2o'], dtype=np.float64)
+    output1_c.h2o = &output1_h2o[0,0]
+
+    cdef np.ndarray[double, mode="c", ndim=2] output1_h2o_vol
+    output1_h2o_vol = np.ascontiguousarray(output_rec['h2o_vol'], dtype=np.float64)
+    output1_c.h2o_vol = &output1_h2o_vol[0,0]
+
+    cdef np.ndarray[double, mode="c", ndim=2] output1_h2o_total
+    output1_h2o_total = np.ascontiguousarray(output_rec['h2o_total'], dtype=np.float64)
+    output1_c.h2o_total = &output1_h2o_total[0,0]
+
+    cdef np.ndarray[int, mode="c", ndim=2] output1_layer_count
+    output1_layer_count = np.ascontiguousarray(output_rec['layer_count'], dtype=np.int32)
+    output1_c.layer_count = &output1_layer_count[0,0]
+
+    cdef np.ndarray[double, mode="c", ndim=2] output1_R_n_bar
+    output1_R_n_bar = np.ascontiguousarray(output_rec['R_n_bar'], dtype=np.float64)
+    output1_c.R_n_bar = &output1_R_n_bar[0,0]
+
+    cdef np.ndarray[double, mode="c", ndim=2] output1_H_bar
+    output1_H_bar = np.ascontiguousarray(output_rec['H_bar'], dtype=np.float64)
+    output1_c.H_bar = &output1_H_bar[0,0]
+
+    cdef np.ndarray[double, mode="c", ndim=2] output1_L_v_E_bar
+    output1_L_v_E_bar = np.ascontiguousarray(output_rec['L_v_E_bar'], dtype=np.float64)
+    output1_c.L_v_E_bar = &output1_L_v_E_bar[0,0]
+
+    cdef np.ndarray[double, mode="c", ndim=2] output1_G_bar
+    output1_G_bar = np.ascontiguousarray(output_rec['G_bar'], dtype=np.float64)
+    output1_c.G_bar = &output1_G_bar[0,0]
+
+    cdef np.ndarray[double, mode="c", ndim=2] output1_G_0_bar
+    output1_G_0_bar = np.ascontiguousarray(output_rec['G_0_bar'], dtype=np.float64)
+    output1_c.G_0_bar = &output1_G_0_bar[0,0]
+
+    cdef np.ndarray[double, mode="c", ndim=2] output1_M_bar
+    output1_M_bar = np.ascontiguousarray(output_rec['M_bar'], dtype=np.float64)
+    output1_c.M_bar = &output1_M_bar[0,0]
+
+    cdef np.ndarray[double, mode="c", ndim=2] output1_delta_Q_bar
+    output1_delta_Q_bar = np.ascontiguousarray(output_rec['delta_Q_bar'], dtype=np.float64)
+    output1_c.delta_Q_bar = &output1_delta_Q_bar[0,0]
+
+    cdef np.ndarray[double, mode="c", ndim=2] output1_delta_Q_0_bar
+    output1_delta_Q_0_bar = np.ascontiguousarray(output_rec['delta_Q_0_bar'], dtype=np.float64)
+    output1_c.delta_Q_0_bar = &output1_delta_Q_0_bar[0,0]
+
+    cdef np.ndarray[double, mode="c", ndim=2] output1_E_s_sum
+    output1_E_s_sum = np.ascontiguousarray(output_rec['E_s_sum'], dtype=np.float64)
+    output1_c.E_s_sum = &output1_E_s_sum[0,0]
+
+    cdef np.ndarray[double, mode="c", ndim=2] output1_melt_sum
+    output1_melt_sum = np.ascontiguousarray(output_rec['melt_sum'], dtype=np.float64)
+    output1_c.melt_sum = &output1_melt_sum[0,0]
+
+    cdef np.ndarray[double, mode="c", ndim=2] output1_ro_pred_sum
+    output1_ro_pred_sum = np.ascontiguousarray(output_rec['ro_pred_sum'], dtype=np.float64)
+    output1_c.ro_pred_sum = &output1_ro_pred_sum[0,0]
+
+    # end1 = clock()
+    # cpu_time_used1 = (<double> (end1 - start1)) / CLOCKS_PER_SEC
+    # print('time 1 {}'.format(cpu_time_used1))
+    # start15 = clock()
     #------------------------------------------------------------------------------
     # PREPARE INPUT1 FOR C
 
@@ -371,58 +514,67 @@ def do_tstep_grid(input1, input2, output_rec, tstep_rec, mh, params, int first_s
     input2_T_g = np.ascontiguousarray(input2['T_g'], dtype=np.float64)
     input2_c.T_g = &input2_T_g[0,0]
 
+    # timing stuff
+    # end15 = clock()
+    # cpu_time_used15 = (<double> (end15 - start15)) / CLOCKS_PER_SEC
+    # print('time 1.5 {}'.format(cpu_time_used15))
+    # start2 = clock()
 
     #------------------------------------------------------------------------------
     # Call the model
-    rt = call_snobal(N, nthreads, first_step, tstep_info, out_c, &input1_c, &input2_c, c_params)
+    # rt = call_snobal(N, nthreads, first_step, tstep_info, out_c, &input1_c, &input2_c, c_params, &output1_c)
+    rt = call_snobal(N, nthreads, first_step, tstep_info, &input1_c, &input2_c, c_params, &output1_c)
     if rt != -1:
         return rt
 
-    #------------------------------------------------------------------------------
-    # Pull out the data from the C struct and move back to python
-    # now take the C structure and pull back into the python structure
-    for n in range(N):
-        idx = np.unravel_index(n, shp)
-        output_rec['current_time'][idx[0],idx[1]] = out_c[n].current_time
-        output_rec['time_since_out'][idx[0],idx[1]] = out_c[n].time_since_out
+    # end2 = clock()
+    # cpu_time_used2 = (<double> (end2 - start2)) / CLOCKS_PER_SEC
+    # print('time 2 {}'.format(cpu_time_used2))
+    # start3 = clock()
 
-        output_rec['elevation'][idx[0],idx[1]]  = out_c[n].elevation
-        output_rec['z_0'][idx[0],idx[1]]        = out_c[n].z_0
-        output_rec['rho'][idx[0],idx[1]]        = out_c[n].rho
-        output_rec['T_s_0'][idx[0],idx[1]]      = out_c[n].T_s_0
-        output_rec['T_s_l'][idx[0],idx[1]]      = out_c[n].T_s_l
-        output_rec['T_s'][idx[0],idx[1]]        = out_c[n].T_s
-        output_rec['h2o_sat'][idx[0],idx[1]]    = out_c[n].h2o_sat
-        output_rec['h2o_max'][idx[0],idx[1]]    = out_c[n].h2o_max
-        output_rec['h2o'][idx[0],idx[1]]        = out_c[n].h2o
-        output_rec['h2o_vol'][idx[0],idx[1]]    = out_c[n].h2o_vol
-        output_rec['h2o_total'][idx[0],idx[1]]    = out_c[n].h2o_total
-        output_rec['layer_count'][idx[0],idx[1]] = out_c[n].layer_count
-        output_rec['cc_s_0'][idx[0],idx[1]]     = out_c[n].cc_s_0
-        output_rec['cc_s_l'][idx[0],idx[1]]     = out_c[n].cc_s_l
-        output_rec['cc_s'][idx[0],idx[1]]       = out_c[n].cc_s
-        output_rec['m_s_0'][idx[0],idx[1]]      = out_c[n].m_s_0
-        output_rec['m_s_l'][idx[0],idx[1]]      = out_c[n].m_s_l
-        output_rec['m_s'][idx[0],idx[1]]        = out_c[n].m_s
-        output_rec['z_s_0'][idx[0],idx[1]]      = out_c[n].z_s_0
-        output_rec['z_s_l'][idx[0],idx[1]]      = out_c[n].z_s_l
-        output_rec['z_s'][idx[0],idx[1]]        = out_c[n].z_s
+    cdef np.npy_intp shp_np[2]
+    shp_np[:] = (shp[0], shp[1])
+    output_rec['z_0'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.z_0)
+    output_rec['z_s_0'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.z_s_0)
 
-        output_rec['R_n_bar'][idx[0],idx[1]]    = out_c[n].R_n_bar
-        output_rec['H_bar'][idx[0],idx[1]]      = out_c[n].H_bar
-        output_rec['L_v_E_bar'][idx[0],idx[1]]  = out_c[n].L_v_E_bar
-        output_rec['G_bar'][idx[0],idx[1]]      = out_c[n].G_bar
-        output_rec['G_0_bar'][idx[0],idx[1]]    = out_c[n].G_0_bar
-        output_rec['M_bar'][idx[0],idx[1]]      = out_c[n].M_bar
-        output_rec['delta_Q_bar'][idx[0],idx[1]] = out_c[n].delta_Q_bar
-        output_rec['delta_Q_0_bar'][idx[0],idx[1]] = out_c[n].delta_Q_0_bar
-        output_rec['E_s_sum'][idx[0],idx[1]]    = out_c[n].E_s_sum
-        output_rec['melt_sum'][idx[0],idx[1]]   = out_c[n].melt_sum
-        output_rec['ro_pred_sum'][idx[0],idx[1]] = out_c[n].ro_pred_sum
+    output_rec['current_time'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.current_time)
+    output_rec['time_since_out'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.time_since_out)
 
+    output_rec['elevation'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.elevation)
+    output_rec['rho'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.rho)
+    output_rec['T_s_0'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.T_s_0)
+    output_rec['T_s_l'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.T_s_l)
+    output_rec['T_s'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.T_s)
+    output_rec['h2o_sat'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o_sat)
+    output_rec['h2o_max'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o_max)
+    output_rec['h2o'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o)
+    output_rec['h2o_vol'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o_vol)
+    output_rec['h2o_total'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o_total)
+    output_rec['layer_count'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_INT32, output1_c.layer_count)
+    output_rec['cc_s_0'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.cc_s_0)
+    output_rec['cc_s_l'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.cc_s_l)
+    output_rec['cc_s'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.cc_s)
+    output_rec['m_s_0'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.m_s_0)
+    output_rec['m_s_l'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.m_s_l)
+    output_rec['m_s'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.m_s)
+    output_rec['z_s_l'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.z_s_l)
+    output_rec['z_s'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.z_s)
 
-    # free up the memory
-#     PyMem_Free(input1_c.T_a)
+    output_rec['R_n_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.R_n_bar)
+    output_rec['H_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.H_bar)
+    output_rec['L_v_E_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.L_v_E_bar)
+    output_rec['G_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.G_bar)
+    output_rec['G_0_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.G_0_bar)
+    output_rec['M_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.M_bar)
+    output_rec['delta_Q_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.delta_Q_bar)
+    output_rec['delta_Q_0_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.delta_Q_0_bar)
+    output_rec['E_s_sum'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.E_s_sum)
+    output_rec['melt_sum'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.melt_sum)
+    output_rec['ro_pred_sum'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.ro_pred_sum)
+
+    # end3 = clock()
+    # cpu_time_used3 = (<double> (end3 - start3)) / CLOCKS_PER_SEC
+    # print('time 3 {}'.format(cpu_time_used3))
 
     return rt
 
@@ -464,7 +616,6 @@ cdef class ArrayWrapper:
         """ Frees the array. This is called by Python when all the
         references to the object are gone. """
         free(<void*>self.data_ptr)
-
 
 def initialize(params, tstep_info, sn, mh):
     """
