@@ -27,7 +27,7 @@ Currently not using anything in the pysnobal_c/ directory
 
 Compiling
 --------
-python setup.py build_ext --inplace --force
+python setup.py build_ext --inplace 
 python setup.py install
 
 Running
