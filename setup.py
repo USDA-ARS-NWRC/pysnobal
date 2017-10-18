@@ -33,42 +33,43 @@ ext_modules = []
 # make sure we're using GCC
 os.environ["CC"] = "gcc"
 
-# if sys.platform == 'darwin':
-# from distutils import sysconfig
-# vars = sysconfig.get_config_vars()
-# vars['LDSHARED'] = vars['LDSHARED'].replace('-bundle', '-dynamiclib')
+if sys.platform == 'darwin':
+    from distutils import sysconfig
+    vars = sysconfig.get_config_vars()
+    vars['LDSHARED'] = vars['LDSHARED'].replace('-bundle', '-dynamiclib')
 
 #------------------------------------------------------------------------------
 # Compiling the C code for the Snobal libary
 loc = 'pysnobal/libsnobal'
+cwd = os.getcwd()
 # sources=[os.path.join(loc, val) for val in ["_adj_layers.c"]]
 sources = glob.glob(os.path.join(loc, '*.c'))
 # sources = ['_adj_layers.c']
 ext_modules += [
                 Extension(
-                    "libsnobal",
+                    "pysnobal.libsnobal",
                     sources,
-                    include_dirs=['./pysnobal',"./h"],
-                    runtime_library_dirs=['./pysnobal'],
-                    extra_compile_args=['-shared','-fopenmp', '-O3'],
-                    extra_link_args=['-shared','-fopenmp', '-O3'],
+                    include_dirs=['.',"pysnobal/h"],
+                    #runtime_library_dirs=['pysnobal'],
+                    extra_compile_args=['-fopenmp', '-O3'],
+                    extra_link_args=['-fopenmp', '-O3'],
                     )
                 ]
 
 
 #------------------------------------------------------------------------------
 # Create module to call the C libary
-loc = './pysnobal'
+loc = 'pysnobal'
 sources = [os.path.join(loc, val) for val in ["snobal.pyx"]]
 ext_modules += [
                 Extension(
-                    "snobal",
+                    "pysnobal.snobal",
                     sources,
                     libraries=["snobal"],
-                    include_dirs=['./pysnobal', numpy.get_include(), "./h"],
-                    runtime_library_dirs=['.'],
-                    extra_compile_args=['-shared','-fopenmp', '-O3', '-L./.'],
-                    extra_link_args=['-shared','-fopenmp', '-O3', '-L./.'],
+                    include_dirs=[numpy.get_include(),'pysnobal', 'pysnobal/h'],
+                    runtime_library_dirs=['{}'.format(os.path.join(cwd,'pysnobal'))],
+                    extra_compile_args=['-fopenmp', '-O3', '-L./pysnobal'],
+                    extra_link_args=['-fopenmp', '-O3', '-L./pysnobal'],
                     )
                 ]
 

@@ -9,7 +9,6 @@ interpretation
 20160118 Scott Havens
 """
 
-# from libsnobal import libsnobal
 import snobal
 import os
 import ConfigParser
@@ -872,6 +871,161 @@ def main(configFile):
 #     app = MyApplication()
 #     app.run()
 
+def open_init_files(options):
+    """
+    Open the netCDF files for initial conditions and inputs
+    - Reads in the initial_conditions file
+        Required variables are x,y,z,z_0
+        The others z_s, rho, T_s_0, T_s, h2o_sat, mask can be specified
+        but will be set to default of 0's or 1's for mask
+
+    - Open the files for the inputs and store the file identifier
+
+    """
+
+    #------------------------------------------------------------------------------
+    # get the initial conditions
+    i = nc.Dataset(options['initial_conditions']['file'])
+
+    # read the required variables in
+    init = {}
+    init['x'] = i.variables['x'][:]         # get the x coordinates
+    init['y'] = i.variables['y'][:]         # get the y coordinates
+    init['elevation'] = i.variables['z'][:]         # get the elevation
+    init['z_0'] = i.variables['z_0'][:]     # get the roughness length
+
+    # All other variables will be assumed zero if not present
+    all_zeros = np.zeros_like(init['elevation'])
+    flds = ['z_s', 'rho', 'T_s_0', 'T_s', 'h2o_sat', 'mask']
+
+    for f in flds:
+        if i.variables.has_key(f):
+            init[f] = i.variables[f][:]         # read in the variables
+        elif f == 'mask':
+            init[f] = np.ones_like(init['elevation'])   # if no mask set all to ones so all will be ran
+        else:
+            init[f] = all_zeros                 # default is set to zeros
+
+    i.close()
+
+    for key in init.keys():
+        init[key] = init[key].astype(np.float64)
+
+    # convert temperatures to K
+    init['T_s'] += FREEZE
+    init['T_s_0'] += FREEZE
+
+    return init
+
+def init_from_smrf(configFile):
+    """
+    mimic the main.c from the Snobal model
+
+    Args:
+        configFile: path to configuration file
+    """
+
+    # parse the input arguments
+    options, point_run = get_args(configFile)
+
+    # get the timestep info
+    params, tstep_info = get_tstep_info(options['constants'], options)
+
+    # open the files and read in data
+    init = open_init_files(options)
+
+    output_rec = initialize(params, tstep_info, init)
+
+    # create the output files
+    if not point_run:
+        output_files(options, init)
+
+    return options, params, tstep_info, init, output_rec
+
+def run_from_smrf(queue, date_time, out_func, out_frequency, thread_variables,
+                  configFile, options, params, tstep_info, init, output_rec):
+    """
+    mimic the main.c from the Snobal model
+
+    Args:
+        configFile: path to configuration file
+    """
+    force_variables = ['thermal', 'air_temp', 'vapor_pressure', 'wind_speed',
+                       'net_solar', 'soil_temp', 'precip_mass', 'percent_snow',
+                       'snow_density', 'precip_temp']
+
+    # loop through the input
+    # do_data_tstep needs two input records so only go
+    # to the last record-1
+
+    data_tstep = tstep_info[0]['time_step']
+    timeSinceOut = 0.0
+    start_step = 0 # if restart then it would be higher if this were iSnobal
+    step_time = start_step * data_tstep
+
+    output_rec['current_time'] = step_time * np.ones(output_rec['elevation'].shape)
+    output_rec['time_since_out'] = timeSinceOut * np.ones(output_rec['elevation'].shape)
+
+    # map function from these values to the ones requried by snobal
+    map_val = {'air_temp': 'T_a', 'net_solar': 'S_n', 'thermal': 'I_lw',
+               'vapor_pressure': 'e_a', 'wind_speed': 'u',
+               'soil_temp': 'T_g', 'precip_mass': 'm_pp',
+               'percent_snow': 'percent_snow', 'snow_density': 'rho_snow',
+               'precip_temp': 'T_pp'}
+
+    # get first timestep
+    input1 = {}
+    for v in force_variables:
+        if v in queue.keys():
+            data = queue[v].get(options['time']['date_time'][0])
+            if data is None:
+                data = np.zeros((self.ny, self.nx))
+                print('Error of no data from smrf to iSnobal')
+            else:
+
+                input1[map_val[v]] = data
+
+    #pbar = progressbar.ProgressBar(max_value=len(options['time']['date_time']))
+    j = 1
+    first_step = 1;
+    for tstep in options['time']['date_time'][1:]:
+    #for tstep in options['time']['date_time'][953:958]:
+    # get the output variables then pass to the function
+        input2 = {}
+        for v in force_variables:
+            if v in queue.keys():
+                data = queue[v].get(tstep)
+
+                if data is None:
+                    data = np.zeros((self.ny, self.nx))
+                    print('Error of no data from smrf to iSnobal')
+                else:
+
+                    input2[map_val[v]] = data
+
+        rt = snobal.do_tstep_grid(input1, input2, output_rec, tstep_info, options['constants'], params, first_step, nthreads=4)
+        #rt = snobal.do_tstep_grid(input1, input2, output_rec, tstep_info, options['constants'], params, first_step, nthreads=1)
+
+        if rt != -1:
+            print('ipysnobal error on time step %s, pixel %i' % (tstep, rt))
+            break
+
+        input1 = input2.copy()
+
+        # output at the frequency and the last time step
+        if (j % options['output']['frequency'] == 0) or (j == len(options['time']['date_time'])):
+            output_timestep(output_rec, tstep, options)
+            output_rec['time_since_out'] = np.zeros(output_rec['elevation'].shape)
+
+        j += 1
+        #pbar.update(j)
+
+        # put the value into the output queue so clean knows it's done
+        queue['output'].put([tstep, True])
+
+        #self._logger.debug('%s iSnobal run from queues' % tstep)
+
+    #pbar.finish()
 
 
 

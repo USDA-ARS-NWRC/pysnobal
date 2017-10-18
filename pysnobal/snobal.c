@@ -234,8 +234,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #endif
 #endif
 
-#define __PYX_HAVE__snobal
-#define __PYX_HAVE_API__snobal
+#define __PYX_HAVE__pysnobal__snobal
+#define __PYX_HAVE_API__pysnobal__snobal
 #include "string.h"
 #include "stdio.h"
 #include "stdlib.h"
@@ -727,7 +727,7 @@ typedef npy_longdouble __pyx_t_5numpy_longdouble_t;
 
 
 /*--- Type declarations ---*/
-struct __pyx_obj_6snobal_ArrayWrapper;
+struct __pyx_obj_8pysnobal_6snobal_ArrayWrapper;
 
 /* "../../smrfRun/local/lib/python2.7/site-packages/Cython/Includes/numpy/__init__.pxd":764
  * ctypedef npy_longdouble longdouble_t
@@ -765,26 +765,26 @@ typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
  */
 typedef npy_cdouble __pyx_t_5numpy_complex_t;
 
-/* "snobal.pyx":587
+/* "pysnobal/snobal.pyx":587
  * # the Python object is deleted.
  * # From https://gist.github.com/GaelVaroquaux/1249305
  * cdef class ArrayWrapper:             # <<<<<<<<<<<<<<
  *     cdef void* data_ptr
  *     cdef int size
  */
-struct __pyx_obj_6snobal_ArrayWrapper {
+struct __pyx_obj_8pysnobal_6snobal_ArrayWrapper {
   PyObject_HEAD
-  struct __pyx_vtabstruct_6snobal_ArrayWrapper *__pyx_vtab;
+  struct __pyx_vtabstruct_8pysnobal_6snobal_ArrayWrapper *__pyx_vtab;
   void *data_ptr;
   int size;
 };
 
 
 
-struct __pyx_vtabstruct_6snobal_ArrayWrapper {
-  PyObject *(*set_data)(struct __pyx_obj_6snobal_ArrayWrapper *, int, void *);
+struct __pyx_vtabstruct_8pysnobal_6snobal_ArrayWrapper {
+  PyObject *(*set_data)(struct __pyx_obj_8pysnobal_6snobal_ArrayWrapper *, int, void *);
 };
-static struct __pyx_vtabstruct_6snobal_ArrayWrapper *__pyx_vtabptr_6snobal_ArrayWrapper;
+static struct __pyx_vtabstruct_8pysnobal_6snobal_ArrayWrapper *__pyx_vtabptr_8pysnobal_6snobal_ArrayWrapper;
 
 /* --- Runtime support code (head) --- */
 #ifndef CYTHON_REFNANNY
@@ -1140,7 +1140,7 @@ static PyTypeObject *__Pyx_ImportType(const char *module_name, const char *class
 
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
-static PyObject *__pyx_f_6snobal_12ArrayWrapper_set_data(struct __pyx_obj_6snobal_ArrayWrapper *__pyx_v_self, int __pyx_v_size, void *__pyx_v_data_ptr); /* proto*/
+static PyObject *__pyx_f_8pysnobal_6snobal_12ArrayWrapper_set_data(struct __pyx_obj_8pysnobal_6snobal_ArrayWrapper *__pyx_v_self, int __pyx_v_size, void *__pyx_v_data_ptr); /* proto*/
 
 /* Module declarations from 'cython' */
 
@@ -1239,14 +1239,14 @@ static PyTypeObject *__pyx_ptype_5numpy_ndarray = 0;
 static PyTypeObject *__pyx_ptype_5numpy_ufunc = 0;
 static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *, char *, char *, int *); /*proto*/
 
-/* Module declarations from 'snobal' */
-static PyTypeObject *__pyx_ptype_6snobal_ArrayWrapper = 0;
+/* Module declarations from 'pysnobal.snobal' */
+static PyTypeObject *__pyx_ptype_8pysnobal_6snobal_ArrayWrapper = 0;
 static __Pyx_TypeInfo __Pyx_TypeInfo_double = { "double", NULL, sizeof(double), { 0 }, 0, 'R', 0, 0 };
 static __Pyx_TypeInfo __Pyx_TypeInfo_int = { "int", NULL, sizeof(int), { 0 }, 0, IS_UNSIGNED(int) ? 'U' : 'I', IS_UNSIGNED(int), 0 };
-#define __Pyx_MODULE_NAME "snobal"
-int __pyx_module_is_main_snobal = 0;
+#define __Pyx_MODULE_NAME "pysnobal.snobal"
+int __pyx_module_is_main_pysnobal__snobal = 0;
 
-/* Implementation of 'snobal' */
+/* Implementation of 'pysnobal.snobal' */
 static PyObject *__pyx_builtin_range;
 static PyObject *__pyx_builtin_ValueError;
 static PyObject *__pyx_builtin_RuntimeError;
@@ -1326,7 +1326,6 @@ static char __pyx_k_masked[] = "masked";
 static char __pyx_k_output[] = "output";
 static char __pyx_k_params[] = "params";
 static char __pyx_k_shp_np[] = "shp_np";
-static char __pyx_k_snobal[] = "snobal";
 static char __pyx_k_start1[] = "start1";
 static char __pyx_k_start2[] = "start2";
 static char __pyx_k_start3[] = "start3";
@@ -1414,6 +1413,7 @@ static char __pyx_k_output1_R_n_bar[] = "output1_R_n_bar";
 static char __pyx_k_output1_h2o_max[] = "output1_h2o_max";
 static char __pyx_k_output1_h2o_sat[] = "output1_h2o_sat";
 static char __pyx_k_output1_h2o_vol[] = "output1_h2o_vol";
+static char __pyx_k_pysnobal_snobal[] = "pysnobal.snobal";
 static char __pyx_k_output1_melt_sum[] = "output1_melt_sum";
 static char __pyx_k_relative_heights[] = "relative_heights";
 static char __pyx_k_ascontiguousarray[] = "ascontiguousarray";
@@ -1571,6 +1571,7 @@ static PyObject *__pyx_n_s_output1_z_s_l;
 static PyObject *__pyx_n_s_output_rec;
 static PyObject *__pyx_n_s_params;
 static PyObject *__pyx_n_s_percent_snow;
+static PyObject *__pyx_n_s_pysnobal_snobal;
 static PyObject *__pyx_n_s_pyx_vtable;
 static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_relative_heights;
@@ -1583,7 +1584,6 @@ static PyObject *__pyx_n_s_shp;
 static PyObject *__pyx_n_s_shp_np;
 static PyObject *__pyx_n_s_size;
 static PyObject *__pyx_n_s_sn;
-static PyObject *__pyx_n_s_snobal;
 static PyObject *__pyx_n_s_start1;
 static PyObject *__pyx_n_s_start2;
 static PyObject *__pyx_n_s_start3;
@@ -1603,15 +1603,15 @@ static PyObject *__pyx_n_s_z_s_0;
 static PyObject *__pyx_n_s_z_s_l;
 static PyObject *__pyx_n_s_z_t;
 static PyObject *__pyx_n_s_z_u;
-static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_input1, PyObject *__pyx_v_input2, PyObject *__pyx_v_output_rec, PyObject *__pyx_v_tstep_rec, PyObject *__pyx_v_mh, PyObject *__pyx_v_params, int __pyx_v_first_step, int __pyx_v_nthreads); /* proto */
-static PyObject *__pyx_pf_6snobal_12ArrayWrapper___array__(struct __pyx_obj_6snobal_ArrayWrapper *__pyx_v_self); /* proto */
-static void __pyx_pf_6snobal_12ArrayWrapper_2__dealloc__(struct __pyx_obj_6snobal_ArrayWrapper *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6snobal_2initialize(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_params, CYTHON_UNUSED PyObject *__pyx_v_tstep_info, CYTHON_UNUSED PyObject *__pyx_v_sn, CYTHON_UNUSED PyObject *__pyx_v_mh); /* proto */
-static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_input1, PyObject *__pyx_v_input2, PyObject *__pyx_v_output_rec, PyObject *__pyx_v_tstep_rec, PyObject *__pyx_v_mh, PyObject *__pyx_v_params, PyObject *__pyx_v_first_step); /* proto */
-static PyObject *__pyx_pf_6snobal_6call_grid(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
+static PyObject *__pyx_pf_8pysnobal_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_input1, PyObject *__pyx_v_input2, PyObject *__pyx_v_output_rec, PyObject *__pyx_v_tstep_rec, PyObject *__pyx_v_mh, PyObject *__pyx_v_params, int __pyx_v_first_step, int __pyx_v_nthreads); /* proto */
+static PyObject *__pyx_pf_8pysnobal_6snobal_12ArrayWrapper___array__(struct __pyx_obj_8pysnobal_6snobal_ArrayWrapper *__pyx_v_self); /* proto */
+static void __pyx_pf_8pysnobal_6snobal_12ArrayWrapper_2__dealloc__(struct __pyx_obj_8pysnobal_6snobal_ArrayWrapper *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_8pysnobal_6snobal_2initialize(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_params, CYTHON_UNUSED PyObject *__pyx_v_tstep_info, CYTHON_UNUSED PyObject *__pyx_v_sn, CYTHON_UNUSED PyObject *__pyx_v_mh); /* proto */
+static PyObject *__pyx_pf_8pysnobal_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_input1, PyObject *__pyx_v_input2, PyObject *__pyx_v_output_rec, PyObject *__pyx_v_tstep_rec, PyObject *__pyx_v_mh, PyObject *__pyx_v_params, PyObject *__pyx_v_first_step); /* proto */
+static PyObject *__pyx_pf_8pysnobal_6snobal_6call_grid(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
 static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
-static PyObject *__pyx_tp_new_6snobal_ArrayWrapper(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_8pysnobal_6snobal_ArrayWrapper(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_float_1000_0;
 static PyObject *__pyx_slice_;
 static PyObject *__pyx_slice__2;
@@ -1661,7 +1661,7 @@ static PyObject *__pyx_codeobj__44;
 static PyObject *__pyx_codeobj__46;
 static PyObject *__pyx_codeobj__47;
 
-/* "snobal.pyx":237
+/* "pysnobal/snobal.pyx":237
  * @cython.wraparound(False)
  * # https://github.com/cython/cython/wiki/tutorials-NumpyPointerToC
  * def do_tstep_grid(input1, input2, output_rec, tstep_rec, mh, params, int first_step=1, int nthreads=1):             # <<<<<<<<<<<<<<
@@ -1670,10 +1670,10 @@ static PyObject *__pyx_codeobj__47;
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6snobal_1do_tstep_grid(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6snobal_do_tstep_grid[] = "\n    Do the timestep given the inputs, model state, and measurement heights\n    There is no first_step value since the snow state records were already\n    pulled in an initialized. Therefore only the values need to be pulled\n    out before calling 'init_snow()'\n    ";
-static PyMethodDef __pyx_mdef_6snobal_1do_tstep_grid = {"do_tstep_grid", (PyCFunction)__pyx_pw_6snobal_1do_tstep_grid, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6snobal_do_tstep_grid};
-static PyObject *__pyx_pw_6snobal_1do_tstep_grid(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8pysnobal_6snobal_1do_tstep_grid(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_8pysnobal_6snobal_do_tstep_grid[] = "\n    Do the timestep given the inputs, model state, and measurement heights\n    There is no first_step value since the snow state records were already\n    pulled in an initialized. Therefore only the values need to be pulled\n    out before calling 'init_snow()'\n    ";
+static PyMethodDef __pyx_mdef_8pysnobal_6snobal_1do_tstep_grid = {"do_tstep_grid", (PyCFunction)__pyx_pw_8pysnobal_6snobal_1do_tstep_grid, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8pysnobal_6snobal_do_tstep_grid};
+static PyObject *__pyx_pw_8pysnobal_6snobal_1do_tstep_grid(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_input1 = 0;
   PyObject *__pyx_v_input2 = 0;
   PyObject *__pyx_v_output_rec = 0;
@@ -1785,18 +1785,18 @@ static PyObject *__pyx_pw_6snobal_1do_tstep_grid(PyObject *__pyx_self, PyObject 
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("do_tstep_grid", 0, 6, 8, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 237; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("snobal.do_tstep_grid", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.snobal.do_tstep_grid", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6snobal_do_tstep_grid(__pyx_self, __pyx_v_input1, __pyx_v_input2, __pyx_v_output_rec, __pyx_v_tstep_rec, __pyx_v_mh, __pyx_v_params, __pyx_v_first_step, __pyx_v_nthreads);
+  __pyx_r = __pyx_pf_8pysnobal_6snobal_do_tstep_grid(__pyx_self, __pyx_v_input1, __pyx_v_input2, __pyx_v_output_rec, __pyx_v_tstep_rec, __pyx_v_mh, __pyx_v_params, __pyx_v_first_step, __pyx_v_nthreads);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_input1, PyObject *__pyx_v_input2, PyObject *__pyx_v_output_rec, PyObject *__pyx_v_tstep_rec, PyObject *__pyx_v_mh, PyObject *__pyx_v_params, int __pyx_v_first_step, int __pyx_v_nthreads) {
+static PyObject *__pyx_pf_8pysnobal_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_input1, PyObject *__pyx_v_input2, PyObject *__pyx_v_output_rec, PyObject *__pyx_v_tstep_rec, PyObject *__pyx_v_mh, PyObject *__pyx_v_params, int __pyx_v_first_step, int __pyx_v_nthreads) {
   int __pyx_v_N;
   PyObject *__pyx_v_shp = NULL;
   PARAMS __pyx_v_c_params;
@@ -2340,7 +2340,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_pybuffernd_input2_T_g.data = NULL;
   __pyx_pybuffernd_input2_T_g.rcbuffer = &__pyx_pybuffer_input2_T_g;
 
-  /* "snobal.pyx":245
+  /* "pysnobal/snobal.pyx":245
  *     """
  *     #cdef int N = len(output_rec['elevation'])
  *     cdef int N = (output_rec['elevation']).size             # <<<<<<<<<<<<<<
@@ -2356,7 +2356,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_N = __pyx_t_3;
 
-  /* "snobal.pyx":247
+  /* "pysnobal/snobal.pyx":247
  *     cdef int N = (output_rec['elevation']).size
  *     cdef int n
  *     shp = output_rec['elevation'].shape             # <<<<<<<<<<<<<<
@@ -2371,7 +2371,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_shp = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "snobal.pyx":254
+  /* "pysnobal/snobal.pyx":254
  *     # measurement heights and parameters
  *     cdef PARAMS c_params
  *     c_params.z_u = mh['z_u']             # <<<<<<<<<<<<<<
@@ -2384,7 +2384,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_c_params.z_u = __pyx_t_4;
 
-  /* "snobal.pyx":255
+  /* "pysnobal/snobal.pyx":255
  *     cdef PARAMS c_params
  *     c_params.z_u = mh['z_u']
  *     c_params.z_T = mh['z_t']             # <<<<<<<<<<<<<<
@@ -2397,7 +2397,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_c_params.z_T = __pyx_t_4;
 
-  /* "snobal.pyx":256
+  /* "pysnobal/snobal.pyx":256
  *     c_params.z_u = mh['z_u']
  *     c_params.z_T = mh['z_t']
  *     c_params.z_g = mh['z_g']             # <<<<<<<<<<<<<<
@@ -2410,7 +2410,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_c_params.z_g = __pyx_t_4;
 
-  /* "snobal.pyx":257
+  /* "pysnobal/snobal.pyx":257
  *     c_params.z_T = mh['z_t']
  *     c_params.z_g = mh['z_g']
  *     c_params.relative_heights = int(params['relative_heights'])             # <<<<<<<<<<<<<<
@@ -2426,7 +2426,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_c_params.relative_heights = __pyx_t_3;
 
-  /* "snobal.pyx":258
+  /* "pysnobal/snobal.pyx":258
  *     c_params.z_g = mh['z_g']
  *     c_params.relative_heights = int(params['relative_heights'])
  *     c_params.max_h2o_vol = params['max_h2o_vol']             # <<<<<<<<<<<<<<
@@ -2439,7 +2439,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_c_params.max_h2o_vol = __pyx_t_4;
 
-  /* "snobal.pyx":259
+  /* "pysnobal/snobal.pyx":259
  *     c_params.relative_heights = int(params['relative_heights'])
  *     c_params.max_h2o_vol = params['max_h2o_vol']
  *     c_params.max_z_s_0 = params['max_z_s_0']             # <<<<<<<<<<<<<<
@@ -2452,7 +2452,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_c_params.max_z_s_0 = __pyx_t_4;
 
-  /* "snobal.pyx":269
+  /* "pysnobal/snobal.pyx":269
  * #         tstep_info[n].level = n
  * 
  *     for i in range(len(tstep_rec)):             # <<<<<<<<<<<<<<
@@ -2463,7 +2463,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_5; __pyx_t_6+=1) {
     __pyx_v_i = __pyx_t_6;
 
-    /* "snobal.pyx":270
+    /* "pysnobal/snobal.pyx":270
  * 
  *     for i in range(len(tstep_rec)):
  *         tstep_info[i].level = int(tstep_rec[i]['level'])             # <<<<<<<<<<<<<<
@@ -2482,7 +2482,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     (tstep_info[__pyx_v_i]).level = __pyx_t_3;
 
-    /* "snobal.pyx":271
+    /* "pysnobal/snobal.pyx":271
  *     for i in range(len(tstep_rec)):
  *         tstep_info[i].level = int(tstep_rec[i]['level'])
  *         if tstep_rec[i]['time_step'] is not None:             # <<<<<<<<<<<<<<
@@ -2499,7 +2499,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
     __pyx_t_8 = (__pyx_t_7 != 0);
     if (__pyx_t_8) {
 
-      /* "snobal.pyx":272
+      /* "pysnobal/snobal.pyx":272
  *         tstep_info[i].level = int(tstep_rec[i]['level'])
  *         if tstep_rec[i]['time_step'] is not None:
  *             tstep_info[i].time_step = tstep_rec[i]['time_step']             # <<<<<<<<<<<<<<
@@ -2515,7 +2515,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       (tstep_info[__pyx_v_i]).time_step = __pyx_t_4;
 
-      /* "snobal.pyx":271
+      /* "pysnobal/snobal.pyx":271
  *     for i in range(len(tstep_rec)):
  *         tstep_info[i].level = int(tstep_rec[i]['level'])
  *         if tstep_rec[i]['time_step'] is not None:             # <<<<<<<<<<<<<<
@@ -2524,7 +2524,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
  */
     }
 
-    /* "snobal.pyx":273
+    /* "pysnobal/snobal.pyx":273
  *         if tstep_rec[i]['time_step'] is not None:
  *             tstep_info[i].time_step = tstep_rec[i]['time_step']
  *         if tstep_rec[i]['intervals'] is not None:             # <<<<<<<<<<<<<<
@@ -2541,7 +2541,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
     __pyx_t_7 = (__pyx_t_8 != 0);
     if (__pyx_t_7) {
 
-      /* "snobal.pyx":274
+      /* "pysnobal/snobal.pyx":274
  *             tstep_info[i].time_step = tstep_rec[i]['time_step']
  *         if tstep_rec[i]['intervals'] is not None:
  *             tstep_info[i].intervals = int(tstep_rec[i]['intervals'])             # <<<<<<<<<<<<<<
@@ -2560,7 +2560,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       (tstep_info[__pyx_v_i]).intervals = __pyx_t_3;
 
-      /* "snobal.pyx":273
+      /* "pysnobal/snobal.pyx":273
  *         if tstep_rec[i]['time_step'] is not None:
  *             tstep_info[i].time_step = tstep_rec[i]['time_step']
  *         if tstep_rec[i]['intervals'] is not None:             # <<<<<<<<<<<<<<
@@ -2569,7 +2569,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
  */
     }
 
-    /* "snobal.pyx":275
+    /* "pysnobal/snobal.pyx":275
  *         if tstep_rec[i]['intervals'] is not None:
  *             tstep_info[i].intervals = int(tstep_rec[i]['intervals'])
  *         if tstep_rec[i]['threshold'] is not None:             # <<<<<<<<<<<<<<
@@ -2586,7 +2586,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
     __pyx_t_8 = (__pyx_t_7 != 0);
     if (__pyx_t_8) {
 
-      /* "snobal.pyx":276
+      /* "pysnobal/snobal.pyx":276
  *             tstep_info[i].intervals = int(tstep_rec[i]['intervals'])
  *         if tstep_rec[i]['threshold'] is not None:
  *             tstep_info[i].threshold = tstep_rec[i]['threshold']             # <<<<<<<<<<<<<<
@@ -2602,7 +2602,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       (tstep_info[__pyx_v_i]).threshold = __pyx_t_4;
 
-      /* "snobal.pyx":275
+      /* "pysnobal/snobal.pyx":275
  *         if tstep_rec[i]['intervals'] is not None:
  *             tstep_info[i].intervals = int(tstep_rec[i]['intervals'])
  *         if tstep_rec[i]['threshold'] is not None:             # <<<<<<<<<<<<<<
@@ -2611,7 +2611,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
  */
     }
 
-    /* "snobal.pyx":277
+    /* "pysnobal/snobal.pyx":277
  *         if tstep_rec[i]['threshold'] is not None:
  *             tstep_info[i].threshold = tstep_rec[i]['threshold']
  *         tstep_info[i].output = int(tstep_rec[i]['output'])             # <<<<<<<<<<<<<<
@@ -2631,7 +2631,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
     (tstep_info[__pyx_v_i]).output = __pyx_t_3;
   }
 
-  /* "snobal.pyx":283
+  /* "pysnobal/snobal.pyx":283
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_z_0
  *     output1_z_0 = np.ascontiguousarray(output_rec['z_0'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -2686,7 +2686,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_z_0 = ((PyArrayObject *)__pyx_t_11);
   __pyx_t_11 = 0;
 
-  /* "snobal.pyx":284
+  /* "pysnobal/snobal.pyx":284
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_z_0
  *     output1_z_0 = np.ascontiguousarray(output_rec['z_0'], dtype=np.float64)
  *     output1_c.z_0 = &output1_z_0[0,0]             # <<<<<<<<<<<<<<
@@ -2697,7 +2697,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_17 = 0;
   __pyx_v_output1_c.z_0 = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_z_0.rcbuffer->pybuffer.buf, __pyx_t_16, __pyx_pybuffernd_output1_z_0.diminfo[0].strides, __pyx_t_17, __pyx_pybuffernd_output1_z_0.diminfo[1].strides)));
 
-  /* "snobal.pyx":287
+  /* "pysnobal/snobal.pyx":287
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_z_s_0
  *     output1_z_s_0 = np.ascontiguousarray(output_rec['z_s_0'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -2752,7 +2752,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_z_s_0 = ((PyArrayObject *)__pyx_t_10);
   __pyx_t_10 = 0;
 
-  /* "snobal.pyx":288
+  /* "pysnobal/snobal.pyx":288
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_z_s_0
  *     output1_z_s_0 = np.ascontiguousarray(output_rec['z_s_0'], dtype=np.float64)
  *     output1_c.z_s_0 = &output1_z_s_0[0,0]             # <<<<<<<<<<<<<<
@@ -2763,7 +2763,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_20 = 0;
   __pyx_v_output1_c.z_s_0 = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_z_s_0.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_output1_z_s_0.diminfo[0].strides, __pyx_t_20, __pyx_pybuffernd_output1_z_s_0.diminfo[1].strides)));
 
-  /* "snobal.pyx":291
+  /* "pysnobal/snobal.pyx":291
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_current_time
  *     output1_current_time = np.ascontiguousarray(output_rec['current_time'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -2818,7 +2818,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_current_time = ((PyArrayObject *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "snobal.pyx":292
+  /* "pysnobal/snobal.pyx":292
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_current_time
  *     output1_current_time = np.ascontiguousarray(output_rec['current_time'], dtype=np.float64)
  *     output1_c.current_time = &output1_current_time[0,0]             # <<<<<<<<<<<<<<
@@ -2829,7 +2829,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_23 = 0;
   __pyx_v_output1_c.current_time = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_current_time.rcbuffer->pybuffer.buf, __pyx_t_22, __pyx_pybuffernd_output1_current_time.diminfo[0].strides, __pyx_t_23, __pyx_pybuffernd_output1_current_time.diminfo[1].strides)));
 
-  /* "snobal.pyx":295
+  /* "pysnobal/snobal.pyx":295
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_time_since_out
  *     output1_time_since_out = np.ascontiguousarray(output_rec['time_since_out'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -2884,7 +2884,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_time_since_out = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "snobal.pyx":296
+  /* "pysnobal/snobal.pyx":296
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_time_since_out
  *     output1_time_since_out = np.ascontiguousarray(output_rec['time_since_out'], dtype=np.float64)
  *     output1_c.time_since_out = &output1_time_since_out[0,0]             # <<<<<<<<<<<<<<
@@ -2895,7 +2895,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_26 = 0;
   __pyx_v_output1_c.time_since_out = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_time_since_out.rcbuffer->pybuffer.buf, __pyx_t_25, __pyx_pybuffernd_output1_time_since_out.diminfo[0].strides, __pyx_t_26, __pyx_pybuffernd_output1_time_since_out.diminfo[1].strides)));
 
-  /* "snobal.pyx":299
+  /* "pysnobal/snobal.pyx":299
  * 
  *     cdef np.ndarray[int, mode="c", ndim=2] output1_masked
  *     output1_masked = np.ascontiguousarray(output_rec['mask'], dtype=np.int32)             # <<<<<<<<<<<<<<
@@ -2950,7 +2950,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_masked = ((PyArrayObject *)__pyx_t_11);
   __pyx_t_11 = 0;
 
-  /* "snobal.pyx":300
+  /* "pysnobal/snobal.pyx":300
  *     cdef np.ndarray[int, mode="c", ndim=2] output1_masked
  *     output1_masked = np.ascontiguousarray(output_rec['mask'], dtype=np.int32)
  *     output1_c.masked = &output1_masked[0,0]             # <<<<<<<<<<<<<<
@@ -2961,7 +2961,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_29 = 0;
   __pyx_v_output1_c.masked = (&(*__Pyx_BufPtrCContig2d(int *, __pyx_pybuffernd_output1_masked.rcbuffer->pybuffer.buf, __pyx_t_28, __pyx_pybuffernd_output1_masked.diminfo[0].strides, __pyx_t_29, __pyx_pybuffernd_output1_masked.diminfo[1].strides)));
 
-  /* "snobal.pyx":303
+  /* "pysnobal/snobal.pyx":303
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_elevation
  *     output1_elevation = np.ascontiguousarray(output_rec['elevation'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -3016,7 +3016,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_elevation = ((PyArrayObject *)__pyx_t_10);
   __pyx_t_10 = 0;
 
-  /* "snobal.pyx":304
+  /* "pysnobal/snobal.pyx":304
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_elevation
  *     output1_elevation = np.ascontiguousarray(output_rec['elevation'], dtype=np.float64)
  *     output1_c.elevation = &output1_elevation[0,0]             # <<<<<<<<<<<<<<
@@ -3027,7 +3027,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_32 = 0;
   __pyx_v_output1_c.elevation = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_elevation.rcbuffer->pybuffer.buf, __pyx_t_31, __pyx_pybuffernd_output1_elevation.diminfo[0].strides, __pyx_t_32, __pyx_pybuffernd_output1_elevation.diminfo[1].strides)));
 
-  /* "snobal.pyx":307
+  /* "pysnobal/snobal.pyx":307
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_z_s_l
  *     output1_z_s_l = np.ascontiguousarray(output_rec['z_s_l'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -3082,7 +3082,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_z_s_l = ((PyArrayObject *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "snobal.pyx":308
+  /* "pysnobal/snobal.pyx":308
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_z_s_l
  *     output1_z_s_l = np.ascontiguousarray(output_rec['z_s_l'], dtype=np.float64)
  *     output1_c.z_s_l = &output1_z_s_l[0,0]             # <<<<<<<<<<<<<<
@@ -3093,7 +3093,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_35 = 0;
   __pyx_v_output1_c.z_s_l = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_z_s_l.rcbuffer->pybuffer.buf, __pyx_t_34, __pyx_pybuffernd_output1_z_s_l.diminfo[0].strides, __pyx_t_35, __pyx_pybuffernd_output1_z_s_l.diminfo[1].strides)));
 
-  /* "snobal.pyx":311
+  /* "pysnobal/snobal.pyx":311
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_z_s
  *     output1_z_s = np.ascontiguousarray(output_rec['z_s'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -3148,7 +3148,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_z_s = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "snobal.pyx":312
+  /* "pysnobal/snobal.pyx":312
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_z_s
  *     output1_z_s = np.ascontiguousarray(output_rec['z_s'], dtype=np.float64)
  *     output1_c.z_s = &output1_z_s[0,0]             # <<<<<<<<<<<<<<
@@ -3159,7 +3159,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_38 = 0;
   __pyx_v_output1_c.z_s = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_z_s.rcbuffer->pybuffer.buf, __pyx_t_37, __pyx_pybuffernd_output1_z_s.diminfo[0].strides, __pyx_t_38, __pyx_pybuffernd_output1_z_s.diminfo[1].strides)));
 
-  /* "snobal.pyx":315
+  /* "pysnobal/snobal.pyx":315
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_rho
  *     output1_rho = np.ascontiguousarray(output_rec['rho'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -3214,7 +3214,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_rho = ((PyArrayObject *)__pyx_t_11);
   __pyx_t_11 = 0;
 
-  /* "snobal.pyx":316
+  /* "pysnobal/snobal.pyx":316
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_rho
  *     output1_rho = np.ascontiguousarray(output_rec['rho'], dtype=np.float64)
  *     output1_c.rho = &output1_rho[0,0]             # <<<<<<<<<<<<<<
@@ -3225,7 +3225,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_41 = 0;
   __pyx_v_output1_c.rho = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_rho.rcbuffer->pybuffer.buf, __pyx_t_40, __pyx_pybuffernd_output1_rho.diminfo[0].strides, __pyx_t_41, __pyx_pybuffernd_output1_rho.diminfo[1].strides)));
 
-  /* "snobal.pyx":319
+  /* "pysnobal/snobal.pyx":319
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_T_s_0
  *     output1_T_s_0 = np.ascontiguousarray(output_rec['T_s_0'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -3280,7 +3280,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_T_s_0 = ((PyArrayObject *)__pyx_t_10);
   __pyx_t_10 = 0;
 
-  /* "snobal.pyx":320
+  /* "pysnobal/snobal.pyx":320
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_T_s_0
  *     output1_T_s_0 = np.ascontiguousarray(output_rec['T_s_0'], dtype=np.float64)
  *     output1_c.T_s_0 = &output1_T_s_0[0,0]             # <<<<<<<<<<<<<<
@@ -3291,7 +3291,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_44 = 0;
   __pyx_v_output1_c.T_s_0 = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_T_s_0.rcbuffer->pybuffer.buf, __pyx_t_43, __pyx_pybuffernd_output1_T_s_0.diminfo[0].strides, __pyx_t_44, __pyx_pybuffernd_output1_T_s_0.diminfo[1].strides)));
 
-  /* "snobal.pyx":323
+  /* "pysnobal/snobal.pyx":323
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_T_s_l
  *     output1_T_s_l = np.ascontiguousarray(output_rec['T_s_l'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -3346,7 +3346,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_T_s_l = ((PyArrayObject *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "snobal.pyx":324
+  /* "pysnobal/snobal.pyx":324
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_T_s_l
  *     output1_T_s_l = np.ascontiguousarray(output_rec['T_s_l'], dtype=np.float64)
  *     output1_c.T_s_l = &output1_T_s_l[0,0]             # <<<<<<<<<<<<<<
@@ -3357,7 +3357,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_47 = 0;
   __pyx_v_output1_c.T_s_l = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_T_s_l.rcbuffer->pybuffer.buf, __pyx_t_46, __pyx_pybuffernd_output1_T_s_l.diminfo[0].strides, __pyx_t_47, __pyx_pybuffernd_output1_T_s_l.diminfo[1].strides)));
 
-  /* "snobal.pyx":327
+  /* "pysnobal/snobal.pyx":327
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_T_s
  *     output1_T_s = np.ascontiguousarray(output_rec['T_s'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -3412,7 +3412,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_T_s = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "snobal.pyx":328
+  /* "pysnobal/snobal.pyx":328
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_T_s
  *     output1_T_s = np.ascontiguousarray(output_rec['T_s'], dtype=np.float64)
  *     output1_c.T_s = &output1_T_s[0,0]             # <<<<<<<<<<<<<<
@@ -3423,7 +3423,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_50 = 0;
   __pyx_v_output1_c.T_s = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_T_s.rcbuffer->pybuffer.buf, __pyx_t_49, __pyx_pybuffernd_output1_T_s.diminfo[0].strides, __pyx_t_50, __pyx_pybuffernd_output1_T_s.diminfo[1].strides)));
 
-  /* "snobal.pyx":331
+  /* "pysnobal/snobal.pyx":331
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_cc_s_0
  *     output1_cc_s_0 = np.ascontiguousarray(output_rec['cc_s_0'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -3478,7 +3478,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_cc_s_0 = ((PyArrayObject *)__pyx_t_11);
   __pyx_t_11 = 0;
 
-  /* "snobal.pyx":332
+  /* "pysnobal/snobal.pyx":332
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_cc_s_0
  *     output1_cc_s_0 = np.ascontiguousarray(output_rec['cc_s_0'], dtype=np.float64)
  *     output1_c.cc_s_0 = &output1_cc_s_0[0,0]             # <<<<<<<<<<<<<<
@@ -3489,7 +3489,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_53 = 0;
   __pyx_v_output1_c.cc_s_0 = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_cc_s_0.rcbuffer->pybuffer.buf, __pyx_t_52, __pyx_pybuffernd_output1_cc_s_0.diminfo[0].strides, __pyx_t_53, __pyx_pybuffernd_output1_cc_s_0.diminfo[1].strides)));
 
-  /* "snobal.pyx":335
+  /* "pysnobal/snobal.pyx":335
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_cc_s_l
  *     output1_cc_s_l = np.ascontiguousarray(output_rec['cc_s_l'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -3544,7 +3544,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_cc_s_l = ((PyArrayObject *)__pyx_t_10);
   __pyx_t_10 = 0;
 
-  /* "snobal.pyx":336
+  /* "pysnobal/snobal.pyx":336
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_cc_s_l
  *     output1_cc_s_l = np.ascontiguousarray(output_rec['cc_s_l'], dtype=np.float64)
  *     output1_c.cc_s_l = &output1_cc_s_l[0,0]             # <<<<<<<<<<<<<<
@@ -3555,7 +3555,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_56 = 0;
   __pyx_v_output1_c.cc_s_l = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_cc_s_l.rcbuffer->pybuffer.buf, __pyx_t_55, __pyx_pybuffernd_output1_cc_s_l.diminfo[0].strides, __pyx_t_56, __pyx_pybuffernd_output1_cc_s_l.diminfo[1].strides)));
 
-  /* "snobal.pyx":339
+  /* "pysnobal/snobal.pyx":339
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_cc_s
  *     output1_cc_s = np.ascontiguousarray(output_rec['cc_s'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -3610,7 +3610,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_cc_s = ((PyArrayObject *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "snobal.pyx":340
+  /* "pysnobal/snobal.pyx":340
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_cc_s
  *     output1_cc_s = np.ascontiguousarray(output_rec['cc_s'], dtype=np.float64)
  *     output1_c.cc_s = &output1_cc_s[0,0]             # <<<<<<<<<<<<<<
@@ -3621,7 +3621,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_59 = 0;
   __pyx_v_output1_c.cc_s = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_cc_s.rcbuffer->pybuffer.buf, __pyx_t_58, __pyx_pybuffernd_output1_cc_s.diminfo[0].strides, __pyx_t_59, __pyx_pybuffernd_output1_cc_s.diminfo[1].strides)));
 
-  /* "snobal.pyx":343
+  /* "pysnobal/snobal.pyx":343
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_m_s_0
  *     output1_m_s_0 = np.ascontiguousarray(output_rec['m_s_0'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -3676,7 +3676,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_m_s_0 = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "snobal.pyx":344
+  /* "pysnobal/snobal.pyx":344
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_m_s_0
  *     output1_m_s_0 = np.ascontiguousarray(output_rec['m_s_0'], dtype=np.float64)
  *     output1_c.m_s_0 = &output1_m_s_0[0,0]             # <<<<<<<<<<<<<<
@@ -3687,7 +3687,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_62 = 0;
   __pyx_v_output1_c.m_s_0 = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_m_s_0.rcbuffer->pybuffer.buf, __pyx_t_61, __pyx_pybuffernd_output1_m_s_0.diminfo[0].strides, __pyx_t_62, __pyx_pybuffernd_output1_m_s_0.diminfo[1].strides)));
 
-  /* "snobal.pyx":347
+  /* "pysnobal/snobal.pyx":347
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_m_s_l
  *     output1_m_s_l = np.ascontiguousarray(output_rec['m_s_l'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -3742,7 +3742,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_m_s_l = ((PyArrayObject *)__pyx_t_11);
   __pyx_t_11 = 0;
 
-  /* "snobal.pyx":348
+  /* "pysnobal/snobal.pyx":348
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_m_s_l
  *     output1_m_s_l = np.ascontiguousarray(output_rec['m_s_l'], dtype=np.float64)
  *     output1_c.m_s_l = &output1_m_s_l[0,0]             # <<<<<<<<<<<<<<
@@ -3753,7 +3753,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_65 = 0;
   __pyx_v_output1_c.m_s_l = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_m_s_l.rcbuffer->pybuffer.buf, __pyx_t_64, __pyx_pybuffernd_output1_m_s_l.diminfo[0].strides, __pyx_t_65, __pyx_pybuffernd_output1_m_s_l.diminfo[1].strides)));
 
-  /* "snobal.pyx":351
+  /* "pysnobal/snobal.pyx":351
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_m_s
  *     output1_m_s = np.ascontiguousarray(output_rec['m_s'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -3808,7 +3808,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_m_s = ((PyArrayObject *)__pyx_t_10);
   __pyx_t_10 = 0;
 
-  /* "snobal.pyx":352
+  /* "pysnobal/snobal.pyx":352
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_m_s
  *     output1_m_s = np.ascontiguousarray(output_rec['m_s'], dtype=np.float64)
  *     output1_c.m_s = &output1_m_s[0,0]             # <<<<<<<<<<<<<<
@@ -3819,7 +3819,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_68 = 0;
   __pyx_v_output1_c.m_s = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_m_s.rcbuffer->pybuffer.buf, __pyx_t_67, __pyx_pybuffernd_output1_m_s.diminfo[0].strides, __pyx_t_68, __pyx_pybuffernd_output1_m_s.diminfo[1].strides)));
 
-  /* "snobal.pyx":355
+  /* "pysnobal/snobal.pyx":355
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_h2o_sat
  *     output1_h2o_sat = np.ascontiguousarray(output_rec['h2o_sat'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -3874,7 +3874,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_h2o_sat = ((PyArrayObject *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "snobal.pyx":356
+  /* "pysnobal/snobal.pyx":356
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_h2o_sat
  *     output1_h2o_sat = np.ascontiguousarray(output_rec['h2o_sat'], dtype=np.float64)
  *     output1_c.h2o_sat = &output1_h2o_sat[0,0]             # <<<<<<<<<<<<<<
@@ -3885,7 +3885,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_71 = 0;
   __pyx_v_output1_c.h2o_sat = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_h2o_sat.rcbuffer->pybuffer.buf, __pyx_t_70, __pyx_pybuffernd_output1_h2o_sat.diminfo[0].strides, __pyx_t_71, __pyx_pybuffernd_output1_h2o_sat.diminfo[1].strides)));
 
-  /* "snobal.pyx":359
+  /* "pysnobal/snobal.pyx":359
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_h2o_max
  *     output1_h2o_max = np.ascontiguousarray(output_rec['h2o_max'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -3940,7 +3940,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_h2o_max = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "snobal.pyx":360
+  /* "pysnobal/snobal.pyx":360
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_h2o_max
  *     output1_h2o_max = np.ascontiguousarray(output_rec['h2o_max'], dtype=np.float64)
  *     output1_c.h2o_max = &output1_h2o_max[0,0]             # <<<<<<<<<<<<<<
@@ -3951,7 +3951,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_74 = 0;
   __pyx_v_output1_c.h2o_max = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_h2o_max.rcbuffer->pybuffer.buf, __pyx_t_73, __pyx_pybuffernd_output1_h2o_max.diminfo[0].strides, __pyx_t_74, __pyx_pybuffernd_output1_h2o_max.diminfo[1].strides)));
 
-  /* "snobal.pyx":363
+  /* "pysnobal/snobal.pyx":363
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_h2o
  *     output1_h2o = np.ascontiguousarray(output_rec['h2o'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -4006,7 +4006,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_h2o = ((PyArrayObject *)__pyx_t_11);
   __pyx_t_11 = 0;
 
-  /* "snobal.pyx":364
+  /* "pysnobal/snobal.pyx":364
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_h2o
  *     output1_h2o = np.ascontiguousarray(output_rec['h2o'], dtype=np.float64)
  *     output1_c.h2o = &output1_h2o[0,0]             # <<<<<<<<<<<<<<
@@ -4017,7 +4017,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_77 = 0;
   __pyx_v_output1_c.h2o = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_h2o.rcbuffer->pybuffer.buf, __pyx_t_76, __pyx_pybuffernd_output1_h2o.diminfo[0].strides, __pyx_t_77, __pyx_pybuffernd_output1_h2o.diminfo[1].strides)));
 
-  /* "snobal.pyx":367
+  /* "pysnobal/snobal.pyx":367
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_h2o_vol
  *     output1_h2o_vol = np.ascontiguousarray(output_rec['h2o_vol'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -4072,7 +4072,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_h2o_vol = ((PyArrayObject *)__pyx_t_10);
   __pyx_t_10 = 0;
 
-  /* "snobal.pyx":368
+  /* "pysnobal/snobal.pyx":368
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_h2o_vol
  *     output1_h2o_vol = np.ascontiguousarray(output_rec['h2o_vol'], dtype=np.float64)
  *     output1_c.h2o_vol = &output1_h2o_vol[0,0]             # <<<<<<<<<<<<<<
@@ -4083,7 +4083,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_80 = 0;
   __pyx_v_output1_c.h2o_vol = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_h2o_vol.rcbuffer->pybuffer.buf, __pyx_t_79, __pyx_pybuffernd_output1_h2o_vol.diminfo[0].strides, __pyx_t_80, __pyx_pybuffernd_output1_h2o_vol.diminfo[1].strides)));
 
-  /* "snobal.pyx":371
+  /* "pysnobal/snobal.pyx":371
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_h2o_total
  *     output1_h2o_total = np.ascontiguousarray(output_rec['h2o_total'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -4138,7 +4138,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_h2o_total = ((PyArrayObject *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "snobal.pyx":372
+  /* "pysnobal/snobal.pyx":372
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_h2o_total
  *     output1_h2o_total = np.ascontiguousarray(output_rec['h2o_total'], dtype=np.float64)
  *     output1_c.h2o_total = &output1_h2o_total[0,0]             # <<<<<<<<<<<<<<
@@ -4149,7 +4149,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_83 = 0;
   __pyx_v_output1_c.h2o_total = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_h2o_total.rcbuffer->pybuffer.buf, __pyx_t_82, __pyx_pybuffernd_output1_h2o_total.diminfo[0].strides, __pyx_t_83, __pyx_pybuffernd_output1_h2o_total.diminfo[1].strides)));
 
-  /* "snobal.pyx":375
+  /* "pysnobal/snobal.pyx":375
  * 
  *     cdef np.ndarray[int, mode="c", ndim=2] output1_layer_count
  *     output1_layer_count = np.ascontiguousarray(output_rec['layer_count'], dtype=np.int32)             # <<<<<<<<<<<<<<
@@ -4204,7 +4204,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_layer_count = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "snobal.pyx":376
+  /* "pysnobal/snobal.pyx":376
  *     cdef np.ndarray[int, mode="c", ndim=2] output1_layer_count
  *     output1_layer_count = np.ascontiguousarray(output_rec['layer_count'], dtype=np.int32)
  *     output1_c.layer_count = &output1_layer_count[0,0]             # <<<<<<<<<<<<<<
@@ -4215,7 +4215,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_86 = 0;
   __pyx_v_output1_c.layer_count = (&(*__Pyx_BufPtrCContig2d(int *, __pyx_pybuffernd_output1_layer_count.rcbuffer->pybuffer.buf, __pyx_t_85, __pyx_pybuffernd_output1_layer_count.diminfo[0].strides, __pyx_t_86, __pyx_pybuffernd_output1_layer_count.diminfo[1].strides)));
 
-  /* "snobal.pyx":379
+  /* "pysnobal/snobal.pyx":379
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_R_n_bar
  *     output1_R_n_bar = np.ascontiguousarray(output_rec['R_n_bar'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -4270,7 +4270,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_R_n_bar = ((PyArrayObject *)__pyx_t_11);
   __pyx_t_11 = 0;
 
-  /* "snobal.pyx":380
+  /* "pysnobal/snobal.pyx":380
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_R_n_bar
  *     output1_R_n_bar = np.ascontiguousarray(output_rec['R_n_bar'], dtype=np.float64)
  *     output1_c.R_n_bar = &output1_R_n_bar[0,0]             # <<<<<<<<<<<<<<
@@ -4281,7 +4281,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_89 = 0;
   __pyx_v_output1_c.R_n_bar = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_R_n_bar.rcbuffer->pybuffer.buf, __pyx_t_88, __pyx_pybuffernd_output1_R_n_bar.diminfo[0].strides, __pyx_t_89, __pyx_pybuffernd_output1_R_n_bar.diminfo[1].strides)));
 
-  /* "snobal.pyx":383
+  /* "pysnobal/snobal.pyx":383
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_H_bar
  *     output1_H_bar = np.ascontiguousarray(output_rec['H_bar'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -4336,7 +4336,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_H_bar = ((PyArrayObject *)__pyx_t_10);
   __pyx_t_10 = 0;
 
-  /* "snobal.pyx":384
+  /* "pysnobal/snobal.pyx":384
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_H_bar
  *     output1_H_bar = np.ascontiguousarray(output_rec['H_bar'], dtype=np.float64)
  *     output1_c.H_bar = &output1_H_bar[0,0]             # <<<<<<<<<<<<<<
@@ -4347,7 +4347,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_92 = 0;
   __pyx_v_output1_c.H_bar = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_H_bar.rcbuffer->pybuffer.buf, __pyx_t_91, __pyx_pybuffernd_output1_H_bar.diminfo[0].strides, __pyx_t_92, __pyx_pybuffernd_output1_H_bar.diminfo[1].strides)));
 
-  /* "snobal.pyx":387
+  /* "pysnobal/snobal.pyx":387
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_L_v_E_bar
  *     output1_L_v_E_bar = np.ascontiguousarray(output_rec['L_v_E_bar'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -4402,7 +4402,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_L_v_E_bar = ((PyArrayObject *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "snobal.pyx":388
+  /* "pysnobal/snobal.pyx":388
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_L_v_E_bar
  *     output1_L_v_E_bar = np.ascontiguousarray(output_rec['L_v_E_bar'], dtype=np.float64)
  *     output1_c.L_v_E_bar = &output1_L_v_E_bar[0,0]             # <<<<<<<<<<<<<<
@@ -4413,7 +4413,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_95 = 0;
   __pyx_v_output1_c.L_v_E_bar = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_L_v_E_bar.rcbuffer->pybuffer.buf, __pyx_t_94, __pyx_pybuffernd_output1_L_v_E_bar.diminfo[0].strides, __pyx_t_95, __pyx_pybuffernd_output1_L_v_E_bar.diminfo[1].strides)));
 
-  /* "snobal.pyx":391
+  /* "pysnobal/snobal.pyx":391
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_G_bar
  *     output1_G_bar = np.ascontiguousarray(output_rec['G_bar'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -4468,7 +4468,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_G_bar = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "snobal.pyx":392
+  /* "pysnobal/snobal.pyx":392
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_G_bar
  *     output1_G_bar = np.ascontiguousarray(output_rec['G_bar'], dtype=np.float64)
  *     output1_c.G_bar = &output1_G_bar[0,0]             # <<<<<<<<<<<<<<
@@ -4479,7 +4479,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_98 = 0;
   __pyx_v_output1_c.G_bar = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_G_bar.rcbuffer->pybuffer.buf, __pyx_t_97, __pyx_pybuffernd_output1_G_bar.diminfo[0].strides, __pyx_t_98, __pyx_pybuffernd_output1_G_bar.diminfo[1].strides)));
 
-  /* "snobal.pyx":395
+  /* "pysnobal/snobal.pyx":395
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_G_0_bar
  *     output1_G_0_bar = np.ascontiguousarray(output_rec['G_0_bar'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -4534,7 +4534,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_G_0_bar = ((PyArrayObject *)__pyx_t_11);
   __pyx_t_11 = 0;
 
-  /* "snobal.pyx":396
+  /* "pysnobal/snobal.pyx":396
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_G_0_bar
  *     output1_G_0_bar = np.ascontiguousarray(output_rec['G_0_bar'], dtype=np.float64)
  *     output1_c.G_0_bar = &output1_G_0_bar[0,0]             # <<<<<<<<<<<<<<
@@ -4545,7 +4545,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_101 = 0;
   __pyx_v_output1_c.G_0_bar = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_G_0_bar.rcbuffer->pybuffer.buf, __pyx_t_100, __pyx_pybuffernd_output1_G_0_bar.diminfo[0].strides, __pyx_t_101, __pyx_pybuffernd_output1_G_0_bar.diminfo[1].strides)));
 
-  /* "snobal.pyx":399
+  /* "pysnobal/snobal.pyx":399
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_M_bar
  *     output1_M_bar = np.ascontiguousarray(output_rec['M_bar'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -4600,7 +4600,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_M_bar = ((PyArrayObject *)__pyx_t_10);
   __pyx_t_10 = 0;
 
-  /* "snobal.pyx":400
+  /* "pysnobal/snobal.pyx":400
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_M_bar
  *     output1_M_bar = np.ascontiguousarray(output_rec['M_bar'], dtype=np.float64)
  *     output1_c.M_bar = &output1_M_bar[0,0]             # <<<<<<<<<<<<<<
@@ -4611,7 +4611,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_104 = 0;
   __pyx_v_output1_c.M_bar = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_M_bar.rcbuffer->pybuffer.buf, __pyx_t_103, __pyx_pybuffernd_output1_M_bar.diminfo[0].strides, __pyx_t_104, __pyx_pybuffernd_output1_M_bar.diminfo[1].strides)));
 
-  /* "snobal.pyx":403
+  /* "pysnobal/snobal.pyx":403
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_delta_Q_bar
  *     output1_delta_Q_bar = np.ascontiguousarray(output_rec['delta_Q_bar'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -4666,7 +4666,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_delta_Q_bar = ((PyArrayObject *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "snobal.pyx":404
+  /* "pysnobal/snobal.pyx":404
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_delta_Q_bar
  *     output1_delta_Q_bar = np.ascontiguousarray(output_rec['delta_Q_bar'], dtype=np.float64)
  *     output1_c.delta_Q_bar = &output1_delta_Q_bar[0,0]             # <<<<<<<<<<<<<<
@@ -4677,7 +4677,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_107 = 0;
   __pyx_v_output1_c.delta_Q_bar = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_delta_Q_bar.rcbuffer->pybuffer.buf, __pyx_t_106, __pyx_pybuffernd_output1_delta_Q_bar.diminfo[0].strides, __pyx_t_107, __pyx_pybuffernd_output1_delta_Q_bar.diminfo[1].strides)));
 
-  /* "snobal.pyx":407
+  /* "pysnobal/snobal.pyx":407
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_delta_Q_0_bar
  *     output1_delta_Q_0_bar = np.ascontiguousarray(output_rec['delta_Q_0_bar'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -4732,7 +4732,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_delta_Q_0_bar = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "snobal.pyx":408
+  /* "pysnobal/snobal.pyx":408
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_delta_Q_0_bar
  *     output1_delta_Q_0_bar = np.ascontiguousarray(output_rec['delta_Q_0_bar'], dtype=np.float64)
  *     output1_c.delta_Q_0_bar = &output1_delta_Q_0_bar[0,0]             # <<<<<<<<<<<<<<
@@ -4743,7 +4743,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_110 = 0;
   __pyx_v_output1_c.delta_Q_0_bar = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_delta_Q_0_bar.rcbuffer->pybuffer.buf, __pyx_t_109, __pyx_pybuffernd_output1_delta_Q_0_bar.diminfo[0].strides, __pyx_t_110, __pyx_pybuffernd_output1_delta_Q_0_bar.diminfo[1].strides)));
 
-  /* "snobal.pyx":411
+  /* "pysnobal/snobal.pyx":411
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_E_s_sum
  *     output1_E_s_sum = np.ascontiguousarray(output_rec['E_s_sum'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -4798,7 +4798,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_E_s_sum = ((PyArrayObject *)__pyx_t_11);
   __pyx_t_11 = 0;
 
-  /* "snobal.pyx":412
+  /* "pysnobal/snobal.pyx":412
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_E_s_sum
  *     output1_E_s_sum = np.ascontiguousarray(output_rec['E_s_sum'], dtype=np.float64)
  *     output1_c.E_s_sum = &output1_E_s_sum[0,0]             # <<<<<<<<<<<<<<
@@ -4809,7 +4809,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_113 = 0;
   __pyx_v_output1_c.E_s_sum = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_E_s_sum.rcbuffer->pybuffer.buf, __pyx_t_112, __pyx_pybuffernd_output1_E_s_sum.diminfo[0].strides, __pyx_t_113, __pyx_pybuffernd_output1_E_s_sum.diminfo[1].strides)));
 
-  /* "snobal.pyx":415
+  /* "pysnobal/snobal.pyx":415
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_melt_sum
  *     output1_melt_sum = np.ascontiguousarray(output_rec['melt_sum'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -4864,7 +4864,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_melt_sum = ((PyArrayObject *)__pyx_t_10);
   __pyx_t_10 = 0;
 
-  /* "snobal.pyx":416
+  /* "pysnobal/snobal.pyx":416
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_melt_sum
  *     output1_melt_sum = np.ascontiguousarray(output_rec['melt_sum'], dtype=np.float64)
  *     output1_c.melt_sum = &output1_melt_sum[0,0]             # <<<<<<<<<<<<<<
@@ -4875,7 +4875,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_116 = 0;
   __pyx_v_output1_c.melt_sum = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_melt_sum.rcbuffer->pybuffer.buf, __pyx_t_115, __pyx_pybuffernd_output1_melt_sum.diminfo[0].strides, __pyx_t_116, __pyx_pybuffernd_output1_melt_sum.diminfo[1].strides)));
 
-  /* "snobal.pyx":419
+  /* "pysnobal/snobal.pyx":419
  * 
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_ro_pred_sum
  *     output1_ro_pred_sum = np.ascontiguousarray(output_rec['ro_pred_sum'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -4930,7 +4930,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_output1_ro_pred_sum = ((PyArrayObject *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "snobal.pyx":420
+  /* "pysnobal/snobal.pyx":420
  *     cdef np.ndarray[double, mode="c", ndim=2] output1_ro_pred_sum
  *     output1_ro_pred_sum = np.ascontiguousarray(output_rec['ro_pred_sum'], dtype=np.float64)
  *     output1_c.ro_pred_sum = &output1_ro_pred_sum[0,0]             # <<<<<<<<<<<<<<
@@ -4941,7 +4941,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_119 = 0;
   __pyx_v_output1_c.ro_pred_sum = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_output1_ro_pred_sum.rcbuffer->pybuffer.buf, __pyx_t_118, __pyx_pybuffernd_output1_ro_pred_sum.diminfo[0].strides, __pyx_t_119, __pyx_pybuffernd_output1_ro_pred_sum.diminfo[1].strides)));
 
-  /* "snobal.pyx":433
+  /* "pysnobal/snobal.pyx":433
  *     # convert the S_n to C
  *     cdef np.ndarray[double, mode="c", ndim=2] input1_Sn
  *     input1_Sn = np.ascontiguousarray(input1['S_n'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -4996,7 +4996,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_input1_Sn = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "snobal.pyx":434
+  /* "pysnobal/snobal.pyx":434
  *     cdef np.ndarray[double, mode="c", ndim=2] input1_Sn
  *     input1_Sn = np.ascontiguousarray(input1['S_n'], dtype=np.float64)
  *     input1_c.S_n = &input1_Sn[0,0]             # <<<<<<<<<<<<<<
@@ -5007,7 +5007,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_122 = 0;
   __pyx_v_input1_c.S_n = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_input1_Sn.rcbuffer->pybuffer.buf, __pyx_t_121, __pyx_pybuffernd_input1_Sn.diminfo[0].strides, __pyx_t_122, __pyx_pybuffernd_input1_Sn.diminfo[1].strides)));
 
-  /* "snobal.pyx":438
+  /* "pysnobal/snobal.pyx":438
  *     # convert the I_lw to C
  *     cdef np.ndarray[double, mode="c", ndim=2] input1_I_lw
  *     input1_I_lw = np.ascontiguousarray(input1['I_lw'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -5062,7 +5062,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_input1_I_lw = ((PyArrayObject *)__pyx_t_11);
   __pyx_t_11 = 0;
 
-  /* "snobal.pyx":439
+  /* "pysnobal/snobal.pyx":439
  *     cdef np.ndarray[double, mode="c", ndim=2] input1_I_lw
  *     input1_I_lw = np.ascontiguousarray(input1['I_lw'], dtype=np.float64)
  *     input1_c.I_lw = &input1_I_lw[0,0]             # <<<<<<<<<<<<<<
@@ -5073,7 +5073,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_125 = 0;
   __pyx_v_input1_c.I_lw = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_input1_I_lw.rcbuffer->pybuffer.buf, __pyx_t_124, __pyx_pybuffernd_input1_I_lw.diminfo[0].strides, __pyx_t_125, __pyx_pybuffernd_input1_I_lw.diminfo[1].strides)));
 
-  /* "snobal.pyx":443
+  /* "pysnobal/snobal.pyx":443
  *     # convert the T_a to C
  *     cdef np.ndarray[double, mode="c", ndim=2] input1_Ta
  *     input1_Ta = np.ascontiguousarray(input1['T_a'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -5128,7 +5128,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_input1_Ta = ((PyArrayObject *)__pyx_t_10);
   __pyx_t_10 = 0;
 
-  /* "snobal.pyx":444
+  /* "pysnobal/snobal.pyx":444
  *     cdef np.ndarray[double, mode="c", ndim=2] input1_Ta
  *     input1_Ta = np.ascontiguousarray(input1['T_a'], dtype=np.float64)
  *     input1_c.T_a = &input1_Ta[0,0] # For some reason this isn't needed, most likely b/c numpy has already allocated it    input1_c.T_a = <double *> PyMem_Malloc(N * sizeof(double))             # <<<<<<<<<<<<<<
@@ -5139,7 +5139,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_128 = 0;
   __pyx_v_input1_c.T_a = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_input1_Ta.rcbuffer->pybuffer.buf, __pyx_t_127, __pyx_pybuffernd_input1_Ta.diminfo[0].strides, __pyx_t_128, __pyx_pybuffernd_input1_Ta.diminfo[1].strides)));
 
-  /* "snobal.pyx":448
+  /* "pysnobal/snobal.pyx":448
  *     # convert the e_a to C
  *     cdef np.ndarray[double, mode="c", ndim=2] input1_e_a
  *     input1_e_a = np.ascontiguousarray(input1['e_a'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -5194,7 +5194,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_input1_e_a = ((PyArrayObject *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "snobal.pyx":449
+  /* "pysnobal/snobal.pyx":449
  *     cdef np.ndarray[double, mode="c", ndim=2] input1_e_a
  *     input1_e_a = np.ascontiguousarray(input1['e_a'], dtype=np.float64)
  *     input1_c.e_a = &input1_e_a[0,0]             # <<<<<<<<<<<<<<
@@ -5205,7 +5205,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_131 = 0;
   __pyx_v_input1_c.e_a = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_input1_e_a.rcbuffer->pybuffer.buf, __pyx_t_130, __pyx_pybuffernd_input1_e_a.diminfo[0].strides, __pyx_t_131, __pyx_pybuffernd_input1_e_a.diminfo[1].strides)));
 
-  /* "snobal.pyx":453
+  /* "pysnobal/snobal.pyx":453
  *     # convert the u to C
  *     cdef np.ndarray[double, mode="c", ndim=2] input1_u
  *     input1_u = np.ascontiguousarray(input1['u'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -5260,7 +5260,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_input1_u = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "snobal.pyx":454
+  /* "pysnobal/snobal.pyx":454
  *     cdef np.ndarray[double, mode="c", ndim=2] input1_u
  *     input1_u = np.ascontiguousarray(input1['u'], dtype=np.float64)
  *     input1_c.u = &input1_u[0,0]             # <<<<<<<<<<<<<<
@@ -5271,7 +5271,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_134 = 0;
   __pyx_v_input1_c.u = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_input1_u.rcbuffer->pybuffer.buf, __pyx_t_133, __pyx_pybuffernd_input1_u.diminfo[0].strides, __pyx_t_134, __pyx_pybuffernd_input1_u.diminfo[1].strides)));
 
-  /* "snobal.pyx":458
+  /* "pysnobal/snobal.pyx":458
  *     # convert the T_g to C
  *     cdef np.ndarray[double, mode="c", ndim=2] input1_T_g
  *     input1_T_g = np.ascontiguousarray(input1['T_g'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -5326,7 +5326,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_input1_T_g = ((PyArrayObject *)__pyx_t_11);
   __pyx_t_11 = 0;
 
-  /* "snobal.pyx":459
+  /* "pysnobal/snobal.pyx":459
  *     cdef np.ndarray[double, mode="c", ndim=2] input1_T_g
  *     input1_T_g = np.ascontiguousarray(input1['T_g'], dtype=np.float64)
  *     input1_c.T_g = &input1_T_g[0,0]             # <<<<<<<<<<<<<<
@@ -5337,7 +5337,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_137 = 0;
   __pyx_v_input1_c.T_g = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_input1_T_g.rcbuffer->pybuffer.buf, __pyx_t_136, __pyx_pybuffernd_input1_T_g.diminfo[0].strides, __pyx_t_137, __pyx_pybuffernd_input1_T_g.diminfo[1].strides)));
 
-  /* "snobal.pyx":463
+  /* "pysnobal/snobal.pyx":463
  *     # convert the m_pp to C
  *     cdef np.ndarray[double, mode="c", ndim=2] input1_m_pp
  *     input1_m_pp = np.ascontiguousarray(input1['m_pp'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -5392,7 +5392,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_input1_m_pp = ((PyArrayObject *)__pyx_t_10);
   __pyx_t_10 = 0;
 
-  /* "snobal.pyx":464
+  /* "pysnobal/snobal.pyx":464
  *     cdef np.ndarray[double, mode="c", ndim=2] input1_m_pp
  *     input1_m_pp = np.ascontiguousarray(input1['m_pp'], dtype=np.float64)
  *     input1_c.m_pp = &input1_m_pp[0,0]             # <<<<<<<<<<<<<<
@@ -5403,7 +5403,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_140 = 0;
   __pyx_v_input1_c.m_pp = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_input1_m_pp.rcbuffer->pybuffer.buf, __pyx_t_139, __pyx_pybuffernd_input1_m_pp.diminfo[0].strides, __pyx_t_140, __pyx_pybuffernd_input1_m_pp.diminfo[1].strides)));
 
-  /* "snobal.pyx":468
+  /* "pysnobal/snobal.pyx":468
  *     # convert the percent_snow to C
  *     cdef np.ndarray[double, mode="c", ndim=2] input1_percent_snow
  *     input1_percent_snow = np.ascontiguousarray(input1['percent_snow'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -5458,7 +5458,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_input1_percent_snow = ((PyArrayObject *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "snobal.pyx":469
+  /* "pysnobal/snobal.pyx":469
  *     cdef np.ndarray[double, mode="c", ndim=2] input1_percent_snow
  *     input1_percent_snow = np.ascontiguousarray(input1['percent_snow'], dtype=np.float64)
  *     input1_c.percent_snow = &input1_percent_snow[0,0]             # <<<<<<<<<<<<<<
@@ -5469,7 +5469,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_143 = 0;
   __pyx_v_input1_c.percent_snow = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_input1_percent_snow.rcbuffer->pybuffer.buf, __pyx_t_142, __pyx_pybuffernd_input1_percent_snow.diminfo[0].strides, __pyx_t_143, __pyx_pybuffernd_input1_percent_snow.diminfo[1].strides)));
 
-  /* "snobal.pyx":473
+  /* "pysnobal/snobal.pyx":473
  *     # convert the rho_snow to C
  *     cdef np.ndarray[double, mode="c", ndim=2] input1_rho_snow
  *     input1_rho_snow = np.ascontiguousarray(input1['rho_snow'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -5524,7 +5524,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_input1_rho_snow = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "snobal.pyx":474
+  /* "pysnobal/snobal.pyx":474
  *     cdef np.ndarray[double, mode="c", ndim=2] input1_rho_snow
  *     input1_rho_snow = np.ascontiguousarray(input1['rho_snow'], dtype=np.float64)
  *     input1_c.rho_snow = &input1_rho_snow[0,0]             # <<<<<<<<<<<<<<
@@ -5535,7 +5535,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_146 = 0;
   __pyx_v_input1_c.rho_snow = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_input1_rho_snow.rcbuffer->pybuffer.buf, __pyx_t_145, __pyx_pybuffernd_input1_rho_snow.diminfo[0].strides, __pyx_t_146, __pyx_pybuffernd_input1_rho_snow.diminfo[1].strides)));
 
-  /* "snobal.pyx":478
+  /* "pysnobal/snobal.pyx":478
  *     # convert the T_pp to C
  *     cdef np.ndarray[double, mode="c", ndim=2] input1_T_pp
  *     input1_T_pp = np.ascontiguousarray(input1['T_pp'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -5590,7 +5590,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_input1_T_pp = ((PyArrayObject *)__pyx_t_11);
   __pyx_t_11 = 0;
 
-  /* "snobal.pyx":479
+  /* "pysnobal/snobal.pyx":479
  *     cdef np.ndarray[double, mode="c", ndim=2] input1_T_pp
  *     input1_T_pp = np.ascontiguousarray(input1['T_pp'], dtype=np.float64)
  *     input1_c.T_pp = &input1_T_pp[0,0]             # <<<<<<<<<<<<<<
@@ -5601,7 +5601,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_149 = 0;
   __pyx_v_input1_c.T_pp = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_input1_T_pp.rcbuffer->pybuffer.buf, __pyx_t_148, __pyx_pybuffernd_input1_T_pp.diminfo[0].strides, __pyx_t_149, __pyx_pybuffernd_input1_T_pp.diminfo[1].strides)));
 
-  /* "snobal.pyx":489
+  /* "pysnobal/snobal.pyx":489
  *     # convert the S_n to C
  *     cdef np.ndarray[double, mode="c", ndim=2] input2_Sn
  *     input2_Sn = np.ascontiguousarray(input2['S_n'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -5656,7 +5656,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_input2_Sn = ((PyArrayObject *)__pyx_t_10);
   __pyx_t_10 = 0;
 
-  /* "snobal.pyx":490
+  /* "pysnobal/snobal.pyx":490
  *     cdef np.ndarray[double, mode="c", ndim=2] input2_Sn
  *     input2_Sn = np.ascontiguousarray(input2['S_n'], dtype=np.float64)
  *     input2_c.S_n = &input2_Sn[0,0]             # <<<<<<<<<<<<<<
@@ -5667,7 +5667,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_152 = 0;
   __pyx_v_input2_c.S_n = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_input2_Sn.rcbuffer->pybuffer.buf, __pyx_t_151, __pyx_pybuffernd_input2_Sn.diminfo[0].strides, __pyx_t_152, __pyx_pybuffernd_input2_Sn.diminfo[1].strides)));
 
-  /* "snobal.pyx":494
+  /* "pysnobal/snobal.pyx":494
  *     # convert the I_lw to C
  *     cdef np.ndarray[double, mode="c", ndim=2] input2_I_lw
  *     input2_I_lw = np.ascontiguousarray(input2['I_lw'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -5722,7 +5722,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_input2_I_lw = ((PyArrayObject *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "snobal.pyx":495
+  /* "pysnobal/snobal.pyx":495
  *     cdef np.ndarray[double, mode="c", ndim=2] input2_I_lw
  *     input2_I_lw = np.ascontiguousarray(input2['I_lw'], dtype=np.float64)
  *     input2_c.I_lw = &input2_I_lw[0,0]             # <<<<<<<<<<<<<<
@@ -5733,7 +5733,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_155 = 0;
   __pyx_v_input2_c.I_lw = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_input2_I_lw.rcbuffer->pybuffer.buf, __pyx_t_154, __pyx_pybuffernd_input2_I_lw.diminfo[0].strides, __pyx_t_155, __pyx_pybuffernd_input2_I_lw.diminfo[1].strides)));
 
-  /* "snobal.pyx":499
+  /* "pysnobal/snobal.pyx":499
  *     # convert the T_a to C
  *     cdef np.ndarray[double, mode="c", ndim=2] input2_Ta
  *     input2_Ta = np.ascontiguousarray(input2['T_a'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -5788,7 +5788,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_input2_Ta = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "snobal.pyx":500
+  /* "pysnobal/snobal.pyx":500
  *     cdef np.ndarray[double, mode="c", ndim=2] input2_Ta
  *     input2_Ta = np.ascontiguousarray(input2['T_a'], dtype=np.float64)
  *     input2_c.T_a = &input2_Ta[0,0]             # <<<<<<<<<<<<<<
@@ -5799,7 +5799,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_158 = 0;
   __pyx_v_input2_c.T_a = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_input2_Ta.rcbuffer->pybuffer.buf, __pyx_t_157, __pyx_pybuffernd_input2_Ta.diminfo[0].strides, __pyx_t_158, __pyx_pybuffernd_input2_Ta.diminfo[1].strides)));
 
-  /* "snobal.pyx":504
+  /* "pysnobal/snobal.pyx":504
  *     # convert the e_a to C
  *     cdef np.ndarray[double, mode="c", ndim=2] input2_e_a
  *     input2_e_a = np.ascontiguousarray(input2['e_a'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -5854,7 +5854,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_input2_e_a = ((PyArrayObject *)__pyx_t_11);
   __pyx_t_11 = 0;
 
-  /* "snobal.pyx":505
+  /* "pysnobal/snobal.pyx":505
  *     cdef np.ndarray[double, mode="c", ndim=2] input2_e_a
  *     input2_e_a = np.ascontiguousarray(input2['e_a'], dtype=np.float64)
  *     input2_c.e_a = &input2_e_a[0,0]             # <<<<<<<<<<<<<<
@@ -5865,7 +5865,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_161 = 0;
   __pyx_v_input2_c.e_a = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_input2_e_a.rcbuffer->pybuffer.buf, __pyx_t_160, __pyx_pybuffernd_input2_e_a.diminfo[0].strides, __pyx_t_161, __pyx_pybuffernd_input2_e_a.diminfo[1].strides)));
 
-  /* "snobal.pyx":509
+  /* "pysnobal/snobal.pyx":509
  *     # convert the u to C
  *     cdef np.ndarray[double, mode="c", ndim=2] input2_u
  *     input2_u = np.ascontiguousarray(input2['u'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -5920,7 +5920,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_input2_u = ((PyArrayObject *)__pyx_t_10);
   __pyx_t_10 = 0;
 
-  /* "snobal.pyx":510
+  /* "pysnobal/snobal.pyx":510
  *     cdef np.ndarray[double, mode="c", ndim=2] input2_u
  *     input2_u = np.ascontiguousarray(input2['u'], dtype=np.float64)
  *     input2_c.u = &input2_u[0,0]             # <<<<<<<<<<<<<<
@@ -5931,7 +5931,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_164 = 0;
   __pyx_v_input2_c.u = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_input2_u.rcbuffer->pybuffer.buf, __pyx_t_163, __pyx_pybuffernd_input2_u.diminfo[0].strides, __pyx_t_164, __pyx_pybuffernd_input2_u.diminfo[1].strides)));
 
-  /* "snobal.pyx":514
+  /* "pysnobal/snobal.pyx":514
  *     # convert the T_g to C
  *     cdef np.ndarray[double, mode="c", ndim=2] input2_T_g
  *     input2_T_g = np.ascontiguousarray(input2['T_g'], dtype=np.float64)             # <<<<<<<<<<<<<<
@@ -5986,7 +5986,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_input2_T_g = ((PyArrayObject *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "snobal.pyx":515
+  /* "pysnobal/snobal.pyx":515
  *     cdef np.ndarray[double, mode="c", ndim=2] input2_T_g
  *     input2_T_g = np.ascontiguousarray(input2['T_g'], dtype=np.float64)
  *     input2_c.T_g = &input2_T_g[0,0]             # <<<<<<<<<<<<<<
@@ -5997,7 +5997,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_167 = 0;
   __pyx_v_input2_c.T_g = (&(*__Pyx_BufPtrCContig2d(double *, __pyx_pybuffernd_input2_T_g.rcbuffer->pybuffer.buf, __pyx_t_166, __pyx_pybuffernd_input2_T_g.diminfo[0].strides, __pyx_t_167, __pyx_pybuffernd_input2_T_g.diminfo[1].strides)));
 
-  /* "snobal.pyx":526
+  /* "pysnobal/snobal.pyx":526
  *     # Call the model
  *     # rt = call_snobal(N, nthreads, first_step, tstep_info, out_c, &input1_c, &input2_c, c_params, &output1_c)
  *     rt = call_snobal(N, nthreads, first_step, tstep_info, &input1_c, &input2_c, c_params, &output1_c)             # <<<<<<<<<<<<<<
@@ -6006,7 +6006,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
  */
   __pyx_v_rt = call_snobal(__pyx_v_N, __pyx_v_nthreads, __pyx_v_first_step, tstep_info, (&__pyx_v_input1_c), (&__pyx_v_input2_c), __pyx_v_c_params, (&__pyx_v_output1_c));
 
-  /* "snobal.pyx":527
+  /* "pysnobal/snobal.pyx":527
  *     # rt = call_snobal(N, nthreads, first_step, tstep_info, out_c, &input1_c, &input2_c, c_params, &output1_c)
  *     rt = call_snobal(N, nthreads, first_step, tstep_info, &input1_c, &input2_c, c_params, &output1_c)
  *     if rt != -1:             # <<<<<<<<<<<<<<
@@ -6016,7 +6016,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_8 = ((__pyx_v_rt != -1L) != 0);
   if (__pyx_t_8) {
 
-    /* "snobal.pyx":528
+    /* "pysnobal/snobal.pyx":528
  *     rt = call_snobal(N, nthreads, first_step, tstep_info, &input1_c, &input2_c, c_params, &output1_c)
  *     if rt != -1:
  *         return rt             # <<<<<<<<<<<<<<
@@ -6030,7 +6030,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
     __pyx_t_2 = 0;
     goto __pyx_L0;
 
-    /* "snobal.pyx":527
+    /* "pysnobal/snobal.pyx":527
  *     # rt = call_snobal(N, nthreads, first_step, tstep_info, out_c, &input1_c, &input2_c, c_params, &output1_c)
  *     rt = call_snobal(N, nthreads, first_step, tstep_info, &input1_c, &input2_c, c_params, &output1_c)
  *     if rt != -1:             # <<<<<<<<<<<<<<
@@ -6039,7 +6039,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
  */
   }
 
-  /* "snobal.pyx":536
+  /* "pysnobal/snobal.pyx":536
  * 
  *     cdef np.npy_intp shp_np[2]
  *     shp_np[:] = (shp[0], shp[1])             # <<<<<<<<<<<<<<
@@ -6058,7 +6058,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   (__pyx_t_168[0]) = __pyx_t_169;
   (__pyx_t_168[1]) = __pyx_t_170;
 
-  /* "snobal.pyx":537
+  /* "pysnobal/snobal.pyx":537
  *     cdef np.npy_intp shp_np[2]
  *     shp_np[:] = (shp[0], shp[1])
  *     output_rec['z_0'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.z_0)             # <<<<<<<<<<<<<<
@@ -6073,7 +6073,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":538
+  /* "pysnobal/snobal.pyx":538
  *     shp_np[:] = (shp[0], shp[1])
  *     output_rec['z_0'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.z_0)
  *     output_rec['z_s_0'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.z_s_0)             # <<<<<<<<<<<<<<
@@ -6088,7 +6088,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":540
+  /* "pysnobal/snobal.pyx":540
  *     output_rec['z_s_0'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.z_s_0)
  * 
  *     output_rec['current_time'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.current_time)             # <<<<<<<<<<<<<<
@@ -6103,7 +6103,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":541
+  /* "pysnobal/snobal.pyx":541
  * 
  *     output_rec['current_time'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.current_time)
  *     output_rec['time_since_out'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.time_since_out)             # <<<<<<<<<<<<<<
@@ -6118,7 +6118,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":543
+  /* "pysnobal/snobal.pyx":543
  *     output_rec['time_since_out'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.time_since_out)
  * 
  *     output_rec['elevation'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.elevation)             # <<<<<<<<<<<<<<
@@ -6133,7 +6133,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":544
+  /* "pysnobal/snobal.pyx":544
  * 
  *     output_rec['elevation'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.elevation)
  *     output_rec['rho'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.rho)             # <<<<<<<<<<<<<<
@@ -6148,7 +6148,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":545
+  /* "pysnobal/snobal.pyx":545
  *     output_rec['elevation'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.elevation)
  *     output_rec['rho'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.rho)
  *     output_rec['T_s_0'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.T_s_0)             # <<<<<<<<<<<<<<
@@ -6163,7 +6163,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":546
+  /* "pysnobal/snobal.pyx":546
  *     output_rec['rho'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.rho)
  *     output_rec['T_s_0'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.T_s_0)
  *     output_rec['T_s_l'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.T_s_l)             # <<<<<<<<<<<<<<
@@ -6178,7 +6178,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":547
+  /* "pysnobal/snobal.pyx":547
  *     output_rec['T_s_0'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.T_s_0)
  *     output_rec['T_s_l'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.T_s_l)
  *     output_rec['T_s'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.T_s)             # <<<<<<<<<<<<<<
@@ -6193,7 +6193,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":548
+  /* "pysnobal/snobal.pyx":548
  *     output_rec['T_s_l'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.T_s_l)
  *     output_rec['T_s'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.T_s)
  *     output_rec['h2o_sat'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o_sat)             # <<<<<<<<<<<<<<
@@ -6208,7 +6208,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":549
+  /* "pysnobal/snobal.pyx":549
  *     output_rec['T_s'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.T_s)
  *     output_rec['h2o_sat'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o_sat)
  *     output_rec['h2o_max'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o_max)             # <<<<<<<<<<<<<<
@@ -6223,7 +6223,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":550
+  /* "pysnobal/snobal.pyx":550
  *     output_rec['h2o_sat'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o_sat)
  *     output_rec['h2o_max'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o_max)
  *     output_rec['h2o'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o)             # <<<<<<<<<<<<<<
@@ -6238,7 +6238,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":551
+  /* "pysnobal/snobal.pyx":551
  *     output_rec['h2o_max'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o_max)
  *     output_rec['h2o'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o)
  *     output_rec['h2o_vol'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o_vol)             # <<<<<<<<<<<<<<
@@ -6253,7 +6253,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":552
+  /* "pysnobal/snobal.pyx":552
  *     output_rec['h2o'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o)
  *     output_rec['h2o_vol'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o_vol)
  *     output_rec['h2o_total'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o_total)             # <<<<<<<<<<<<<<
@@ -6268,7 +6268,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":553
+  /* "pysnobal/snobal.pyx":553
  *     output_rec['h2o_vol'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o_vol)
  *     output_rec['h2o_total'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o_total)
  *     output_rec['layer_count'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_INT32, output1_c.layer_count)             # <<<<<<<<<<<<<<
@@ -6283,7 +6283,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":554
+  /* "pysnobal/snobal.pyx":554
  *     output_rec['h2o_total'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o_total)
  *     output_rec['layer_count'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_INT32, output1_c.layer_count)
  *     output_rec['cc_s_0'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.cc_s_0)             # <<<<<<<<<<<<<<
@@ -6298,7 +6298,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":555
+  /* "pysnobal/snobal.pyx":555
  *     output_rec['layer_count'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_INT32, output1_c.layer_count)
  *     output_rec['cc_s_0'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.cc_s_0)
  *     output_rec['cc_s_l'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.cc_s_l)             # <<<<<<<<<<<<<<
@@ -6313,7 +6313,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":556
+  /* "pysnobal/snobal.pyx":556
  *     output_rec['cc_s_0'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.cc_s_0)
  *     output_rec['cc_s_l'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.cc_s_l)
  *     output_rec['cc_s'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.cc_s)             # <<<<<<<<<<<<<<
@@ -6328,7 +6328,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":557
+  /* "pysnobal/snobal.pyx":557
  *     output_rec['cc_s_l'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.cc_s_l)
  *     output_rec['cc_s'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.cc_s)
  *     output_rec['m_s_0'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.m_s_0)             # <<<<<<<<<<<<<<
@@ -6343,7 +6343,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":558
+  /* "pysnobal/snobal.pyx":558
  *     output_rec['cc_s'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.cc_s)
  *     output_rec['m_s_0'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.m_s_0)
  *     output_rec['m_s_l'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.m_s_l)             # <<<<<<<<<<<<<<
@@ -6358,7 +6358,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":559
+  /* "pysnobal/snobal.pyx":559
  *     output_rec['m_s_0'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.m_s_0)
  *     output_rec['m_s_l'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.m_s_l)
  *     output_rec['m_s'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.m_s)             # <<<<<<<<<<<<<<
@@ -6373,7 +6373,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":560
+  /* "pysnobal/snobal.pyx":560
  *     output_rec['m_s_l'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.m_s_l)
  *     output_rec['m_s'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.m_s)
  *     output_rec['z_s_l'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.z_s_l)             # <<<<<<<<<<<<<<
@@ -6388,7 +6388,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":561
+  /* "pysnobal/snobal.pyx":561
  *     output_rec['m_s'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.m_s)
  *     output_rec['z_s_l'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.z_s_l)
  *     output_rec['z_s'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.z_s)             # <<<<<<<<<<<<<<
@@ -6403,7 +6403,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":563
+  /* "pysnobal/snobal.pyx":563
  *     output_rec['z_s'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.z_s)
  * 
  *     output_rec['R_n_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.R_n_bar)             # <<<<<<<<<<<<<<
@@ -6418,7 +6418,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":564
+  /* "pysnobal/snobal.pyx":564
  * 
  *     output_rec['R_n_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.R_n_bar)
  *     output_rec['H_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.H_bar)             # <<<<<<<<<<<<<<
@@ -6433,7 +6433,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":565
+  /* "pysnobal/snobal.pyx":565
  *     output_rec['R_n_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.R_n_bar)
  *     output_rec['H_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.H_bar)
  *     output_rec['L_v_E_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.L_v_E_bar)             # <<<<<<<<<<<<<<
@@ -6448,7 +6448,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":566
+  /* "pysnobal/snobal.pyx":566
  *     output_rec['H_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.H_bar)
  *     output_rec['L_v_E_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.L_v_E_bar)
  *     output_rec['G_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.G_bar)             # <<<<<<<<<<<<<<
@@ -6463,7 +6463,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":567
+  /* "pysnobal/snobal.pyx":567
  *     output_rec['L_v_E_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.L_v_E_bar)
  *     output_rec['G_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.G_bar)
  *     output_rec['G_0_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.G_0_bar)             # <<<<<<<<<<<<<<
@@ -6478,7 +6478,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":568
+  /* "pysnobal/snobal.pyx":568
  *     output_rec['G_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.G_bar)
  *     output_rec['G_0_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.G_0_bar)
  *     output_rec['M_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.M_bar)             # <<<<<<<<<<<<<<
@@ -6493,7 +6493,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":569
+  /* "pysnobal/snobal.pyx":569
  *     output_rec['G_0_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.G_0_bar)
  *     output_rec['M_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.M_bar)
  *     output_rec['delta_Q_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.delta_Q_bar)             # <<<<<<<<<<<<<<
@@ -6508,7 +6508,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":570
+  /* "pysnobal/snobal.pyx":570
  *     output_rec['M_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.M_bar)
  *     output_rec['delta_Q_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.delta_Q_bar)
  *     output_rec['delta_Q_0_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.delta_Q_0_bar)             # <<<<<<<<<<<<<<
@@ -6523,7 +6523,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":571
+  /* "pysnobal/snobal.pyx":571
  *     output_rec['delta_Q_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.delta_Q_bar)
  *     output_rec['delta_Q_0_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.delta_Q_0_bar)
  *     output_rec['E_s_sum'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.E_s_sum)             # <<<<<<<<<<<<<<
@@ -6538,7 +6538,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":572
+  /* "pysnobal/snobal.pyx":572
  *     output_rec['delta_Q_0_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.delta_Q_0_bar)
  *     output_rec['E_s_sum'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.E_s_sum)
  *     output_rec['melt_sum'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.melt_sum)             # <<<<<<<<<<<<<<
@@ -6553,7 +6553,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":573
+  /* "pysnobal/snobal.pyx":573
  *     output_rec['E_s_sum'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.E_s_sum)
  *     output_rec['melt_sum'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.melt_sum)
  *     output_rec['ro_pred_sum'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.ro_pred_sum)             # <<<<<<<<<<<<<<
@@ -6568,7 +6568,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "snobal.pyx":579
+  /* "pysnobal/snobal.pyx":579
  *     # print('time 3 {}'.format(cpu_time_used3))
  * 
  *     return rt             # <<<<<<<<<<<<<<
@@ -6582,7 +6582,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "snobal.pyx":237
+  /* "pysnobal/snobal.pyx":237
  * @cython.wraparound(False)
  * # https://github.com/cython/cython/wiki/tutorials-NumpyPointerToC
  * def do_tstep_grid(input1, input2, output_rec, tstep_rec, mh, params, int first_step=1, int nthreads=1):             # <<<<<<<<<<<<<<
@@ -6651,7 +6651,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_output1_z_s_0.rcbuffer->pybuffer);
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_output1_z_s_l.rcbuffer->pybuffer);
   __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
-  __Pyx_AddTraceback("snobal.do_tstep_grid", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.snobal.do_tstep_grid", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   goto __pyx_L2;
   __pyx_L0:;
@@ -6764,7 +6764,7 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
   return __pyx_r;
 }
 
-/* "snobal.pyx":591
+/* "pysnobal/snobal.pyx":591
  *     cdef int size
  * 
  *     cdef set_data(self, int size, void* data_ptr):             # <<<<<<<<<<<<<<
@@ -6772,12 +6772,12 @@ static PyObject *__pyx_pf_6snobal_do_tstep_grid(CYTHON_UNUSED PyObject *__pyx_se
  *         This cannot be done in the constructor as it must recieve C-level
  */
 
-static PyObject *__pyx_f_6snobal_12ArrayWrapper_set_data(struct __pyx_obj_6snobal_ArrayWrapper *__pyx_v_self, int __pyx_v_size, void *__pyx_v_data_ptr) {
+static PyObject *__pyx_f_8pysnobal_6snobal_12ArrayWrapper_set_data(struct __pyx_obj_8pysnobal_6snobal_ArrayWrapper *__pyx_v_self, int __pyx_v_size, void *__pyx_v_data_ptr) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("set_data", 0);
 
-  /* "snobal.pyx":602
+  /* "pysnobal/snobal.pyx":602
  *             Pointer to the data
  *         """
  *         self.data_ptr = data_ptr             # <<<<<<<<<<<<<<
@@ -6786,7 +6786,7 @@ static PyObject *__pyx_f_6snobal_12ArrayWrapper_set_data(struct __pyx_obj_6snoba
  */
   __pyx_v_self->data_ptr = __pyx_v_data_ptr;
 
-  /* "snobal.pyx":603
+  /* "pysnobal/snobal.pyx":603
  *         """
  *         self.data_ptr = data_ptr
  *         self.size = size             # <<<<<<<<<<<<<<
@@ -6795,7 +6795,7 @@ static PyObject *__pyx_f_6snobal_12ArrayWrapper_set_data(struct __pyx_obj_6snoba
  */
   __pyx_v_self->size = __pyx_v_size;
 
-  /* "snobal.pyx":591
+  /* "pysnobal/snobal.pyx":591
  *     cdef int size
  * 
  *     cdef set_data(self, int size, void* data_ptr):             # <<<<<<<<<<<<<<
@@ -6810,7 +6810,7 @@ static PyObject *__pyx_f_6snobal_12ArrayWrapper_set_data(struct __pyx_obj_6snoba
   return __pyx_r;
 }
 
-/* "snobal.pyx":605
+/* "pysnobal/snobal.pyx":605
  *         self.size = size
  * 
  *     def __array__(self):             # <<<<<<<<<<<<<<
@@ -6819,20 +6819,20 @@ static PyObject *__pyx_f_6snobal_12ArrayWrapper_set_data(struct __pyx_obj_6snoba
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6snobal_12ArrayWrapper_1__array__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_6snobal_12ArrayWrapper___array__[] = " Here we use the __array__ method, that is called when numpy\n            tries to get an array from the object.";
-static PyObject *__pyx_pw_6snobal_12ArrayWrapper_1__array__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_8pysnobal_6snobal_12ArrayWrapper_1__array__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_8pysnobal_6snobal_12ArrayWrapper___array__[] = " Here we use the __array__ method, that is called when numpy\n            tries to get an array from the object.";
+static PyObject *__pyx_pw_8pysnobal_6snobal_12ArrayWrapper_1__array__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__array__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6snobal_12ArrayWrapper___array__(((struct __pyx_obj_6snobal_ArrayWrapper *)__pyx_v_self));
+  __pyx_r = __pyx_pf_8pysnobal_6snobal_12ArrayWrapper___array__(((struct __pyx_obj_8pysnobal_6snobal_ArrayWrapper *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6snobal_12ArrayWrapper___array__(struct __pyx_obj_6snobal_ArrayWrapper *__pyx_v_self) {
+static PyObject *__pyx_pf_8pysnobal_6snobal_12ArrayWrapper___array__(struct __pyx_obj_8pysnobal_6snobal_ArrayWrapper *__pyx_v_self) {
   npy_intp __pyx_v_shape[1];
   PyObject *__pyx_v_ndarray = NULL;
   PyObject *__pyx_r = NULL;
@@ -6843,7 +6843,7 @@ static PyObject *__pyx_pf_6snobal_12ArrayWrapper___array__(struct __pyx_obj_6sno
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__array__", 0);
 
-  /* "snobal.pyx":609
+  /* "pysnobal/snobal.pyx":609
  *             tries to get an array from the object."""
  *         cdef np.npy_intp shape[1]
  *         shape[0] = <np.npy_intp> self.size             # <<<<<<<<<<<<<<
@@ -6852,7 +6852,7 @@ static PyObject *__pyx_pf_6snobal_12ArrayWrapper___array__(struct __pyx_obj_6sno
  */
   (__pyx_v_shape[0]) = ((npy_intp)__pyx_v_self->size);
 
-  /* "snobal.pyx":611
+  /* "pysnobal/snobal.pyx":611
  *         shape[0] = <np.npy_intp> self.size
  *         # Create a 1D array, of length 'size'
  *         ndarray = np.PyArray_SimpleNewFromData(1, shape,             # <<<<<<<<<<<<<<
@@ -6864,7 +6864,7 @@ static PyObject *__pyx_pf_6snobal_12ArrayWrapper___array__(struct __pyx_obj_6sno
   __pyx_v_ndarray = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "snobal.pyx":613
+  /* "pysnobal/snobal.pyx":613
  *         ndarray = np.PyArray_SimpleNewFromData(1, shape,
  *                                                np.NPY_INT, self.data_ptr)
  *         return ndarray             # <<<<<<<<<<<<<<
@@ -6876,7 +6876,7 @@ static PyObject *__pyx_pf_6snobal_12ArrayWrapper___array__(struct __pyx_obj_6sno
   __pyx_r = __pyx_v_ndarray;
   goto __pyx_L0;
 
-  /* "snobal.pyx":605
+  /* "pysnobal/snobal.pyx":605
  *         self.size = size
  * 
  *     def __array__(self):             # <<<<<<<<<<<<<<
@@ -6887,7 +6887,7 @@ static PyObject *__pyx_pf_6snobal_12ArrayWrapper___array__(struct __pyx_obj_6sno
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("snobal.ArrayWrapper.__array__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.snobal.ArrayWrapper.__array__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_ndarray);
@@ -6896,7 +6896,7 @@ static PyObject *__pyx_pf_6snobal_12ArrayWrapper___array__(struct __pyx_obj_6sno
   return __pyx_r;
 }
 
-/* "snobal.pyx":615
+/* "pysnobal/snobal.pyx":615
  *         return ndarray
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -6905,21 +6905,21 @@ static PyObject *__pyx_pf_6snobal_12ArrayWrapper___array__(struct __pyx_obj_6sno
  */
 
 /* Python wrapper */
-static void __pyx_pw_6snobal_12ArrayWrapper_3__dealloc__(PyObject *__pyx_v_self); /*proto*/
-static void __pyx_pw_6snobal_12ArrayWrapper_3__dealloc__(PyObject *__pyx_v_self) {
+static void __pyx_pw_8pysnobal_6snobal_12ArrayWrapper_3__dealloc__(PyObject *__pyx_v_self); /*proto*/
+static void __pyx_pw_8pysnobal_6snobal_12ArrayWrapper_3__dealloc__(PyObject *__pyx_v_self) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__dealloc__ (wrapper)", 0);
-  __pyx_pf_6snobal_12ArrayWrapper_2__dealloc__(((struct __pyx_obj_6snobal_ArrayWrapper *)__pyx_v_self));
+  __pyx_pf_8pysnobal_6snobal_12ArrayWrapper_2__dealloc__(((struct __pyx_obj_8pysnobal_6snobal_ArrayWrapper *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
 }
 
-static void __pyx_pf_6snobal_12ArrayWrapper_2__dealloc__(struct __pyx_obj_6snobal_ArrayWrapper *__pyx_v_self) {
+static void __pyx_pf_8pysnobal_6snobal_12ArrayWrapper_2__dealloc__(struct __pyx_obj_8pysnobal_6snobal_ArrayWrapper *__pyx_v_self) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__dealloc__", 0);
 
-  /* "snobal.pyx":618
+  /* "pysnobal/snobal.pyx":618
  *         """ Frees the array. This is called by Python when all the
  *         references to the object are gone. """
  *         free(<void*>self.data_ptr)             # <<<<<<<<<<<<<<
@@ -6928,7 +6928,7 @@ static void __pyx_pf_6snobal_12ArrayWrapper_2__dealloc__(struct __pyx_obj_6snoba
  */
   free(((void *)__pyx_v_self->data_ptr));
 
-  /* "snobal.pyx":615
+  /* "pysnobal/snobal.pyx":615
  *         return ndarray
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -6940,7 +6940,7 @@ static void __pyx_pf_6snobal_12ArrayWrapper_2__dealloc__(struct __pyx_obj_6snoba
   __Pyx_RefNannyFinishContext();
 }
 
-/* "snobal.pyx":620
+/* "pysnobal/snobal.pyx":620
  *         free(<void*>self.data_ptr)
  * 
  * def initialize(params, tstep_info, sn, mh):             # <<<<<<<<<<<<<<
@@ -6949,10 +6949,10 @@ static void __pyx_pf_6snobal_12ArrayWrapper_2__dealloc__(struct __pyx_obj_6snoba
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6snobal_3initialize(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6snobal_2initialize[] = "\n    Initialize the Snobal model given the input records\n\n    Args:\n        params:\n        tstep_info:\n        sn:\n        mh:\n    ";
-static PyMethodDef __pyx_mdef_6snobal_3initialize = {"initialize", (PyCFunction)__pyx_pw_6snobal_3initialize, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6snobal_2initialize};
-static PyObject *__pyx_pw_6snobal_3initialize(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8pysnobal_6snobal_3initialize(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_8pysnobal_6snobal_2initialize[] = "\n    Initialize the Snobal model given the input records\n\n    Args:\n        params:\n        tstep_info:\n        sn:\n        mh:\n    ";
+static PyMethodDef __pyx_mdef_8pysnobal_6snobal_3initialize = {"initialize", (PyCFunction)__pyx_pw_8pysnobal_6snobal_3initialize, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8pysnobal_6snobal_2initialize};
+static PyObject *__pyx_pw_8pysnobal_6snobal_3initialize(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   CYTHON_UNUSED PyObject *__pyx_v_params = 0;
   CYTHON_UNUSED PyObject *__pyx_v_tstep_info = 0;
   CYTHON_UNUSED PyObject *__pyx_v_sn = 0;
@@ -7018,23 +7018,23 @@ static PyObject *__pyx_pw_6snobal_3initialize(PyObject *__pyx_self, PyObject *__
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("initialize", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 620; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("snobal.initialize", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.snobal.initialize", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6snobal_2initialize(__pyx_self, __pyx_v_params, __pyx_v_tstep_info, __pyx_v_sn, __pyx_v_mh);
+  __pyx_r = __pyx_pf_8pysnobal_6snobal_2initialize(__pyx_self, __pyx_v_params, __pyx_v_tstep_info, __pyx_v_sn, __pyx_v_mh);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6snobal_2initialize(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_params, CYTHON_UNUSED PyObject *__pyx_v_tstep_info, CYTHON_UNUSED PyObject *__pyx_v_sn, CYTHON_UNUSED PyObject *__pyx_v_mh) {
+static PyObject *__pyx_pf_8pysnobal_6snobal_2initialize(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_params, CYTHON_UNUSED PyObject *__pyx_v_tstep_info, CYTHON_UNUSED PyObject *__pyx_v_sn, CYTHON_UNUSED PyObject *__pyx_v_mh) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("initialize", 0);
 
-  /* "snobal.pyx":631
+  /* "pysnobal/snobal.pyx":631
  *     """
  * 
  *     return None             # <<<<<<<<<<<<<<
@@ -7046,7 +7046,7 @@ static PyObject *__pyx_pf_6snobal_2initialize(CYTHON_UNUSED PyObject *__pyx_self
   __pyx_r = Py_None;
   goto __pyx_L0;
 
-  /* "snobal.pyx":620
+  /* "pysnobal/snobal.pyx":620
  *         free(<void*>self.data_ptr)
  * 
  * def initialize(params, tstep_info, sn, mh):             # <<<<<<<<<<<<<<
@@ -7061,7 +7061,7 @@ static PyObject *__pyx_pf_6snobal_2initialize(CYTHON_UNUSED PyObject *__pyx_self
   return __pyx_r;
 }
 
-/* "snobal.pyx":635
+/* "pysnobal/snobal.pyx":635
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
  * def do_tstep(input1, input2, output_rec, tstep_rec, mh, params, first_step=True):             # <<<<<<<<<<<<<<
@@ -7070,10 +7070,10 @@ static PyObject *__pyx_pf_6snobal_2initialize(CYTHON_UNUSED PyObject *__pyx_self
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6snobal_5do_tstep(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6snobal_4do_tstep[] = "\n    Do the timestep given the inputs, model state, and measurement heights\n    There is no first_step value since the snow state records were already\n    pulled in an initialized. Therefore only the values need to be pulled\n    out before calling 'init_snow()'\n    ";
-static PyMethodDef __pyx_mdef_6snobal_5do_tstep = {"do_tstep", (PyCFunction)__pyx_pw_6snobal_5do_tstep, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6snobal_4do_tstep};
-static PyObject *__pyx_pw_6snobal_5do_tstep(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8pysnobal_6snobal_5do_tstep(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_8pysnobal_6snobal_4do_tstep[] = "\n    Do the timestep given the inputs, model state, and measurement heights\n    There is no first_step value since the snow state records were already\n    pulled in an initialized. Therefore only the values need to be pulled\n    out before calling 'init_snow()'\n    ";
+static PyMethodDef __pyx_mdef_8pysnobal_6snobal_5do_tstep = {"do_tstep", (PyCFunction)__pyx_pw_8pysnobal_6snobal_5do_tstep, METH_VARARGS|METH_KEYWORDS, __pyx_doc_8pysnobal_6snobal_4do_tstep};
+static PyObject *__pyx_pw_8pysnobal_6snobal_5do_tstep(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_input1 = 0;
   PyObject *__pyx_v_input2 = 0;
   PyObject *__pyx_v_output_rec = 0;
@@ -7169,18 +7169,18 @@ static PyObject *__pyx_pw_6snobal_5do_tstep(PyObject *__pyx_self, PyObject *__py
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("do_tstep", 0, 6, 7, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 635; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("snobal.do_tstep", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.snobal.do_tstep", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6snobal_4do_tstep(__pyx_self, __pyx_v_input1, __pyx_v_input2, __pyx_v_output_rec, __pyx_v_tstep_rec, __pyx_v_mh, __pyx_v_params, __pyx_v_first_step);
+  __pyx_r = __pyx_pf_8pysnobal_6snobal_4do_tstep(__pyx_self, __pyx_v_input1, __pyx_v_input2, __pyx_v_output_rec, __pyx_v_tstep_rec, __pyx_v_mh, __pyx_v_params, __pyx_v_first_step);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_input1, PyObject *__pyx_v_input2, PyObject *__pyx_v_output_rec, PyObject *__pyx_v_tstep_rec, PyObject *__pyx_v_mh, PyObject *__pyx_v_params, PyObject *__pyx_v_first_step) {
+static PyObject *__pyx_pf_8pysnobal_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_input1, PyObject *__pyx_v_input2, PyObject *__pyx_v_output_rec, PyObject *__pyx_v_tstep_rec, PyObject *__pyx_v_mh, PyObject *__pyx_v_params, PyObject *__pyx_v_first_step) {
   int __pyx_v_N;
   PyObject *__pyx_v_i = NULL;
   int __pyx_v_rt;
@@ -7211,7 +7211,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("do_tstep", 0);
 
-  /* "snobal.pyx":643
+  /* "pysnobal/snobal.pyx":643
  *     """
  * 
  *     cdef int N = len(output_rec['elevation'])             # <<<<<<<<<<<<<<
@@ -7224,7 +7224,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_N = __pyx_t_2;
 
-  /* "snobal.pyx":646
+  /* "pysnobal/snobal.pyx":646
  * #     cdef TSTEP_REC tstep_info[4]
  * 
  *     for i in range(len(tstep_rec)):             # <<<<<<<<<<<<<<
@@ -7285,7 +7285,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "snobal.pyx":647
+    /* "pysnobal/snobal.pyx":647
  * 
  *     for i in range(len(tstep_rec)):
  *         tstep_info[i].level = int(tstep_rec[i]['level'])             # <<<<<<<<<<<<<<
@@ -7305,7 +7305,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
     __pyx_t_7 = __Pyx_PyIndex_AsSsize_t(__pyx_v_i); if (unlikely((__pyx_t_7 == (Py_ssize_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 647; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     (tstep_info[__pyx_t_7]).level = __pyx_t_6;
 
-    /* "snobal.pyx":648
+    /* "pysnobal/snobal.pyx":648
  *     for i in range(len(tstep_rec)):
  *         tstep_info[i].level = int(tstep_rec[i]['level'])
  *         if tstep_rec[i]['time_step'] is not None:             # <<<<<<<<<<<<<<
@@ -7322,7 +7322,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
     __pyx_t_9 = (__pyx_t_8 != 0);
     if (__pyx_t_9) {
 
-      /* "snobal.pyx":649
+      /* "pysnobal/snobal.pyx":649
  *         tstep_info[i].level = int(tstep_rec[i]['level'])
  *         if tstep_rec[i]['time_step'] is not None:
  *             tstep_info[i].time_step = tstep_rec[i]['time_step']             # <<<<<<<<<<<<<<
@@ -7339,7 +7339,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __pyx_t_7 = __Pyx_PyIndex_AsSsize_t(__pyx_v_i); if (unlikely((__pyx_t_7 == (Py_ssize_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 649; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       (tstep_info[__pyx_t_7]).time_step = __pyx_t_10;
 
-      /* "snobal.pyx":648
+      /* "pysnobal/snobal.pyx":648
  *     for i in range(len(tstep_rec)):
  *         tstep_info[i].level = int(tstep_rec[i]['level'])
  *         if tstep_rec[i]['time_step'] is not None:             # <<<<<<<<<<<<<<
@@ -7348,7 +7348,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
  */
     }
 
-    /* "snobal.pyx":650
+    /* "pysnobal/snobal.pyx":650
  *         if tstep_rec[i]['time_step'] is not None:
  *             tstep_info[i].time_step = tstep_rec[i]['time_step']
  *         if tstep_rec[i]['intervals'] is not None:             # <<<<<<<<<<<<<<
@@ -7365,7 +7365,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
     __pyx_t_8 = (__pyx_t_9 != 0);
     if (__pyx_t_8) {
 
-      /* "snobal.pyx":651
+      /* "pysnobal/snobal.pyx":651
  *             tstep_info[i].time_step = tstep_rec[i]['time_step']
  *         if tstep_rec[i]['intervals'] is not None:
  *             tstep_info[i].intervals = int(tstep_rec[i]['intervals'])             # <<<<<<<<<<<<<<
@@ -7385,7 +7385,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __pyx_t_7 = __Pyx_PyIndex_AsSsize_t(__pyx_v_i); if (unlikely((__pyx_t_7 == (Py_ssize_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 651; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       (tstep_info[__pyx_t_7]).intervals = __pyx_t_6;
 
-      /* "snobal.pyx":650
+      /* "pysnobal/snobal.pyx":650
  *         if tstep_rec[i]['time_step'] is not None:
  *             tstep_info[i].time_step = tstep_rec[i]['time_step']
  *         if tstep_rec[i]['intervals'] is not None:             # <<<<<<<<<<<<<<
@@ -7394,7 +7394,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
  */
     }
 
-    /* "snobal.pyx":652
+    /* "pysnobal/snobal.pyx":652
  *         if tstep_rec[i]['intervals'] is not None:
  *             tstep_info[i].intervals = int(tstep_rec[i]['intervals'])
  *         if tstep_rec[i]['threshold'] is not None:             # <<<<<<<<<<<<<<
@@ -7411,7 +7411,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
     __pyx_t_9 = (__pyx_t_8 != 0);
     if (__pyx_t_9) {
 
-      /* "snobal.pyx":653
+      /* "pysnobal/snobal.pyx":653
  *             tstep_info[i].intervals = int(tstep_rec[i]['intervals'])
  *         if tstep_rec[i]['threshold'] is not None:
  *             tstep_info[i].threshold = tstep_rec[i]['threshold']             # <<<<<<<<<<<<<<
@@ -7428,7 +7428,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __pyx_t_7 = __Pyx_PyIndex_AsSsize_t(__pyx_v_i); if (unlikely((__pyx_t_7 == (Py_ssize_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 653; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       (tstep_info[__pyx_t_7]).threshold = __pyx_t_10;
 
-      /* "snobal.pyx":652
+      /* "pysnobal/snobal.pyx":652
  *         if tstep_rec[i]['intervals'] is not None:
  *             tstep_info[i].intervals = int(tstep_rec[i]['intervals'])
  *         if tstep_rec[i]['threshold'] is not None:             # <<<<<<<<<<<<<<
@@ -7437,7 +7437,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
  */
     }
 
-    /* "snobal.pyx":654
+    /* "pysnobal/snobal.pyx":654
  *         if tstep_rec[i]['threshold'] is not None:
  *             tstep_info[i].threshold = tstep_rec[i]['threshold']
  *         tstep_info[i].output = int(tstep_rec[i]['output'])             # <<<<<<<<<<<<<<
@@ -7457,7 +7457,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
     __pyx_t_7 = __Pyx_PyIndex_AsSsize_t(__pyx_v_i); if (unlikely((__pyx_t_7 == (Py_ssize_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 654; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     (tstep_info[__pyx_t_7]).output = __pyx_t_6;
 
-    /* "snobal.pyx":646
+    /* "pysnobal/snobal.pyx":646
  * #     cdef TSTEP_REC tstep_info[4]
  * 
  *     for i in range(len(tstep_rec)):             # <<<<<<<<<<<<<<
@@ -7467,7 +7467,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "snobal.pyx":670
+  /* "pysnobal/snobal.pyx":670
  * 
  *     # loop through the grid
  *     rt = True             # <<<<<<<<<<<<<<
@@ -7476,7 +7476,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
  */
   __pyx_v_rt = 1;
 
-  /* "snobal.pyx":671
+  /* "pysnobal/snobal.pyx":671
  *     # loop through the grid
  *     rt = True
  *     for (i,j), z in np.ndenumerate(output_rec['elevation']):             # <<<<<<<<<<<<<<
@@ -7663,7 +7663,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
     __Pyx_XDECREF_SET(__pyx_v_z, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "snobal.pyx":677
+    /* "pysnobal/snobal.pyx":677
  *         # extract_data.c
  *         #check to see if point is masked, since 1=run point, it's "not" masked
  *         masked = output_rec['mask'][i,j]             # <<<<<<<<<<<<<<
@@ -7687,7 +7687,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
     __Pyx_XDECREF_SET(__pyx_v_masked, __pyx_t_12);
     __pyx_t_12 = 0;
 
-    /* "snobal.pyx":678
+    /* "pysnobal/snobal.pyx":678
  *         #check to see if point is masked, since 1=run point, it's "not" masked
  *         masked = output_rec['mask'][i,j]
  *         if masked:             # <<<<<<<<<<<<<<
@@ -7697,7 +7697,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
     __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_v_masked); if (unlikely(__pyx_t_9 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 678; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     if (__pyx_t_9) {
 
-      /* "snobal.pyx":691
+      /* "pysnobal/snobal.pyx":691
  * 
  *             # time variables
  *             current_time = output_rec['current_time'][i,j]             # <<<<<<<<<<<<<<
@@ -7722,7 +7722,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       current_time = __pyx_t_10;
 
-      /* "snobal.pyx":692
+      /* "pysnobal/snobal.pyx":692
  *             # time variables
  *             current_time = output_rec['current_time'][i,j]
  *             time_since_out = output_rec['time_since_out'][i,j]             # <<<<<<<<<<<<<<
@@ -7747,7 +7747,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
       time_since_out = __pyx_t_10;
 
-      /* "snobal.pyx":695
+      /* "pysnobal/snobal.pyx":695
  * 
  *             # measurement heights and parameters
  *             z_u = mh['z_u']             # <<<<<<<<<<<<<<
@@ -7760,7 +7760,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
       z_u = __pyx_t_10;
 
-      /* "snobal.pyx":696
+      /* "pysnobal/snobal.pyx":696
  *             # measurement heights and parameters
  *             z_u = mh['z_u']
  *             z_T = mh['z_t']             # <<<<<<<<<<<<<<
@@ -7773,7 +7773,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
       z_T = __pyx_t_10;
 
-      /* "snobal.pyx":697
+      /* "pysnobal/snobal.pyx":697
  *             z_u = mh['z_u']
  *             z_T = mh['z_t']
  *             z_g = mh['z_g']             # <<<<<<<<<<<<<<
@@ -7786,7 +7786,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
       z_g = __pyx_t_10;
 
-      /* "snobal.pyx":698
+      /* "pysnobal/snobal.pyx":698
  *             z_T = mh['z_t']
  *             z_g = mh['z_g']
  *             relative_heights = int(params['relative_heights'])             # <<<<<<<<<<<<<<
@@ -7801,7 +7801,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       if (PyDict_SetItem(__pyx_d, __pyx_n_s_relative_heights, __pyx_t_5) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 698; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "snobal.pyx":699
+      /* "pysnobal/snobal.pyx":699
  *             z_g = mh['z_g']
  *             relative_heights = int(params['relative_heights'])
  *             max_h2o_vol = params['max_h2o_vol']             # <<<<<<<<<<<<<<
@@ -7814,7 +7814,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       max_h2o_vol = __pyx_t_10;
 
-      /* "snobal.pyx":700
+      /* "pysnobal/snobal.pyx":700
  *             relative_heights = int(params['relative_heights'])
  *             max_h2o_vol = params['max_h2o_vol']
  *             max_z_s_0 = params['max_z_s_0']             # <<<<<<<<<<<<<<
@@ -7827,7 +7827,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       max_z_s_0 = __pyx_t_10;
 
-      /* "snobal.pyx":703
+      /* "pysnobal/snobal.pyx":703
  * 
  *             # get the input records
  *             input_rec1.I_lw = input1['I_lw'][i,j]             # <<<<<<<<<<<<<<
@@ -7852,7 +7852,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       input_rec1.I_lw = __pyx_t_10;
 
-      /* "snobal.pyx":704
+      /* "pysnobal/snobal.pyx":704
  *             # get the input records
  *             input_rec1.I_lw = input1['I_lw'][i,j]
  *             input_rec1.T_a  = input1['T_a'][i,j]             # <<<<<<<<<<<<<<
@@ -7877,7 +7877,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       input_rec1.T_a = __pyx_t_10;
 
-      /* "snobal.pyx":705
+      /* "pysnobal/snobal.pyx":705
  *             input_rec1.I_lw = input1['I_lw'][i,j]
  *             input_rec1.T_a  = input1['T_a'][i,j]
  *             input_rec1.e_a  = input1['e_a'][i,j]             # <<<<<<<<<<<<<<
@@ -7902,7 +7902,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       input_rec1.e_a = __pyx_t_10;
 
-      /* "snobal.pyx":706
+      /* "pysnobal/snobal.pyx":706
  *             input_rec1.T_a  = input1['T_a'][i,j]
  *             input_rec1.e_a  = input1['e_a'][i,j]
  *             input_rec1.u    = input1['u'][i,j]             # <<<<<<<<<<<<<<
@@ -7927,7 +7927,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       input_rec1.u = __pyx_t_10;
 
-      /* "snobal.pyx":707
+      /* "pysnobal/snobal.pyx":707
  *             input_rec1.e_a  = input1['e_a'][i,j]
  *             input_rec1.u    = input1['u'][i,j]
  *             input_rec1.T_g  = input1['T_g'][i,j]             # <<<<<<<<<<<<<<
@@ -7952,7 +7952,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       input_rec1.T_g = __pyx_t_10;
 
-      /* "snobal.pyx":708
+      /* "pysnobal/snobal.pyx":708
  *             input_rec1.u    = input1['u'][i,j]
  *             input_rec1.T_g  = input1['T_g'][i,j]
  *             input_rec1.S_n  = input1['S_n'][i,j]             # <<<<<<<<<<<<<<
@@ -7977,7 +7977,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       input_rec1.S_n = __pyx_t_10;
 
-      /* "snobal.pyx":710
+      /* "pysnobal/snobal.pyx":710
  *             input_rec1.S_n  = input1['S_n'][i,j]
  * 
  *             input_rec2.I_lw = input2['I_lw'][i,j]             # <<<<<<<<<<<<<<
@@ -8002,7 +8002,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       input_rec2.I_lw = __pyx_t_10;
 
-      /* "snobal.pyx":711
+      /* "pysnobal/snobal.pyx":711
  * 
  *             input_rec2.I_lw = input2['I_lw'][i,j]
  *             input_rec2.T_a  = input2['T_a'][i,j]             # <<<<<<<<<<<<<<
@@ -8027,7 +8027,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       input_rec2.T_a = __pyx_t_10;
 
-      /* "snobal.pyx":712
+      /* "pysnobal/snobal.pyx":712
  *             input_rec2.I_lw = input2['I_lw'][i,j]
  *             input_rec2.T_a  = input2['T_a'][i,j]
  *             input_rec2.e_a  = input2['e_a'][i,j]             # <<<<<<<<<<<<<<
@@ -8052,7 +8052,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       input_rec2.e_a = __pyx_t_10;
 
-      /* "snobal.pyx":713
+      /* "pysnobal/snobal.pyx":713
  *             input_rec2.T_a  = input2['T_a'][i,j]
  *             input_rec2.e_a  = input2['e_a'][i,j]
  *             input_rec2.u    = input2['u'][i,j]             # <<<<<<<<<<<<<<
@@ -8077,7 +8077,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       input_rec2.u = __pyx_t_10;
 
-      /* "snobal.pyx":714
+      /* "pysnobal/snobal.pyx":714
  *             input_rec2.e_a  = input2['e_a'][i,j]
  *             input_rec2.u    = input2['u'][i,j]
  *             input_rec2.T_g  = input2['T_g'][i,j]             # <<<<<<<<<<<<<<
@@ -8102,7 +8102,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       input_rec2.T_g = __pyx_t_10;
 
-      /* "snobal.pyx":715
+      /* "pysnobal/snobal.pyx":715
  *             input_rec2.u    = input2['u'][i,j]
  *             input_rec2.T_g  = input2['T_g'][i,j]
  *             input_rec2.S_n  = input2['S_n'][i,j]             # <<<<<<<<<<<<<<
@@ -8127,7 +8127,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       input_rec2.S_n = __pyx_t_10;
 
-      /* "snobal.pyx":717
+      /* "pysnobal/snobal.pyx":717
  *             input_rec2.S_n  = input2['S_n'][i,j]
  * 
  *             m_pp         = input1['m_pp'][i,j]             # <<<<<<<<<<<<<<
@@ -8152,7 +8152,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       m_pp = __pyx_t_10;
 
-      /* "snobal.pyx":718
+      /* "pysnobal/snobal.pyx":718
  * 
  *             m_pp         = input1['m_pp'][i,j]
  *             percent_snow = input1['percent_snow'][i,j]             # <<<<<<<<<<<<<<
@@ -8177,7 +8177,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       percent_snow = __pyx_t_10;
 
-      /* "snobal.pyx":719
+      /* "pysnobal/snobal.pyx":719
  *             m_pp         = input1['m_pp'][i,j]
  *             percent_snow = input1['percent_snow'][i,j]
  *             rho_snow     = input1['rho_snow'][i,j]             # <<<<<<<<<<<<<<
@@ -8202,7 +8202,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       rho_snow = __pyx_t_10;
 
-      /* "snobal.pyx":720
+      /* "pysnobal/snobal.pyx":720
  *             percent_snow = input1['percent_snow'][i,j]
  *             rho_snow     = input1['rho_snow'][i,j]
  *             T_pp         = input1['T_pp'][i,j]             # <<<<<<<<<<<<<<
@@ -8227,7 +8227,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       T_pp = __pyx_t_10;
 
-      /* "snobal.pyx":722
+      /* "pysnobal/snobal.pyx":722
  *             T_pp         = input1['T_pp'][i,j]
  * 
  *             precip_now = 0             # <<<<<<<<<<<<<<
@@ -8236,7 +8236,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
  */
       precip_now = 0;
 
-      /* "snobal.pyx":723
+      /* "pysnobal/snobal.pyx":723
  * 
  *             precip_now = 0
  *             if m_pp > 0:             # <<<<<<<<<<<<<<
@@ -8246,7 +8246,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __pyx_t_9 = ((m_pp > 0.0) != 0);
       if (__pyx_t_9) {
 
-        /* "snobal.pyx":724
+        /* "pysnobal/snobal.pyx":724
  *             precip_now = 0
  *             if m_pp > 0:
  *                 precip_now = 1             # <<<<<<<<<<<<<<
@@ -8255,7 +8255,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
  */
         precip_now = 1;
 
-        /* "snobal.pyx":723
+        /* "pysnobal/snobal.pyx":723
  * 
  *             precip_now = 0
  *             if m_pp > 0:             # <<<<<<<<<<<<<<
@@ -8264,7 +8264,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
  */
       }
 
-      /* "snobal.pyx":727
+      /* "pysnobal/snobal.pyx":727
  * 
  *             # get the model state
  *             elevation       = output_rec['elevation'][i,j]             # <<<<<<<<<<<<<<
@@ -8288,7 +8288,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_XDECREF_SET(__pyx_v_elevation, __pyx_t_3);
       __pyx_t_3 = 0;
 
-      /* "snobal.pyx":728
+      /* "pysnobal/snobal.pyx":728
  *             # get the model state
  *             elevation       = output_rec['elevation'][i,j]
  *             z_0             = output_rec['z_0'][i,j]             # <<<<<<<<<<<<<<
@@ -8313,7 +8313,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       z_0 = __pyx_t_10;
 
-      /* "snobal.pyx":729
+      /* "pysnobal/snobal.pyx":729
  *             elevation       = output_rec['elevation'][i,j]
  *             z_0             = output_rec['z_0'][i,j]
  *             z_s             = output_rec['z_s'][i,j]             # <<<<<<<<<<<<<<
@@ -8338,7 +8338,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       z_s = __pyx_t_10;
 
-      /* "snobal.pyx":730
+      /* "pysnobal/snobal.pyx":730
  *             z_0             = output_rec['z_0'][i,j]
  *             z_s             = output_rec['z_s'][i,j]
  *             rho             = output_rec['rho'][i,j]             # <<<<<<<<<<<<<<
@@ -8363,7 +8363,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       rho = __pyx_t_10;
 
-      /* "snobal.pyx":731
+      /* "pysnobal/snobal.pyx":731
  *             z_s             = output_rec['z_s'][i,j]
  *             rho             = output_rec['rho'][i,j]
  *             T_s_0           = output_rec['T_s_0'][i,j]             # <<<<<<<<<<<<<<
@@ -8388,7 +8388,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       T_s_0 = __pyx_t_10;
 
-      /* "snobal.pyx":732
+      /* "pysnobal/snobal.pyx":732
  *             rho             = output_rec['rho'][i,j]
  *             T_s_0           = output_rec['T_s_0'][i,j]
  *             T_s_l           = output_rec['T_s_l'][i,j]             # <<<<<<<<<<<<<<
@@ -8413,7 +8413,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       T_s_l = __pyx_t_10;
 
-      /* "snobal.pyx":733
+      /* "pysnobal/snobal.pyx":733
  *             T_s_0           = output_rec['T_s_0'][i,j]
  *             T_s_l           = output_rec['T_s_l'][i,j]
  *             T_s             = output_rec['T_s'][i,j]             # <<<<<<<<<<<<<<
@@ -8438,7 +8438,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       T_s = __pyx_t_10;
 
-      /* "snobal.pyx":734
+      /* "pysnobal/snobal.pyx":734
  *             T_s_l           = output_rec['T_s_l'][i,j]
  *             T_s             = output_rec['T_s'][i,j]
  *             h2o_sat         = output_rec['h2o_sat'][i,j]             # <<<<<<<<<<<<<<
@@ -8463,7 +8463,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       h2o_sat = __pyx_t_10;
 
-      /* "snobal.pyx":735
+      /* "pysnobal/snobal.pyx":735
  *             T_s             = output_rec['T_s'][i,j]
  *             h2o_sat         = output_rec['h2o_sat'][i,j]
  *             layer_count     = output_rec['layer_count'][i,j]             # <<<<<<<<<<<<<<
@@ -8488,7 +8488,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       layer_count = __pyx_t_6;
 
-      /* "snobal.pyx":737
+      /* "pysnobal/snobal.pyx":737
  *             layer_count     = output_rec['layer_count'][i,j]
  * 
  *             R_n_bar         = output_rec['R_n_bar'][i,j]             # <<<<<<<<<<<<<<
@@ -8513,7 +8513,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       R_n_bar = __pyx_t_10;
 
-      /* "snobal.pyx":738
+      /* "pysnobal/snobal.pyx":738
  * 
  *             R_n_bar         = output_rec['R_n_bar'][i,j]
  *             H_bar           = output_rec['H_bar'][i,j]             # <<<<<<<<<<<<<<
@@ -8538,7 +8538,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       H_bar = __pyx_t_10;
 
-      /* "snobal.pyx":739
+      /* "pysnobal/snobal.pyx":739
  *             R_n_bar         = output_rec['R_n_bar'][i,j]
  *             H_bar           = output_rec['H_bar'][i,j]
  *             L_v_E_bar       = output_rec['L_v_E_bar'][i,j]             # <<<<<<<<<<<<<<
@@ -8563,7 +8563,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       L_v_E_bar = __pyx_t_10;
 
-      /* "snobal.pyx":740
+      /* "pysnobal/snobal.pyx":740
  *             H_bar           = output_rec['H_bar'][i,j]
  *             L_v_E_bar       = output_rec['L_v_E_bar'][i,j]
  *             G_bar           = output_rec['G_bar'][i,j]             # <<<<<<<<<<<<<<
@@ -8588,7 +8588,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       G_bar = __pyx_t_10;
 
-      /* "snobal.pyx":741
+      /* "pysnobal/snobal.pyx":741
  *             L_v_E_bar       = output_rec['L_v_E_bar'][i,j]
  *             G_bar           = output_rec['G_bar'][i,j]
  *             G_0_bar         = output_rec['G_0_bar'][i,j]             # <<<<<<<<<<<<<<
@@ -8613,7 +8613,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       G_0_bar = __pyx_t_10;
 
-      /* "snobal.pyx":742
+      /* "pysnobal/snobal.pyx":742
  *             G_bar           = output_rec['G_bar'][i,j]
  *             G_0_bar         = output_rec['G_0_bar'][i,j]
  *             M_bar           = output_rec['M_bar'][i,j]             # <<<<<<<<<<<<<<
@@ -8638,7 +8638,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       M_bar = __pyx_t_10;
 
-      /* "snobal.pyx":743
+      /* "pysnobal/snobal.pyx":743
  *             G_0_bar         = output_rec['G_0_bar'][i,j]
  *             M_bar           = output_rec['M_bar'][i,j]
  *             delta_Q_bar     = output_rec['delta_Q_bar'][i,j]             # <<<<<<<<<<<<<<
@@ -8663,7 +8663,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       delta_Q_bar = __pyx_t_10;
 
-      /* "snobal.pyx":744
+      /* "pysnobal/snobal.pyx":744
  *             M_bar           = output_rec['M_bar'][i,j]
  *             delta_Q_bar     = output_rec['delta_Q_bar'][i,j]
  *             delta_Q_0_bar   = output_rec['delta_Q_0_bar'][i,j]             # <<<<<<<<<<<<<<
@@ -8688,7 +8688,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       delta_Q_0_bar = __pyx_t_10;
 
-      /* "snobal.pyx":745
+      /* "pysnobal/snobal.pyx":745
  *             delta_Q_bar     = output_rec['delta_Q_bar'][i,j]
  *             delta_Q_0_bar   = output_rec['delta_Q_0_bar'][i,j]
  *             E_s_sum         = output_rec['E_s_sum'][i,j]             # <<<<<<<<<<<<<<
@@ -8713,7 +8713,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       E_s_sum = __pyx_t_10;
 
-      /* "snobal.pyx":746
+      /* "pysnobal/snobal.pyx":746
  *             delta_Q_0_bar   = output_rec['delta_Q_0_bar'][i,j]
  *             E_s_sum         = output_rec['E_s_sum'][i,j]
  *             melt_sum        = output_rec['melt_sum'][i,j]             # <<<<<<<<<<<<<<
@@ -8738,7 +8738,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       melt_sum = __pyx_t_10;
 
-      /* "snobal.pyx":747
+      /* "pysnobal/snobal.pyx":747
  *             E_s_sum         = output_rec['E_s_sum'][i,j]
  *             melt_sum        = output_rec['melt_sum'][i,j]
  *             ro_pred_sum     = output_rec['ro_pred_sum'][i,j]             # <<<<<<<<<<<<<<
@@ -8763,7 +8763,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       ro_pred_sum = __pyx_t_10;
 
-      /* "snobal.pyx":756
+      /* "pysnobal/snobal.pyx":756
  *             # or there will be a slight descrepancy with isnobal. But with this,
  *             # there should be a descrepancy in isnobal as well
  *             if first_step:             # <<<<<<<<<<<<<<
@@ -8773,7 +8773,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_v_first_step); if (unlikely(__pyx_t_9 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 756; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       if (__pyx_t_9) {
 
-        /* "snobal.pyx":757
+        /* "pysnobal/snobal.pyx":757
  *             # there should be a descrepancy in isnobal as well
  *             if first_step:
  *                 init_snow()             # <<<<<<<<<<<<<<
@@ -8782,7 +8782,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
  */
         init_snow();
 
-        /* "snobal.pyx":756
+        /* "pysnobal/snobal.pyx":756
  *             # or there will be a slight descrepancy with isnobal. But with this,
  *             # there should be a descrepancy in isnobal as well
  *             if first_step:             # <<<<<<<<<<<<<<
@@ -8791,7 +8791,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
  */
       }
 
-      /* "snobal.pyx":760
+      /* "pysnobal/snobal.pyx":760
  * 
  *             # set air pressure from site elev
  *             P_a = HYSTAT(SEA_LEVEL, STD_AIRTMP, STD_LAPSE, (elevation / 1000.0),             # <<<<<<<<<<<<<<
@@ -8803,7 +8803,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __pyx_t_10 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_10 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 760; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "snobal.pyx":761
+      /* "pysnobal/snobal.pyx":761
  *             # set air pressure from site elev
  *             P_a = HYSTAT(SEA_LEVEL, STD_AIRTMP, STD_LAPSE, (elevation / 1000.0),
  *                 GRAVITY, MOL_AIR)             # <<<<<<<<<<<<<<
@@ -8812,7 +8812,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
  */
       P_a = HYSTAT(SEA_LEVEL, STD_AIRTMP, STD_LAPSE, __pyx_t_10, GRAVITY, MOL_AIR);
 
-      /* "snobal.pyx":764
+      /* "pysnobal/snobal.pyx":764
  * 
  *             # do_data_tstep.c
  *             dt = do_data_tstep()             # <<<<<<<<<<<<<<
@@ -8821,7 +8821,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
  */
       __pyx_v_dt = do_data_tstep();
 
-      /* "snobal.pyx":765
+      /* "pysnobal/snobal.pyx":765
  *             # do_data_tstep.c
  *             dt = do_data_tstep()
  *             if dt == 0:             # <<<<<<<<<<<<<<
@@ -8831,7 +8831,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __pyx_t_9 = ((__pyx_v_dt == 0) != 0);
       if (__pyx_t_9) {
 
-        /* "snobal.pyx":766
+        /* "pysnobal/snobal.pyx":766
  *             dt = do_data_tstep()
  *             if dt == 0:
  *                 rt = False             # <<<<<<<<<<<<<<
@@ -8840,7 +8840,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
  */
         __pyx_v_rt = 0;
 
-        /* "snobal.pyx":767
+        /* "pysnobal/snobal.pyx":767
  *             if dt == 0:
  *                 rt = False
  *                 if N > 1:             # <<<<<<<<<<<<<<
@@ -8850,7 +8850,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
         __pyx_t_9 = ((__pyx_v_N > 1) != 0);
         if (__pyx_t_9) {
 
-          /* "snobal.pyx":768
+          /* "pysnobal/snobal.pyx":768
  *                 rt = False
  *                 if N > 1:
  *                     abort()             # <<<<<<<<<<<<<<
@@ -8859,7 +8859,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
  */
           abort();
 
-          /* "snobal.pyx":767
+          /* "pysnobal/snobal.pyx":767
  *             if dt == 0:
  *                 rt = False
  *                 if N > 1:             # <<<<<<<<<<<<<<
@@ -8869,7 +8869,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
           goto __pyx_L18;
         }
 
-        /* "snobal.pyx":770
+        /* "pysnobal/snobal.pyx":770
  *                     abort()
  *                 else:
  *                     break             # <<<<<<<<<<<<<<
@@ -8881,7 +8881,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
         }
         __pyx_L18:;
 
-        /* "snobal.pyx":765
+        /* "pysnobal/snobal.pyx":765
  *             # do_data_tstep.c
  *             dt = do_data_tstep()
  *             if dt == 0:             # <<<<<<<<<<<<<<
@@ -8890,7 +8890,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
  */
       }
 
-      /* "snobal.pyx":772
+      /* "pysnobal/snobal.pyx":772
  *                     break
  * 
  *             output_rec['current_time'][i,j] = current_time             # <<<<<<<<<<<<<<
@@ -8914,7 +8914,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "snobal.pyx":773
+      /* "pysnobal/snobal.pyx":773
  * 
  *             output_rec['current_time'][i,j] = current_time
  *             output_rec['time_since_out'][i,j] = time_since_out             # <<<<<<<<<<<<<<
@@ -8938,7 +8938,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "snobal.pyx":775
+      /* "pysnobal/snobal.pyx":775
  *             output_rec['time_since_out'][i,j] = time_since_out
  * 
  *             output_rec['elevation'][i,j] = elevation             # <<<<<<<<<<<<<<
@@ -8959,7 +8959,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "snobal.pyx":776
+      /* "pysnobal/snobal.pyx":776
  * 
  *             output_rec['elevation'][i,j] = elevation
  *             output_rec['z_0'][i,j] = z_0             # <<<<<<<<<<<<<<
@@ -8983,7 +8983,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "snobal.pyx":777
+      /* "pysnobal/snobal.pyx":777
  *             output_rec['elevation'][i,j] = elevation
  *             output_rec['z_0'][i,j] = z_0
  *             output_rec['rho'][i,j] = rho             # <<<<<<<<<<<<<<
@@ -9007,7 +9007,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "snobal.pyx":778
+      /* "pysnobal/snobal.pyx":778
  *             output_rec['z_0'][i,j] = z_0
  *             output_rec['rho'][i,j] = rho
  *             output_rec['T_s_0'][i,j] = T_s_0             # <<<<<<<<<<<<<<
@@ -9031,7 +9031,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "snobal.pyx":779
+      /* "pysnobal/snobal.pyx":779
  *             output_rec['rho'][i,j] = rho
  *             output_rec['T_s_0'][i,j] = T_s_0
  *             output_rec['T_s_l'][i,j] = T_s_l             # <<<<<<<<<<<<<<
@@ -9055,7 +9055,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "snobal.pyx":780
+      /* "pysnobal/snobal.pyx":780
  *             output_rec['T_s_0'][i,j] = T_s_0
  *             output_rec['T_s_l'][i,j] = T_s_l
  *             output_rec['T_s'][i,j] = T_s             # <<<<<<<<<<<<<<
@@ -9079,7 +9079,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "snobal.pyx":781
+      /* "pysnobal/snobal.pyx":781
  *             output_rec['T_s_l'][i,j] = T_s_l
  *             output_rec['T_s'][i,j] = T_s
  *             output_rec['h2o_sat'][i,j] = h2o_sat             # <<<<<<<<<<<<<<
@@ -9103,7 +9103,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "snobal.pyx":782
+      /* "pysnobal/snobal.pyx":782
  *             output_rec['T_s'][i,j] = T_s
  *             output_rec['h2o_sat'][i,j] = h2o_sat
  *             output_rec['h2o_max'][i,j] = h2o_max             # <<<<<<<<<<<<<<
@@ -9127,7 +9127,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "snobal.pyx":783
+      /* "pysnobal/snobal.pyx":783
  *             output_rec['h2o_sat'][i,j] = h2o_sat
  *             output_rec['h2o_max'][i,j] = h2o_max
  *             output_rec['h2o'][i,j] = h2o             # <<<<<<<<<<<<<<
@@ -9151,7 +9151,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "snobal.pyx":784
+      /* "pysnobal/snobal.pyx":784
  *             output_rec['h2o_max'][i,j] = h2o_max
  *             output_rec['h2o'][i,j] = h2o
  *             output_rec['layer_count'][i,j] = layer_count             # <<<<<<<<<<<<<<
@@ -9175,7 +9175,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "snobal.pyx":785
+      /* "pysnobal/snobal.pyx":785
  *             output_rec['h2o'][i,j] = h2o
  *             output_rec['layer_count'][i,j] = layer_count
  *             output_rec['cc_s_0'][i,j] = cc_s_0             # <<<<<<<<<<<<<<
@@ -9199,7 +9199,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "snobal.pyx":786
+      /* "pysnobal/snobal.pyx":786
  *             output_rec['layer_count'][i,j] = layer_count
  *             output_rec['cc_s_0'][i,j] = cc_s_0
  *             output_rec['cc_s_l'][i,j] = cc_s_l             # <<<<<<<<<<<<<<
@@ -9223,7 +9223,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "snobal.pyx":787
+      /* "pysnobal/snobal.pyx":787
  *             output_rec['cc_s_0'][i,j] = cc_s_0
  *             output_rec['cc_s_l'][i,j] = cc_s_l
  *             output_rec['cc_s'][i,j] = cc_s             # <<<<<<<<<<<<<<
@@ -9247,7 +9247,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "snobal.pyx":788
+      /* "pysnobal/snobal.pyx":788
  *             output_rec['cc_s_l'][i,j] = cc_s_l
  *             output_rec['cc_s'][i,j] = cc_s
  *             output_rec['m_s_0'][i,j] = m_s_0             # <<<<<<<<<<<<<<
@@ -9271,7 +9271,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "snobal.pyx":789
+      /* "pysnobal/snobal.pyx":789
  *             output_rec['cc_s'][i,j] = cc_s
  *             output_rec['m_s_0'][i,j] = m_s_0
  *             output_rec['m_s_l'][i,j] = m_s_l             # <<<<<<<<<<<<<<
@@ -9295,7 +9295,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "snobal.pyx":790
+      /* "pysnobal/snobal.pyx":790
  *             output_rec['m_s_0'][i,j] = m_s_0
  *             output_rec['m_s_l'][i,j] = m_s_l
  *             output_rec['m_s'][i,j] = m_s             # <<<<<<<<<<<<<<
@@ -9319,7 +9319,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "snobal.pyx":791
+      /* "pysnobal/snobal.pyx":791
  *             output_rec['m_s_l'][i,j] = m_s_l
  *             output_rec['m_s'][i,j] = m_s
  *             output_rec['z_s_0'][i,j] = z_s_0             # <<<<<<<<<<<<<<
@@ -9343,7 +9343,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "snobal.pyx":792
+      /* "pysnobal/snobal.pyx":792
  *             output_rec['m_s'][i,j] = m_s
  *             output_rec['z_s_0'][i,j] = z_s_0
  *             output_rec['z_s_l'][i,j] = z_s_l             # <<<<<<<<<<<<<<
@@ -9367,7 +9367,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "snobal.pyx":793
+      /* "pysnobal/snobal.pyx":793
  *             output_rec['z_s_0'][i,j] = z_s_0
  *             output_rec['z_s_l'][i,j] = z_s_l
  *             output_rec['z_s'][i,j] = z_s             # <<<<<<<<<<<<<<
@@ -9391,7 +9391,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "snobal.pyx":795
+      /* "pysnobal/snobal.pyx":795
  *             output_rec['z_s'][i,j] = z_s
  * 
  *             output_rec['R_n_bar'][i,j] = R_n_bar             # <<<<<<<<<<<<<<
@@ -9415,7 +9415,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "snobal.pyx":796
+      /* "pysnobal/snobal.pyx":796
  * 
  *             output_rec['R_n_bar'][i,j] = R_n_bar
  *             output_rec['H_bar'][i,j] = H_bar             # <<<<<<<<<<<<<<
@@ -9439,7 +9439,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "snobal.pyx":797
+      /* "pysnobal/snobal.pyx":797
  *             output_rec['R_n_bar'][i,j] = R_n_bar
  *             output_rec['H_bar'][i,j] = H_bar
  *             output_rec['L_v_E_bar'][i,j] = L_v_E_bar             # <<<<<<<<<<<<<<
@@ -9463,7 +9463,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "snobal.pyx":798
+      /* "pysnobal/snobal.pyx":798
  *             output_rec['H_bar'][i,j] = H_bar
  *             output_rec['L_v_E_bar'][i,j] = L_v_E_bar
  *             output_rec['G_bar'][i,j] = G_bar             # <<<<<<<<<<<<<<
@@ -9487,7 +9487,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "snobal.pyx":799
+      /* "pysnobal/snobal.pyx":799
  *             output_rec['L_v_E_bar'][i,j] = L_v_E_bar
  *             output_rec['G_bar'][i,j] = G_bar
  *             output_rec['G_0_bar'][i,j] = G_0_bar             # <<<<<<<<<<<<<<
@@ -9511,7 +9511,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "snobal.pyx":800
+      /* "pysnobal/snobal.pyx":800
  *             output_rec['G_bar'][i,j] = G_bar
  *             output_rec['G_0_bar'][i,j] = G_0_bar
  *             output_rec['M_bar'][i,j] = M_bar             # <<<<<<<<<<<<<<
@@ -9535,7 +9535,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "snobal.pyx":801
+      /* "pysnobal/snobal.pyx":801
  *             output_rec['G_0_bar'][i,j] = G_0_bar
  *             output_rec['M_bar'][i,j] = M_bar
  *             output_rec['delta_Q_bar'][i,j] = delta_Q_bar             # <<<<<<<<<<<<<<
@@ -9559,7 +9559,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "snobal.pyx":802
+      /* "pysnobal/snobal.pyx":802
  *             output_rec['M_bar'][i,j] = M_bar
  *             output_rec['delta_Q_bar'][i,j] = delta_Q_bar
  *             output_rec['delta_Q_0_bar'][i,j] = delta_Q_0_bar             # <<<<<<<<<<<<<<
@@ -9583,7 +9583,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "snobal.pyx":803
+      /* "pysnobal/snobal.pyx":803
  *             output_rec['delta_Q_bar'][i,j] = delta_Q_bar
  *             output_rec['delta_Q_0_bar'][i,j] = delta_Q_0_bar
  *             output_rec['E_s_sum'][i,j] = E_s_sum             # <<<<<<<<<<<<<<
@@ -9607,7 +9607,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "snobal.pyx":804
+      /* "pysnobal/snobal.pyx":804
  *             output_rec['delta_Q_0_bar'][i,j] = delta_Q_0_bar
  *             output_rec['E_s_sum'][i,j] = E_s_sum
  *             output_rec['melt_sum'][i,j] = melt_sum             # <<<<<<<<<<<<<<
@@ -9631,7 +9631,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "snobal.pyx":805
+      /* "pysnobal/snobal.pyx":805
  *             output_rec['E_s_sum'][i,j] = E_s_sum
  *             output_rec['melt_sum'][i,j] = melt_sum
  *             output_rec['ro_pred_sum'][i,j] = ro_pred_sum             # <<<<<<<<<<<<<<
@@ -9655,7 +9655,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "snobal.pyx":678
+      /* "pysnobal/snobal.pyx":678
  *         #check to see if point is masked, since 1=run point, it's "not" masked
  *         masked = output_rec['mask'][i,j]
  *         if masked:             # <<<<<<<<<<<<<<
@@ -9664,7 +9664,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
  */
     }
 
-    /* "snobal.pyx":671
+    /* "pysnobal/snobal.pyx":671
  *     # loop through the grid
  *     rt = True
  *     for (i,j), z in np.ndenumerate(output_rec['elevation']):             # <<<<<<<<<<<<<<
@@ -9675,7 +9675,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
   __pyx_L9_break:;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "snobal.pyx":807
+  /* "pysnobal/snobal.pyx":807
  *             output_rec['ro_pred_sum'][i,j] = ro_pred_sum
  * 
  *     return rt             # <<<<<<<<<<<<<<
@@ -9689,7 +9689,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "snobal.pyx":635
+  /* "pysnobal/snobal.pyx":635
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
  * def do_tstep(input1, input2, output_rec, tstep_rec, mh, params, first_step=True):             # <<<<<<<<<<<<<<
@@ -9706,7 +9706,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
   __Pyx_XDECREF(__pyx_t_12);
   __Pyx_XDECREF(__pyx_t_14);
   __Pyx_XDECREF(__pyx_t_15);
-  __Pyx_AddTraceback("snobal.do_tstep", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pysnobal.snobal.do_tstep", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_i);
@@ -9719,7 +9719,7 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
   return __pyx_r;
 }
 
-/* "snobal.pyx":816
+/* "pysnobal/snobal.pyx":816
  * @cython.wraparound(False)
  * # https://github.com/cython/cython/wiki/tutorials-NumpyPointerToC
  * def call_grid():             # <<<<<<<<<<<<<<
@@ -9728,26 +9728,26 @@ static PyObject *__pyx_pf_6snobal_4do_tstep(CYTHON_UNUSED PyObject *__pyx_self, 
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6snobal_7call_grid(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_6snobal_6call_grid[] = "\n    Call the function krige_grid in krige.c which will iterate over the grid\n    within the C code\n\n    Args:\n        ad - [nsta x nsta] matrix of distances between stations\n        dgrid - [ngrid x nsta] matrix of distances between grid points and stations\n        elevations - [nsta] array of station elevations\n        weights (return) - [ngrid x nsta] matrix of kriging weights calculated\n        nthreads - number of threads to use in parallel processing\n\n    Out:\n        weights changed in place\n\n    20160222 Scott Havens\n    ";
-static PyMethodDef __pyx_mdef_6snobal_7call_grid = {"call_grid", (PyCFunction)__pyx_pw_6snobal_7call_grid, METH_NOARGS, __pyx_doc_6snobal_6call_grid};
-static PyObject *__pyx_pw_6snobal_7call_grid(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_8pysnobal_6snobal_7call_grid(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_8pysnobal_6snobal_6call_grid[] = "\n    Call the function krige_grid in krige.c which will iterate over the grid\n    within the C code\n\n    Args:\n        ad - [nsta x nsta] matrix of distances between stations\n        dgrid - [ngrid x nsta] matrix of distances between grid points and stations\n        elevations - [nsta] array of station elevations\n        weights (return) - [ngrid x nsta] matrix of kriging weights calculated\n        nthreads - number of threads to use in parallel processing\n\n    Out:\n        weights changed in place\n\n    20160222 Scott Havens\n    ";
+static PyMethodDef __pyx_mdef_8pysnobal_6snobal_7call_grid = {"call_grid", (PyCFunction)__pyx_pw_8pysnobal_6snobal_7call_grid, METH_NOARGS, __pyx_doc_8pysnobal_6snobal_6call_grid};
+static PyObject *__pyx_pw_8pysnobal_6snobal_7call_grid(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("call_grid (wrapper)", 0);
-  __pyx_r = __pyx_pf_6snobal_6call_grid(__pyx_self);
+  __pyx_r = __pyx_pf_8pysnobal_6snobal_6call_grid(__pyx_self);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6snobal_6call_grid(CYTHON_UNUSED PyObject *__pyx_self) {
+static PyObject *__pyx_pf_8pysnobal_6snobal_6call_grid(CYTHON_UNUSED PyObject *__pyx_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("call_grid", 0);
 
-  /* "snobal.pyx":848
+  /* "pysnobal/snobal.pyx":848
  * #     krige_grid(nsta, ngrid, &ad_arr[0,0], &grid[0,0], &elevations[0], nthreads, &weights[0,0])
  * 
  *     return None             # <<<<<<<<<<<<<<
@@ -9757,7 +9757,7 @@ static PyObject *__pyx_pf_6snobal_6call_grid(CYTHON_UNUSED PyObject *__pyx_self)
   __pyx_r = Py_None;
   goto __pyx_L0;
 
-  /* "snobal.pyx":816
+  /* "pysnobal/snobal.pyx":816
  * @cython.wraparound(False)
  * # https://github.com/cython/cython/wiki/tutorials-NumpyPointerToC
  * def call_grid():             # <<<<<<<<<<<<<<
@@ -11914,10 +11914,10 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__py
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static struct __pyx_vtabstruct_6snobal_ArrayWrapper __pyx_vtable_6snobal_ArrayWrapper;
+static struct __pyx_vtabstruct_8pysnobal_6snobal_ArrayWrapper __pyx_vtable_8pysnobal_6snobal_ArrayWrapper;
 
-static PyObject *__pyx_tp_new_6snobal_ArrayWrapper(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
-  struct __pyx_obj_6snobal_ArrayWrapper *p;
+static PyObject *__pyx_tp_new_8pysnobal_6snobal_ArrayWrapper(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
+  struct __pyx_obj_8pysnobal_6snobal_ArrayWrapper *p;
   PyObject *o;
   if (likely((t->tp_flags & Py_TPFLAGS_IS_ABSTRACT) == 0)) {
     o = (*t->tp_alloc)(t, 0);
@@ -11925,12 +11925,12 @@ static PyObject *__pyx_tp_new_6snobal_ArrayWrapper(PyTypeObject *t, CYTHON_UNUSE
     o = (PyObject *) PyBaseObject_Type.tp_new(t, __pyx_empty_tuple, 0);
   }
   if (unlikely(!o)) return 0;
-  p = ((struct __pyx_obj_6snobal_ArrayWrapper *)o);
-  p->__pyx_vtab = __pyx_vtabptr_6snobal_ArrayWrapper;
+  p = ((struct __pyx_obj_8pysnobal_6snobal_ArrayWrapper *)o);
+  p->__pyx_vtab = __pyx_vtabptr_8pysnobal_6snobal_ArrayWrapper;
   return o;
 }
 
-static void __pyx_tp_dealloc_6snobal_ArrayWrapper(PyObject *o) {
+static void __pyx_tp_dealloc_8pysnobal_6snobal_ArrayWrapper(PyObject *o) {
   #if PY_VERSION_HEX >= 0x030400a1
   if (unlikely(Py_TYPE(o)->tp_finalize) && (!PyType_IS_GC(Py_TYPE(o)) || !_PyGC_FINALIZED(o))) {
     if (PyObject_CallFinalizerFromDealloc(o)) return;
@@ -11940,24 +11940,24 @@ static void __pyx_tp_dealloc_6snobal_ArrayWrapper(PyObject *o) {
     PyObject *etype, *eval, *etb;
     PyErr_Fetch(&etype, &eval, &etb);
     ++Py_REFCNT(o);
-    __pyx_pw_6snobal_12ArrayWrapper_3__dealloc__(o);
+    __pyx_pw_8pysnobal_6snobal_12ArrayWrapper_3__dealloc__(o);
     --Py_REFCNT(o);
     PyErr_Restore(etype, eval, etb);
   }
   (*Py_TYPE(o)->tp_free)(o);
 }
 
-static PyMethodDef __pyx_methods_6snobal_ArrayWrapper[] = {
-  {"__array__", (PyCFunction)__pyx_pw_6snobal_12ArrayWrapper_1__array__, METH_NOARGS, __pyx_doc_6snobal_12ArrayWrapper___array__},
+static PyMethodDef __pyx_methods_8pysnobal_6snobal_ArrayWrapper[] = {
+  {"__array__", (PyCFunction)__pyx_pw_8pysnobal_6snobal_12ArrayWrapper_1__array__, METH_NOARGS, __pyx_doc_8pysnobal_6snobal_12ArrayWrapper___array__},
   {0, 0, 0, 0}
 };
 
-static PyTypeObject __pyx_type_6snobal_ArrayWrapper = {
+static PyTypeObject __pyx_type_8pysnobal_6snobal_ArrayWrapper = {
   PyVarObject_HEAD_INIT(0, 0)
-  "snobal.ArrayWrapper", /*tp_name*/
-  sizeof(struct __pyx_obj_6snobal_ArrayWrapper), /*tp_basicsize*/
+  "pysnobal.snobal.ArrayWrapper", /*tp_name*/
+  sizeof(struct __pyx_obj_8pysnobal_6snobal_ArrayWrapper), /*tp_basicsize*/
   0, /*tp_itemsize*/
-  __pyx_tp_dealloc_6snobal_ArrayWrapper, /*tp_dealloc*/
+  __pyx_tp_dealloc_8pysnobal_6snobal_ArrayWrapper, /*tp_dealloc*/
   0, /*tp_print*/
   0, /*tp_getattr*/
   0, /*tp_setattr*/
@@ -11985,7 +11985,7 @@ static PyTypeObject __pyx_type_6snobal_ArrayWrapper = {
   0, /*tp_weaklistoffset*/
   0, /*tp_iter*/
   0, /*tp_iternext*/
-  __pyx_methods_6snobal_ArrayWrapper, /*tp_methods*/
+  __pyx_methods_8pysnobal_6snobal_ArrayWrapper, /*tp_methods*/
   0, /*tp_members*/
   0, /*tp_getset*/
   0, /*tp_base*/
@@ -11995,7 +11995,7 @@ static PyTypeObject __pyx_type_6snobal_ArrayWrapper = {
   0, /*tp_dictoffset*/
   0, /*tp_init*/
   0, /*tp_alloc*/
-  __pyx_tp_new_6snobal_ArrayWrapper, /*tp_new*/
+  __pyx_tp_new_8pysnobal_6snobal_ArrayWrapper, /*tp_new*/
   0, /*tp_free*/
   0, /*tp_is_gc*/
   0, /*tp_bases*/
@@ -12169,6 +12169,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_output_rec, __pyx_k_output_rec, sizeof(__pyx_k_output_rec), 0, 0, 1, 1},
   {&__pyx_n_s_params, __pyx_k_params, sizeof(__pyx_k_params), 0, 0, 1, 1},
   {&__pyx_n_s_percent_snow, __pyx_k_percent_snow, sizeof(__pyx_k_percent_snow), 0, 0, 1, 1},
+  {&__pyx_n_s_pysnobal_snobal, __pyx_k_pysnobal_snobal, sizeof(__pyx_k_pysnobal_snobal), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_vtable, __pyx_k_pyx_vtable, sizeof(__pyx_k_pyx_vtable), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_relative_heights, __pyx_k_relative_heights, sizeof(__pyx_k_relative_heights), 0, 0, 1, 1},
@@ -12181,7 +12182,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_shp_np, __pyx_k_shp_np, sizeof(__pyx_k_shp_np), 0, 0, 1, 1},
   {&__pyx_n_s_size, __pyx_k_size, sizeof(__pyx_k_size), 0, 0, 1, 1},
   {&__pyx_n_s_sn, __pyx_k_sn, sizeof(__pyx_k_sn), 0, 0, 1, 1},
-  {&__pyx_n_s_snobal, __pyx_k_snobal, sizeof(__pyx_k_snobal), 0, 0, 1, 1},
   {&__pyx_n_s_start1, __pyx_k_start1, sizeof(__pyx_k_start1), 0, 0, 1, 1},
   {&__pyx_n_s_start2, __pyx_k_start2, sizeof(__pyx_k_start2), 0, 0, 1, 1},
   {&__pyx_n_s_start3, __pyx_k_start3, sizeof(__pyx_k_start3), 0, 0, 1, 1},
@@ -12216,7 +12216,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "snobal.pyx":537
+  /* "pysnobal/snobal.pyx":537
  *     cdef np.npy_intp shp_np[2]
  *     shp_np[:] = (shp[0], shp[1])
  *     output_rec['z_0'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.z_0)             # <<<<<<<<<<<<<<
@@ -12227,7 +12227,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice_);
   __Pyx_GIVEREF(__pyx_slice_);
 
-  /* "snobal.pyx":538
+  /* "pysnobal/snobal.pyx":538
  *     shp_np[:] = (shp[0], shp[1])
  *     output_rec['z_0'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.z_0)
  *     output_rec['z_s_0'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.z_s_0)             # <<<<<<<<<<<<<<
@@ -12238,7 +12238,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__2);
   __Pyx_GIVEREF(__pyx_slice__2);
 
-  /* "snobal.pyx":540
+  /* "pysnobal/snobal.pyx":540
  *     output_rec['z_s_0'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.z_s_0)
  * 
  *     output_rec['current_time'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.current_time)             # <<<<<<<<<<<<<<
@@ -12249,7 +12249,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__3);
   __Pyx_GIVEREF(__pyx_slice__3);
 
-  /* "snobal.pyx":541
+  /* "pysnobal/snobal.pyx":541
  * 
  *     output_rec['current_time'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.current_time)
  *     output_rec['time_since_out'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.time_since_out)             # <<<<<<<<<<<<<<
@@ -12260,7 +12260,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__4);
   __Pyx_GIVEREF(__pyx_slice__4);
 
-  /* "snobal.pyx":543
+  /* "pysnobal/snobal.pyx":543
  *     output_rec['time_since_out'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.time_since_out)
  * 
  *     output_rec['elevation'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.elevation)             # <<<<<<<<<<<<<<
@@ -12271,7 +12271,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__5);
   __Pyx_GIVEREF(__pyx_slice__5);
 
-  /* "snobal.pyx":544
+  /* "pysnobal/snobal.pyx":544
  * 
  *     output_rec['elevation'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.elevation)
  *     output_rec['rho'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.rho)             # <<<<<<<<<<<<<<
@@ -12282,7 +12282,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__6);
   __Pyx_GIVEREF(__pyx_slice__6);
 
-  /* "snobal.pyx":545
+  /* "pysnobal/snobal.pyx":545
  *     output_rec['elevation'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.elevation)
  *     output_rec['rho'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.rho)
  *     output_rec['T_s_0'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.T_s_0)             # <<<<<<<<<<<<<<
@@ -12293,7 +12293,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__7);
   __Pyx_GIVEREF(__pyx_slice__7);
 
-  /* "snobal.pyx":546
+  /* "pysnobal/snobal.pyx":546
  *     output_rec['rho'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.rho)
  *     output_rec['T_s_0'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.T_s_0)
  *     output_rec['T_s_l'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.T_s_l)             # <<<<<<<<<<<<<<
@@ -12304,7 +12304,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__8);
   __Pyx_GIVEREF(__pyx_slice__8);
 
-  /* "snobal.pyx":547
+  /* "pysnobal/snobal.pyx":547
  *     output_rec['T_s_0'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.T_s_0)
  *     output_rec['T_s_l'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.T_s_l)
  *     output_rec['T_s'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.T_s)             # <<<<<<<<<<<<<<
@@ -12315,7 +12315,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__9);
   __Pyx_GIVEREF(__pyx_slice__9);
 
-  /* "snobal.pyx":548
+  /* "pysnobal/snobal.pyx":548
  *     output_rec['T_s_l'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.T_s_l)
  *     output_rec['T_s'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.T_s)
  *     output_rec['h2o_sat'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o_sat)             # <<<<<<<<<<<<<<
@@ -12326,7 +12326,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__10);
   __Pyx_GIVEREF(__pyx_slice__10);
 
-  /* "snobal.pyx":549
+  /* "pysnobal/snobal.pyx":549
  *     output_rec['T_s'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.T_s)
  *     output_rec['h2o_sat'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o_sat)
  *     output_rec['h2o_max'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o_max)             # <<<<<<<<<<<<<<
@@ -12337,7 +12337,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__11);
   __Pyx_GIVEREF(__pyx_slice__11);
 
-  /* "snobal.pyx":550
+  /* "pysnobal/snobal.pyx":550
  *     output_rec['h2o_sat'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o_sat)
  *     output_rec['h2o_max'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o_max)
  *     output_rec['h2o'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o)             # <<<<<<<<<<<<<<
@@ -12348,7 +12348,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__12);
   __Pyx_GIVEREF(__pyx_slice__12);
 
-  /* "snobal.pyx":551
+  /* "pysnobal/snobal.pyx":551
  *     output_rec['h2o_max'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o_max)
  *     output_rec['h2o'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o)
  *     output_rec['h2o_vol'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o_vol)             # <<<<<<<<<<<<<<
@@ -12359,7 +12359,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__13);
   __Pyx_GIVEREF(__pyx_slice__13);
 
-  /* "snobal.pyx":552
+  /* "pysnobal/snobal.pyx":552
  *     output_rec['h2o'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o)
  *     output_rec['h2o_vol'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o_vol)
  *     output_rec['h2o_total'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o_total)             # <<<<<<<<<<<<<<
@@ -12370,7 +12370,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__14);
   __Pyx_GIVEREF(__pyx_slice__14);
 
-  /* "snobal.pyx":553
+  /* "pysnobal/snobal.pyx":553
  *     output_rec['h2o_vol'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o_vol)
  *     output_rec['h2o_total'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o_total)
  *     output_rec['layer_count'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_INT32, output1_c.layer_count)             # <<<<<<<<<<<<<<
@@ -12381,7 +12381,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__15);
   __Pyx_GIVEREF(__pyx_slice__15);
 
-  /* "snobal.pyx":554
+  /* "pysnobal/snobal.pyx":554
  *     output_rec['h2o_total'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.h2o_total)
  *     output_rec['layer_count'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_INT32, output1_c.layer_count)
  *     output_rec['cc_s_0'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.cc_s_0)             # <<<<<<<<<<<<<<
@@ -12392,7 +12392,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__16);
   __Pyx_GIVEREF(__pyx_slice__16);
 
-  /* "snobal.pyx":555
+  /* "pysnobal/snobal.pyx":555
  *     output_rec['layer_count'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_INT32, output1_c.layer_count)
  *     output_rec['cc_s_0'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.cc_s_0)
  *     output_rec['cc_s_l'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.cc_s_l)             # <<<<<<<<<<<<<<
@@ -12403,7 +12403,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__17);
   __Pyx_GIVEREF(__pyx_slice__17);
 
-  /* "snobal.pyx":556
+  /* "pysnobal/snobal.pyx":556
  *     output_rec['cc_s_0'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.cc_s_0)
  *     output_rec['cc_s_l'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.cc_s_l)
  *     output_rec['cc_s'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.cc_s)             # <<<<<<<<<<<<<<
@@ -12414,7 +12414,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__18);
   __Pyx_GIVEREF(__pyx_slice__18);
 
-  /* "snobal.pyx":557
+  /* "pysnobal/snobal.pyx":557
  *     output_rec['cc_s_l'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.cc_s_l)
  *     output_rec['cc_s'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.cc_s)
  *     output_rec['m_s_0'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.m_s_0)             # <<<<<<<<<<<<<<
@@ -12425,7 +12425,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__19);
   __Pyx_GIVEREF(__pyx_slice__19);
 
-  /* "snobal.pyx":558
+  /* "pysnobal/snobal.pyx":558
  *     output_rec['cc_s'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.cc_s)
  *     output_rec['m_s_0'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.m_s_0)
  *     output_rec['m_s_l'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.m_s_l)             # <<<<<<<<<<<<<<
@@ -12436,7 +12436,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__20);
   __Pyx_GIVEREF(__pyx_slice__20);
 
-  /* "snobal.pyx":559
+  /* "pysnobal/snobal.pyx":559
  *     output_rec['m_s_0'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.m_s_0)
  *     output_rec['m_s_l'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.m_s_l)
  *     output_rec['m_s'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.m_s)             # <<<<<<<<<<<<<<
@@ -12447,7 +12447,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__21);
   __Pyx_GIVEREF(__pyx_slice__21);
 
-  /* "snobal.pyx":560
+  /* "pysnobal/snobal.pyx":560
  *     output_rec['m_s_l'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.m_s_l)
  *     output_rec['m_s'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.m_s)
  *     output_rec['z_s_l'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.z_s_l)             # <<<<<<<<<<<<<<
@@ -12458,7 +12458,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__22);
   __Pyx_GIVEREF(__pyx_slice__22);
 
-  /* "snobal.pyx":561
+  /* "pysnobal/snobal.pyx":561
  *     output_rec['m_s'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.m_s)
  *     output_rec['z_s_l'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.z_s_l)
  *     output_rec['z_s'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.z_s)             # <<<<<<<<<<<<<<
@@ -12469,7 +12469,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__23);
   __Pyx_GIVEREF(__pyx_slice__23);
 
-  /* "snobal.pyx":563
+  /* "pysnobal/snobal.pyx":563
  *     output_rec['z_s'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.z_s)
  * 
  *     output_rec['R_n_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.R_n_bar)             # <<<<<<<<<<<<<<
@@ -12480,7 +12480,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__24);
   __Pyx_GIVEREF(__pyx_slice__24);
 
-  /* "snobal.pyx":564
+  /* "pysnobal/snobal.pyx":564
  * 
  *     output_rec['R_n_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.R_n_bar)
  *     output_rec['H_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.H_bar)             # <<<<<<<<<<<<<<
@@ -12491,7 +12491,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__25);
   __Pyx_GIVEREF(__pyx_slice__25);
 
-  /* "snobal.pyx":565
+  /* "pysnobal/snobal.pyx":565
  *     output_rec['R_n_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.R_n_bar)
  *     output_rec['H_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.H_bar)
  *     output_rec['L_v_E_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.L_v_E_bar)             # <<<<<<<<<<<<<<
@@ -12502,7 +12502,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__26);
   __Pyx_GIVEREF(__pyx_slice__26);
 
-  /* "snobal.pyx":566
+  /* "pysnobal/snobal.pyx":566
  *     output_rec['H_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.H_bar)
  *     output_rec['L_v_E_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.L_v_E_bar)
  *     output_rec['G_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.G_bar)             # <<<<<<<<<<<<<<
@@ -12513,7 +12513,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__27);
   __Pyx_GIVEREF(__pyx_slice__27);
 
-  /* "snobal.pyx":567
+  /* "pysnobal/snobal.pyx":567
  *     output_rec['L_v_E_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.L_v_E_bar)
  *     output_rec['G_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.G_bar)
  *     output_rec['G_0_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.G_0_bar)             # <<<<<<<<<<<<<<
@@ -12524,7 +12524,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__28);
   __Pyx_GIVEREF(__pyx_slice__28);
 
-  /* "snobal.pyx":568
+  /* "pysnobal/snobal.pyx":568
  *     output_rec['G_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.G_bar)
  *     output_rec['G_0_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.G_0_bar)
  *     output_rec['M_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.M_bar)             # <<<<<<<<<<<<<<
@@ -12535,7 +12535,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__29);
   __Pyx_GIVEREF(__pyx_slice__29);
 
-  /* "snobal.pyx":569
+  /* "pysnobal/snobal.pyx":569
  *     output_rec['G_0_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.G_0_bar)
  *     output_rec['M_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.M_bar)
  *     output_rec['delta_Q_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.delta_Q_bar)             # <<<<<<<<<<<<<<
@@ -12546,7 +12546,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__30);
   __Pyx_GIVEREF(__pyx_slice__30);
 
-  /* "snobal.pyx":570
+  /* "pysnobal/snobal.pyx":570
  *     output_rec['M_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.M_bar)
  *     output_rec['delta_Q_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.delta_Q_bar)
  *     output_rec['delta_Q_0_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.delta_Q_0_bar)             # <<<<<<<<<<<<<<
@@ -12557,7 +12557,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__31);
   __Pyx_GIVEREF(__pyx_slice__31);
 
-  /* "snobal.pyx":571
+  /* "pysnobal/snobal.pyx":571
  *     output_rec['delta_Q_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.delta_Q_bar)
  *     output_rec['delta_Q_0_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.delta_Q_0_bar)
  *     output_rec['E_s_sum'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.E_s_sum)             # <<<<<<<<<<<<<<
@@ -12568,7 +12568,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__32);
   __Pyx_GIVEREF(__pyx_slice__32);
 
-  /* "snobal.pyx":572
+  /* "pysnobal/snobal.pyx":572
  *     output_rec['delta_Q_0_bar'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.delta_Q_0_bar)
  *     output_rec['E_s_sum'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.E_s_sum)
  *     output_rec['melt_sum'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.melt_sum)             # <<<<<<<<<<<<<<
@@ -12579,7 +12579,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_slice__33);
   __Pyx_GIVEREF(__pyx_slice__33);
 
-  /* "snobal.pyx":573
+  /* "pysnobal/snobal.pyx":573
  *     output_rec['E_s_sum'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.E_s_sum)
  *     output_rec['melt_sum'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.melt_sum)
  *     output_rec['ro_pred_sum'][:] = np.PyArray_SimpleNewFromData(2, shp_np, np.NPY_FLOAT64, output1_c.ro_pred_sum)             # <<<<<<<<<<<<<<
@@ -12656,7 +12656,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__40);
   __Pyx_GIVEREF(__pyx_tuple__40);
 
-  /* "snobal.pyx":237
+  /* "pysnobal/snobal.pyx":237
  * @cython.wraparound(False)
  * # https://github.com/cython/cython/wiki/tutorials-NumpyPointerToC
  * def do_tstep_grid(input1, input2, output_rec, tstep_rec, mh, params, int first_step=1, int nthreads=1):             # <<<<<<<<<<<<<<
@@ -12668,7 +12668,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__41);
   __pyx_codeobj__42 = (PyObject*)__Pyx_PyCode_New(8, 0, 78, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__41, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_micahsandusky_Documents_Co, __pyx_n_s_do_tstep_grid, 237, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__42)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 237; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "snobal.pyx":620
+  /* "pysnobal/snobal.pyx":620
  *         free(<void*>self.data_ptr)
  * 
  * def initialize(params, tstep_info, sn, mh):             # <<<<<<<<<<<<<<
@@ -12680,7 +12680,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__43);
   __pyx_codeobj__44 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__43, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_micahsandusky_Documents_Co, __pyx_n_s_initialize, 620, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__44)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 620; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "snobal.pyx":635
+  /* "pysnobal/snobal.pyx":635
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
  * def do_tstep(input1, input2, output_rec, tstep_rec, mh, params, first_step=True):             # <<<<<<<<<<<<<<
@@ -12692,7 +12692,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__45);
   __pyx_codeobj__46 = (PyObject*)__Pyx_PyCode_New(7, 0, 15, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__45, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_micahsandusky_Documents_Co, __pyx_n_s_do_tstep, 635, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__46)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 635; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "snobal.pyx":816
+  /* "pysnobal/snobal.pyx":816
  * @cython.wraparound(False)
  * # https://github.com/cython/cython/wiki/tutorials-NumpyPointerToC
  * def call_grid():             # <<<<<<<<<<<<<<
@@ -12789,14 +12789,14 @@ PyMODINIT_FUNC PyInit_snobal(void)
   #if PY_MAJOR_VERSION < 3 && (__PYX_DEFAULT_STRING_ENCODING_IS_ASCII || __PYX_DEFAULT_STRING_ENCODING_IS_DEFAULT)
   if (__Pyx_init_sys_getdefaultencoding_params() < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   #endif
-  if (__pyx_module_is_main_snobal) {
+  if (__pyx_module_is_main_pysnobal__snobal) {
     if (PyObject_SetAttrString(__pyx_m, "__name__", __pyx_n_s_main) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   #if PY_MAJOR_VERSION >= 3
   {
     PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    if (!PyDict_GetItemString(modules, "snobal")) {
-      if (unlikely(PyDict_SetItemString(modules, "snobal", __pyx_m) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (!PyDict_GetItemString(modules, "pysnobal.snobal")) {
+      if (unlikely(PyDict_SetItemString(modules, "pysnobal.snobal", __pyx_m) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
   }
   #endif
@@ -12808,13 +12808,13 @@ PyMODINIT_FUNC PyInit_snobal(void)
   /*--- Variable export code ---*/
   /*--- Function export code ---*/
   /*--- Type init code ---*/
-  __pyx_vtabptr_6snobal_ArrayWrapper = &__pyx_vtable_6snobal_ArrayWrapper;
-  __pyx_vtable_6snobal_ArrayWrapper.set_data = (PyObject *(*)(struct __pyx_obj_6snobal_ArrayWrapper *, int, void *))__pyx_f_6snobal_12ArrayWrapper_set_data;
-  if (PyType_Ready(&__pyx_type_6snobal_ArrayWrapper) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 587; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_type_6snobal_ArrayWrapper.tp_print = 0;
-  if (__Pyx_SetVtable(__pyx_type_6snobal_ArrayWrapper.tp_dict, __pyx_vtabptr_6snobal_ArrayWrapper) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 587; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyObject_SetAttrString(__pyx_m, "ArrayWrapper", (PyObject *)&__pyx_type_6snobal_ArrayWrapper) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 587; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_ptype_6snobal_ArrayWrapper = &__pyx_type_6snobal_ArrayWrapper;
+  __pyx_vtabptr_8pysnobal_6snobal_ArrayWrapper = &__pyx_vtable_8pysnobal_6snobal_ArrayWrapper;
+  __pyx_vtable_8pysnobal_6snobal_ArrayWrapper.set_data = (PyObject *(*)(struct __pyx_obj_8pysnobal_6snobal_ArrayWrapper *, int, void *))__pyx_f_8pysnobal_6snobal_12ArrayWrapper_set_data;
+  if (PyType_Ready(&__pyx_type_8pysnobal_6snobal_ArrayWrapper) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 587; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_type_8pysnobal_6snobal_ArrayWrapper.tp_print = 0;
+  if (__Pyx_SetVtable(__pyx_type_8pysnobal_6snobal_ArrayWrapper.tp_dict, __pyx_vtabptr_8pysnobal_6snobal_ArrayWrapper) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 587; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyObject_SetAttrString(__pyx_m, "ArrayWrapper", (PyObject *)&__pyx_type_8pysnobal_6snobal_ArrayWrapper) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 587; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_ptype_8pysnobal_6snobal_ArrayWrapper = &__pyx_type_8pysnobal_6snobal_ArrayWrapper;
   /*--- Type import code ---*/
   __pyx_ptype_7cpython_4type_type = __Pyx_ImportType(__Pyx_BUILTIN_MODULE_NAME, "type", 
   #if CYTHON_COMPILING_IN_PYPY
@@ -12837,7 +12837,7 @@ PyMODINIT_FUNC PyInit_snobal(void)
   if (__Pyx_patch_abc() < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   #endif
 
-  /* "snobal.pyx":8
+  /* "pysnobal/snobal.pyx":8
  * import cython
  * from cython.parallel import prange, parallel
  * import numpy as np             # <<<<<<<<<<<<<<
@@ -12849,7 +12849,7 @@ PyMODINIT_FUNC PyInit_snobal(void)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "snobal.pyx":20
+  /* "pysnobal/snobal.pyx":20
  * # Numpy must be initialized. When using numpy from C or Cython you must
  * # _always_ do that, or you will have segfaults
  * np.import_array()             # <<<<<<<<<<<<<<
@@ -12858,55 +12858,55 @@ PyMODINIT_FUNC PyInit_snobal(void)
  */
   import_array();
 
-  /* "snobal.pyx":237
+  /* "pysnobal/snobal.pyx":237
  * @cython.wraparound(False)
  * # https://github.com/cython/cython/wiki/tutorials-NumpyPointerToC
  * def do_tstep_grid(input1, input2, output_rec, tstep_rec, mh, params, int first_step=1, int nthreads=1):             # <<<<<<<<<<<<<<
  *     """
  *     Do the timestep given the inputs, model state, and measurement heights
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6snobal_1do_tstep_grid, NULL, __pyx_n_s_snobal); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 237; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_1do_tstep_grid, NULL, __pyx_n_s_pysnobal_snobal); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 237; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_do_tstep_grid, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 237; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "snobal.pyx":620
+  /* "pysnobal/snobal.pyx":620
  *         free(<void*>self.data_ptr)
  * 
  * def initialize(params, tstep_info, sn, mh):             # <<<<<<<<<<<<<<
  *     """
  *     Initialize the Snobal model given the input records
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6snobal_3initialize, NULL, __pyx_n_s_snobal); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 620; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_3initialize, NULL, __pyx_n_s_pysnobal_snobal); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 620; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_initialize, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 620; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "snobal.pyx":635
+  /* "pysnobal/snobal.pyx":635
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
  * def do_tstep(input1, input2, output_rec, tstep_rec, mh, params, first_step=True):             # <<<<<<<<<<<<<<
  *     """
  *     Do the timestep given the inputs, model state, and measurement heights
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6snobal_5do_tstep, NULL, __pyx_n_s_snobal); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 635; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_5do_tstep, NULL, __pyx_n_s_pysnobal_snobal); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 635; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_do_tstep, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 635; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "snobal.pyx":816
+  /* "pysnobal/snobal.pyx":816
  * @cython.wraparound(False)
  * # https://github.com/cython/cython/wiki/tutorials-NumpyPointerToC
  * def call_grid():             # <<<<<<<<<<<<<<
  *     '''
  *     Call the function krige_grid in krige.c which will iterate over the grid
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6snobal_7call_grid, NULL, __pyx_n_s_snobal); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 816; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_8pysnobal_6snobal_7call_grid, NULL, __pyx_n_s_pysnobal_snobal); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 816; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_call_grid, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 816; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "snobal.pyx":1
+  /* "pysnobal/snobal.pyx":1
  * """             # <<<<<<<<<<<<<<
  * Wrapper functions to the C function in libsnobal
  * 
@@ -12931,11 +12931,11 @@ PyMODINIT_FUNC PyInit_snobal(void)
   __Pyx_XDECREF(__pyx_t_1);
   if (__pyx_m) {
     if (__pyx_d) {
-      __Pyx_AddTraceback("init snobal", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("init pysnobal.snobal", __pyx_clineno, __pyx_lineno, __pyx_filename);
     }
     Py_DECREF(__pyx_m); __pyx_m = 0;
   } else if (!PyErr_Occurred()) {
-    PyErr_SetString(PyExc_ImportError, "init snobal");
+    PyErr_SetString(PyExc_ImportError, "init pysnobal.snobal");
   }
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
