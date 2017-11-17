@@ -1068,7 +1068,7 @@ class QueueIsnobal(threading.Thread):
 
             rt = snobal.do_tstep_grid(input1, input2, self.output_rec,
                                       self.tstep_info, self.options['constants'],
-                                      self.params, first_step, nthreads=4)
+                                      self.params, first_step, nthreads=20)
 
             if rt != -1:
                 print('ipysnobal error on time step %s, pixel %i' % (tstep, rt))

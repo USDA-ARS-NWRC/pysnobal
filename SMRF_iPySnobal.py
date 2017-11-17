@@ -26,8 +26,8 @@ def main():
     #try:
         start = datetime.now()
 
-        configFile = '/home/micahsandusky/Documents/Code/pysnobal-dev/test_data_BRB/smrftestConfig.ini'
-        ipyconfig = '/home/micahsandusky/Documents/Code/pysnobal-dev/test_data_BRB/configFile_BRB_test.ini'
+        configFile = '/home/micahsandusky/Code/workdir/test_data_BRB/smrftestConfig.ini'
+        ipyconfig = '/home/micahsandusky/Code/workdir/test_data_BRB/configFile_BRB_test.ini'
         if len(sys.argv) > 1:
             configFile = sys.argv[1]
 
