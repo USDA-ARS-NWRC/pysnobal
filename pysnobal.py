@@ -31,6 +31,8 @@ MEDIUM_TSTEP = 2
 SMALL_TSTEP = 3
 
 DEFAULT_NORMAL_THRESHOLD = 60.0
+DEFAULT_MEDIUM_THRESHOLD = 10.0
+DEFAULT_SMALL_THRESHOLD = 1.0
 DEFAULT_MEDIUM_TSTEP = 15.0
 DEFAULT_SMALL_TSTEP = 1.0
 
@@ -185,15 +187,20 @@ def parseOptions(options):
     else:
         tstep_info[DATA_TSTEP]['output'] = DIVIDED_TSTEP
     
-    # mas thresholds for run timesteps
-    threshold = DEFAULT_NORMAL_THRESHOLD
-    tstep_info[NORMAL_TSTEP]['threshold'] = threshold
-    
-    threshold = DEFAULT_MEDIUM_TSTEP
-    tstep_info[MEDIUM_TSTEP]['threshold'] = threshold
-    
-    threshold = DEFAULT_SMALL_TSTEP
-    tstep_info[SMALL_TSTEP]['threshold'] = threshold
+#     # mas thresholds for run timesteps
+#     threshold = DEFAULT_NORMAL_THRESHOLD
+#     tstep_info[NORMAL_TSTEP]['threshold'] = threshold
+#     
+#     threshold = DEFAULT_MEDIUM_TSTEP
+#     tstep_info[MEDIUM_TSTEP]['threshold'] = threshold
+#     
+#     threshold = DEFAULT_SMALL_TSTEP
+#     tstep_info[SMALL_TSTEP]['threshold'] = threshold
+
+    # mass thresholds for run timesteps
+    tstep_info[NORMAL_TSTEP]['threshold'] = DEFAULT_NORMAL_THRESHOLD
+    tstep_info[MEDIUM_TSTEP]['threshold'] = DEFAULT_MEDIUM_THRESHOLD
+    tstep_info[SMALL_TSTEP]['threshold'] = DEFAULT_SMALL_THRESHOLD
     
     
     # get the rest of the parameters
@@ -258,7 +265,7 @@ def open_files(params):
     # convert all to numpy arrays within the dict
     sn['z_0'] = mh['z_0']
     sn = dict2np(sn)
-    mh = dict2np(mh)
+#     mh = dict2np(mh)
                    
     # check the ranges for the input values
     
@@ -295,9 +302,9 @@ def initialize(params, tstep_info, sn, mh):
     # have due to the output function being outside the C code which doesn't
     # have access to those variables
     sz = sn['elevation'].shape
-    flds = ['masked', 'elevation', 'z_0', 'rho', 'T_s_0', 'T_s_l', 'T_s', \
+    flds = ['mask', 'elevation', 'z_0', 'rho', 'T_s_0', 'T_s_l', 'T_s', \
             'cc_s_0', 'cc_s_l', 'cc_s', 'm_s', 'm_s_0', 'm_s_l', 'z_s', 'z_s_0', 'z_s_l',\
-            'h2o_sat', 'layer_count', 'h2o',\
+            'h2o_sat', 'layer_count', 'h2o', 'h2o_max', 'h2o_vol','h2o_total',\
             'R_n_bar', 'H_bar', 'L_v_E_bar', 'G_bar', 'G_0_bar',\
             'M_bar', 'delta_Q_bar', 'delta_Q_0_bar', 'E_s_sum', 'melt_sum', 'ro_pred_sum',\
             'current_time', 'time_since_out']
@@ -308,10 +315,12 @@ def initialize(params, tstep_info, sn, mh):
         if key in flds:
             s[key] = val
             
-    for key, val in mh.items():
+    mh2 = dict2np(mh)
+    for key, val in mh2.items():
         if key in flds:
             s[key] = val
         
+    s['mask'] = np.ones(sz)
     return s
     
 def output_timestep(output_rec, params):
@@ -334,27 +343,27 @@ def output_timestep(output_rec, params):
          
 #         # time
 #         f.write('%g,' % curr_time_hrs)
-#          
+#           
 #         # energy budget terms
 #         f.write("%.1f,%.1f,%.1f,%.1f,%.1f,%.1f," % \
 #                 (output_rec['R_n_bar'][n], output_rec['H_bar'][n], output_rec['L_v_E_bar'][n], \
 #                 output_rec['G_bar'][n], output_rec['M_bar'][n], output_rec['delta_Q_bar'][n]))
-#         
+#          
 #         # layer terms
 #         f.write("%.1f,%.1f," % \
 #                 (output_rec['G_0_bar'][n], output_rec['delta_Q_0_bar'][n]))
-#         
+#          
 #         # heat storage and mass changes
 #         f.write("%.6e,%.6e,%.6e," % \
 #                 (output_rec['cc_s_0'][n], output_rec['cc_s_l'][n], output_rec['cc_s'][n]))
 #         f.write("%.5f,%.5f,%.5f," % \
 #                 (output_rec['E_s_sum'][n], output_rec['melt_sum'][n], output_rec['ro_pred_sum'][n]))
-#         
+#          
 #         #             # runoff error if data included */
 #         #             if (ro_data)
 #         #                 fprintf(out, " %.1f",
 #         #                         (ro_pred_sum - (ro * time_since_out)))
-#         
+#          
 #         # sno properties */
 #         f.write("%.3f,%.3f,%.3f,%.1f," % \
 #                 (output_rec['z_s_0'][n], output_rec['z_s_l'][n], output_rec['z_s'][n], output_rec['rho'][n]))
@@ -370,27 +379,27 @@ def output_timestep(output_rec, params):
          
         # time
         f.write('%g,' % curr_time_hrs)
-           
+            
         # energy budget terms
         f.write("%.3f,%.3f,%.3f,%.3f,%.3f,%.3f," % \
                 (output_rec['R_n_bar'][n], output_rec['H_bar'][n], output_rec['L_v_E_bar'][n], \
                 output_rec['G_bar'][n], output_rec['M_bar'][n], output_rec['delta_Q_bar'][n]))
-          
+           
         # layer terms
         f.write("%.3f,%.3f," % \
                 (output_rec['G_0_bar'][n], output_rec['delta_Q_0_bar'][n]))
-          
+           
         # heat storage and mass changes
         f.write("%.9e,%.9e,%.9e," % \
                 (output_rec['cc_s_0'][n], output_rec['cc_s_l'][n], output_rec['cc_s'][n]))
         f.write("%.8f,%.8f,%.8f," % \
                 (output_rec['E_s_sum'][n], output_rec['melt_sum'][n], output_rec['ro_pred_sum'][n]))
-          
+           
         #             # runoff error if data included */
         #             if (ro_data)
         #                 fprintf(out, " %.3f",
         #                         (ro_pred_sum - (ro * time_since_out)))
-          
+           
         # sno properties */
         f.write("%.6f,%.6f,%.6f,%.3f," % \
                 (output_rec['z_s_0'][n], output_rec['z_s_l'][n], output_rec['z_s'][n], output_rec['rho'][n]))
@@ -411,7 +420,7 @@ def run(data):
     Acutally run the model
     """
 
-#@profile
+# @profile
 def main(argv):
     """
     mimic the main.c from the Snobal model
@@ -453,9 +462,13 @@ def main(argv):
         # add the precip to the data Series
 #         input2 = pd.concat([in2, pr.loc[index]])
     
+        first_step = 0;
+        if index == 1:
+            first_step = 1;
+    
         try:
             # call do_data_tstep()
-            snobal.do_tstep(dict2np(input1.to_dict()), dict2np(input2.to_dict()), output_rec, tstep_info, mh, params)
+            snobal.do_tstep_grid(dict2np(input1.to_dict()), dict2np(input2.to_dict()), output_rec, tstep_info, mh, params, first_step)
 #             s.do_data_tstep(dict2np(input1.to_dict()), dict2np(input2.to_dict()))
         
             # output the results

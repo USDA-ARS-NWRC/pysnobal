@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os, numpy
+import os, glob, sys
+import numpy
 
 try:
     from setuptools import setup
@@ -32,15 +33,43 @@ ext_modules = []
 # make sure we're using GCC
 os.environ["CC"] = "gcc"
 
-loc = 'pysnobal/lib/core_c'
-sources=[os.path.join(loc, val) for val in ["c_functions.pyx", "envphys.c"]]
+if sys.platform == 'darwin':
+    from distutils import sysconfig
+    vars = sysconfig.get_config_vars()
+    vars['LDSHARED'] = vars['LDSHARED'].replace('-bundle', '-dynamiclib')
+
+#------------------------------------------------------------------------------
+# Compiling the C code for the Snobal libary
+loc = 'pysnobal/libsnobal'
+cwd = os.getcwd()
+# sources=[os.path.join(loc, val) for val in ["_adj_layers.c"]]
+sources = glob.glob(os.path.join(loc, '*.c'))
+# sources = ['_adj_layers.c']
 ext_modules += [
                 Extension(
-                    "pysnobal.lib.core_c.c_functions",
+                    "pysnobal.libsnobal",
                     sources,
-                    include_dirs=[numpy.get_include()],
+                    include_dirs=['.',"pysnobal/h"],
+                    #runtime_library_dirs=['pysnobal'],
                     extra_compile_args=['-fopenmp', '-O3'],
                     extra_link_args=['-fopenmp', '-O3'],
+                    )
+                ]
+
+
+#------------------------------------------------------------------------------
+# Create module to call the C libary
+loc = 'pysnobal'
+sources = [os.path.join(loc, val) for val in ["snobal.pyx"]]
+ext_modules += [
+                Extension(
+                    "pysnobal.snobal",
+                    sources,
+                    libraries=["snobal"],
+                    include_dirs=[numpy.get_include(),'pysnobal', 'pysnobal/h'],
+                    runtime_library_dirs=['{}'.format(os.path.join(cwd,'pysnobal'))],
+                    extra_compile_args=['-fopenmp', '-O3', '-L./pysnobal'],
+                    extra_link_args=['-fopenmp', '-O3', '-L./pysnobal'],
                     )
                 ]
 
@@ -49,13 +78,13 @@ cmdclass.update({ 'build_ext': build_ext })
 setup(
     name='pysnobal',
     version='0.1.0',
-    description="Python implementation of the Snobal model",
+    description="Python wrapper of the Snobal point model",
     long_description=readme + '\n\n' + history,
     author="Scott Havens",
     author_email='scott.havens@ars.usda.gov',
     url='https://gitlab.com/ars-snow/pysnobal',
     packages=[
-        'pysnobal', 'pysnobal.lib'
+        'pysnobal', 'pysnobal.libsnobal'
     ],
 #     package_dir={'pysnobal':
 #                  'pysnobal'},

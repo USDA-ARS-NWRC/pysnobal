@@ -107,6 +107,7 @@ _do_tstep(
 		TSTEP_REC *tstep)  /* timestep's record */
 {
 	time_step = tstep->time_step;
+//	printf("%f - %i - %f - %f\n", current_time/3600.0, tstep->level, time_step, m_s);
 
 	if (precip_now) {
 		m_precip = precip_info[tstep->level].m_pp;

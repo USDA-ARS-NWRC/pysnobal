@@ -93,6 +93,16 @@ do_data_tstep(void)
 #pragma omp threadprivate(data_tstep)
 	data_tstep = tstep_info;
 
+//	printf("%i -- %i -- %f -- %f\n", tstep_info[0].level, tstep_info[0].time_step, tstep_info[0].intervals, tstep_info[0].threshold);
+//	printf("%i -- %i -- %f -- %f\n", tstep_info[1].level, tstep_info[1].time_step, tstep_info[1].intervals, tstep_info[1].threshold);
+//	printf("%i -- %i -- %f -- %f\n", tstep_info[2].level, tstep_info[2].time_step, tstep_info[2].intervals, tstep_info[2].threshold);
+//	printf("%i -- %i -- %f -- %f\n", tstep_info[3].level, tstep_info[3].time_step, tstep_info[3].intervals, tstep_info[3].threshold);
+//
+//	printf("%i -- %i -- %f -- %f\n", data_tstep[0].level, data_tstep[0].time_step, data_tstep[0].intervals, data_tstep[0].threshold);
+//	printf("%i -- %i -- %f -- %f\n", data_tstep[1].level, data_tstep[1].time_step, data_tstep[1].intervals, data_tstep[1].threshold);
+//	printf("%i -- %i -- %f -- %f\n", data_tstep[2].level, data_tstep[2].time_step, data_tstep[2].intervals, data_tstep[2].threshold);
+//	printf("%i -- %i -- %f -- %f\n", data_tstep[3].level, data_tstep[3].time_step, data_tstep[3].intervals, data_tstep[3].threshold);
+
 	int	level;			/* loop index */
 
 	/*
@@ -107,8 +117,9 @@ do_data_tstep(void)
 	if (ro_data)
 		ro = input_rec1.ro;
 
-//	printf("%f - %f - %f - %f - %f - %f\n", S_n, I_lw, T_a, e_a, u, T_g);
-//	printf("%f\n", m_s);
+	//	printf("%f - %f - %f - %f - %f - %f\n", S_n, I_lw, T_a, e_a, u, T_g);
+	//	printf("%f\n", max_h2o_vol);
+	//	printf("%i %i %i %i\n", DATA_TSTEP, NORMAL_TSTEP, MEDIUM_TSTEP, SMALL_TSTEP);
 
 	/*
 	 *  Compute deltas for the climate input parameters over
@@ -135,7 +146,7 @@ do_data_tstep(void)
 			if (rho_snow > 0.0)
 				pp_info->z_snow = pp_info->m_snow / rho_snow;
 			else {
-//				usrerr("rho_snow is <= 0.0 with %_snow > 0.0");
+				//				usrerr("rho_snow is <= 0.0 with %_snow > 0.0");
 				fprintf(stderr, "rho_snow is <= 0.0 with %_snow > 0.0");
 				return FALSE;
 			}

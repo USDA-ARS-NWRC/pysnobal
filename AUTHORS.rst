@@ -9,5 +9,6 @@ Development Lead
 
 Contributors
 ------------
+* Micah Sandusky <micah.sandusky@ars.usda.gov>
 
-None yet. Why not be the first?
+
