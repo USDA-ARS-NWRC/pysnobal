@@ -18,7 +18,7 @@ export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
 Python implementation of the Snobal model
 
-* Free software: ISC license
+* Free software: GNU GENERAL PUBLIC LICENSE
 * Documentation: https://pysnobal.readthedocs.org.
 
 Features
