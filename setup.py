@@ -40,36 +40,21 @@ if sys.platform == 'darwin':
 
 #------------------------------------------------------------------------------
 # Compiling the C code for the Snobal libary
+
 loc = 'pysnobal/libsnobal'
 cwd = os.getcwd()
-# sources=[os.path.join(loc, val) for val in ["_adj_layers.c"]]
 sources = glob.glob(os.path.join(loc, '*.c'))
-# sources = ['_adj_layers.c']
-ext_modules += [
-                Extension(
-                    "pysnobal.libsnobal",
-                    sources,
-                    include_dirs=['.',"pysnobal/h"],
-                    #runtime_library_dirs=['pysnobal'],
-                    extra_compile_args=['-fopenmp', '-O3'],
-                    extra_link_args=['-fopenmp', '-O3'],
-                    )
-                ]
-
-
-#------------------------------------------------------------------------------
-# Create module to call the C libary
 loc = 'pysnobal'
-sources = [os.path.join(loc, val) for val in ["snobal.pyx"]]
+sources += [os.path.join(loc, val) for val in ["snobal.pyx"]]
 ext_modules += [
                 Extension(
                     "pysnobal.snobal",
                     sources,
-                    libraries=["snobal"],
+                    #libraries=["snobal"],
                     include_dirs=[numpy.get_include(),'pysnobal', 'pysnobal/h'],
-                    runtime_library_dirs=['{}'.format(os.path.join(cwd,'pysnobal'))],
+                    #runtime_library_dirs=['{}'.format(os.path.join(cwd,'pysnobal'))],
                     extra_compile_args=['-fopenmp', '-O3', '-L./pysnobal'],
-                    extra_link_args=['-fopenmp', '-O3', '-L./pysnobal'],
+                    extra_link_args=['-fopenmp', '-O3', '-L./pysnobal']
                     )
                 ]
 
@@ -83,8 +68,11 @@ setup(
     author="Scott Havens",
     author_email='scott.havens@ars.usda.gov',
     url='https://gitlab.com/ars-snow/pysnobal',
+    # packages=[
+    #     'pysnobal', 'pysnobal.libsnobal'
+    # ],
     packages=[
-        'pysnobal', 'pysnobal.libsnobal'
+        'pysnobal'
     ],
 #     package_dir={'pysnobal':
 #                  'pysnobal'},
