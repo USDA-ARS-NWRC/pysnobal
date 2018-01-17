@@ -141,19 +141,20 @@ int call_snobal (
 					melt_sum     = 0.0;
 					ro_pred_sum  = 0.0;
 				} else {
+					init_snow();
 					// pull the rest of the snowpack information out of the structure
-					z_s_0 = output1->z_s_0[n];//z_s_0		= output_rec[n]->z_s_0;
-					z_s_l		= output1->z_s_l[n];//output_rec[n]->z_s_l;
-					m_s			= output1->m_s[n];//output_rec[n]->m_s;
-					m_s_0		= output1->m_s_0[n];//output_rec[n]->m_s_0;
-					m_s_l		= output1->m_s_l[n];//output_rec[n]->m_s_l;
-					cc_s		= output1->cc_s[n];//output_rec[n]->cc_s;
-					cc_s_0		= output1->cc_s_0[n];//output_rec[n]->cc_s_0;
-					cc_s_l		= output1->cc_s_l[n];//output_rec[n]->cc_s_l;
-					h2o_vol		= output1->h2o_vol[n];//output_rec[n]->h2o_vol;
-					h2o			= output1->h2o[n];//output_rec[n]->h2o;
-					h2o_max		= output1->h2o_max[n];//output_rec[n]->h2o_max;
-					h2o_total	= output1->h2o_total[n];//output_rec[n]->h2o_total;
+					// z_s_0 = output1->z_s_0[n];//z_s_0		= output_rec[n]->z_s_0;
+					// z_s_l		= output1->z_s_l[n];//output_rec[n]->z_s_l;
+					// m_s			= output1->m_s[n];//output_rec[n]->m_s;
+					// m_s_0		= output1->m_s_0[n];//output_rec[n]->m_s_0;
+					// m_s_l		= output1->m_s_l[n];//output_rec[n]->m_s_l;
+					// cc_s		= output1->cc_s[n];//output_rec[n]->cc_s;
+					// cc_s_0		= output1->cc_s_0[n];//output_rec[n]->cc_s_0;
+					// cc_s_l		= output1->cc_s_l[n];//output_rec[n]->cc_s_l;
+					// h2o_vol		= output1->h2o_vol[n];//output_rec[n]->h2o_vol;
+					// h2o			= output1->h2o[n];//output_rec[n]->h2o;
+					// h2o_max		= output1->h2o_max[n];//output_rec[n]->h2o_max;
+					// h2o_total	= output1->h2o_total[n];//output_rec[n]->h2o_total;
 				}
 
 				//				printf("Mass %f\n", m_s);
