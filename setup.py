@@ -62,7 +62,7 @@ cmdclass.update({ 'build_ext': build_ext })
 
 setup(
     name='pysnobal',
-    version='0.1.0',
+    version='0.2.0',
     description="Python wrapper of the Snobal point model",
     long_description=readme + '\n\n' + history,
     author="Scott Havens",
