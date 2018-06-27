@@ -1,5 +1,4 @@
-# Python Snobal
-
+# Python Snobali v0.1.0
 Python implementation of the Snobal model applied at either a point or over
 and image (iSnobal). This package conatains the C libraries of Snobal in a python
 wrapper for more flexibility and ease of interaction.
