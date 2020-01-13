@@ -67,7 +67,7 @@ setup(
     long_description=readme + '\n\n' + history,
     author="Scott Havens",
     author_email='scott.havens@ars.usda.gov',
-    url='https://gitlab.com/ars-snow/pysnobal',
+    url='https://github.com/USDA-ARS-NWRC/pysnobal',
     # packages=[
     #     'pysnobal', 'pysnobal.libsnobal'
     # ],
