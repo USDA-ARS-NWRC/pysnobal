@@ -9,7 +9,7 @@ interpretation
 20160118 Scott Havens
 """
 
-from pysnobal import snobal
+from .c_snobal import snobal
 import os
 import ConfigParser
 import sys, os
@@ -1021,7 +1021,7 @@ class QueueIsnobal(threading.Thread):
                 # print v
                 data = self.queue[v].get(self.date_time[0], block=True, timeout=None)
                 if data is None:
-                    print v
+                    print(v)
                     data = np.zeros((self.ny, self.nx))
                     print('Error of no data from smrf to iSnobal')
                     input1[map_val[v]] = data
@@ -1054,7 +1054,7 @@ class QueueIsnobal(threading.Thread):
                     # print v
                     data = self.queue[v].get(tstep, block=True, timeout=None)
                     if data is None:
-                        print v
+                        print(v)
                         data = np.zeros((self.ny, self.nx))
                         print('Error of no data from smrf to iSnobal')
                         input2[map_val[v]] = data

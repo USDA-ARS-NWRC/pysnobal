@@ -10,10 +10,13 @@ twine = "*"
 bumpversion = "*"
 isort = "*"
 flake8 = "*"
+setuptools = "*"
+wheel = "*"
+cython = "*"
+pysnobal = {editable = true,path = "."}
 
 [packages]
 numpy = "*"
-cython = "*"
 pandas = "*"
 netcdf4 = "*"
 pytz = "*"

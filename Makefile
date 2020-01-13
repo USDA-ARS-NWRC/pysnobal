@@ -26,7 +26,13 @@ BROWSER := python -c "$$BROWSER_PYSCRIPT"
 help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
+build: ## build the c libraries
+	python setup.py build_ext --inplace
+
 clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
+
+clean-c: ## Clean compiled C code
+	find . -name '*.so' -exec rm -f {} +
 
 clean-build: ## remove build artifacts
 	rm -fr build/
