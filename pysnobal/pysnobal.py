@@ -9,7 +9,7 @@ snobal -z 2061 -t 60 -m 0.01 -s snow.properties.input
 20160118 Scott Havens
 """
 
-from .c_snobal import snobal
+from pysnobal.c_snobal import snobal
 
 import sys
 import getopt
@@ -76,7 +76,7 @@ def check_range(value, min_val, max_val, descrip):
     return True
 
 
-def get_args(argv):
+def get_args():
     """
     Parse the input arguments, from getargs.c
 
@@ -132,11 +132,11 @@ def get_args(argv):
         't': 60,
         'm': 0.01,
         'd': DEFAULT_MAX_Z_S_0,
-        's': '../test_data_spatial/point/snow.properties.input',
-        'h': '../test_data_spatial/point/inheight.input',
-        'p': '../test_data_spatial/point/snobal.ppt.input',
-        'i': '../test_data_spatial/point/snobal.input',
-        'o': '../test_data_spatial/point/snobal.pysnobal_c',
+        's': 'tests/test_data_point/snow.properties.input',
+        'h': 'tests/test_data_point/inheight.input',
+        'p': 'tests/test_data_point/snobal.ppt.input',
+        'i': 'tests/test_data_point/snobal.data.input.short',
+        'o': 'tests/test_data_point/snobal.pysnobal_c',
         'O': 'data',
         'c': True,
         'K': True,
@@ -440,13 +440,13 @@ def run(data):
 # @profile
 
 
-def main(argv):
+def main():
     """
     mimic the main.c from the Snobal model
     """
 
     # parse the input arguments
-    options = get_args(argv)
+    options = get_args()
     params, tstep_info = parseOptions(options)
 
     # open the files and read in data

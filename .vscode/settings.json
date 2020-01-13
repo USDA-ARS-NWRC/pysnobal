@@ -1,3 +1,13 @@
 {
-    "python.pythonPath": "/home/scotthavens/.local/share/virtualenvs/pysnobal-VuvZlkhk/bin/python"
+    "python.pythonPath": "/home/scotthavens/.local/share/virtualenvs/pysnobal-VuvZlkhk/bin/python",
+    "python.testing.unittestArgs": [
+        "-v",
+        "-s",
+        "./tests",
+        "-p",
+        "test_*.py"
+    ],
+    "python.testing.pytestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.unittestEnabled": true
 }

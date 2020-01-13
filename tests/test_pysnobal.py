@@ -22,7 +22,8 @@ class TestPysnobal(unittest.TestCase):
         pass
 
     def test_000_something(self):
-        pass
+        result = pysnobal.main()
+        result
 
 
 if __name__ == '__main__':
