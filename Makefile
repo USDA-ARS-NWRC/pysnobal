@@ -29,7 +29,7 @@ help:
 build: ## build the c libraries
 	python setup.py build_ext --inplace
 
-clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
+clean: clean-build clean-pyc clean-test clean-c ## remove all build, test, coverage and Python artifacts
 
 clean-c: ## Clean compiled C code
 	find . -name '*.so' -exec rm -f {} +

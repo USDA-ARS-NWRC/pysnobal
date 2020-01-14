@@ -10,7 +10,7 @@ Tests for `pysnobal` module.
 
 import unittest
 
-from pysnobal import pysnobal
+from pysnobal.snobal import PySnobal
 
 
 class TestPysnobal(unittest.TestCase):
@@ -22,10 +22,5 @@ class TestPysnobal(unittest.TestCase):
         pass
 
     def test_000_something(self):
-        result = pysnobal.main()
+        result = PySnobal().run()
         result
-
-
-if __name__ == '__main__':
-    import sys
-    sys.exit(unittest.main())

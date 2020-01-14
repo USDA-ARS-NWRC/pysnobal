@@ -44,10 +44,10 @@ cwd = os.getcwd()
 sources = glob.glob(os.path.join(loc, '*.c'))
 
 loc = 'pysnobal/c_snobal'
-sources += [os.path.join(loc, val) for val in ["snobal.pyx"]]
+sources += [os.path.join(loc, val) for val in ["c_snobal.pyx"]]
 extensions = [
     Extension(
-        "pysnobal.c_snobal.snobal",
+        "pysnobal.c_snobal.c_snobal",
         sources,
         # libraries=["snobal"],
         include_dirs=[numpy.get_include(), 'pysnobal/c_snobal',
