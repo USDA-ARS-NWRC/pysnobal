@@ -124,10 +124,10 @@ class PySnobal():
             't': 60,
             'm': 0.01,
             'd': DEFAULT_MAX_Z_S_0,
-            's': 'tests/test_data_point/snow.properties.input',
-            'h': 'tests/test_data_point/inheight.input',
-            'p': 'tests/test_data_point/snobal.ppt.input',
-            'i': 'tests/test_data_point/snobal.data.input.short',
+            's': 'tests/test_data_point/gold.snow.properties.input',
+            'h': 'tests/test_data_point/gold.inheight.input',
+            'p': 'tests/test_data_point/gold.snobal.ppt.input',
+            'i': 'tests/test_data_point/gold.snobal.data.input.short',
             'o': 'tests/test_data_point/snobal.pysnobal_c',
             'O': 'data',
             'c': True,
@@ -482,7 +482,7 @@ class PySnobal():
                 print('pysnobal error on time step %f' %
                       (self.output_rec['current_time'][0, 0]/3600.0))
                 print(e)
-                return
+                return False
     #
 
             # input2 becomes input1
@@ -496,5 +496,5 @@ class PySnobal():
 
         # output
         self.params['out_file'].close()
-    #     app = MyApplication()
-    #     app.run()
+
+        return True
