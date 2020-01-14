@@ -1,15 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
 import glob
+import os
 import sys
+
 import numpy
-
-from setuptools import setup, find_packages, Extension
-
 # from distutils.extension import Extension
 from Cython.Distutils import build_ext
+from setuptools import Extension, find_packages, setup
 
 with open('README.md') as readme_file:
     readme = readme_file.read()

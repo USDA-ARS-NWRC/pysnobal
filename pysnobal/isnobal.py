@@ -9,25 +9,27 @@ interpretation
 20160118 Scott Havens
 """
 
-from .c_snobal import snobal
-import os
 import ConfigParser
-import sys, os
+import logging
+import os
+import sys
+import threading
+from copy import copy
+from datetime import timedelta
+from time import time as _time
+
+import netCDF4 as nc
 import numpy as np
 import pandas as pd
-from datetime import timedelta
-import netCDF4 as nc
 # import matplotlib.pyplot as plt
 import progressbar
-from copy import copy
+
+from .c_snobal import snobal
 
 try:
     from Queue import Queue, Empty, Full
 except:
     from queue import Queue, Empty, Full
-import threading
-from time import time as _time
-import logging
 # from multiprocessing import Pool
 # from functools import partial
 # import itertools

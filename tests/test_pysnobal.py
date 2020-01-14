@@ -8,12 +8,13 @@ test_pysnobal
 Tests for `pysnobal` module.
 """
 
-import unittest
-import pandas as pd
-import numpy as np
 import os
+import unittest
 
-from pysnobal.snobal import PySnobal
+import numpy as np
+import pandas as pd
+
+from pysnobal.snobal_ipw import PySnobal
 
 
 class TestPysnobal(unittest.TestCase):
@@ -24,7 +25,7 @@ class TestPysnobal(unittest.TestCase):
     def tearDown(self):
         os.remove('tests/test_data_point/snobal.pysnobal_c')
 
-    def test_pysnobal_run(self):
+    def test_pysnobal_ipw_run(self):
         """ Test PySnobal and compare with Snobal """
 
         # run PySnobal

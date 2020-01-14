@@ -1,3 +1,14 @@
+# -*- coding: utf-8 -*-
+"""
+pysnobal: the Python wrapper of the Snobal libaries
+
+snobal -z 2061 -t 60 -m 0.01 -s snow.properties.input 
+-h inheight.input -p snobal.ppt.input 
+-i snobal.data.input.short -o snobal.v1 -c
+
+20160118 Scott Havens
+"""
+
 import getopt
 import sys
 import traceback
