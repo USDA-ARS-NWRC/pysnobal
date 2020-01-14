@@ -32,7 +32,7 @@ class TestPysnobal(unittest.TestCase):
         self.assertTrue(status)
 
         # load in the outputs
-        gold = pd.read_csv('tests/test_data_point/gold.snobal.out',
+        gold = pd.read_csv('tests/test_data_point/gold_ipw/gold.snobal.out',
                            header=None, index_col=0)
         new = pd.read_csv(
             'tests/test_data_point/snobal.pysnobal_c', header=None, index_col=0)
