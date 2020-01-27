@@ -24,6 +24,7 @@ pytz = "*"
 utm = "*"
 coloredlogs = "*"
 progressbar2 = "*"
+inicheck = "*"
 
 [requires]
 python_version = "3.6"

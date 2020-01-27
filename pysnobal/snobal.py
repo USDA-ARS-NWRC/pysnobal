@@ -1,10 +1,14 @@
-import getopt
+import os
 import sys
 import traceback
 
 import numpy as np
 import pandas as pd
 import progressbar
+
+from inicheck.tools import get_user_config, check_config
+from inicheck.config import UserConfig, MasterConfig
+from inicheck.output import print_config_report, generate_config, print_recipe_summary
 
 from pysnobal.c_snobal import c_snobal
 
@@ -63,14 +67,13 @@ def check_range(value, min_val, max_val, descrip):
 
 class PySnobal():
 
-    def __init__(self):
+    def __init__(self, config_file):
         """
-        PySnobal is a wrapper to the Snobal C code. Minmics
-        how Snobal in IPW is ran with the same forcing files.
+        PySnobal is a wrapper to the Snobal C code.
         """
 
-        # Get the arguments
-        self.get_args()
+        # read in the config file
+        self.read_config_file(config_file)
 
         # parse the options
         self.parseOptions()
@@ -78,51 +81,47 @@ class PySnobal():
         # open the input files
         self.open_files()
 
-    def get_args(self):
+    def read_config_file(self, config_file):
         """
-        Parse the input arguments, from getargs.c
+        Reads in the user's config file and checks
 
         Args:
-            argv: input arguments to pysnobal
-
-        Returns:
-            options: options structure with defaults if not set
-
-            options = {
-                z: site elevation (m),
-                t: time steps: data [normal, [,medium [,small]]] (minutes),
-                m: snowcover's maximum h2o content as volume ratio,
-                d: maximum depth for active layer (m),
-                s: snow properties input data file,
-                h: measurement heights input data file,
-                p: precipitation input data file,
-                i: input data file,
-                o: optional output data file,
-                O: how often output records written (data, normal, all),
-                c: continue run even when no snowcover,
-                K: accept temperatures in degrees K,
-                T: run timesteps' thresholds for a layer's mass (kg/m^2),
-            }
-
-        To-do: take all the rest of the defualt and check ranges for the
-        input arguements, i.e. rewrite the rest of getargs.c
+            config_file: either a path or a UserConfig instance
         """
 
-        self.options = {
-            'z': 2046.00463867,
-            't': 60,
-            'm': 0.01,
-            'd': DEFAULT_MAX_Z_S_0,
-            's': 'tests/test_data_point/gold_ipw/gold.snow.properties.input',
-            'h': 'tests/test_data_point/gold_ipw/gold.inheight.input',
-            'p': 'tests/test_data_point/gold_ipw/gold.snobal.ppt.input',
-            'i': 'tests/test_data_point/gold_ipw/gold.snobal.data.input.short',
-            'o': 'tests/test_data_point/snobal.pysnobal_c',
-            'O': 'data',
-            'c': True,
-            'K': True,
-            'T': DEFAULT_NORMAL_THRESHOLD,
-        }
+        # read the config file and store
+        if isinstance(config_file, str):
+            if not os.path.isfile(config_file):
+                raise Exception('Configuration file does not exist --> {}'
+                                .format(config_file))
+
+            # Get the master config file
+            master_config = os.path.abspath(os.path.dirname(
+                __file__)) + '/pysnobal_core_config.ini'
+            mcfg = MasterConfig(path=master_config)
+
+            # user config file
+            ucfg = get_user_config(config_file, mcfg=mcfg)
+
+        elif isinstance(config_file, UserConfig):
+            ucfg = config_file
+            config_file = config_file.filename
+
+        else:
+            raise Exception('Config passed to PySnobal is neither file name nor '
+                            ' UserConfig instance')
+
+        # Check the config file
+        warnings, errors = check_config(ucfg)
+        print_config_report(warnings, errors)
+        self.ucfg = ucfg
+        self.config = self.ucfg.cfg
+
+        # Exit Pysnobal if config file has errors
+        if len(errors) > 0:
+            print("Errors in the config file. See configuration"
+                  " status report above.")
+            sys.exit()
 
     def parseOptions(self):
         """
@@ -322,10 +321,10 @@ class PySnobal():
     def output_timestep(self):
         """
         Output the model results to a file
-        ** 
+        **
         This is a departure from Snobal that can print out the
         sub-time steps, this will only print out on the data tstep
-        (for now) 
+        (for now)
         **
 
         """

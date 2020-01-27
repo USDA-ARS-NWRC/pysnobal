@@ -69,6 +69,7 @@ setup(
     url='https://github.com/USDA-ARS-NWRC/pysnobal',
     packages=find_packages(exclude=["tests"]),
     include_package_data=True,
+    package_data={'pysnobal': ['./pysnobal_core_config.ini']},
     install_requires=requirements,
     license="CC0 1.0",
     zip_safe=False,

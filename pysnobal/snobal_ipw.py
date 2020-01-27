@@ -72,12 +72,14 @@ def check_range(value, min_val, max_val, descrip):
     return True
 
 
-class PySnobal():
+class IPWPySnobal():
 
     def __init__(self):
         """
         PySnobal is a wrapper to the Snobal C code. Minmics
         how Snobal in IPW is ran with the same forcing files.
+
+        This is mostly depricated favor of a more Pythonic approach
         """
 
         # Get the arguments
