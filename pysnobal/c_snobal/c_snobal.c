@@ -2969,7 +2969,7 @@ static PyObject *__pyx_pf_8pysnobal_8c_snobal_8c_snobal_do_tstep_grid(CYTHON_UNU
  *     c_params.z_u = mh['z_u']
  *     c_params.z_T = mh['z_t']             # <<<<<<<<<<<<<<
  *     c_params.z_g = mh['z_g']
- *     c_params.relative_heights = int(params['relative_heights'])
+ *     c_params.relative_heights = int(mh['relative_heights'])
  */
   __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_mh, __pyx_n_s_z_t); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 255, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -2981,7 +2981,7 @@ static PyObject *__pyx_pf_8pysnobal_8c_snobal_8c_snobal_do_tstep_grid(CYTHON_UNU
  *     c_params.z_u = mh['z_u']
  *     c_params.z_T = mh['z_t']
  *     c_params.z_g = mh['z_g']             # <<<<<<<<<<<<<<
- *     c_params.relative_heights = int(params['relative_heights'])
+ *     c_params.relative_heights = int(mh['relative_heights'])
  *     c_params.max_h2o_vol = params['max_h2o_vol']
  */
   __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_mh, __pyx_n_s_z_g); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 256, __pyx_L1_error)
@@ -2993,11 +2993,11 @@ static PyObject *__pyx_pf_8pysnobal_8c_snobal_8c_snobal_do_tstep_grid(CYTHON_UNU
   /* "pysnobal/c_snobal/c_snobal.pyx":257
  *     c_params.z_T = mh['z_t']
  *     c_params.z_g = mh['z_g']
- *     c_params.relative_heights = int(params['relative_heights'])             # <<<<<<<<<<<<<<
+ *     c_params.relative_heights = int(mh['relative_heights'])             # <<<<<<<<<<<<<<
  *     c_params.max_h2o_vol = params['max_h2o_vol']
  *     c_params.max_z_s_0 = params['max_z_s_0']
  */
-  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_params, __pyx_n_s_relative_heights); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 257, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_mh, __pyx_n_s_relative_heights); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 257, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __Pyx_PyNumber_Int(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 257, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -3008,7 +3008,7 @@ static PyObject *__pyx_pf_8pysnobal_8c_snobal_8c_snobal_do_tstep_grid(CYTHON_UNU
 
   /* "pysnobal/c_snobal/c_snobal.pyx":258
  *     c_params.z_g = mh['z_g']
- *     c_params.relative_heights = int(params['relative_heights'])
+ *     c_params.relative_heights = int(mh['relative_heights'])
  *     c_params.max_h2o_vol = params['max_h2o_vol']             # <<<<<<<<<<<<<<
  *     c_params.max_z_s_0 = params['max_z_s_0']
  * #
@@ -3020,7 +3020,7 @@ static PyObject *__pyx_pf_8pysnobal_8c_snobal_8c_snobal_do_tstep_grid(CYTHON_UNU
   __pyx_v_c_params.max_h2o_vol = __pyx_t_4;
 
   /* "pysnobal/c_snobal/c_snobal.pyx":259
- *     c_params.relative_heights = int(params['relative_heights'])
+ *     c_params.relative_heights = int(mh['relative_heights'])
  *     c_params.max_h2o_vol = params['max_h2o_vol']
  *     c_params.max_z_s_0 = params['max_z_s_0']             # <<<<<<<<<<<<<<
  * #

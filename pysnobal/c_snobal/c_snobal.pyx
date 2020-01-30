@@ -254,7 +254,7 @@ def do_tstep_grid(input1, input2, output_rec, tstep_rec, mh, params, int first_s
     c_params.z_u = mh['z_u']
     c_params.z_T = mh['z_t']
     c_params.z_g = mh['z_g']
-    c_params.relative_heights = int(params['relative_heights'])
+    c_params.relative_heights = int(mh['relative_heights'])
     c_params.max_h2o_vol = params['max_h2o_vol']
     c_params.max_z_s_0 = params['max_z_s_0']
 #
