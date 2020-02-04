@@ -15,7 +15,6 @@ import traceback
 
 import numpy as np
 import pandas as pd
-import progressbar
 
 from pysnobal.c_snobal import c_snobal
 
@@ -122,7 +121,7 @@ class IPWPySnobal():
         """
 
         self.options = {
-            'z': 2046.00463867,
+            'z': 2061,
             't': 60,
             'm': 0.01,
             'd': DEFAULT_MAX_Z_S_0,
@@ -439,17 +438,17 @@ class IPWPySnobal():
         self.sn['elevation'] = np.atleast_2d(np.array(self.options['z']))
         self.initialize()
 
+        self.mh['relative_heights'] = self.params['relative_heights']
+
         # loop through the input
         # do_data_tstep needs two input records so only go
         # to the last record-1
 
-        it = self.force[:-1].iterrows()
+        it = self.force.iterrows()
         index, input1 = next(it)    # this is the first input
 
         # add the precip to the data Series
     #     input1 = pd.concat([in1, pr.loc[index]])
-        pbar = progressbar.ProgressBar(max_value=len(self.force)-1)
-        j = 0
 
         data_tstep = self.tstep_info[0]['time_step']
         timeSinceOut = 0.0
@@ -489,12 +488,6 @@ class IPWPySnobal():
 
             # input2 becomes input1
             input1 = input2.copy()
-
-            j += 1
-            if j % 10 == 0:
-                pbar.update(j)
-
-        pbar.finish()
 
         # output
         self.params['out_file'].close()

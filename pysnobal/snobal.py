@@ -364,24 +364,24 @@ class PySnobal():
 
         data_tstep = self.tstep_info[0]['time_step']
         timeSinceOut = 0.0
-        starT_step = 0  # if restart then it would be higher if this were iSnobal
-        step_time = starT_step * data_tstep
+        start_step = 0  # if restart then it would be higher if this were iSnobal
+        step_time = start_step * data_tstep
 
         self.output_rec['current_time'] = step_time * \
             np.ones(self.output_rec['elevation'].shape)
         self.output_rec['time_since_out'] = timeSinceOut * \
             np.ones(self.output_rec['elevation'].shape)
 
-        firsT_step = 1
+        first_step = 1
         for index, input2 in it:
 
             try:
                 # call do_data_tstep()
                 c_snobal.do_tstep_grid(self.dict2np(input1.to_dict()), self.dict2np(
-                    input2.to_dict()), self.output_rec, self.tstep_info, self.measurement_heights, self.params, firsT_step)
+                    input2.to_dict()), self.output_rec, self.tstep_info, self.measurement_heights, self.params, first_step)
 
-                if firsT_step == 1:
-                    firsT_step = 0
+                if first_step == 1:
+                    first_step = 0
 
                 # output the results
                 self.output_timestep(index)
@@ -514,7 +514,38 @@ class PySnobal():
                      'T_s_0', 'T_s_l', 'T_s']
         self.output_df = self.output_df[keep_list]
 
-        if self.config['output']['format_output']:
-            pass
+        # Change the output format to match the original Snobal
+        if self.config['files']['format_output']:
+
+            float_map = {
+                'R_n': '%.3f',
+                'H': '%.3f',
+                'L_v_E': '%.3f',
+                'G': '%.3f',
+                'M': '%.3f',
+                'delta_Q': '%.3f',
+                'G_0': '%.3f',
+                'delta_Q_0': '%.3f',
+                'cc_s_0': '%.9e',
+                'cc_s_l': '%.9e',
+                'cc_s': '%.9e',
+                'E_s': '%.8f',
+                'melt': '%.8f',
+                'ro_predict': '%.8f',
+                'z_s_0': '%.6f',
+                'z_s_l': '%.6f',
+                'z_s': '%.6f',
+                'rho': '%.3f',
+                'm_s_0': '%.3f',
+                'm_s_l': '%.3f',
+                'm_s': '%.3f',
+                'h2o': '%.3f',
+                'T_s_0': '%.5f',
+                'T_s_l': '%.5f',
+                'T_s': '%.5f'
+            }
+            for key, value in float_map.items():
+                self.output_df[key] = self.output_df[key].map(
+                    lambda x: value % x)
 
         self.output_df.to_csv(self.config['files']['output_csv'])

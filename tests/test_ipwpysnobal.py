@@ -34,12 +34,11 @@ class TestIPWPysnobal(unittest.TestCase):
 
         # load in the outputs
         gold = pd.read_csv('tests/test_data_point/gold_ipw/gold.snobal.out',
-                           header=None, index_col=0)
+                           header=None, index_col=0, sep=' ')
         new = pd.read_csv(
             'tests/test_data_point/snobal.pysnobal_c', header=None, index_col=0)
 
-        self.assertTrue(new.shape[0] == 8758)
-        self.assertTrue(new.shape[1] == 25)
+        self.assertTrue(new.shape == gold.shape)
 
         result = np.abs(gold - new)
         self.assertFalse(np.any(result > 0))
