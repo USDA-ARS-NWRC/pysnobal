@@ -632,7 +632,7 @@ def initialize(params, tstep_info, sn, mh):
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
-def do_tstep(input1, input2, output_rec, tstep_rec, mh, params, first_step=True):
+def do_tstep_point(input1, input2, output_rec, tstep_rec, mh, params, first_step=True):
     """
     Do the timestep given the inputs, model state, and measurement heights
     There is no first_step value since the snow state records were already
@@ -640,7 +640,7 @@ def do_tstep(input1, input2, output_rec, tstep_rec, mh, params, first_step=True)
     out before calling 'init_snow()'
     """
 
-    cdef int N = len(output_rec['elevation'])
+    # cdef int N = len(output_rec['elevation'])
 #     cdef TSTEP_REC tstep_info[4]
 
     for i in range(len(tstep_rec)):
@@ -668,141 +668,138 @@ def do_tstep(input1, input2, output_rec, tstep_rec, mh, params, first_step=True)
 
     # loop through the grid
     rt = True
-    for (i,j), z in np.ndenumerate(output_rec['elevation']):
+    # for (i,j), z in np.ndenumerate(output_rec['elevation']):
 #     with gil, parallel(num_threads=4):
 #         for n in prange(N):
 
         # extract_data.c
         #check to see if point is masked, since 1=run point, it's "not" masked
-        masked = output_rec['mask'][i,j]
-        if masked:
+        # masked = output_rec['mask'][i,j]
+        # if masked:
 
-            # since snobal use global variables extensively, here is the ugly
-            # interface with Python
-            global current_time, time_since_out
-            global m_pp, percent_snow, rho_snow, T_pp, precip_now
-            global z_0, rho, T_s_0, T_s_l, T_s, h2o_sat, h2o_max, layer_count, P_a, h2o
-            global m_s_0, m_s_l, m_s, cc_s_0, cc_s_l, cc_s, z_s_0, z_s_l, z_s
-            global z_u, z_T, z_g, relative_heights, max_h2o_vol, max_z_s_0
-            global R_n_bar, H_bar, L_v_E_bar, G_bar, G_0_bar, M_bar, delta_Q_bar, delta_Q_0_bar
-            global E_s_sum, melt_sum, ro_pred_sum
+    # since snobal use global variables extensively, here is the ugly
+    # interface with Python
+    global current_time, time_since_out
+    global m_pp, percent_snow, rho_snow, T_pp, precip_now
+    global z_0, rho, T_s_0, T_s_l, T_s, h2o_sat, h2o_max, layer_count, P_a, h2o
+    global m_s_0, m_s_l, m_s, cc_s_0, cc_s_l, cc_s, z_s_0, z_s_l, z_s
+    global z_u, z_T, z_g, relative_heights, max_h2o_vol, max_z_s_0
+    global R_n_bar, H_bar, L_v_E_bar, G_bar, G_0_bar, M_bar, delta_Q_bar, delta_Q_0_bar
+    global E_s_sum, melt_sum, ro_pred_sum
 
-            # time variables
-            current_time = output_rec['current_time'][i,j]
-            time_since_out = output_rec['time_since_out'][i,j]
+    # time variables
+    current_time = output_rec['current_time']
+    time_since_out = output_rec['time_since_out']
 
-            # measurement heights and parameters
-            z_u = mh['z_u']
-            z_T = mh['z_t']
-            z_g = mh['z_g']
-            relative_heights = int(params['relative_heights'])
-            max_h2o_vol = params['max_h2o_vol']
-            max_z_s_0 = params['max_z_s_0']
+    # measurement heights and parameters
+    z_u = mh['z_u']
+    z_T = mh['z_t']
+    z_g = mh['z_g']
+    relative_heights = int(params['relative_heights'])
+    max_h2o_vol = params['max_h2o_vol']
+    max_z_s_0 = params['max_z_s_0']
 
-            # get the input records
-            input_rec1.I_lw = input1['I_lw'][i,j]
-            input_rec1.T_a  = input1['T_a'][i,j]
-            input_rec1.e_a  = input1['e_a'][i,j]
-            input_rec1.u    = input1['u'][i,j]
-            input_rec1.T_g  = input1['T_g'][i,j]
-            input_rec1.S_n  = input1['S_n'][i,j]
+    # get the input records
+    input_rec1.I_lw = input1['I_lw']
+    input_rec1.T_a  = input1['T_a']
+    input_rec1.e_a  = input1['e_a']
+    input_rec1.u    = input1['u']
+    input_rec1.T_g  = input1['T_g']
+    input_rec1.S_n  = input1['S_n']
 
-            input_rec2.I_lw = input2['I_lw'][i,j]
-            input_rec2.T_a  = input2['T_a'][i,j]
-            input_rec2.e_a  = input2['e_a'][i,j]
-            input_rec2.u    = input2['u'][i,j]
-            input_rec2.T_g  = input2['T_g'][i,j]
-            input_rec2.S_n  = input2['S_n'][i,j]
+    input_rec2.I_lw = input2['I_lw']
+    input_rec2.T_a  = input2['T_a']
+    input_rec2.e_a  = input2['e_a']
+    input_rec2.u    = input2['u']
+    input_rec2.T_g  = input2['T_g']
+    input_rec2.S_n  = input2['S_n']
 
-            m_pp         = input1['m_pp'][i,j]
-            percent_snow = input1['percent_snow'][i,j]
-            rho_snow     = input1['rho_snow'][i,j]
-            T_pp         = input1['T_pp'][i,j]
+    m_pp         = input1['m_pp']
+    percent_snow = input1['percent_snow']
+    rho_snow     = input1['rho_snow']
+    T_pp         = input1['T_pp']
 
-            precip_now = 0
-            if m_pp > 0:
-                precip_now = 1
+    precip_now = 0
+    if m_pp > 0:
+        precip_now = 1
 
-            # get the model state
-            elevation       = output_rec['elevation'][i,j]
-            z_0             = output_rec['z_0'][i,j]
-            z_s             = output_rec['z_s'][i,j]
-            rho             = output_rec['rho'][i,j]
-            T_s_0           = output_rec['T_s_0'][i,j]
-            T_s_l           = output_rec['T_s_l'][i,j]
-            T_s             = output_rec['T_s'][i,j]
-            h2o_sat         = output_rec['h2o_sat'][i,j]
-            layer_count     = output_rec['layer_count'][i,j]
+    # get the model state
+    elevation       = output_rec['elevation']
+    z_0             = output_rec['z_0']
+    z_s             = output_rec['z_s']
+    rho             = output_rec['rho']
+    T_s_0           = output_rec['T_s_0']
+    T_s_l           = output_rec['T_s_l']
+    T_s             = output_rec['T_s']
+    h2o_sat         = output_rec['h2o_sat']
+    layer_count     = output_rec['layer_count']
 
-            R_n_bar         = output_rec['R_n_bar'][i,j]
-            H_bar           = output_rec['H_bar'][i,j]
-            L_v_E_bar       = output_rec['L_v_E_bar'][i,j]
-            G_bar           = output_rec['G_bar'][i,j]
-            G_0_bar         = output_rec['G_0_bar'][i,j]
-            M_bar           = output_rec['M_bar'][i,j]
-            delta_Q_bar     = output_rec['delta_Q_bar'][i,j]
-            delta_Q_0_bar   = output_rec['delta_Q_0_bar'][i,j]
-            E_s_sum         = output_rec['E_s_sum'][i,j]
-            melt_sum        = output_rec['melt_sum'][i,j]
-            ro_pred_sum     = output_rec['ro_pred_sum'][i,j]
+    R_n_bar         = output_rec['R_n_bar']
+    H_bar           = output_rec['H_bar']
+    L_v_E_bar       = output_rec['L_v_E_bar']
+    G_bar           = output_rec['G_bar']
+    G_0_bar         = output_rec['G_0_bar']
+    M_bar           = output_rec['M_bar']
+    delta_Q_bar     = output_rec['delta_Q_bar']
+    delta_Q_0_bar   = output_rec['delta_Q_0_bar']
+    E_s_sum         = output_rec['E_s_sum']
+    melt_sum        = output_rec['melt_sum']
+    ro_pred_sum     = output_rec['ro_pred_sum']
 
-    #         print z_0
+#         print z_0
 
-            # establish conditions for snowpack
-            # the firs step mimic's snobal which only calls init_snow once. This
-            # might mean that the model states will need to be saved in memory
-            # or there will be a slight descrepancy with isnobal. But with this,
-            # there should be a descrepancy in isnobal as well
-            if first_step:
-                init_snow()
+    # establish conditions for snowpack
+    # the firs step mimic's snobal which only calls init_snow once. This
+    # might mean that the model states will need to be saved in memory
+    # or there will be a slight descrepancy with isnobal. But with this,
+    # there should be a descrepancy in isnobal as well
+    if first_step:
+        init_snow()
 
-            # set air pressure from site elev
-            P_a = HYSTAT(SEA_LEVEL, STD_AIRTMP, STD_LAPSE, (elevation / 1000.0),
-                GRAVITY, MOL_AIR)
+    # set air pressure from site elev
+    P_a = HYSTAT(SEA_LEVEL, STD_AIRTMP, STD_LAPSE, (elevation / 1000.0),
+        GRAVITY, MOL_AIR)
 
-            # do_data_tstep.c
-            dt = do_data_tstep()
-            if dt == 0:
-                rt = False
-                if N > 1:
-                    abort()
-                else:
-                    break
+    # do_data_tstep.c
+    dt = do_data_tstep()
+    if dt == 0:
+        rt = False
+        abort()
 
-            output_rec['current_time'][i,j] = current_time
-            output_rec['time_since_out'][i,j] = time_since_out
+    output_rec['current_time'] = current_time
+    output_rec['time_since_out'] = time_since_out
 
-            output_rec['elevation'][i,j] = elevation
-            output_rec['z_0'][i,j] = z_0
-            output_rec['rho'][i,j] = rho
-            output_rec['T_s_0'][i,j] = T_s_0
-            output_rec['T_s_l'][i,j] = T_s_l
-            output_rec['T_s'][i,j] = T_s
-            output_rec['h2o_sat'][i,j] = h2o_sat
-            output_rec['h2o_max'][i,j] = h2o_max
-            output_rec['h2o'][i,j] = h2o
-            output_rec['layer_count'][i,j] = layer_count
-            output_rec['cc_s_0'][i,j] = cc_s_0
-            output_rec['cc_s_l'][i,j] = cc_s_l
-            output_rec['cc_s'][i,j] = cc_s
-            output_rec['m_s_0'][i,j] = m_s_0
-            output_rec['m_s_l'][i,j] = m_s_l
-            output_rec['m_s'][i,j] = m_s
-            output_rec['z_s_0'][i,j] = z_s_0
-            output_rec['z_s_l'][i,j] = z_s_l
-            output_rec['z_s'][i,j] = z_s
+    output_rec['elevation'] = elevation
+    output_rec['z_0'] = z_0
+    output_rec['rho'] = rho
+    output_rec['T_s_0'] = T_s_0
+    output_rec['T_s_l'] = T_s_l
+    output_rec['T_s'] = T_s
+    output_rec['h2o_sat'] = h2o_sat
+    output_rec['h2o_max'] = h2o_max
+    output_rec['h2o'] = h2o
+    output_rec['layer_count'] = layer_count
+    output_rec['cc_s_0'] = cc_s_0
+    output_rec['cc_s_l'] = cc_s_l
+    output_rec['cc_s'] = cc_s
+    output_rec['m_s_0'] = m_s_0
+    output_rec['m_s_l'] = m_s_l
+    output_rec['m_s'] = m_s
+    output_rec['z_s_0'] = z_s_0
+    output_rec['z_s_l'] = z_s_l
+    output_rec['z_s'] = z_s
 
-            output_rec['R_n_bar'][i,j] = R_n_bar
-            output_rec['H_bar'][i,j] = H_bar
-            output_rec['L_v_E_bar'][i,j] = L_v_E_bar
-            output_rec['G_bar'][i,j] = G_bar
-            output_rec['G_0_bar'][i,j] = G_0_bar
-            output_rec['M_bar'][i,j] = M_bar
-            output_rec['delta_Q_bar'][i,j] = delta_Q_bar
-            output_rec['delta_Q_0_bar'][i,j] = delta_Q_0_bar
-            output_rec['E_s_sum'][i,j] = E_s_sum
-            output_rec['melt_sum'][i,j] = melt_sum
-            output_rec['ro_pred_sum'][i,j] = ro_pred_sum
+    output_rec['R_n_bar'] = R_n_bar
+    output_rec['H_bar'] = H_bar
+    output_rec['L_v_E_bar'] = L_v_E_bar
+    output_rec['G_bar'] = G_bar
+    output_rec['G_0_bar'] = G_0_bar
+    output_rec['M_bar'] = M_bar
+    output_rec['delta_Q_bar'] = delta_Q_bar
+    output_rec['delta_Q_0_bar'] = delta_Q_0_bar
+    output_rec['E_s_sum'] = E_s_sum
+    output_rec['melt_sum'] = melt_sum
+    output_rec['ro_pred_sum'] = ro_pred_sum
 
     return rt
 

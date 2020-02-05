@@ -13,6 +13,7 @@ import unittest
 
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 from pysnobal.snobal_ipw import IPWPySnobal
 
@@ -26,7 +27,7 @@ class TestIPWPysnobal(unittest.TestCase):
         os.remove('tests/test_data_point/snobal.pysnobal_c')
 
     def test_pysnobal_ipw_run(self):
-        """ Test PySnobal and compare with Snobal """
+        """ Test IPWPySnobal and compare with Snobal """
 
         # run PySnobal
         status = IPWPySnobal().run()

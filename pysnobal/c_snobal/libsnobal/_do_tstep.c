@@ -89,7 +89,7 @@
  */
 
 //#include        "ipw.h"
-#include        "_snobal.h"
+#include "_snobal.h"
 
 /*
  *  A macro to update a time-weighted average for a quantity.
@@ -98,107 +98,108 @@
  *	value		new value to be averaged in
  *	time_incr	the time interval the new value applies to
  */
-#define TIME_AVG(avg,total_time,value,time_incr) \
-		( ((avg) * (total_time) + (value) * (time_incr)) \
-				/ ((total_time) + (time_incr)) )
+#define TIME_AVG(avg, total_time, value, time_incr) \
+    (((avg) * (total_time) + (value) * (time_incr)) / ((total_time) + (time_incr)))
 
-int
-_do_tstep(
-		TSTEP_REC *tstep)  /* timestep's record */
+int _do_tstep(
+    TSTEP_REC *tstep) /* timestep's record */
 {
-	time_step = tstep->time_step;
-//	printf("%f - %i - %f - %f\n", current_time/3600.0, tstep->level, time_step, m_s);
+    time_step = tstep->time_step;
+    //	printf("%f - %i - %f - %f\n", current_time/3600.0, tstep->level, time_step, m_s);
 
-	if (precip_now) {
-		m_precip = precip_info[tstep->level].m_pp;
-		m_rain   = precip_info[tstep->level].m_rain;
-		m_snow   = precip_info[tstep->level].m_snow;
-		z_snow   = precip_info[tstep->level].z_snow;
-	}
+    if (precip_now)
+    {
+        m_precip = precip_info[tstep->level].m_pp;
+        m_rain = precip_info[tstep->level].m_rain;
+        m_snow = precip_info[tstep->level].m_snow;
+        z_snow = precip_info[tstep->level].z_snow;
+    }
 
-	h2o_total = 0.0;
+    h2o_total = 0.0;
 
-	/*
+    /*
 	 *  Is there a snowcover?
 	 */
-	snowcover = (layer_count > 0);
+    snowcover = (layer_count > 0);
 
-	/*
+    /*
 	 *  Calculate energy transfer terms
 	 */
-	if (! _e_bal())
-		return FALSE;
+    if (!_e_bal())
+        return FALSE;
 
-	/*
+    /*
 	 *  Adjust mass and calculate runoff
 	 */
-	_mass_bal();
+    _mass_bal();
 
-	/*
+    /*
 	 *  Update the averages for the energy terms and the totals for mass
 	 *  changes since the last output.
 	 */
-	if (time_since_out > 0.0) {
-		R_n_bar       = TIME_AVG(R_n_bar, 	time_since_out,
-				R_n, 		time_step);
-		H_bar         = TIME_AVG(H_bar, 	time_since_out,
-				H, 		time_step);
-		L_v_E_bar     = TIME_AVG(L_v_E_bar, 	time_since_out,
-				L_v_E, 	time_step);
-		G_bar         = TIME_AVG(G_bar, 	time_since_out,
-				G, 		time_step);
-		M_bar         = TIME_AVG(M_bar, 	time_since_out,
-				M, 		time_step);
-		delta_Q_bar   = TIME_AVG(delta_Q_bar,	time_since_out,
-				delta_Q, 	time_step);
-		G_0_bar       = TIME_AVG(G_0_bar, 	time_since_out,
-				G_0, 		time_step);
-		delta_Q_0_bar = TIME_AVG(delta_Q_0_bar, time_since_out,
-				delta_Q_0, 	time_step);
+    if (time_since_out > 0.0)
+    {
+        R_n_bar = TIME_AVG(R_n_bar, time_since_out,
+                           R_n, time_step);
+        H_bar = TIME_AVG(H_bar, time_since_out,
+                         H, time_step);
+        L_v_E_bar = TIME_AVG(L_v_E_bar, time_since_out,
+                             L_v_E, time_step);
+        G_bar = TIME_AVG(G_bar, time_since_out,
+                         G, time_step);
+        M_bar = TIME_AVG(M_bar, time_since_out,
+                         M, time_step);
+        delta_Q_bar = TIME_AVG(delta_Q_bar, time_since_out,
+                               delta_Q, time_step);
+        G_0_bar = TIME_AVG(G_0_bar, time_since_out,
+                           G_0, time_step);
+        delta_Q_0_bar = TIME_AVG(delta_Q_0_bar, time_since_out,
+                                 delta_Q_0, time_step);
 
-		E_s_sum     += E_s;
-		melt_sum    += melt;
-		ro_pred_sum += ro_predict;
+        E_s_sum += E_s;
+        melt_sum += melt;
+        ro_pred_sum += ro_predict;
 
-		time_since_out += time_step;
-	}
-	else {
-		R_n_bar = R_n;
-		H_bar = H;
-		L_v_E_bar = L_v_E;
-		G_bar = G;
-		M_bar = M;
-		delta_Q_bar = delta_Q;
-		G_0_bar = G_0;
-		delta_Q_0_bar = delta_Q_0;
+        time_since_out += time_step;
+    }
+    else
+    {
+        R_n_bar = R_n;
+        H_bar = H;
+        L_v_E_bar = L_v_E;
+        G_bar = G;
+        M_bar = M;
+        delta_Q_bar = delta_Q;
+        G_0_bar = G_0;
+        delta_Q_0_bar = delta_Q_0;
 
-		E_s_sum     = E_s;
-		melt_sum    = melt;
-		ro_pred_sum = ro_predict;
+        E_s_sum = E_s;
+        melt_sum = melt;
+        ro_pred_sum = ro_predict;
 
-		time_since_out = time_step;
-	}
+        time_since_out = time_step;
+    }
 
-	/* increment time */
-	current_time += time_step;
+    /* increment time */
+    current_time += time_step;
 
-//	if (tstep->output & WHOLE_TSTEP) {
-//		(*out_func)();
-//		if (!run_no_snow && (layer_count == 0))
-//			stop_no_snow = TRUE;
-//	}
+    //	if (tstep->output & WHOLE_TSTEP) {
+    //		(*out_func)();
+    //		if (!run_no_snow && (layer_count == 0))
+    //			stop_no_snow = TRUE;
+    //	}
 
-	/*
+    /*
 	 *  Update the model's input parameters
 	 */
-	S_n  += input_deltas[tstep->level].S_n;
-	I_lw += input_deltas[tstep->level].I_lw;
-	T_a  += input_deltas[tstep->level].T_a;
-	e_a  += input_deltas[tstep->level].e_a;
-	u    += input_deltas[tstep->level].u;
-	T_g  += input_deltas[tstep->level].T_g;
-	if (ro_data)
-		ro += input_deltas[tstep->level].ro;
+    S_n += input_deltas[tstep->level].S_n;
+    I_lw += input_deltas[tstep->level].I_lw;
+    T_a += input_deltas[tstep->level].T_a;
+    e_a += input_deltas[tstep->level].e_a;
+    u += input_deltas[tstep->level].u;
+    T_g += input_deltas[tstep->level].T_g;
+    if (ro_data)
+        ro += input_deltas[tstep->level].ro;
 
-	return TRUE;
+    return TRUE;
 }

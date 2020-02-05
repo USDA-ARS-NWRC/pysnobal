@@ -272,7 +272,7 @@ class IPWPySnobal():
 
         # convert all to numpy arrays within the dict
         sn['z_0'] = mh['z_0']
-        sn = self.dict2np(sn)
+        # sn = self.dict2np(sn)
     #     mh = self.dict2np(mh)
 
         # check the ranges for the input values
@@ -309,26 +309,29 @@ class IPWPySnobal():
         # There are a lot of additional terms that the original self.output_rec does not
         # have due to the output function being outside the C code which doesn't
         # have access to those variables
-        sz = self.sn['elevation'].shape
+        # sz = self.sn['elevation'].shape
         flds = ['mask', 'elevation', 'z_0', 'rho', 'T_s_0', 'T_s_l', 'T_s',
                 'cc_s_0', 'cc_s_l', 'cc_s', 'm_s', 'm_s_0', 'm_s_l', 'z_s', 'z_s_0', 'z_s_l',
                 'h2o_sat', 'layer_count', 'h2o', 'h2o_max', 'h2o_vol', 'h2o_total',
                 'R_n_bar', 'H_bar', 'L_v_E_bar', 'G_bar', 'G_0_bar',
                 'M_bar', 'delta_Q_bar', 'delta_Q_0_bar', 'E_s_sum', 'melt_sum', 'ro_pred_sum',
                 'current_time', 'time_since_out']
-        s = {key: np.zeros(sz) for key in flds}  # the structure fields
+
+        # initialize all to zeros
+        # The C Snobal just initializes as a double with no value
+        s = {key: 0 for key in flds}  # the structure fields
 
         # go through each sn value and fill
         for key, val in self.sn.items():
             if key in flds:
                 s[key] = val
 
-        mh2 = self.dict2np(self.mh)
-        for key, val in mh2.items():
+        # mh2 = self.dict2np(self.mh)
+        for key, val in self.mh.items():
             if key in flds:
                 s[key] = val
 
-        s['mask'] = np.ones(sz)
+        s['mask'] = 1
         self.output_rec = s
 
     def output_timestep(self):
@@ -347,60 +350,25 @@ class IPWPySnobal():
         n = 0
         if f is not None:
 
-            curr_time_hrs = SEC_TO_HR(self.output_rec['current_time'][n])
-
-    #         # time
-    #         f.write('%g,' % curr_time_hrs)
-    #
-    #         # energy budget terms
-    #         f.write("%.1f,%.1f,%.1f,%.1f,%.1f,%.1f," % \
-    #                 (self.output_rec['R_n_bar'][n], self.output_rec['H_bar'][n], self.output_rec['L_v_E_bar'][n], \
-    #                 self.output_rec['G_bar'][n], self.output_rec['M_bar'][n], self.output_rec['delta_Q_bar'][n]))
-    #
-    #         # layer terms
-    #         f.write("%.1f,%.1f," % \
-    #                 (self.output_rec['G_0_bar'][n], self.output_rec['delta_Q_0_bar'][n]))
-    #
-    #         # heat storage and mass changes
-    #         f.write("%.6e,%.6e,%.6e," % \
-    #                 (self.output_rec['cc_s_0'][n], self.output_rec['cc_s_l'][n], self.output_rec['cc_s'][n]))
-    #         f.write("%.5f,%.5f,%.5f," % \
-    #                 (self.output_rec['E_s_sum'][n], self.output_rec['melt_sum'][n], self.output_rec['ro_pred_sum'][n]))
-    #
-    #         #             # runoff error if data included */
-    #         #             if (ro_data)
-    #         #                 fprintf(out, " %.1f",
-    #         #                         (ro_pred_sum - (ro * time_since_out)))
-    #
-    #         # sno properties */
-    #         f.write("%.3f,%.3f,%.3f,%.1f," % \
-    #                 (self.output_rec['z_s_0'][n], self.output_rec['z_s_l'][n], self.output_rec['z_s'][n], self.output_rec['rho'][n]))
-    #         f.write("%.1f,%.1f,%.1f,%.1f," % \
-    #                 (self.output_rec['m_s_0'][n], self.output_rec['m_s_l'][n], self.output_rec['m_s'][n], self.output_rec['h2o'][n]))
-    #         if self.params['temps_in_C']:
-    #             f.write("%.2f,%.2f,%.2f\n" %
-    #                     (K_TO_C(self.output_rec['T_s_0'][n]), K_TO_C(self.output_rec['T_s_l'][n]), K_TO_C(self.output_rec['T_s'][n])))
-    #         else:
-    #             f.write("%.2f,%.2f,%.2f\n" % \
-    #                     (self.output_rec['T_s_0'][n], self.output_rec['T_s_l'][n], self.output_rec['T_s'][n]))
+            curr_time_hrs = SEC_TO_HR(self.output_rec['current_time'])
 
             # time
             f.write('%g,' % curr_time_hrs)
 
             # energy budget terms
             f.write("%.3f,%.3f,%.3f,%.3f,%.3f,%.3f," %
-                    (self.output_rec['R_n_bar'][n], self.output_rec['H_bar'][n], self.output_rec['L_v_E_bar'][n],
-                     self.output_rec['G_bar'][n], self.output_rec['M_bar'][n], self.output_rec['delta_Q_bar'][n]))
+                    (self.output_rec['R_n_bar'], self.output_rec['H_bar'], self.output_rec['L_v_E_bar'],
+                     self.output_rec['G_bar'], self.output_rec['M_bar'], self.output_rec['delta_Q_bar']))
 
             # layer terms
             f.write("%.3f,%.3f," %
-                    (self.output_rec['G_0_bar'][n], self.output_rec['delta_Q_0_bar'][n]))
+                    (self.output_rec['G_0_bar'], self.output_rec['delta_Q_0_bar']))
 
             # heat storage and mass changes
             f.write("%.9e,%.9e,%.9e," %
-                    (self.output_rec['cc_s_0'][n], self.output_rec['cc_s_l'][n], self.output_rec['cc_s'][n]))
+                    (self.output_rec['cc_s_0'], self.output_rec['cc_s_l'], self.output_rec['cc_s']))
             f.write("%.8f,%.8f,%.8f," %
-                    (self.output_rec['E_s_sum'][n], self.output_rec['melt_sum'][n], self.output_rec['ro_pred_sum'][n]))
+                    (self.output_rec['E_s_sum'], self.output_rec['melt_sum'], self.output_rec['ro_pred_sum']))
 
             #             # runoff error if data included */
             #             if (ro_data)
@@ -409,18 +377,18 @@ class IPWPySnobal():
 
             # sno properties */
             f.write("%.6f,%.6f,%.6f,%.3f," %
-                    (self.output_rec['z_s_0'][n], self.output_rec['z_s_l'][n], self.output_rec['z_s'][n], self.output_rec['rho'][n]))
+                    (self.output_rec['z_s_0'], self.output_rec['z_s_l'], self.output_rec['z_s'], self.output_rec['rho']))
             f.write("%.3f,%.3f,%.3f,%.3f," %
-                    (self.output_rec['m_s_0'][n], self.output_rec['m_s_l'][n], self.output_rec['m_s'][n], self.output_rec['h2o'][n]))
+                    (self.output_rec['m_s_0'], self.output_rec['m_s_l'], self.output_rec['m_s'], self.output_rec['h2o']))
             if self.params['temps_in_C']:
                 f.write("%.5f,%.5f,%.5f\n" %
-                        (K_TO_C(self.output_rec['T_s_0'][n]), K_TO_C(self.output_rec['T_s_l'][n]), K_TO_C(self.output_rec['T_s'][n])))
+                        (K_TO_C(self.output_rec['T_s_0']), K_TO_C(self.output_rec['T_s_l']), K_TO_C(self.output_rec['T_s'])))
             else:
                 f.write("%.5f,%.5f,%.5f\n" %
-                        (self.output_rec['T_s_0'][n], self.output_rec['T_s_l'][n], self.output_rec['T_s'][n]))
+                        (self.output_rec['T_s_0'], self.output_rec['T_s_l'], self.output_rec['T_s']))
 
             # reset the time since out
-            self.output_rec['time_since_out'][n] = 0
+            self.output_rec['time_since_out'] = 0
 
     def run(self):
         """
@@ -435,7 +403,7 @@ class IPWPySnobal():
         # sn, mh, force = open_files(params)
 
         # initialize
-        self.sn['elevation'] = np.atleast_2d(np.array(self.options['z']))
+        self.sn['elevation'] = self.options['z']
         self.initialize()
 
         self.mh['relative_heights'] = self.params['relative_heights']
@@ -455,10 +423,8 @@ class IPWPySnobal():
         start_step = 0  # if restart then it would be higher if this were iSnobal
         step_time = start_step * data_tstep
 
-        self.output_rec['current_time'] = step_time * \
-            np.ones(self.output_rec['elevation'].shape)
-        self.output_rec['time_since_out'] = timeSinceOut * \
-            np.ones(self.output_rec['elevation'].shape)
+        self.output_rec['current_time'] = step_time
+        self.output_rec['time_since_out'] = timeSinceOut
 
         for index, input2 in it:
 
@@ -471,9 +437,13 @@ class IPWPySnobal():
 
             try:
                 # call do_data_tstep()
-                c_snobal.do_tstep_grid(self.dict2np(input1.to_dict()), self.dict2np(
-                    input2.to_dict()), self.output_rec, self.tstep_info, self.mh, self.params, first_step)
-    #             s.do_data_tstep(self.dict2np(input1.to_dict()), self.dict2np(input2.to_dict()))
+                # c_snobal.do_tstep_grid(self.dict2np(input1.to_dict()), self.dict2np(
+                #     input2.to_dict()), self.output_rec, self.tstep_info, self.mh, self.params, first_step)
+                # do_tstep(input1, input2, output_rec, tstep_rec,
+                #          mh, params, first_step=True)
+                c_snobal.do_tstep_point(input1.to_dict(), input2.to_dict(),
+                                        self.output_rec, self.tstep_info,
+                                        self.mh, self.params, first_step)
 
                 # output the results
                 self.output_timestep()
