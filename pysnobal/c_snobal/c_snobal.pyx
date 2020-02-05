@@ -749,7 +749,7 @@ def do_tstep_point(input1, input2, output_rec, tstep_rec, mh, params, first_step
 #         print z_0
 
     # establish conditions for snowpack
-    # the firs step mimic's snobal which only calls init_snow once. This
+    # the first step mimic's snobal which only calls init_snow once. This
     # might mean that the model states will need to be saved in memory
     # or there will be a slight descrepancy with isnobal. But with this,
     # there should be a descrepancy in isnobal as well

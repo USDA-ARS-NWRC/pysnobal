@@ -88,6 +88,7 @@
  **	z_snow
  */
 
+#include <Python.h>
 //#include        "ipw.h"
 #include "_snobal.h"
 
@@ -188,6 +189,7 @@ int _do_tstep(
     //		if (!run_no_snow && (layer_count == 0))
     //			stop_no_snow = TRUE;
     //	}
+    python_output();
 
     /*
 	 *  Update the model's input parameters
@@ -202,4 +204,94 @@ int _do_tstep(
         ro += input_deltas[tstep->level].ro;
 
     return TRUE;
+}
+
+/*
+* Call a python function to output the model results
+*/
+int python_output()
+{
+    PyObject *pName, *pModule, *pDict, *pFunc,
+        *pValue, *pResult, *pOutputDict, *pKey,
+        *pStatus, *pArgs;
+
+    // Build the name object, converts output.py to a Python string
+    // printf("PyUnicode_FromString\n");
+    pName = PyUnicode_FromString((char *)"pysnobal.output");
+    check_errors(pName);
+
+    // Load the module object, import the file as a Python module
+    // printf("PyImport_Import\n");
+    pModule = PyImport_Import(pName);
+    check_errors(pModule);
+
+    // Create a dictionary for the contents of the module.
+    // printf("PyModule_GetDict\n");
+    pDict = PyModule_GetDict(pModule);
+    check_errors(pDict);
+
+    // pFunc is also a borrowed reference
+    // printf("PyDict_GetItemString\n");
+    pFunc = PyDict_GetItemString(pDict, (char *)"output_timestep_to_file");
+    check_errors(pFunc);
+
+    if (PyCallable_Check(pFunc))
+    {
+        // Create a Python tuple to hold the arguments to the method.
+        printf("PyDict_New \n");
+        pOutputDict = PyDict_New();
+        check_errors(pOutputDict);
+
+        // pValue = Py_BuildValue("(z)", (char *)"something");
+        printf("PyUnicode_FromString \n");
+        pKey = PyUnicode_FromString((char *)"current_time");
+        check_errors(pKey);
+
+        printf("PyFloat_FromDouble \n");
+        pValue = PyFloat_FromDouble(current_time);
+        check_errors(pValue);
+
+        // Add the value to the tuple
+        printf("PyDict_SetItem \n");
+        pStatus = PyDict_SetItem(pOutputDict, pKey, pValue);
+        if (pStatus == -1)
+        {
+            PyErr_Print();
+            exit(1);
+        }
+
+        // Inputs have to be a tuple
+        pArgs = PyTuple_New(1);
+        check_errors(pArgs);
+        PyTuple_SetItem(pArgs, 0, pOutputDict);
+
+        // printf("Let's give this a shot!\n");
+        pResult = PyObject_CallObject(pFunc, pArgs);
+        check_errors(pResult);
+    }
+    else
+    {
+        PyErr_Print();
+    }
+    // printf("Result is %d\n", PyInt_AsLong(pResult));
+    Py_DECREF(pValue);
+
+    // Clean up
+    Py_DECREF(pModule);
+    Py_DECREF(pName);
+
+    // Finish the Python Interpreter
+    // Py_FinalizeEx();
+}
+
+/*
+* Check the Python output for errors
+*/
+void check_errors(PyObject *pOutput)
+{
+    if (!pOutput)
+    {
+        PyErr_Print();
+        exit(1);
+    }
 }

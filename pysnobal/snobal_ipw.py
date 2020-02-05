@@ -182,6 +182,7 @@ class IPWPySnobal():
             med_tstep_min / small_tstep_min)
 
         # output
+        # probably remove the data and output the model normal or all
         if self.options['O'] == 'data':
             tstep_info[DATA_TSTEP]['output'] = DIVIDED_TSTEP
         elif self.options['O'] == 'normal':
@@ -220,10 +221,14 @@ class IPWPySnobal():
         params['in_filename'] = self.options['i']
         params['pr_filename'] = self.options['p']
         params['out_filename'] = self.options['o']
-        params['out_file'] = open(params['out_filename'], 'w')
+        # params['out_file'] = open(params['out_filename'], 'w')
         params['stop_no_snow'] = self.options['c']
         params['temps_in_C'] = self.options['K']
         params['relative_heights'] = False
+
+        # open the file
+        f = open(params['out_filename'], 'w')
+        f.close()
 
         self.params = params
         self.tstep_info = tstep_info
@@ -272,8 +277,6 @@ class IPWPySnobal():
 
         # convert all to numpy arrays within the dict
         sn['z_0'] = mh['z_0']
-        # sn = self.dict2np(sn)
-    #     mh = self.dict2np(mh)
 
         # check the ranges for the input values
 
@@ -287,18 +290,9 @@ class IPWPySnobal():
         force = pd.concat([force, pr], axis=1)
         force = force[:min_len]
 
-        # create the time steps for the forcing data
-    #     time_f =
-
         self.sn = sn
         self.mh = mh
         self.force = force
-
-    def dict2np(self, d):
-        """
-        The at least 2d is to trick snobal into thinking it's an ndarray
-        """
-        return {k: np.atleast_2d(np.array(v, dtype=float)) for k, v in d.items()}
 
     def initialize(self):
         """
@@ -326,7 +320,7 @@ class IPWPySnobal():
             if key in flds:
                 s[key] = val
 
-        # mh2 = self.dict2np(self.mh)
+        # measurement heights
         for key, val in self.mh.items():
             if key in flds:
                 s[key] = val
@@ -446,7 +440,7 @@ class IPWPySnobal():
                                         self.mh, self.params, first_step)
 
                 # output the results
-                self.output_timestep()
+                # self.output_timestep()
 
             except Exception as e:
                 traceback.print_exc()

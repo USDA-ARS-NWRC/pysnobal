@@ -40,95 +40,97 @@
  */
 
 //#include	"ipw.h"
-#include        "_snobal.h"
+#include "_snobal.h"
 
-int
-_divide_tstep(
-		TSTEP_REC *tstep)	/* record of timestep to be divided */
+int _divide_tstep(TSTEP_REC *tstep) /* record of timestep to be divided */
 {
-	int	    next_level; 	/* # of next level of timestep */
-	TSTEP_REC  *next_lvl_tstep;	/* info of next level of timestep */
-	INPUT_REC  *curr_lvl_deltas;	/* -> input-deltas of current level */
-	INPUT_REC  *next_lvl_deltas;	/* -> input-deltas of next level */
-	PRECIP_REC *curr_lvl_precip;	/* -> precip data of current level */
-	PRECIP_REC *next_lvl_precip;	/* -> precip data of next level */
-	int	    i;			/* loop index */
+    int next_level;              /* # of next level of timestep */
+    TSTEP_REC *next_lvl_tstep;   /* info of next level of timestep */
+    INPUT_REC *curr_lvl_deltas;  /* -> input-deltas of current level */
+    INPUT_REC *next_lvl_deltas;  /* -> input-deltas of next level */
+    PRECIP_REC *curr_lvl_precip; /* -> precip data of current level */
+    PRECIP_REC *next_lvl_precip; /* -> precip data of next level */
+    int i;                       /* loop index */
 
-
-	/*
+    /*
 	 *  Fetch the record for the timestep at the next level.
 	 */
 
-	next_level = tstep->level + 1;
-	next_lvl_tstep = &tstep_info[next_level]; // + next_level;
+    next_level = tstep->level + 1;
+    next_lvl_tstep = &tstep_info[next_level]; // + next_level;
 
-//	printf("Current %i, next %i\n", tstep->level, next_lvl_tstep->level);
+    //	printf("Current %i, next %i\n", tstep->level, next_lvl_tstep->level);
 
-	curr_lvl_deltas = input_deltas + tstep->level;
-	next_lvl_deltas = input_deltas + next_level;
+    curr_lvl_deltas = input_deltas + tstep->level;
+    next_lvl_deltas = input_deltas + next_level;
 
-	curr_lvl_precip = precip_info + tstep->level;
-	next_lvl_precip = precip_info + next_level;
+    curr_lvl_precip = precip_info + tstep->level;
+    next_lvl_precip = precip_info + next_level;
 
-	/*
+    /*
 	 *  If this is the first time this new level has been used during
 	 *  the current data timestep, then calculate its input deltas
 	 *  and precipitation values.
 	 */
-	if (! computed[next_level]) {
-		next_lvl_deltas->S_n  = curr_lvl_deltas->S_n /
-				next_lvl_tstep->intervals;
-		next_lvl_deltas->I_lw = curr_lvl_deltas->I_lw /
-				next_lvl_tstep->intervals;
-		next_lvl_deltas->T_a  = curr_lvl_deltas->T_a /
-				next_lvl_tstep->intervals;
-		next_lvl_deltas->e_a  = curr_lvl_deltas->e_a /
-				next_lvl_tstep->intervals;
-		next_lvl_deltas->u    = curr_lvl_deltas->u /
-				next_lvl_tstep->intervals;
-		next_lvl_deltas->T_g  = curr_lvl_deltas->T_g /
-				next_lvl_tstep->intervals;
-		if (ro_data)
-			next_lvl_deltas->ro = curr_lvl_deltas->ro /
-			next_lvl_tstep->intervals;
+    if (!computed[next_level])
+    {
+        next_lvl_deltas->S_n = curr_lvl_deltas->S_n /
+                               next_lvl_tstep->intervals;
+        next_lvl_deltas->I_lw = curr_lvl_deltas->I_lw /
+                                next_lvl_tstep->intervals;
+        next_lvl_deltas->T_a = curr_lvl_deltas->T_a /
+                               next_lvl_tstep->intervals;
+        next_lvl_deltas->e_a = curr_lvl_deltas->e_a /
+                               next_lvl_tstep->intervals;
+        next_lvl_deltas->u = curr_lvl_deltas->u /
+                             next_lvl_tstep->intervals;
+        next_lvl_deltas->T_g = curr_lvl_deltas->T_g /
+                               next_lvl_tstep->intervals;
+        if (ro_data)
+            next_lvl_deltas->ro = curr_lvl_deltas->ro /
+                                  next_lvl_tstep->intervals;
 
-		if (precip_now) {
-			next_lvl_precip->m_pp   = curr_lvl_precip->m_pp /
-					next_lvl_tstep->intervals;
-			next_lvl_precip->m_rain = curr_lvl_precip->m_rain /
-					next_lvl_tstep->intervals;
-			next_lvl_precip->m_snow = curr_lvl_precip->m_snow /
-					next_lvl_tstep->intervals;
-			next_lvl_precip->z_snow = curr_lvl_precip->z_snow /
-					next_lvl_tstep->intervals;
-		}
+        if (precip_now)
+        {
+            next_lvl_precip->m_pp = curr_lvl_precip->m_pp /
+                                    next_lvl_tstep->intervals;
+            next_lvl_precip->m_rain = curr_lvl_precip->m_rain /
+                                      next_lvl_tstep->intervals;
+            next_lvl_precip->m_snow = curr_lvl_precip->m_snow /
+                                      next_lvl_tstep->intervals;
+            next_lvl_precip->z_snow = curr_lvl_precip->z_snow /
+                                      next_lvl_tstep->intervals;
+        }
 
-		computed[next_level] = TRUE;
-	}
+        computed[next_level] = TRUE;
+    }
 
-	/*
+    /*
 	 *  For each the new smaller timestep, either subdivide them if
 	 *  below their mass threshold, or run the model for them.
 	 */
-	for (i = 0; i < next_lvl_tstep->intervals; i++) {
-		if ((next_level != SMALL_TSTEP) && _below_thold(next_lvl_tstep->threshold)) {
-			if (! _divide_tstep(next_lvl_tstep))
-				return FALSE;
-		}
-		else {
-			if (! _do_tstep(next_lvl_tstep))
-				return FALSE;
-		}
-	}
+    for (i = 0; i < next_lvl_tstep->intervals; i++)
+    {
+        if ((next_level != SMALL_TSTEP) && _below_thold(next_lvl_tstep->threshold))
+        {
+            if (!_divide_tstep(next_lvl_tstep))
+                return FALSE;
+        }
+        else
+        {
+            if (!_do_tstep(next_lvl_tstep))
+                return FALSE;
+        }
+    }
 
-	/*
+    /*
 	 *  Output if this timestep is divided?
 	 */
-	//	if (tstep->output & DIVIDED_TSTEP) {
-	//		(*out_func)();
-	//		if (!run_no_snow && (layer_count == 0))
-	//			stop_no_snow = TRUE;
-	//	}
+    //	if (tstep->output & DIVIDED_TSTEP) {
+    //		(*out_func)();
+    //		if (!run_no_snow && (layer_count == 0))
+    //			stop_no_snow = TRUE;
+    //	}
 
-	return TRUE;
+    return TRUE;
 }
