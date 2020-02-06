@@ -189,7 +189,7 @@ int _do_tstep(
     //		if (!run_no_snow && (layer_count == 0))
     //			stop_no_snow = TRUE;
     //	}
-    python_output();
+    // python_output();
 
     /*
 	 *  Update the model's input parameters
@@ -237,22 +237,17 @@ int python_output()
 
     if (PyCallable_Check(pFunc))
     {
-        // Create a Python tuple to hold the arguments to the method.
-        printf("PyDict_New \n");
+        // Create a dictionary to hold the results
         pOutputDict = PyDict_New();
         check_errors(pOutputDict);
 
-        // pValue = Py_BuildValue("(z)", (char *)"something");
-        printf("PyUnicode_FromString \n");
         pKey = PyUnicode_FromString((char *)"current_time");
         check_errors(pKey);
 
-        printf("PyFloat_FromDouble \n");
         pValue = PyFloat_FromDouble(current_time);
         check_errors(pValue);
 
         // Add the value to the tuple
-        printf("PyDict_SetItem \n");
         pStatus = PyDict_SetItem(pOutputDict, pKey, pValue);
         if (pStatus == -1)
         {
@@ -260,7 +255,7 @@ int python_output()
             exit(1);
         }
 
-        // Inputs have to be a tuple
+        // Create a Python tuple to hold the arguments to the method.
         pArgs = PyTuple_New(1);
         check_errors(pArgs);
         PyTuple_SetItem(pArgs, 0, pOutputDict);

@@ -38,16 +38,35 @@ if sys.platform == 'darwin':
 # ------------------------------------------------------------------------------
 # Compiling the C code for the Snobal libary
 
+# the C code
 loc = 'pysnobal/c_snobal/libsnobal'
 cwd = os.getcwd()
 sources = glob.glob(os.path.join(loc, '*.c'))
 
+# # compile c_snobal.pyx
+# loc = 'pysnobal/c_snobal'
+# c_snobal_source = [os.path.join(loc, val) for val in ["c_snobal.pyx"]]
+# extensions = [
+#     Extension(
+#         "pysnobal.c_snobal.c_snobal",
+#         sources + c_snobal_source,
+#         # libraries=["snobal"],
+#         include_dirs=[numpy.get_include(), 'pysnobal/c_snobal',
+#                       'pysnobal/c_snobal/h'],
+#         # runtime_library_dirs=['{}'.format(os.path.join(cwd,'pysnobal'))],
+#         extra_compile_args=['-fopenmp', '-O3', '-L./pysnobal'],
+#         extra_link_args=['-fopenmp', '-O3', '-L./pysnobal']
+#     )
+# ]
+
+# compile cython_snobal.pyx
 loc = 'pysnobal/c_snobal'
-sources += [os.path.join(loc, val) for val in ["c_snobal.pyx"]]
+cython_snobal_source = [os.path.join(loc, val)
+                        for val in ["cython_snobal.pyx"]]
 extensions = [
     Extension(
-        "pysnobal.c_snobal.c_snobal",
-        sources,
+        "pysnobal.c_snobal.cython_snobal",
+        sources + cython_snobal_source,
         # libraries=["snobal"],
         include_dirs=[numpy.get_include(), 'pysnobal/c_snobal',
                       'pysnobal/c_snobal/h'],

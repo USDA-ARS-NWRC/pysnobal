@@ -16,7 +16,7 @@ import traceback
 import numpy as np
 import pandas as pd
 
-from pysnobal.c_snobal import c_snobal
+from pysnobal.c_snobal import cython_snobal
 
 DEFAULT_MAX_Z_S_0 = 0.25
 DEFAULT_MAX_H2O_VOL = 0.01
@@ -221,14 +221,14 @@ class IPWPySnobal():
         params['in_filename'] = self.options['i']
         params['pr_filename'] = self.options['p']
         params['out_filename'] = self.options['o']
-        # params['out_file'] = open(params['out_filename'], 'w')
+        params['out_file'] = open(params['out_filename'], 'w')
         params['stop_no_snow'] = self.options['c']
         params['temps_in_C'] = self.options['K']
         params['relative_heights'] = False
 
-        # open the file
-        f = open(params['out_filename'], 'w')
-        f.close()
+        # # open the file
+        # f = open(params['out_filename'], 'w')
+        # f.close()
 
         self.params = params
         self.tstep_info = tstep_info
@@ -431,21 +431,21 @@ class IPWPySnobal():
 
             try:
                 # call do_data_tstep()
-                # c_snobal.do_tstep_grid(self.dict2np(input1.to_dict()), self.dict2np(
+                # cython_snobal.do_tstep_grid(self.dict2np(input1.to_dict()), self.dict2np(
                 #     input2.to_dict()), self.output_rec, self.tstep_info, self.mh, self.params, first_step)
                 # do_tstep(input1, input2, output_rec, tstep_rec,
                 #          mh, params, first_step=True)
-                c_snobal.do_tstep_point(input1.to_dict(), input2.to_dict(),
-                                        self.output_rec, self.tstep_info,
-                                        self.mh, self.params, first_step)
+                cython_snobal.do_tstep_point(input1.to_dict(), input2.to_dict(),
+                                             self.output_rec, self.tstep_info,
+                                             self.mh, self.params, first_step)
 
                 # output the results
-                # self.output_timestep()
+                self.output_timestep()
 
             except Exception as e:
                 traceback.print_exc()
                 print('pysnobal error on time step %f' %
-                      (self.output_rec['current_time'][0, 0]/3600.0))
+                      (self.output_rec['current_time']/3600.0))
                 print(e)
                 return False
     #
