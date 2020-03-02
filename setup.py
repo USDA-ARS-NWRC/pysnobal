@@ -25,11 +25,11 @@ test_requirements = [
     # TODO: put package test requirements here
 ]
 
-
 cmdclass = {}
 
 # make sure we're using GCC
-os.environ["CC"] = "gcc"
+if "CC" not in os.environ:
+    os.environ["CC"] = "gcc"
 
 if sys.platform == 'darwin':
     from distutils import sysconfig
@@ -37,24 +37,28 @@ if sys.platform == 'darwin':
     vars['LDSHARED'] = vars['LDSHARED'].replace('-bundle', '-dynamiclib')
 
 # ------------------------------------------------------------------------------
-# Compiling the C code for the Snobal libary
+# Compiling the C code for the Snobal library
 
 loc = 'pysnobal/c_snobal/libsnobal'
 cwd = os.getcwd()
 sources = glob.glob(os.path.join(loc, '*.c'))
 
 loc = 'pysnobal/c_snobal'
+extra_cc_args = ['-fopenmp', '-O3', '-L./pysnobal']
 sources += [os.path.join(loc, val) for val in ["snobal.pyx"]]
 extensions = [
     Extension(
         "pysnobal.c_snobal.snobal",
         sources,
         # libraries=["snobal"],
-        include_dirs=[numpy.get_include(), 'pysnobal/c_snobal',
-                      'pysnobal/c_snobal/h'],
+        include_dirs=[
+            numpy.get_include(),
+            'pysnobal/c_snobal',
+            'pysnobal/c_snobal/h'
+        ],
         # runtime_library_dirs=['{}'.format(os.path.join(cwd,'pysnobal'))],
-        extra_compile_args=['-fopenmp', '-O3', '-L./pysnobal'],
-        extra_link_args=['-fopenmp', '-O3', '-L./pysnobal']
+        extra_compile_args=extra_cc_args,
+        extra_link_args=extra_cc_args,
     )
 ]
 
@@ -63,7 +67,8 @@ cmdclass.update({'build_ext': build_ext})
 setup(
     name='pysnobal',
     version='0.2.0',
-    description="Python wrapper of the Snobal mass and energy balance snow model",
+    description="Python wrapper of the Snobal mass and "
+                "energy balance snow model",
     long_description=readme + '\n\n' + history,
     author="Scott Havens",
     author_email='scott.havens@ars.usda.gov',
