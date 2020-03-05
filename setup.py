@@ -25,8 +25,6 @@ test_requirements = [
     # TODO: put package test requirements here
 ]
 
-cmdclass = {}
-
 # make sure we're using GCC
 if "CC" not in os.environ:
     os.environ["CC"] = "gcc"
@@ -62,8 +60,6 @@ extensions = [
     )
 ]
 
-cmdclass.update({'build_ext': build_ext})
-
 setup(
     name='pysnobal',
     version='0.2.0',
@@ -89,6 +85,8 @@ setup(
     ],
     test_suite='tests',
     tests_require=test_requirements,
-    cmdclass=cmdclass,
+    cmdclass={
+        'build_ext': build_ext
+    },
     ext_modules=extensions,
 )
