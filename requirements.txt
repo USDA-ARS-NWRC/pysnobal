@@ -1,0 +1,8 @@
+coloredlogs
+numpy<1.19.0
+inicheck
+netcdf4
+pandas
+progressbar2
+pytz
+utm
