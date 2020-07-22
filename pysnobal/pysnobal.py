@@ -9,8 +9,9 @@ from inicheck.tools import get_user_config, check_config
 from inicheck.config import UserConfig, MasterConfig
 from inicheck.output import print_config_report, generate_config, print_recipe_summary
 
-from pysnobal.snobal import snobal
+from pysnobal.snobal import Snobal
 from pysnobal import utils
+from pysnobal.input import InputData
 
 
 DATA_TSTEP = 0
@@ -48,7 +49,7 @@ class PySnobal():
         self.read_input_data()
 
         # initialize the snowpack
-        self.initialize_snowpack()
+        # self.initialize_snowpack()
 
     def read_config_file(self, config_file):
         """
@@ -105,7 +106,7 @@ class PySnobal():
                     'output': {{ config.files.output_mode }},
                     'threshold': None,
                     'time_step': {{ from input data }},
-                    'intervals': None
+                    'intervals': 1
                     }
                 1: {
                     'level': 1,
@@ -142,7 +143,7 @@ class PySnobal():
         tstep_info = []
         for i in range(4):
             t = {'level': i, 'output': False, 'threshold': None,
-                 'time_step': None, 'intervals': None}
+                 'time_step': None, 'intervals': 1}
             tstep_info.append(t)
 
         # The input data's time step must be between 1 minute and 6 hours.
@@ -177,9 +178,13 @@ class PySnobal():
         })
 
         # small time step
+        # Changed the interval meaning to number of intervals over
+        # the whole model timestep to allow for up front deltas
+        # calculation. The original Snobal would divide the intervals
+        # into the medium timestep
         tstep_info[SMALL_TSTEP].update({
             'time_step': utils.min2sec(small_tstep),
-            'intervals': int(med_tstep / small_tstep),
+            'intervals': int(norm_tstep / small_tstep),
             'threshold': self.config['model']['small_threshold']
         })
 
@@ -230,35 +235,35 @@ class PySnobal():
         # measurement heights
         self.measurement_heights = self.config['measurement_heights']
 
-    def initialize_snowpack(self):
-        """
-        Initialize the snowpack state from the config file for the following
-        snowpack state variables:
+    # def initialize_snowpack(self):
+    #     """
+    #     Initialize the snowpack state from the config file for the following
+    #     snowpack state variables:
 
-            z_s: total snowcover depth (m)
-            rho: average snowcover density (kg/m^3)
-            T_s_0: active snow layer temperature (C)
-            T_s: average snowcover temperature (C)
-            h2o_sat: % of liquid H2O saturation (relative
-                    water content i.e. ratio of water in
-                    snowcover to water that snowcover could
-                    hold at saturation)
-            z_0: roughness length (m) (for snow 0.01 to 0.0001)
-        """
+    #         z_s: total snowcover depth (m)
+    #         rho: average snowcover density (kg/m^3)
+    #         T_s_0: active snow layer temperature (C)
+    #         T_s: average snowcover temperature (C)
+    #         h2o_sat: % of liquid H2O saturation (relative
+    #                 water content i.e. ratio of water in
+    #                 snowcover to water that snowcover could
+    #                 hold at saturation)
+    #         z_0: roughness length (m) (for snow 0.01 to 0.0001)
+    #     """
 
-        self.snowpack_state = self.config['initial_snow_properties']
+    #     self.snowpack_state = self.config['initial_snow_properties']
 
-        # Celcuis to Kelvin and change to uppercase for snobal
-        self.snowpack_state['T_s_0'] = self.snowpack_state['t_s_0'] + utils.C_TO_K
-        self.snowpack_state['T_s'] = self.snowpack_state['t_s'] + utils.C_TO_K
+    #     # Celcuis to Kelvin and change to uppercase for snobal
+    #     self.snowpack_state['T_s_0'] = self.snowpack_state['t_s_0'] + utils.C_TO_K
+    #     self.snowpack_state['T_s'] = self.snowpack_state['t_s'] + utils.C_TO_K
 
-        self.snowpack_state = self.dict2np(self.snowpack_state)
+    #     self.snowpack_state = self.dict2np(self.snowpack_state)
 
-    def set_snowpack_state(self):
-        """
-        Potential future use to implement a setter for the snowpack state
-        """
-        raise NotImplementedError('set_snowpack_state not implemented yet')
+    # def set_snowpack_state(self):
+    #     """
+    #     Potential future use to implement a setter for the snowpack state
+    #     """
+    #     raise NotImplementedError('set_snowpack_state not implemented yet')
 
     def read_input_data(self):
         """
@@ -337,10 +342,10 @@ class PySnobal():
                 'current_time', 'time_since_out']
         s = {key: np.zeros(sz) for key in flds}  # the structure fields
 
-        # update the output rec with the initial snowpack state
-        for key, val in self.snowpack_state.items():
-            if key in flds:
-                s[key] = val
+        # # update the output rec with the initial snowpack state
+        # for key, val in self.snowpack_state.items():
+        #     if key in flds:
+        #         s[key] = val
 
         s['mask'] = np.ones(sz)
         self.output_rec = s
@@ -359,8 +364,8 @@ class PySnobal():
         # loop through the input
         # do_data_tstep needs two input records so only go
         # to the last record-1
-        it = self.input_data[:-1].iterrows()
-        index, input1 = next(it)    # this is the first input
+        input_data = self.input_data[:-1].iterrows()
+        index, input1 = next(input_data)    # this is the first input
 
         data_tstep = self.tstep_info[0]['time_step']
         timeSinceOut = 0.0
@@ -372,16 +377,21 @@ class PySnobal():
         self.output_rec['time_since_out'] = timeSinceOut * \
             np.ones(self.output_rec['elevation'].shape)
 
-        s = snobal(self.params, self.tstep_info,
-                   self.snowpack_state, self.measurement_heights)
+        s = Snobal(
+            self.params,
+            self.tstep_info,
+            self.dict2np(self.config['initial_snow_properties']),
+            self.measurement_heights)
 
         first_step = 1
-        for index, input2 in it:
+        for index, input2 in input_data:
 
             try:
                 # call do_data_tstep()
-                c_snobal.do_tstep_grid(self.dict2np(input1.to_dict()), self.dict2np(
-                    input2.to_dict()), self.output_rec, self.tstep_info, self.measurement_heights, self.params, first_step)
+                s.do_data_tstep(
+                    InputData(self.dict2np(input1.to_dict())),
+                    InputData(self.dict2np(input2.to_dict()))
+                )
 
                 if first_step == 1:
                     first_step = 0

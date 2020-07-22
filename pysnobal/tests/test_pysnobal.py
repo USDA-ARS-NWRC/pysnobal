@@ -19,19 +19,20 @@ class TestPysnobal(unittest.TestCase):
         """ Test PySnobal and compare with Snobal """
 
         # run PySnobal
-        status = PySnobal('tests/test_data_point/gold_csv/config.ini').run()
+        status = PySnobal(
+            'pysnobal/tests/test_data_point/gold_csv/config.ini').run()
         self.assertTrue(status)
 
         # status = IPWPySnobal().run()
 
         # load in the outputs
         gold = pd.read_csv(
-            'tests/test_data_point/gold_csv/gold.snobal.out.csv',
+            'pysnobal/tests/test_data_point/gold_csv/gold.snobal.out.csv',
             index_col='date_time', parse_dates=True)
         gold.index = gold.index.tz_localize('MST')
 
         new = pd.read_csv(
-            'tests/test_data_point/gold_csv/output.csv',
+            'pysnobal/tests/test_data_point/gold_csv/output.csv',
             index_col='date_time', parse_dates=True)
 
         # ipw_new = pd.read_csv(
