@@ -23,8 +23,6 @@ class TestPysnobal(unittest.TestCase):
             'pysnobal/tests/pysnobal_config.ini').run()
         self.assertTrue(status)
 
-        # status = IPWPySnobal().run()
-
         # load in the outputs
         gold = pd.read_csv(
             'pysnobal/tests/test_data_point/gold_csv/gold.snobal.out.csv',
@@ -35,8 +33,7 @@ class TestPysnobal(unittest.TestCase):
             'pysnobal/tests/output/pysnobal_output.csv',
             index_col='date_time', parse_dates=True)
 
-        # ipw_new = pd.read_csv(
-        #     'tests/test_data_point/snobal.pysnobal_c', header=None, index_col=0, names=new.columns)
+        new['m_s'].plot()
 
         self.assertTrue(new.shape == gold.shape)
 
