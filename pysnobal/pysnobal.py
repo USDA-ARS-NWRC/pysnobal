@@ -142,8 +142,15 @@ class PySnobal():
 
         tstep_info = []
         for i in range(4):
-            t = {'level': i, 'output': False, 'threshold': None,
-                 'time_step': None, 'intervals': 1}
+            t = {
+                'level': i,
+                'output': False,
+                'threshold': None,
+                'time_step': None,
+                'time_step_timedelta': None,
+                'intervals': None,
+                'intervals_per_timestep': 1
+            }
             tstep_info.append(t)
 
         # The input data's time step must be between 1 minute and 6 hours.
@@ -157,6 +164,8 @@ class PySnobal():
             raise ValueError(
                 "Data timestep > 60 min must be multiple of 60 min (whole hrs)")
         tstep_info[DATA_TSTEP]['time_step'] = utils.min2sec(data_tstep)
+        tstep_info[DATA_TSTEP]['time_step_timedelta'] = pd.to_timedelta(
+            data_tstep, unit='min')
 
         # time step parameters
         norm_tstep = self.config['model']['norm_time_step']
@@ -166,14 +175,18 @@ class PySnobal():
         # normal time step
         tstep_info[NORMAL_TSTEP].update({
             'time_step': utils.min2sec(norm_tstep),
+            'time_step_timedelta': pd.to_timedelta(norm_tstep, unit='min'),
             'intervals': int(data_tstep / norm_tstep),
+            'intervals_per_timestep': int(data_tstep / norm_tstep),
             'threshold': self.config['model']['norm_threshold']
         })
 
         # medium time step
         tstep_info[MEDIUM_TSTEP].update({
             'time_step': utils.min2sec(med_tstep),
+            'time_step_timedelta': pd.to_timedelta(med_tstep, unit='min'),
             'intervals': int(norm_tstep / med_tstep),
+            'intervals_per_timestep': int(norm_tstep / med_tstep),
             'threshold': self.config['model']['medium_threshold']
         })
 
@@ -184,7 +197,9 @@ class PySnobal():
         # into the medium timestep
         tstep_info[SMALL_TSTEP].update({
             'time_step': utils.min2sec(small_tstep),
-            'intervals': int(norm_tstep / small_tstep),
+            'time_step_timedelta': pd.to_timedelta(small_tstep, unit='min'),
+            'intervals': int(med_tstep / small_tstep),
+            'intervals_per_timestep': int(norm_tstep / small_tstep),
             'threshold': self.config['model']['small_threshold']
         })
 
@@ -220,7 +235,7 @@ class PySnobal():
 
         # get the rest of the parameters
         params = {}
-
+        params['start_date'] = self.start_date
         params['elevation'] = self.config['topo']['elevation']
         params['data_tstep'] = self.config['time']['time_step']
         params['max_h2o_vol'] = self.config['model']['max_h2o']
@@ -323,35 +338,35 @@ class PySnobal():
         """
         return {k: np.atleast_2d(np.array(v, dtype=float)) for k, v in d.items()}
 
-    def initialize_output(self):
-        """
-        Initialize the output dictionary for Snobal to write results to, the
-        `output_rec` is passed to the C code for modification
-        """
+    # def initialize_output(self):
+    #     """
+    #     Initialize the output dictionary for Snobal to write results to, the
+    #     `output_rec` is passed to the C code for modification
+    #     """
 
-        # create the self.output_rec with additional fields and fill
-        # There are a lot of additional terms that the original self.output_rec does not
-        # have due to the output function being outside the C code which doesn't
-        # have access to those variables
-        sz = self.elevation.shape
-        flds = ['mask', 'elevation', 'z_0', 'rho', 'T_s_0', 'T_s_l', 'T_s',
-                'cc_s_0', 'cc_s_l', 'cc_s', 'm_s', 'm_s_0', 'm_s_l', 'z_s', 'z_s_0', 'z_s_l',
-                'h2o_sat', 'layer_count', 'h2o', 'h2o_max', 'h2o_vol', 'h2o_total',
-                'R_n_bar', 'H_bar', 'L_v_E_bar', 'G_bar', 'G_0_bar',
-                'M_bar', 'delta_Q_bar', 'delta_Q_0_bar', 'E_s_sum', 'melt_sum', 'ro_pred_sum',
-                'current_time', 'time_since_out']
-        s = {key: np.zeros(sz) for key in flds}  # the structure fields
+    #     # create the self.output_rec with additional fields and fill
+    #     # There are a lot of additional terms that the original self.output_rec does not
+    #     # have due to the output function being outside the C code which doesn't
+    #     # have access to those variables
+    #     sz = self.elevation.shape
+    #     flds = ['mask', 'elevation', 'z_0', 'rho', 'T_s_0', 'T_s_l', 'T_s',
+    #             'cc_s_0', 'cc_s_l', 'cc_s', 'm_s', 'm_s_0', 'm_s_l', 'z_s', 'z_s_0', 'z_s_l',
+    #             'h2o_sat', 'layer_count', 'h2o', 'h2o_max', 'h2o_vol', 'h2o_total',
+    #             'R_n_bar', 'H_bar', 'L_v_E_bar', 'G_bar', 'G_0_bar',
+    #             'M_bar', 'delta_Q_bar', 'delta_Q_0_bar', 'E_s_sum', 'melt_sum', 'ro_pred_sum',
+    #             'current_time', 'time_since_out']
+    #     s = {key: np.zeros(sz) for key in flds}  # the structure fields
 
-        # # update the output rec with the initial snowpack state
-        # for key, val in self.snowpack_state.items():
-        #     if key in flds:
-        #         s[key] = val
+    #     # # update the output rec with the initial snowpack state
+    #     # for key, val in self.snowpack_state.items():
+    #     #     if key in flds:
+    #     #         s[key] = val
 
-        s['mask'] = np.ones(sz)
-        self.output_rec = s
+    #     s['mask'] = np.ones(sz)
+    #     self.output_rec = s
 
-        # Create the output storage
-        self.output_list = []
+    #     # Create the output storage
+    #     self.output_list = []
 
     def run(self):
         """
@@ -359,7 +374,7 @@ class PySnobal():
         """
 
         # initialize outputs
-        self.initialize_output()
+        # self.initialize_output()
 
         # loop through the input
         # do_data_tstep needs two input records so only go
@@ -368,36 +383,33 @@ class PySnobal():
         index, input1 = next(input_data)    # this is the first input
 
         data_tstep = self.tstep_info[0]['time_step']
-        timeSinceOut = 0.0
+        # timeSinceOut = 0.0
         start_step = 0  # if restart then it would be higher if this were iSnobal
-        step_time = start_step * data_tstep
+        # step_time = start_step * data_tstep
 
-        self.output_rec['current_time'] = step_time * \
-            np.ones(self.output_rec['elevation'].shape)
-        self.output_rec['time_since_out'] = timeSinceOut * \
-            np.ones(self.output_rec['elevation'].shape)
+        # self.output_rec['current_time'] = step_time * \
+        #     np.ones(self.output_rec['elevation'].shape)
+        # self.output_rec['time_since_out'] = timeSinceOut * \
+        #     np.ones(self.output_rec['elevation'].shape)
 
-        s = Snobal(
+        self.snobal = Snobal(
             self.params,
             self.tstep_info,
-            self.dict2np(self.config['initial_snow_properties']),
+            self.config['initial_snow_properties'],
             self.measurement_heights)
 
-        first_step = 1
+        # first_step = 1
         for index, input2 in input_data:
+
+            if index.hour == 0:
+                print(index)
 
             try:
                 # call do_data_tstep()
-                s.do_data_tstep(
-                    InputData(self.dict2np(input1.to_dict())),
-                    InputData(self.dict2np(input2.to_dict()))
+                self.snobal.do_data_tstep(
+                    InputData(input1.to_dict()),
+                    InputData(input2.to_dict())
                 )
-
-                if first_step == 1:
-                    first_step = 0
-
-                # output the results
-                self.output_timestep(index)
 
             except Exception as e:
                 traceback.print_exc()
@@ -414,27 +426,27 @@ class PySnobal():
 
         return True
 
-    def output_timestep(self, index):
-        """
-        Add the model outputs to the output dataframe
+    # def output_timestep(self, index):
+    #     """
+    #     Add the model outputs to the output dataframe
 
-        **
-        This is a departure from Snobal that can print out the
-        sub-time steps, this will only print out on the data tstep
-        (for now)
-        **
+    #     **
+    #     This is a departure from Snobal that can print out the
+    #     sub-time steps, this will only print out on the data tstep
+    #     (for now)
+    #     **
 
-        """
+    #     """
 
-        # go from a numpy array to a single value
-        c = {key: val[0][0] for key, val in self.output_rec.items()}
+    #     # go from a numpy array to a single value
+    #     c = {key: val[0][0] for key, val in self.output_rec.items()}
 
-        c['date_time'] = index
+    #     c['date_time'] = index
 
-        self.output_list.append(c)
+    #     self.output_list.append(c)
 
-        # reset the time since out
-        self.output_rec['time_since_out'][0] = 0
+    #     # reset the time since out
+    #     self.output_rec['time_since_out'][0] = 0
 
         # # write out to a file
         # # f = self.params['out_file']
@@ -486,7 +498,7 @@ class PySnobal():
         Output the model result to a file
         """
 
-        self.output_df = pd.DataFrame(self.output_list)
+        self.output_df = pd.DataFrame(self.snobal.output_list)
         self.output_df.set_index('date_time', inplace=True)
         self.output_df.sort_index(inplace=True)
 

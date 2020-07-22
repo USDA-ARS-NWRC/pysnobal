@@ -10,7 +10,7 @@ from pysnobal.input import InputDeltas
 from pysnobal.constants import DATA_TSTEP, NORMAL_TSTEP, MEDIUM_TSTEP, \
     SMALL_TSTEP, FREEZE
 import numpy as np
-# import pandas as pd
+import pandas as pd
 import warnings
 from copy import copy
 
@@ -118,7 +118,7 @@ class Snobal(object):
     #              'input_deltas', 'ro_data', 'snow', 'time_z', 'P_a', 'params', 'z_g',
     #              'next_level', 'elevation', 'measurement_heights_index', 'start_time', 'tstep_info',
     #              'curr_time_hrs', 'measurement_heights', 'z_0', 'more_sn_recs', 'relative_hts',
-    #              'curr_level', 'precip', 'more_mh_recs', 'snowcover', 'isothermal']
+    #              'current_level', 'precip', 'more_mh_recs', 'snowcover', 'isothermal']
 
     def __init__(self, params, tstep_info, snow_prop, meas_heights):
         """
@@ -138,6 +138,9 @@ class Snobal(object):
         self.tstep_info = tstep_info
 
         self.elevation = params['elevation']
+        self.start_date = self.params['start_date']
+        self.current_datetime = self.params['start_date']
+
         self.P_a = libsnobal.hysat(
             libsnobal.SEA_LEVEL,
             libsnobal.STD_AIRTMP,
@@ -171,19 +174,21 @@ class Snobal(object):
 #         self.precip_record = precip
 #         self.get_pr_rec(True)
 
-        # some other variables
-        self.input_deltas = dict()
-        self.computed = dict()
-        self.precip_info = dict()
-        for level in range(DATA_TSTEP, SMALL_TSTEP+1):
-            self.input_deltas[level] = {}
-            self.computed[level] = None
-            self.precip_info[level] = {}
+        # # some other variables
+        # self.input_deltas = dict()
+        # self.computed = dict()
+        # self.precip_info = dict()
+        # for level in range(DATA_TSTEP, SMALL_TSTEP+1):
+        #     self.input_deltas[level] = {}
+        #     self.computed[level] = None
+        #     self.precip_info[level] = {}
 
         self.time_since_out = 0
 
         # set some attributes
         self.isothermal = False
+
+        self.init_output()
 
     def do_data_tstep(self, input1, input2):
         """
@@ -221,7 +226,7 @@ class Snobal(object):
 
         Args:
             input1: first timestep dict
-            input2: second timestep sixr
+            input2: second timestep dict
 
             inputs contain all forcing data:
                 ['S_n', 'I_lw', 'T_a', 'e_a', 'u', 'T_g','m_pp',
@@ -233,7 +238,7 @@ class Snobal(object):
 #         print '%.2f' % (self.current_time/3600.0)
 
         if self.current_time/3600.0 > 923.99:
-            self.curr_level
+            self.current_level
 
         # store the inputs for later
         self.input1 = input1
@@ -250,7 +255,7 @@ class Snobal(object):
         # If there is precipitation, then compute the amount of rain & snow in it.
         # Look at the first input record
         # pp_info = self.init_precip()
-        self.precip_now = False
+        # self.precip_now = False
 
 
 #         # this precip will hold the temperatures and such, set to
@@ -307,10 +312,11 @@ class Snobal(object):
         #     self.computed[level] = False
 
         if self.current_time/3600.0 > 1036.99:
-            self.curr_level
+            self.current_level
 
         # Divide the data timestep into normal run timesteps.
-        self.curr_level = DATA_TSTEP   # keeps track of what time step level the model is on
+        # keeps track of what time step level the model is on
+        self.current_level = DATA_TSTEP
         self.divide_tstep()
 
     def divide_tstep(self):
@@ -349,19 +355,19 @@ class Snobal(object):
 
         """
 
-#         print "Current level --> %i" % self.curr_level
+#         print "Current level --> %i" % self.current_level
 
         # Fetch the record for the timestep at the next level.
-        self.next_level = self.curr_level + 1
+        self.next_level = self.current_level + 1
         next_lvl_tstep = self.tstep_info[self.next_level]
 
-        # get the input deltas
-        curr_lvl_deltas = self.input_deltas[self.curr_level]
-        next_lvl_deltas = self.input_deltas[self.next_level]
+        # # get the input deltas
+        # curr_lvl_deltas = self.input_deltas[self.current_level]
+        # next_lvl_deltas = self.input_deltas[self.next_level]
 
-        # get the precip info
-        curr_lvl_precip = self.precip_info[self.curr_level]
-        next_lvl_precip = self.precip_info[self.next_level]
+        # # get the precip info
+        # curr_lvl_precip = self.precip_info[self.current_level]
+        # next_lvl_precip = self.precip_info[self.next_level]
 
         # If this is the first time this new level has been used during
         # the current data timestep, then calculate its input deltas
@@ -369,21 +375,21 @@ class Snobal(object):
 
         # To-do can get rid of computed and use the None
 
-        if not self.computed[self.next_level]:
-            #             next_lvl_deltas = curr_lvl_deltas / next_lvl_tstep['intervals']
-            #             self.input_deltas[self.next_level] = next_lvl_deltas.copy()
-            for k in curr_lvl_deltas.keys():
-                self.input_deltas[self.next_level][k] = curr_lvl_deltas[k] / \
-                    next_lvl_tstep['intervals']
+        # if not self.computed[self.next_level]:
+        #     #             next_lvl_deltas = curr_lvl_deltas / next_lvl_tstep['intervals']
+        #     #             self.input_deltas[self.next_level] = next_lvl_deltas.copy()
+        #     for k in curr_lvl_deltas.keys():
+        #         self.input_deltas[self.next_level][k] = curr_lvl_deltas[k] / \
+        #             next_lvl_tstep['intervals']
 
-            if self.precip_now:
-                #                 next_lvl_precip = curr_lvl_precip / next_lvl_tstep['intervals']
-                #                 self.precip_info[self.next_level] = next_lvl_precip.copy()
-                for k in curr_lvl_precip.keys():
-                    self.precip_info[self.next_level][k] = curr_lvl_precip[k] / \
-                        next_lvl_tstep['intervals']
+        #     if self.precip_now:
+        #         #                 next_lvl_precip = curr_lvl_precip / next_lvl_tstep['intervals']
+        #         #                 self.precip_info[self.next_level] = next_lvl_precip.copy()
+        #         for k in curr_lvl_precip.keys():
+        #             self.precip_info[self.next_level][k] = curr_lvl_precip[k] / \
+        #                 next_lvl_tstep['intervals']
 
-            self.computed[self.next_level] = True
+        #     self.computed[self.next_level] = True
 
         # For each the new smaller timestep, either subdivide them if
         # below their mass threshold, or run the model for them.
@@ -393,27 +399,28 @@ class Snobal(object):
 
             if (self.next_level != SMALL_TSTEP) and (self.below_thold(next_lvl_tstep['threshold'])):
                 # increment the level number
-                self.curr_level = copy(self.next_level)
+                self.current_level = copy(self.next_level)
                 if not self.divide_tstep():
                     return False
             else:
                 if not self.do_tstep(next_lvl_tstep):
                     return False
 
-        # Output if this timestep is divided?
-        # does a bitwise AND comparison
-        if self.tstep_info[self.curr_level]['output'] & DIVIDED_TSTEP:
-            #             print '%.2f output divided tstep' % (self.current_time/3600.0)
-            self.output()
-            self.time_since_out = 0.0
+        # # Output if this timestep is divided?
+        # # does a bitwise AND comparison
+        # if self.tstep_info[self.current_level]['output'] & DIVIDED_TSTEP:
+        #     #             print '%.2f output divided tstep' % (self.current_time/3600.0)
+        self.output()
+        #     self.time_since_out = 0.0
 
-        self.curr_level -= 1
+        self.current_level -= 1
         self.next_level -= 1
 
         return True
 
 
 #     @profile
+
 
     def do_tstep(self, tstep):
         """
@@ -446,7 +453,7 @@ class Snobal(object):
         """
 
         if self.current_time/3600.0 > 925.24:
-            self.curr_level
+            self.current_level
 
         self.time_step = tstep['time_step']
         self.tstep_level = tstep['level']
@@ -454,13 +461,13 @@ class Snobal(object):
         # get the current time step precip
 #         if self.precip_now:
 
-        self.snow_state.h2o_total = 0
+        self.snow_state.set_zeros('h2o_total')
 
         # is there snowcover?
         self.snowcover = self.snow_state.layer_count > 0
 
         # Calculate energy transfer terms
-        self.e_bal()
+        self.energy_balance()
 
         # Adjust mass and calculate runoff
         self.mass_bal()
@@ -508,7 +515,9 @@ class Snobal(object):
             self.time_since_out = self.time_step
 
         # increment time
-        self.current_time += self.time_step
+        self.current_time = self.current_time + self.time_step
+        self.current_datetime = self.current_datetime + \
+            tstep['time_step_timedelta']
 
         if tstep['output'] & WHOLE_TSTEP:
             #             print '%.2f output stuff here' % (self.current_time/3600.0)
@@ -516,12 +525,17 @@ class Snobal(object):
             self.time_since_out = 0.0
 
         # Update the model's input parameters
-        self.input1.S_n += self.input_deltas[tstep['level']].S_n
-        self.input1.I_lw += self.input_deltas[tstep['level']].I_lw
-        self.input1.T_a += self.input_deltas[tstep['level']].T_a
-        self.input1.e_a += self.input_deltas[tstep['level']].e_a
-        self.input1.u += self.input_deltas[tstep['level']].u
-        self.input1.T_g += self.input_deltas[tstep['level']].T_g
+        # TODO move this to the input delta where it's just accessing that interval
+        # value, then we're not adding on the fly which is known to have
+        # complex issues in python
+        # Also this doesn't need to happen for the normal timestep
+        self.input1.add_deltas(self.input_deltas[tstep['level']])
+        # self.input1.S_n += self.input_deltas[tstep['level']].S_n
+        # self.input1.I_lw += self.input_deltas[tstep['level']].I_lw
+        # self.input1.T_a += self.input_deltas[tstep['level']].T_a
+        # self.input1.e_a += self.input_deltas[tstep['level']].e_a
+        # self.input1.u += self.input_deltas[tstep['level']].u
+        # self.input1.T_g += self.input_deltas[tstep['level']].T_g
 
         return True
 
@@ -674,9 +688,9 @@ class Snobal(object):
             return
 
         A = MAX_DENSITY - self.snow_state.rho
-        if self.precip_now:
+        if self.input1.precip_now:
             h2o_added = (
-                self.snow_state.melt + self.precip_info[self.tstep_level].m_rain) / self.snow_state.m_s
+                self.snow_state.melt + self.input1.m_rain) / self.snow_state.m_s
 
         else:
             h2o_added = self.snow_state.melt / self.snow_state.m_s
@@ -895,36 +909,36 @@ class Snobal(object):
         snowcover.
         """
 
-        if self.precip_now:
+        if self.input1.precip_now:
             if self.snowcover:
                 # Adjust snowcover's depth and mass by snowfall's
                 # depth and the total precipitation mass.
                 self.adj_snow(
-                    self.precip_info[self.tstep_level].z_snow, self.precip_info[self.tstep_level].m_pp)
+                    self.input1.z_snow, self.input1.m_pp)
 
                 # Determine the additional liquid water that's in
                 # the snowfall, and then add its mass to liquid
                 # water in the whole snowcover.
-                h2o_vol_snow = self.precip.h2o_sat_snow * self.snow_state.max_h2o_vol
-                self.snow_state.h2o += H2O_LEFT(self.precip_info[self.tstep_level].z_snow,
+                h2o_vol_snow = self.input1.h2o_sat_snow * self.snow_state.max_h2o_vol
+                self.snow_state.h2o += H2O_LEFT(self.input1.z_snow,
                                                 self.input1.rho_snow,
                                                 h2o_vol_snow)
 
             else:
 
                 # set the values from the initial snow properties
-                self.snow_state.z_s = self.precip_info[self.tstep_level].z_snow
+                self.snow_state.z_s = self.input1.z_snow
                 self.snow_state.rho = self.input1.rho_snow
-                self.snow_state.T_s = self.precip.T_snow
-                self.snow_state.T_s_0 = self.precip.T_snow
-                self.snow_state.T_s_l = self.precip.T_snow
-                self.snow_state.h2o_sat = self.precip.h2o_sat_snow
+                self.snow_state.T_s = self.input1.T_snow
+                self.snow_state.T_s_0 = self.input1.T_snow
+                self.snow_state.T_s_l = self.input1.T_snow
+                self.snow_state.h2o_sat = self.input1.h2o_sat_snow
 
                 self.init_snow()
 
             # Add rainfall and water in the snowcover to the total liquid water
             self.snow_state.h2o_total += self.snow_state.h2o + \
-                self.precip_info[self.tstep_level].m_rain
+                self.input1.m_rain
 
         else:
             # Add water in the snowcover to total liquid water
@@ -1031,7 +1045,6 @@ class Snobal(object):
 
 #     @profile
 
-
     def adj_layers(self):
         """
         This routine adjusts the layers of the snowcover because the
@@ -1076,8 +1089,7 @@ class Snobal(object):
             # set a bunch of values to 0
             index = ['h2o', 'h2o_max', 'h2o_total',
                      'h2o_vol', 'm_s', 'cc_s', 'm_s_0', 'cc_s_0']
-            for i in index:
-                self.snow[i] = 0
+            self.snow_state.set_zeros(index)
 
             # Note: Snow temperatures are set to MIN_SNOW_TEMP
             # (as degrees K) instead of 0 K to keep quantization
@@ -1110,8 +1122,7 @@ class Snobal(object):
 
 #     @profile
 
-
-    def e_bal(self):
+    def energy_balance(self):
         """
         Calculates point energy budget for 2-layer snowcover.
         """
@@ -1169,14 +1180,14 @@ class Snobal(object):
         if there's precipitation for the current timestep.
         """
 
-        if self.precip_now:
+        if self.input1.precip_now:
 
-            M = self.heat_stor(CP_WATER(self.precip.T_rain),
-                               self.precip_info[self.tstep_level].m_rain,
-                               self.precip.T_rain - self.snow_state.T_s_0) + \
-                self.heat_stor(CP_ICE(self.precip.T_snow),
-                               self.precip_info[self.tstep_level].m_snow,
-                               self.precip.T_snow - self.snow_state.T_s_0)
+            M = self.heat_stor(CP_WATER(self.input1.T_rain),
+                               self.input1.m_rain,
+                               self.input1.T_rain - self.snow_state.T_s_0) + \
+                self.heat_stor(CP_ICE(self.input1.T_snow),
+                               self.input1.m_snow,
+                               self.input1.T_snow - self.snow_state.T_s_0)
 
             M /= self.time_step
 
@@ -1399,7 +1410,7 @@ class Snobal(object):
         # set the values from the initial snow properties
         if from_record:
 
-            self.snow_state = SnowState(self.snow_records['z_s'].shape)
+            self.snow_state = SnowState()
 
             self.snow_state.z_s = self.snow_records['z_s']
             self.snow_state.rho = self.snow_records['rho']
@@ -1408,11 +1419,8 @@ class Snobal(object):
             self.snow_state.h2o_sat = self.snow_records['h2o_sat']
             self.snow_state.max_h2o_vol = self.params['max_h2o_vol']
 
-        else:
-            try:
-                getattr(self, 'snow')
-            except:
-                raise Exception('The snow has not been intitialized')
+        elif not hasattr(self, 'snow_state'):
+            raise Exception('The snow_state has not been intitialized')
 
         # initialize the snowpack
         self.snow_state.m_s = self.snow_state.rho * self.snow_state.z_s
@@ -1507,7 +1515,6 @@ class Snobal(object):
 
 #     @profile
 
-
     def calc_layers(self):
         """
         This routine determines the # of layers in the snowcover based its
@@ -1560,7 +1567,6 @@ class Snobal(object):
 
 #     @profile
 
-
     def layer_mass(self):
         """
         This routine computes the specific mass for each snow layer in
@@ -1611,117 +1617,112 @@ class Snobal(object):
 
         return cp * spm * tdif
 
+    def init_output(self):
+        """Initialize the output, it will be a list of dictionaries that
+        will be converted to a dataframe at the end
+        """
+
+        # sz = self.elevation.shape
+        flds = ['rho', 'T_s_0', 'T_s_l', 'T_s',
+                'cc_s_0', 'cc_s_l', 'cc_s', 'm_s', 'm_s_0', 'm_s_l', 'z_s', 'z_s_0', 'z_s_l',
+                'h2o_sat', 'layer_count', 'h2o', 'h2o_max', 'h2o_vol', 'h2o_total',
+                'R_n_bar', 'H_bar', 'L_v_E_bar', 'G_bar', 'G_0_bar',
+                'M_bar', 'delta_Q_bar', 'delta_Q_0_bar', 'E_s_sum', 'melt_sum', 'ro_pred_sum']
+        s = {key: 0.0 for key in flds}  # the structure fields
+
+        # # update the output rec with the initial snowpack state
+        # for key, val in self.snowpack_state.items():
+        #     if key in flds:
+        #         s[key] = val
+
+        # s['mask'] = np.ones(sz)
+        self.output_rec = s
+
+        # Create the output storage
+        self.output_list = []
+
     def output(self):
         """
         Specify where the model output should go
         """
 
-        # write out to a file
-        if self.params['out_filename'] is not None:
+        c = {key: getattr(self.snow_state, key)
+             for key in self.output_rec.keys()}
+        c['date_time'] = self.current_datetime
 
-            curr_time_hrs = SEC_TO_HR(self.current_time)
+        self.output_list.append(c)
+
+#         # write out to a file
+#         if self.params['out_filename'] is not None:
+
+#             curr_time_hrs = SEC_TO_HR(self.current_time)
+
+# #             # time
+# #             self.params['out_file'].write('%g,' % curr_time_hrs)
+# #
+# #             # energy budget terms
+# #             self.params['out_file'].write("%.1f,%.1f,%.1f,%.1f,%.1f,%.1f," % \
+# #                     (self.snow_state.R_n_bar, self.snow_state.H_bar, self.snow_state.L_v_E_bar, \
+# #                     self.snow_state.G_bar, self.snow_state.M_bar, self.snow_state.delta_Q_bar))
+# #
+# #             # layer terms
+# #             self.params['out_file'].write("%.1f,%.1f," % \
+# #                     (self.snow_state.G_0_bar, self.snow_state.delta_Q_0_bar))
+# #
+# #             # heat storage and mass changes
+# #             self.params['out_file'].write("%.6e,%.6e,%.6e," % \
+# #                     (self.snow_state.cc_s_0, self.snow_state.cc_s_l, self.snow_state.cc_s))
+# #             self.params['out_file'].write("%.5f,%.5f,%.5f," % \
+# #                     (self.snow_state.E_s_sum, self.snow_state.melt_sum, self.snow_state.ro_pred_sum))
+# #
+# # #             # runoff error if data included */
+# # #             if (ro_data)
+# # #                 fprintf(out, " %.1f",
+# # #                         (ro_pred_sum - (ro * time_since_out)))
+# #
+# #             # sno properties */
+# #             self.params['out_file'].write("%.3f,%.3f,%.3f,%.1f," % \
+# #                     (self.snow_state.z_s_0, self.snow_state.z_s_l, self.snow_state.z_s, self.snow_state.rho))
+# #             self.params['out_file'].write("%.1f,%.1f,%.1f,%.1f," % \
+# #                     (self.snow_state.m_s_0, self.snow_state.m_s_l, self.snow_state.m_s, self.snow_state.h2o))
+# #             if self.params['temps_in_C']:
+# #                 self.params['out_file'].write("%.2f,%.2f,%.2f\n" %
+# #                         (K_TO_C(self.snow_state.T_s_0), K_TO_C(self.snow_state.T_s_l), K_TO_C(self.snow_state.T_s)))
+# #             else:
+# #                 self.params['out_file'].write("%.2f,%.2f,%.2f\n" % \
+# #                         (self.snow_state.T_s_0, self.snow_state.T_s_l, self.snow_state.T_s))
 
 #             # time
 #             self.params['out_file'].write('%g,' % curr_time_hrs)
-#
+
 #             # energy budget terms
-#             self.params['out_file'].write("%.1f,%.1f,%.1f,%.1f,%.1f,%.1f," % \
-#                     (self.snow_state.R_n_bar, self.snow_state.H_bar, self.snow_state.L_v_E_bar, \
-#                     self.snow_state.G_bar, self.snow_state.M_bar, self.snow_state.delta_Q_bar))
-#
+#             self.params['out_file'].write("%.3f,%.3f,%.3f,%.3f,%.3f,%.3f," %
+#                                           (self.snow_state.R_n_bar, self.snow_state.H_bar, self.snow_state.L_v_E_bar,
+#                                            self.snow_state.G_bar, self.snow_state.M_bar, self.snow_state.delta_Q_bar))
+
 #             # layer terms
-#             self.params['out_file'].write("%.1f,%.1f," % \
-#                     (self.snow_state.G_0_bar, self.snow_state.delta_Q_0_bar))
-#
+#             self.params['out_file'].write("%.3f,%.3f," %
+#                                           (self.snow_state.G_0_bar, self.snow_state.delta_Q_0_bar))
+
 #             # heat storage and mass changes
-#             self.params['out_file'].write("%.6e,%.6e,%.6e," % \
-#                     (self.snow_state.cc_s_0, self.snow_state.cc_s_l, self.snow_state.cc_s))
-#             self.params['out_file'].write("%.5f,%.5f,%.5f," % \
-#                     (self.snow_state.E_s_sum, self.snow_state.melt_sum, self.snow_state.ro_pred_sum))
-#
+#             self.params['out_file'].write("%.9e,%.9e,%.9e," %
+#                                           (self.snow_state.cc_s_0, self.snow_state.cc_s_l, self.snow_state.cc_s))
+#             self.params['out_file'].write("%.8f,%.8f,%.8f," %
+#                                           (self.snow_state.E_s_sum, self.snow_state.melt_sum, self.snow_state.ro_pred_sum))
+
 # #             # runoff error if data included */
 # #             if (ro_data)
-# #                 fprintf(out, " %.1f",
+# #                 fprintf(out, " %.3f",
 # #                         (ro_pred_sum - (ro * time_since_out)))
-#
+
 #             # sno properties */
-#             self.params['out_file'].write("%.3f,%.3f,%.3f,%.1f," % \
-#                     (self.snow_state.z_s_0, self.snow_state.z_s_l, self.snow_state.z_s, self.snow_state.rho))
-#             self.params['out_file'].write("%.1f,%.1f,%.1f,%.1f," % \
-#                     (self.snow_state.m_s_0, self.snow_state.m_s_l, self.snow_state.m_s, self.snow_state.h2o))
+#             self.params['out_file'].write("%.6f,%.6f,%.6f,%.3f," %
+#                                           (self.snow_state.z_s_0, self.snow_state.z_s_l, self.snow_state.z_s, self.snow_state.rho))
+#             self.params['out_file'].write("%.3f,%.3f,%.3f,%.3f," %
+#                                           (self.snow_state.m_s_0, self.snow_state.m_s_l, self.snow_state.m_s, self.snow_state.h2o))
 #             if self.params['temps_in_C']:
-#                 self.params['out_file'].write("%.2f,%.2f,%.2f\n" %
-#                         (K_TO_C(self.snow_state.T_s_0), K_TO_C(self.snow_state.T_s_l), K_TO_C(self.snow_state.T_s)))
+#                 self.params['out_file'].write("%.5f,%.5f,%.5f\n" %
+#                                               (K_TO_C(self.snow_state.T_s_0), K_TO_C(self.snow_state.T_s_l), K_TO_C(self.snow_state.T_s)))
 #             else:
-#                 self.params['out_file'].write("%.2f,%.2f,%.2f\n" % \
-#                         (self.snow_state.T_s_0, self.snow_state.T_s_l, self.snow_state.T_s))
-
-            # time
-            self.params['out_file'].write('%g,' % curr_time_hrs)
-
-            # energy budget terms
-            self.params['out_file'].write("%.3f,%.3f,%.3f,%.3f,%.3f,%.3f," %
-                                          (self.snow_state.R_n_bar, self.snow_state.H_bar, self.snow_state.L_v_E_bar,
-                                           self.snow_state.G_bar, self.snow_state.M_bar, self.snow_state.delta_Q_bar))
-
-            # layer terms
-            self.params['out_file'].write("%.3f,%.3f," %
-                                          (self.snow_state.G_0_bar, self.snow_state.delta_Q_0_bar))
-
-            # heat storage and mass changes
-            self.params['out_file'].write("%.9e,%.9e,%.9e," %
-                                          (self.snow_state.cc_s_0, self.snow_state.cc_s_l, self.snow_state.cc_s))
-            self.params['out_file'].write("%.8f,%.8f,%.8f," %
-                                          (self.snow_state.E_s_sum, self.snow_state.melt_sum, self.snow_state.ro_pred_sum))
-
-#             # runoff error if data included */
-#             if (ro_data)
-#                 fprintf(out, " %.3f",
-#                         (ro_pred_sum - (ro * time_since_out)))
-
-            # sno properties */
-            self.params['out_file'].write("%.6f,%.6f,%.6f,%.3f," %
-                                          (self.snow_state.z_s_0, self.snow_state.z_s_l, self.snow_state.z_s, self.snow_state.rho))
-            self.params['out_file'].write("%.3f,%.3f,%.3f,%.3f," %
-                                          (self.snow_state.m_s_0, self.snow_state.m_s_l, self.snow_state.m_s, self.snow_state.h2o))
-            if self.params['temps_in_C']:
-                self.params['out_file'].write("%.5f,%.5f,%.5f\n" %
-                                              (K_TO_C(self.snow_state.T_s_0), K_TO_C(self.snow_state.T_s_l), K_TO_C(self.snow_state.T_s)))
-            else:
-                self.params['out_file'].write("%.5f,%.5f,%.5f\n" %
-                                              (self.snow_state.T_s_0, self.snow_state.T_s_l, self.snow_state.T_s))
-
-
-# class Map(dict):
-#     """
-#     Example:
-#     m = Map({'first_name': 'Eduardo'}, last_name='Pool', age=24, sports=['Soccer'])
-#     """
-
-#     def __init__(self, *args, **kwargs):
-#         super(Map, self).__init__(*args, **kwargs)
-#         for arg in args:
-#             if isinstance(arg, dict):
-#                 for k, v in arg.iteritems():
-#                     self[k] = v
-
-#         if kwargs:
-#             for k, v in kwargs.iteritems():
-#                 self[k] = v
-
-#     def __getattr__(self, attr):
-#         return self.get(attr)
-
-#     def __setattr__(self, key, value):
-#         self.__setitem__(key, value)
-
-#     def __setitem__(self, key, value):
-#         super(Map, self).__setitem__(key, value)
-#         self.__dict__.update({key: value})
-
-#     def __delattr__(self, item):
-#         self.__delitem__(item)
-
-#     def __delitem__(self, key):
-#         super(Map, self).__delitem__(key)
-#         del self.__dict__[key]
+#                 self.params['out_file'].write("%.5f,%.5f,%.5f\n" %
+#                                               (self.snow_state.T_s_0, self.snow_state.T_s_l, self.snow_state.T_s))

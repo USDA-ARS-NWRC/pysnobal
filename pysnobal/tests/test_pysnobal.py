@@ -1,4 +1,5 @@
 import unittest
+import os
 
 import numpy as np
 import pandas as pd
@@ -9,18 +10,17 @@ from pysnobal.pysnobal import PySnobal
 class TestPysnobal(unittest.TestCase):
 
     def setUp(self):
-        pass
+        os.makedirs('pysnobal/tests/output', exist_ok=True)
 
     def tearDown(self):
-        pass
-        # os.remove('tests/test_data_point/output.csv')
+        os.remove('pysnobal/tests/output/pysnobal_output.csv')
 
     def test_pysnobal_run(self):
         """ Test PySnobal and compare with Snobal """
 
         # run PySnobal
         status = PySnobal(
-            'pysnobal/tests/test_data_point/gold_csv/config.ini').run()
+            'pysnobal/tests/pysnobal_config.ini').run()
         self.assertTrue(status)
 
         # status = IPWPySnobal().run()
@@ -32,7 +32,7 @@ class TestPysnobal(unittest.TestCase):
         gold.index = gold.index.tz_localize('MST')
 
         new = pd.read_csv(
-            'pysnobal/tests/test_data_point/gold_csv/output.csv',
+            'pysnobal/tests/output/pysnobal_output.csv',
             index_col='date_time', parse_dates=True)
 
         # ipw_new = pd.read_csv(

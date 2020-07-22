@@ -5,6 +5,8 @@ from pysnobal.constants import FREEZE
 
 class InputData():
 
+    # These will act like cumulative variables where the
+    # input deltas will add to them
     INPUT_VARIABLES = [
         'S_n',
         'I_lw',
@@ -16,15 +18,23 @@ class InputData():
         'percent_snow',
         'rho_snow',
         'T_pp',
-        'm_snow',
-        'm_rain',
         'z_snow',
         'h2o_sat_snow',
         'T_rain',
         'T_snow'
     ]
 
-    def __init__(self, data):
+    # Some of the precipitation variables are handled slightly
+    # differently where they are not added to the values before
+    # but are just split evenly by the intervals
+    PRECIP_VARIABLES = [
+        'm_pp',
+        'm_snow',
+        'm_rain',
+        'z_snow'
+    ]
+
+    def __init__(self, data, input_delta=False):
 
         self.S_n = data['S_n']
         self.I_lw = data['I_lw']
@@ -42,11 +52,18 @@ class InputData():
         self.m_rain = self.m_pp - self.m_snow
 
         # initialize the other variables to 0
-        init = np.zeros_like(self.m_pp)
+        init = 0
         self.z_snow = init
         self.h2o_sat_snow = init
         self.T_rain = init
         self.T_snow = init
+
+        if not input_delta:
+            self.precipitation_inputs()
+
+    def precipitation_inputs(self):
+
+        self.precip_now = False
 
         if self.m_pp > 0:
             self.precip_now = True
@@ -62,7 +79,7 @@ class InputData():
                     raise ValueError(
                         'rho_snow is <= 0.0 with percent_snow > 0.0')
             else:
-                self.z_snow = np.zeros_like(self.T_pp)
+                self.z_snow = 0
 
             # check the precip, temp. cannot be below freezing if rain present
             if (self.m_rain > 0) and (self.T_pp < FREEZE):
@@ -71,7 +88,7 @@ class InputData():
             # Mixed snow and rain
             if (self.m_snow > 0) and (self.m_rain > 0):
                 self.T_snow = FREEZE
-                self.h2o_sat_snow = np.ones_like(self.T_pp)
+                self.h2o_sat_snow = 1
                 self.T_rain = self.T_pp
 
             elif (self.m_snow > 0):
@@ -79,15 +96,31 @@ class InputData():
                 if (self.T_pp < FREEZE):
                     # cold snow
                     self.T_snow = self.T_pp
-                    self.h2o_sat_snow = np.zeros_like(self.T_pp)
+                    self.h2o_sat_snow = 0
                 else:
                     # warm snow
                     self.T_snow = FREEZE
-                    self.h2o_sat_snow = np.ones_like(self.T_pp)
+                    self.h2o_sat_snow = 1
 
             elif (self.m_rain > 0):
                 # rain only
                 self.T_rain = self.T_pp
+
+    def add_deltas(self, input_deltas):
+
+        # Add the input data deltas
+        self.S_n = self.S_n + input_deltas.S_n
+        self.I_lw = self.I_lw + input_deltas.I_lw
+        self.T_a = self.T_a + input_deltas.T_a
+        self.e_a = self.e_a + input_deltas.e_a
+        self.u = self.u + input_deltas.u
+        self.T_g = self.T_g + input_deltas.T_g
+
+        # update the precipitation. Snobal takes the input deltas
+        # and divides by the intervals
+        for precip_variable in self.PRECIP_VARIABLES:
+            setattr(self, precip_variable,
+                    getattr(input_deltas, precip_variable))
 
 
 class InputDeltas():
@@ -108,8 +141,12 @@ class InputDeltas():
                 tstep_deltas[variable] = (
                     getattr(self.input2, variable) -
                     getattr(self.input1, variable)
-                ) / tstep['intervals']
+                ) / tstep['intervals_per_timestep']
 
-            self.deltas[tstep['level']] = InputData(tstep_deltas)
+            for precip_variable in self.input1.PRECIP_VARIABLES:
+                tstep_deltas[precip_variable] = getattr(self.input1, precip_variable) / \
+                    tstep['intervals_per_timestep']
+
+            self.deltas[tstep['level']] = InputData(tstep_deltas, True)
 
         return self.deltas

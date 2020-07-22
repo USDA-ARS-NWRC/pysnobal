@@ -3,9 +3,10 @@ import numpy as np
 
 class SnowState():
 
-    def __init__(self, size):
+    def __init__(self):
 
-        init = np.zeros(size)
+        init = 0
+        self.zeros = init
 
         # snowpack state variables
         self.h2o_sat = init
@@ -81,6 +82,14 @@ class SnowState():
         # sums of mass balance vars since last output record
         self.melt_sum = init
         self.E_s_sum = init
+
+    def set_zeros(self, fields):
+
+        if isinstance(fields, str):
+            fields = fields.split()
+
+        for field in fields:
+            setattr(self, field, self.zeros)
 
     # def calc_layers(self):
     #     """
