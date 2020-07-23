@@ -286,7 +286,9 @@ class PySnobal():
 
         # read the input file
         input_data = pd.read_csv(
-            self.config['files']['input_csv'], index_col='date_time', parse_dates=True)
+            self.config['files']['input_csv'],
+            index_col='date_time',
+            parse_dates=True)
 
         input_data.index = input_data.index.tz_localize(
             self.config['time']['time_zone'])
@@ -301,7 +303,7 @@ class PySnobal():
         # convert to Kelvin
         input_data.precip_temp += utils.C_TO_K
         input_data.air_temp += utils.C_TO_K
-        input_data.soil_temp = + utils.C_TO_K
+        input_data.soil_temp += utils.C_TO_K
 
         # check the precip, temp. cannot be below freezing if rain present
         # This is only present in Snobal and not iSnobal
