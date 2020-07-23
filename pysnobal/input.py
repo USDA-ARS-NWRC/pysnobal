@@ -144,7 +144,8 @@ class InputDeltas():
                 ) / tstep['intervals_per_timestep']
 
             for precip_variable in self.input1.PRECIP_VARIABLES:
-                tstep_deltas[precip_variable] = getattr(self.input1, precip_variable) / \
+                tstep_deltas[precip_variable] = \
+                    getattr(self.input1, precip_variable) / \
                     tstep['intervals_per_timestep']
 
             self.deltas[tstep['level']] = InputData(tstep_deltas, True)

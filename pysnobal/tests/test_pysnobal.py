@@ -33,8 +33,6 @@ class TestPysnobal(unittest.TestCase):
             'pysnobal/tests/output/pysnobal_output.csv',
             index_col='date_time', parse_dates=True)
 
-        new['m_s'].plot()
-
         self.assertTrue(new.shape == gold.shape)
 
         result = np.abs(gold - new)

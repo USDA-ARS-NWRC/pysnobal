@@ -1,6 +1,7 @@
 import os
 import sys
 import traceback
+from copy import deepcopy
 
 import numpy as np
 import pandas as pd
@@ -204,16 +205,12 @@ class PySnobal():
         })
 
         # output
-        if self.config['files']['output_mode'] == 'data':
-            tstep_info[DATA_TSTEP]['output'] = DIVIDED_TSTEP
-        elif self.config['files']['output_mode'] == 'normal':
-            tstep_info[NORMAL_TSTEP]['output'] = WHOLE_TSTEP | DIVIDED_TSTEP
+        if self.config['files']['output_mode'] == 'normal':
+            tstep_info[NORMAL_TSTEP]['output'] = True
         elif self.config['files']['output_mode'] == 'all':
-            tstep_info[NORMAL_TSTEP]['output'] = WHOLE_TSTEP
-            tstep_info[MEDIUM_TSTEP]['output'] = WHOLE_TSTEP
-            tstep_info[SMALL_TSTEP]['output'] = WHOLE_TSTEP
-        else:
-            tstep_info[DATA_TSTEP]['output'] = DIVIDED_TSTEP
+            tstep_info[NORMAL_TSTEP]['output'] = True
+            tstep_info[MEDIUM_TSTEP]['output'] = True
+            tstep_info[SMALL_TSTEP]['output'] = True
 
         self.tstep_info = tstep_info
 
@@ -294,8 +291,12 @@ class PySnobal():
         input_data.index = input_data.index.tz_localize(
             self.config['time']['time_zone'])
 
+        # get the time delta of the data
+        tdelta = input_data.index.to_series().diff().dropna().unique()[0]
+
         # clip to the start and end date
-        input_data = input_data.loc[self.start_date:self.end_date, :]
+        # Add one time step as each Snobal timestep requires two input data classes
+        input_data = input_data.loc[self.start_date:self.end_date + tdelta, :]
 
         # convert to Kelvin
         input_data.precip_temp += utils.C_TO_K
@@ -419,7 +420,7 @@ class PySnobal():
     #
 
             # input2 becomes input1
-            input1 = input2.copy()
+            input1 = deepcopy(input2)
 
         # output to file
         self.output_to_file()

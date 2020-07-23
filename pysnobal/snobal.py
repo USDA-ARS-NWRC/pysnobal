@@ -317,6 +317,7 @@ class Snobal(object):
         # Divide the data timestep into normal run timesteps.
         # keeps track of what time step level the model is on
         self.current_level = DATA_TSTEP
+        self.divided_step = False
         self.divide_tstep()
 
     def divide_tstep(self):
@@ -400,18 +401,17 @@ class Snobal(object):
             if (self.next_level != SMALL_TSTEP) and (self.below_thold(next_lvl_tstep['threshold'])):
                 # increment the level number
                 self.current_level = copy(self.next_level)
+                self.divided_step = True
                 if not self.divide_tstep():
                     return False
             else:
                 if not self.do_tstep(next_lvl_tstep):
                     return False
 
-        # # Output if this timestep is divided?
-        # # does a bitwise AND comparison
-        # if self.tstep_info[self.current_level]['output'] & DIVIDED_TSTEP:
-        #     #             print '%.2f output divided tstep' % (self.current_time/3600.0)
-        self.output()
-        #     self.time_since_out = 0.0
+            # Output if this timestep is divided?
+            # does a bitwise AND comparison
+            if self.tstep_info[self.current_level]['output'] and self.divided_step:
+                self.output()
 
         self.current_level -= 1
         self.next_level -= 1
@@ -519,10 +519,12 @@ class Snobal(object):
         self.current_datetime = self.current_datetime + \
             tstep['time_step_timedelta']
 
-        if tstep['output'] & WHOLE_TSTEP:
-            #             print '%.2f output stuff here' % (self.current_time/3600.0)
+        if self.current_datetime == pd.to_datetime('1983-11-13 00:00:00-07:00'):
+            self.current_datetime
+
+        # output if on the whole timestep
+        if tstep['output'] and not self.divided_step:
             self.output()
-            self.time_since_out = 0.0
 
         # Update the model's input parameters
         # TODO move this to the input delta where it's just accessing that interval
@@ -1651,6 +1653,7 @@ class Snobal(object):
         c['date_time'] = self.current_datetime
 
         self.output_list.append(c)
+        self.time_since_out = 0.0
 
 #         # write out to a file
 #         if self.params['out_filename'] is not None:
