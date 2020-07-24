@@ -13,8 +13,7 @@ class InputData():
         'T_a',
         'e_a',
         'u',
-        'T_g',
-        'm_pp'
+        'T_g'
     ]
 
     # Some of the precipitation variables are handled slightly
@@ -166,6 +165,6 @@ class InputDeltas():
                 tstep_deltas[precip_constant] = \
                     getattr(self.input1, precip_constant)
 
-            self.deltas[tstep['level']] = InputData(tstep_deltas, True)
+            self.deltas[tstep['level']] = InputData(tstep_deltas)
 
         return self.deltas
