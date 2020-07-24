@@ -235,7 +235,7 @@ class Snobal(object):
 
         """
 
-#         print '%.2f' % (self.current_time/3600.0)
+        # print('do_data_tstep {}'.format(self.current_datetime))
 
         if self.current_time/3600.0 > 923.99:
             self.current_level
@@ -356,7 +356,8 @@ class Snobal(object):
 
         """
 
-#         print "Current level --> %i" % self.current_level
+        # print('divide_tstep level {} - {}'.format(self.current_level,
+        #                                           self.current_datetime))
 
         # Fetch the record for the timestep at the next level.
         self.next_level = self.current_level + 1
@@ -391,6 +392,9 @@ class Snobal(object):
         #                 next_lvl_tstep['intervals']
 
         #     self.computed[self.next_level] = True
+        if self.input1.precip_now and next_lvl_tstep['level'] > 1:
+            self.input1.update_precip_deltas(
+                self.input_deltas[next_lvl_tstep['level']])
 
         # For each the new smaller timestep, either subdivide them if
         # below their mass threshold, or run the model for them.
@@ -410,7 +414,8 @@ class Snobal(object):
 
             # Output if this timestep is divided?
             # does a bitwise AND comparison
-            if self.tstep_info[self.current_level]['output'] and self.divided_step:
+            if self.tstep_info[self.next_level]['output'] and self.divided_step:
+                # print('output divided timestep {}'.format(self.current_datetime))
                 self.output()
 
         self.current_level -= 1
@@ -420,6 +425,7 @@ class Snobal(object):
 
 
 #     @profile
+
 
     def do_tstep(self, tstep):
         """
@@ -451,8 +457,8 @@ class Snobal(object):
 
         """
 
-        if self.current_time/3600.0 > 925.24:
-            self.current_level
+        if self.current_datetime == pd.to_datetime('1983-11-13 15:00:00-07:00'):
+            self.current_datetime
 
         self.time_step = tstep['time_step']
         self.tstep_level = tstep['level']
@@ -519,11 +525,9 @@ class Snobal(object):
         self.current_datetime = self.current_datetime + \
             tstep['time_step_timedelta']
 
-        if self.current_datetime == pd.to_datetime('1983-11-13 00:00:00-07:00'):
-            self.current_datetime
-
         # output if on the whole timestep
         if tstep['output'] and not self.divided_step:
+            # print('output whole timestep {}'.format(self.current_datetime))
             self.output()
 
         # Update the model's input parameters
@@ -1118,7 +1122,6 @@ class Snobal(object):
 
 #     @profile
 
-
     def adj_layers(self):
         """
         This routine adjusts the layers of the snowcover because the
@@ -1195,7 +1198,6 @@ class Snobal(object):
 
 
 #     @profile
-
 
     def energy_balance(self):
         """
@@ -1599,7 +1601,6 @@ class Snobal(object):
 
 #     @profile
 
-
     def calc_layers(self):
         """
         This routine determines the # of layers in the snowcover based its
@@ -1651,7 +1652,6 @@ class Snobal(object):
 
 
 #     @profile
-
 
     def layer_mass(self):
         """

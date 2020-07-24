@@ -308,8 +308,8 @@ class PySnobal():
         # check the precip, temp. cannot be below freezing if rain present
         # This is only present in Snobal and not iSnobal
         mass_rain = input_data.precip_mass * (1 - input_data.percent_snow)
-        input_data.precip_temp[(mass_rain > 0.0) & (
-            input_data.precip_temp < utils.FREEZE)] = utils.FREEZE
+        input_data.loc[(mass_rain > 0.0) & (
+            input_data.precip_temp < utils.FREEZE), 'precip_temp'] = utils.FREEZE
 
         self.input_data = input_data
 
@@ -406,6 +406,9 @@ class PySnobal():
 
             if index.hour == 0:
                 print(index)
+
+            if index == pd.to_datetime('1983-11-13 15:00:00-07:00'):
+                index
 
             try:
                 # call do_data_tstep()

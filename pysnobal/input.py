@@ -14,14 +14,7 @@ class InputData():
         'e_a',
         'u',
         'T_g',
-        'm_pp',
-        'percent_snow',
-        'rho_snow',
-        'T_pp',
-        'z_snow',
-        'h2o_sat_snow',
-        'T_rain',
-        'T_snow'
+        'm_pp'
     ]
 
     # Some of the precipitation variables are handled slightly
@@ -32,6 +25,25 @@ class InputData():
         'm_snow',
         'm_rain',
         'z_snow'
+    ]
+
+    # These precipitation variables are assumed constant over the
+    # timestep
+    PRECIP_CONSTANT = [
+        'percent_snow',
+        'rho_snow',
+        'T_pp',
+        'T_rain',
+        'T_snow'
+    ]
+
+    # These are derived variables from the precipitation inputs
+    # and will be calculated
+    PRECIP_DERIVED = [
+        'z_snow',
+        'h2o_sat_snow',
+        'T_rain',
+        'T_snow'
     ]
 
     def __init__(self, data, input_delta=False):
@@ -53,10 +65,8 @@ class InputData():
 
         # initialize the other variables to 0
         init = 0
-        self.z_snow = init
-        self.h2o_sat_snow = init
-        self.T_rain = init
-        self.T_snow = init
+        for precip_derived in self.PRECIP_DERIVED:
+            setattr(self, precip_derived, init)
 
         if not input_delta:
             self.precipitation_inputs()
@@ -116,6 +126,10 @@ class InputData():
         self.u = self.u + input_deltas.u
         self.T_g = self.T_g + input_deltas.T_g
 
+        self.update_precip_deltas(input_deltas)
+
+    def update_precip_deltas(self, input_deltas):
+
         # update the precipitation. Snobal takes the input deltas
         # and divides by the intervals
         for precip_variable in self.PRECIP_VARIABLES:
@@ -147,6 +161,10 @@ class InputDeltas():
                 tstep_deltas[precip_variable] = \
                     getattr(self.input1, precip_variable) / \
                     tstep['intervals_per_timestep']
+
+            for precip_constant in self.input1.PRECIP_CONSTANT:
+                tstep_deltas[precip_constant] = \
+                    getattr(self.input1, precip_constant)
 
             self.deltas[tstep['level']] = InputData(tstep_deltas, True)
 
