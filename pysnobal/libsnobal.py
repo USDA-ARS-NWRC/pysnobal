@@ -109,10 +109,13 @@ def hysat(pb, tb, L, h, g, m):
 
 
 def satw_np(tk):
-    '''
-    Saturation vapor pressure of water. from IPW satw but for a numpy array
-    20151027 Scott Havens
-    '''
+    """
+    Saturation vapor pressure of water. from IPW satw
+    Args:
+        tk: temperature in Kelvin
+    Returns:
+        saturated vapor pressure over water
+    """
 
     # remove bad values
     tk[tk < 0] = np.nan
@@ -131,16 +134,17 @@ def satw_np(tk):
 
 
 def sati_np(tk):
-    '''
-    saturation vapor pressure over ice. From IPW sati but for a numpy array
+    """
+    saturation vapor pressure over ice. From IPW sati
+    Args:
+        tk: temperature in Kelvin
+    Returns:
+        saturated vapor pressure over ice
     20151027 Scott Havens
-    '''
+    """
 
     # remove bad values
     tk[tk < 0] = np.nan
-
-    if np.isnan(tk).size == tk.size:
-        raise ValueError('All values of tk < 0')
 
     # preallocate
     x = np.empty(tk.shape)
@@ -151,8 +155,10 @@ def sati_np(tk):
 
     # vapor below freezing
     l10 = np.log(10.0)
-    x[~ind] = 100.0 * np.power(10.0, -9.09718*((FREEZE/tk[~ind]) - 1.0) - 3.56654*np.log(FREEZE/tk[~ind])/l10 +
-                               8.76793e-1*(1.0 - (tk[~ind]/FREEZE)) + np.log(6.1071)/l10)
+    x[~ind] = 100.0 * np.power(10.0, -9.09718*((FREEZE/tk[~ind]) - 1.0) -
+                               3.56654*np.log(FREEZE/tk[~ind])/l10 +
+                               8.76793e-1*(1.0 - (tk[~ind]/FREEZE)) +
+                               np.log(6.1071)/l10)
 
     return x
 

@@ -16,7 +16,6 @@ class TestPysnobal(unittest.TestCase):
         os.remove('pysnobal/tests/output/pysnobal_output.csv')
 
     def test_pysnobal_run(self):
-        """ Test PySnobal and compare with Snobal """
 
         # run PySnobal
         status = PySnobal(

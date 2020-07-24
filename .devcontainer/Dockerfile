@@ -9,6 +9,18 @@
 ARG VARIANT="3"
 FROM mcr.microsoft.com/vscode/devcontainers/python:0-${VARIANT}
 
+# install IPW
+ENV IPW=/ipw
+RUN cd / \
+    && git clone https://github.com/USDA-ARS-NWRC/ipw.git \
+    && cd ipw \
+    && echo "export PATH=`$IPW/path user`:$PATH" >> /root/.bashrc \
+    && /bin/bash -c "source /root/.bashrc" \
+    && ./configure \
+    && make \
+    && make install
+
+
 # [Optional] If your requirements rarely change, uncomment this section to add them to the image.
 #
 # COPY requirements.txt /tmp/pip-tmp/
