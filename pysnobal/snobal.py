@@ -457,7 +457,7 @@ class Snobal(object):
 
         """
 
-        if self.current_datetime == pd.to_datetime('1983-11-13 15:00:00-07:00'):
+        if self.current_datetime == pd.to_datetime('1983-11-12 23:00:00-07:00'):
             self.current_datetime
 
         self.time_step = tstep['time_step']
@@ -1118,9 +1118,6 @@ class Snobal(object):
         # Adjust the snowcover for this new density
         self.snow_state.z_s = self.snow_state.m_s / self.snow_state.rho
         self.adj_layers()
-
-
-#     @profile
 
     def adj_layers(self):
         """

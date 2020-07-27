@@ -89,7 +89,8 @@ def EVAP(air_d, k, q_dif, z_dif): return air_d * k * (q_dif/z_dif)
 
 def hysat(pb, tb, L, h, g, m):
     '''
-    integral of hydrostatic equation over layer with linear temperature variation
+    integral of hydrostatic equation over layer with linear
+    temperature variation
 
         pb = base level pressure
         tb = base level temp (K)
@@ -458,12 +459,12 @@ def ssxfr(k1, k2, t1, t2, d1, d2):
     calculates the steady state heat transfer between two layers.
 
     Args:
-        k1: layer 1's thermal conductivity (J / (m K sec))  
-        k2: layer 2's    "         "                        
-        t1: layer 1's average layer temperature (K)       
-        t2: layer 2's    "      "        "                
-        d1: layer 1's thickness (m)               
-        d2: layer 2's    "       "               
+        k1: layer 1's thermal conductivity (J / (m K sec))
+        k2: layer 2's    "         "
+        t1: layer 1's average layer temperature (K)
+        t2: layer 2's    "      "        "
+        d1: layer 1's thickness (m)
+        d2: layer 2's    "       "
 
     Returns:
         g - heat transfer between layers (W/m^2)
