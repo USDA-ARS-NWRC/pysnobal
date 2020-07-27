@@ -1,14 +1,15 @@
 import unittest
-import os
-
-import numpy as np
 import pandas as pd
 
 from pysnobal import libsnobal
-from pysnobal.constants import FREEZE
 
 
-class TestTurbulentTransfer(unittest.TestCase):    
+class TestTurbulentTransfer(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.data = pd.read_csv(
+            'pysnobal/tests/test_data_point/libsnobal/gold_turbulent_transfer.csv')  # noqa
 
     def calculate_hle1(self, inputs):
 
@@ -35,19 +36,13 @@ class TestTurbulentTransfer(unittest.TestCase):
 
         return H, L_v_E, E, status
 
-    def test_hle1(self):
+    def test_hle1_gold(self):
 
-        inputs = {
-            'elevation': 3000,
-            'ta': 10 + FREEZE,
-            'ts': -1 + FREEZE,
-            'za': 2,
-            'ea': 1000,
-            'es': 560,
-            'u': 4,
-            'zu': 5,
-            'z0': 0.05
-        }
+        for index, row in self.data.iterrows():
 
-        H, L_v_E, E, status = self.calculate_hle1(inputs)
-        H
+            H, L_v_E, E, status = self.calculate_hle1(row.to_dict())
+
+            self.assertAlmostEqual(H, row.py_H)
+            self.assertAlmostEqual(L_v_E, row.py_L_v_E)
+            self.assertAlmostEqual(E, row.py_E)
+            self.assertAlmostEqual(status, row.py_status)
