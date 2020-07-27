@@ -237,8 +237,8 @@ class Snobal(object):
 
         # print('do_data_tstep {}'.format(self.current_datetime))
 
-        if self.current_time/3600.0 > 923.99:
-            self.current_level
+        if self.current_datetime == pd.to_datetime('1983-11-23 23:44:00-07:00'):
+            self.current_datetime
 
         # store the inputs for later
         self.input1 = input1
@@ -356,8 +356,8 @@ class Snobal(object):
 
         """
 
-        # print('divide_tstep level {} - {}'.format(self.current_level,
-        #                                           self.current_datetime))
+        if self.current_datetime == pd.to_datetime('1983-11-23 23:00:00-07:00'):
+            self.current_datetime
 
         # Fetch the record for the timestep at the next level.
         self.next_level = self.current_level + 1
@@ -400,7 +400,6 @@ class Snobal(object):
         # below their mass threshold, or run the model for them.
         interval = next_lvl_tstep['intervals']
         for i in range(interval):
-            #             print "Current level --> %i, loop %i" % (next_lvl_tstep['level'], i)
 
             if (self.next_level != SMALL_TSTEP) and (self.below_thold(next_lvl_tstep['threshold'])):
                 # increment the level number
@@ -457,14 +456,16 @@ class Snobal(object):
 
         """
 
-        if self.current_datetime == pd.to_datetime('1983-11-12 23:00:00-07:00'):
+        if self.current_datetime == pd.to_datetime('1983-11-23 23:44:00-07:00'):
             self.current_datetime
 
         self.time_step = tstep['time_step']
         self.tstep_level = tstep['level']
 
         # get the current time step precip
-#         if self.precip_now:
+        if self.input1.precip_now:
+            self.input1.update_precip_deltas(
+                self.input_deltas[self.tstep_level])
 
         self.snow_state.set_zeros('h2o_total')
 
