@@ -404,11 +404,8 @@ class PySnobal():
         # first_step = 1
         for index, input2 in input_data:
 
-            if index.hour == 0:
-                print(index)
-
-            if index == pd.to_datetime('1983-11-13 15:00:00-07:00'):
-                index
+            # if index.hour == 0:
+            #     print(index)
 
             try:
                 # call do_data_tstep()
@@ -578,5 +575,9 @@ class PySnobal():
             for key, value in float_map.items():
                 self.output_df[key] = self.output_df[key].map(
                     lambda x: value % x)
+
+        # TODO fix this, it's when in the small time step, it will output the
+        # medium timestep as well
+        self.output_df = self.output_df.loc[~self.output_df.index.duplicated()]
 
         self.output_df.to_csv(self.config['files']['output_csv'])

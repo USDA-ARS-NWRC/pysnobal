@@ -24,15 +24,13 @@ class TestPysnobal(unittest.TestCase):
 
         # load in the outputs
         gold = pd.read_csv(
-            'pysnobal/tests/test_data_point/gold_csv/gold.snobal.out.csv',
+            'pysnobal/tests/test_data_point/gold_csv/gold.pysnobal.csv',
             index_col='date_time', parse_dates=True)
-        gold.index = gold.index.tz_localize('MST')
+        gold.index = gold.index.tz_convert('MST')
 
         new = pd.read_csv(
             'pysnobal/tests/output/pysnobal_output.csv',
             index_col='date_time', parse_dates=True)
+        new.index = new.index.tz_convert('MST')
 
-        self.assertTrue(new.shape == gold.shape)
-
-        result = np.abs(gold - new)
-        self.assertFalse(np.any(result > 0))
+        pd.testing.assert_frame_equal(gold, new)
