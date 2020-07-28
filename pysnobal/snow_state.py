@@ -19,7 +19,7 @@ class SnowState():
         self.z_s = init
         self.z_s_0 = init
         self.z_s_l = init
-        self.cc_s = init
+        self.cc_s = init  # could be moved to a property that is calculated when needed
         self.cc_s_0 = init
         self.cc_s_l = init
         self.m_s = init
