@@ -5,15 +5,14 @@ from copy import deepcopy
 
 import numpy as np
 import pandas as pd
+from inicheck.config import MasterConfig, UserConfig
+from inicheck.output import (generate_config, print_config_report,
+                             print_recipe_summary)
+from inicheck.tools import check_config, get_user_config
 
-from inicheck.tools import get_user_config, check_config
-from inicheck.config import UserConfig, MasterConfig
-from inicheck.output import print_config_report, generate_config, print_recipe_summary
-
-from pysnobal.snobal import Snobal
 from pysnobal import utils
 from pysnobal.input import InputData
-
+from pysnobal.snobal import Snobal
 
 DATA_TSTEP = 0
 NORMAL_TSTEP = 1

@@ -4,15 +4,17 @@ Class snobal() that will hold all the modeling components
 20160109 Scott Havens
 """
 
-from pysnobal import libsnobal
-from pysnobal.snow_state import SnowState
-from pysnobal.input import InputDeltas
-from pysnobal.constants import DATA_TSTEP, NORMAL_TSTEP, MEDIUM_TSTEP, \
-    SMALL_TSTEP, FREEZE
-import numpy as np
-import pandas as pd
 import warnings
 from copy import copy
+
+import numpy as np
+import pandas as pd
+
+from pysnobal import libsnobal
+from pysnobal.constants import (
+    DATA_TSTEP, FREEZE, MEDIUM_TSTEP, NORMAL_TSTEP, SMALL_TSTEP)
+from pysnobal.input import InputDeltas
+from pysnobal.snow_state import SnowState
 
 # Some constants and equations
 WHOLE_TSTEP = 0x1  # output when tstep is not divided
@@ -235,11 +237,6 @@ class Snobal(object):
 
         """
 
-        # print('do_data_tstep {}'.format(self.current_datetime))
-
-        if self.current_datetime == pd.to_datetime('1983-11-23 23:44:00-07:00'):
-            self.current_datetime
-
         # store the inputs for later
         self.input1 = input1
         self.input2 = input2
@@ -356,9 +353,6 @@ class Snobal(object):
 
         """
 
-        if self.current_datetime == pd.to_datetime('1983-11-23 23:00:00-07:00'):
-            self.current_datetime
-
         # Fetch the record for the timestep at the next level.
         self.next_level = self.current_level + 1
         next_lvl_tstep = self.tstep_info[self.next_level]
@@ -425,7 +419,6 @@ class Snobal(object):
 
 #     @profile
 
-
     def do_tstep(self, tstep):
         """
         This routine performs the model's calculations for a single timestep.
@@ -455,9 +448,6 @@ class Snobal(object):
             tstep: tstep_info for the current time step
 
         """
-
-        if self.current_datetime == pd.to_datetime('1983-11-23 23:44:00-07:00'):
-            self.current_datetime
 
         self.time_step = tstep['time_step']
         self.tstep_level = tstep['level']
@@ -1201,9 +1191,7 @@ class Snobal(object):
                 self.snow_state.T_s_l = MIN_SNOW_TEMP + FREEZE
                 self.snow_state.cc_s_l = 0
 
-
-#     @profile
-
+    # @profile
     def energy_balance(self):
         """
         Calculates point energy budget for 2-layer snowcover.
@@ -1330,6 +1318,7 @@ class Snobal(object):
 
         self.snow_state.G_0 = g
 
+    # @profile
     def h_le(self):
         """
         Calculates point turbulent transfer (H and L_v_E) for a 2-layer snowcover
@@ -1615,6 +1604,7 @@ class Snobal(object):
 
 #     @profile
 
+
     def calc_layers(self):
         """
         This routine determines the # of layers in the snowcover based its
@@ -1666,6 +1656,7 @@ class Snobal(object):
 
 
 #     @profile
+
 
     def layer_mass(self):
         """

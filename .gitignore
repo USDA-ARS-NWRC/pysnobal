@@ -105,3 +105,5 @@ ENV/
 .vscode/
 
 pysnobal/tests/output/
+*.lprof
+profile/*.html

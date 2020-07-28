@@ -11,11 +11,10 @@ FROM mcr.microsoft.com/vscode/devcontainers/python:0-${VARIANT}
 
 # install IPW
 ENV IPW=/ipw
+ENV PATH="/ipw/local/bin:/ipw/bin:${PATH}"
 RUN cd / \
     && git clone https://github.com/USDA-ARS-NWRC/ipw.git \
     && cd ipw \
-    && echo "export PATH=`$IPW/path user`:$PATH" >> /root/.bashrc \
-    && /bin/bash -c "source /root/.bashrc" \
     && ./configure \
     && make \
     && make install

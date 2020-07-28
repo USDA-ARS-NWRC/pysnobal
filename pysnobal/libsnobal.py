@@ -1,8 +1,4 @@
-"""
-The Snobal 'library' which is a collection of functions to run the model
-
-20160108 Scott Havens
-"""
+import math
 
 import numpy as np
 
@@ -12,6 +8,7 @@ STD_LAPSE_M = -0.0065   # lapse rate (K/m)
 STD_LAPSE = -6.5        # lapse rate (K/km)
 STD_AIRTMP = 2.88e2     # standard sea level air temp (K)
 SEA_LEVEL = 1.013246e5  # sea level pressure
+LOG_SEA_LEVEL = math.log(SEA_LEVEL)  # log of sea level pressure
 RGAS = 8.31432e3        # gas constant (J / kmole / deg)
 GRAVITY = 9.80665       # gravity (m/s^2)
 MOL_AIR = 28.9644       # molecular weight of air (kg / kmole)
@@ -35,6 +32,7 @@ BETA_S = 5.2
 BETA_U = 16
 
 ITMAX = 50
+LOG_10 = math.log(10.0)  # log(10)
 
 # equation of state, to give density of a gas (kg/m^3)
 
@@ -121,13 +119,11 @@ def satw_np(tk):
     # remove bad values
     tk[tk < 0] = np.nan
 
-    l10 = np.log(10.0)
-
     btk = BOIL/tk
-    x = -7.90298*(btk - 1.0) + 5.02808*np.log(btk)/l10 - \
+    x = -7.90298*(btk - 1.0) + 5.02808*np.log(btk)/LOG_10 - \
         1.3816e-7*(np.power(10.0, 1.1344e1*(1.0 - tk/BOIL))-1.) + \
         8.1328e-3*(np.power(10.0, -3.49149*(btk - 1.0)) - 1.0) + \
-        np.log(SEA_LEVEL)/l10
+        LOG_SEA_LEVEL/LOG_10
 
     x = np.power(10.0, x)
 
@@ -155,15 +151,15 @@ def sati_np(tk):
     x[ind] = satw_np(tk[ind])
 
     # vapor below freezing
-    l10 = np.log(10.0)
     x[~ind] = 100.0 * np.power(10.0, -9.09718*((FREEZE/tk[~ind]) - 1.0) -
-                               3.56654*np.log(FREEZE/tk[~ind])/l10 +
+                               3.56654*np.log(FREEZE/tk[~ind])/LOG_10 +
                                8.76793e-1*(1.0 - (tk[~ind]/FREEZE)) +
-                               np.log(6.1071)/l10)
+                               np.log(6.1071)/LOG_10)
 
     return x
 
 
+# @profile
 def satw(tk):
     '''
     Saturation vapor pressure of water. from IPW satw but for a single value
@@ -173,19 +169,19 @@ def satw(tk):
     if tk < 0:
         raise ValueError('tk < 0')
 
-    l10 = np.log(10.0)
-
     btk = BOIL/tk
-    x = -7.90298*(btk - 1.0) + 5.02808*np.log(btk)/l10 - \
-        1.3816e-7*(np.power(10.0, 1.1344e1*(1.0 - tk/BOIL))-1.) + \
-        8.1328e-3*(np.power(10.0, -3.49149*(btk - 1.0)) - 1.0) + \
-        np.log(SEA_LEVEL)/l10
+    x = -7.90298 * (btk - 1.0) + \
+        5.02808 * math.log(btk) / LOG_10 - \
+        1.3816e-7 * (math.pow(10.0, 11.344 * (1.0 - tk/BOIL)) - 1.) + \
+        8.1328e-3 * (math.pow(10.0, -3.49149 * (btk - 1.0)) - 1.0) + \
+        LOG_SEA_LEVEL / LOG_10
 
-    x = np.power(10.0, x)
+    x = math.pow(10.0, x)
 
     return x
 
 
+# @profile
 def sati(tk):
     '''
     saturation vapor pressure over ice. From IPW sati but for a single value
@@ -201,37 +197,14 @@ def sati(tk):
 
     else:
         # vapor below freezing
-        l10 = np.log(10.0)
-        x = 100.0 * np.power(10.0, -9.09718*((FREEZE/tk) - 1.0) - 3.56654*np.log(FREEZE/tk)/l10 +
-                             8.76793e-1*(1.0 - (tk/FREEZE)) + np.log(6.1071)/l10)
+        x = 100.0 * math.pow(
+            10.0,
+            -9.09718 * (FREEZE/tk - 1.0) -
+            3.56654 * math.log(FREEZE/tk) / LOG_10 +
+            8.76793e-1 * (1.0 - tk/FREEZE) +
+            math.log(6.1071) / LOG_10)
 
     return x
-
-
-def brutsaert(ta, l, ea, z, pa):
-    '''
-    Calculate atmosphere emissivity
-
-    ta - air temp (K)
-    l - temperature lapse rate (deg/m)
-    ea - vapor pressure (Pa)
-    z - elevation (z)
-    pa - air pressure (Pa)
-
-    20151027 Scott Havens
-    '''
-
-    t_prime = ta - (l * z)
-    rh = ea / sati_np(ta)
-    rh[rh > 1] = 1
-
-    e_prime = (rh * sati_np(t_prime))/100.0
-
-    air_emiss = (1.24*np.power(e_prime/t_prime, 1./7.0))*pa/SEA_LEVEL
-
-    air_emiss[air_emiss > 1.0] = 1.0
-
-    return air_emiss
 
 
 def spec_hum(e, P):
@@ -245,6 +218,7 @@ def spec_hum(e, P):
     return e * MOL_H2O / (MOL_AIR * P + e * (MOL_H2O - MOL_AIR))
 
 
+# @profile
 def psi(zeta, code):
     """
     psi-functions
@@ -260,14 +234,14 @@ def psi(zeta, code):
 
     elif zeta < 0:  # unstable
 
-        x = np.sqrt(np.sqrt(1 - BETA_U * zeta))
+        x = math.sqrt(math.sqrt(1 - BETA_U * zeta))
 
         if code == 'SM':
-            result = 2 * np.log((1 + x)/2) + np.log((1 + x * x)/2) - \
+            result = 2 * math.log((1 + x)/2) + math.log((1 + x * x)/2) - \
                 2 * np.arctan(x) + np.pi/2
 
         elif (code == 'SH') or (code == 'SV'):
-            result = 2 * np.log((1 + x * x)/2)
+            result = 2 * math.log((1 + x * x)/2)
 
         else:  # shouldn't reach
             raise ValueError("psi-function code not of these: SM, SH, SV")
@@ -277,9 +251,8 @@ def psi(zeta, code):
 
     return result
 
+
 # @profile
-
-
 def hle1(press, ta, ts, za, ea, es, zq, u, zu, z0):
     """
     computes sensible and latent heat flux and mass flux given
@@ -289,20 +262,20 @@ def hle1(press, ta, ts, za, ea, es, zq, u, zu, z0):
     need not all be at the same height.
 
     Args
-        press air pressure (Pa)            
-        ta air temperature (K) at height za    
-        ts surface temperature (K)        
-        za height of air temp measurement (m)    
-        ea vapor pressure (Pa) at height zq    
-        es vapor pressure (Pa) at surface    
-        zq height of spec hum measurement (m)    
-        u wind speed (m/s) at height zu    
-        zu height of wind speed measurement (m)    
-        z0 roughness length (m)            
+        press air pressure (Pa)
+        ta air temperature (K) at height za
+        ts surface temperature (K)
+        za height of air temp measurement (m)
+        ea vapor pressure (Pa) at height zq
+        es vapor pressure (Pa) at surface
+        zq height of spec hum measurement (m)
+        u wind speed (m/s) at height zu
+        zu height of wind speed measurement (m)
+        z0 roughness length (m)
 
     Outputs
-        h sens heat flux (+ to surf) (W/m^2)    
-        le latent heat flux (+ to surf) (W/m^2)    
+        h sens heat flux (+ to surf) (W/m^2)
+        le latent heat flux (+ to surf) (W/m^2)
         e mass flux (+ to surf) (kg/m^2/s)
         status status of convergence
             0      successful calculation
@@ -322,15 +295,17 @@ def hle1(press, ta, ts, za, ea, es, zq, u, zu, z0):
 
     # heights must be positive
     if (z0 <= 0) or (zq <= z0) or (zu <= z0) or (za <= z0):
-        raise ValueError("height not positive z0=%f\tzq=%f\tzu=%\tza=%f" %
-                         (z0, zq, zu, za))
+        raise ValueError(
+            "height not positive z0={}, zq={}, zu={}, za={}".format(
+                z0, zq, zu, za))
 
     # temperatures are Kelvin
     if (ta <= 0) or (ts <= 0):
         raise ValueError("temps not K ta=%f\tts=%f" % (ta, ts))
 
     # pressures must be positive
-    if (ea <= 0) or (es <= 0) or (press <= 0) or (ea >= press) or (es >= press):
+    if (ea <= 0) or (es <= 0) or (press <= 0) \
+            or (ea >= press) or (es >= press):
         raise ValueError("press < 0 ea=%f\tes=%f\tpress=%f" % (ea, es, press))
 
     # vapor pressures can't exceed saturation
@@ -350,9 +325,9 @@ def hle1(press, ta, ts, za, ea, es, zq, u, zu, z0):
     d0 = 2 * PAESCHKE * z0 / 3
 
     # constant log expressions
-    ltsm = np.log((zu - d0) / z0)
-    ltsh = np.log((za - d0) / z0)
-    ltsv = np.log((zq - d0) / z0)
+    ltsm = math.log((zu - d0) / z0)
+    ltsh = math.log((za - d0) / z0)
+    ltsv = math.log((zq - d0) / z0)
 
     # convert vapor pressures to specific humidities
     qa = spec_hum(ea, press)
@@ -364,7 +339,7 @@ def hle1(press, ta, ts, za, ea, es, zq, u, zu, z0):
     # air density at press, virtual temp of geometric mean
     # of air and surface
     dens = GAS_DEN(press, MOL_AIR, VIR_TEMP(
-        np.sqrt(ta * ts), np.sqrt(ea * es), press))
+        math.sqrt(ta * ts), math.sqrt(ea * es), press))
 
     # starting value, assume neutral stability, so psi-functions
     # are all zero
@@ -426,9 +401,9 @@ def efcon(k, t, p):
     Saturation within the layer is assumed.
 
     Args:
-        k: layer thermal conductivity (J/(m K sec)) 
-        t: layer temperature (K)                    
-        p: air pressure (Pa)    
+        k: layer thermal conductivity (J/(m K sec))
+        t: layer temperature (K)
+        p: air pressure (Pa)
 
     Returns:
         etc: effective thermal conductivity (J/(m K sec))
