@@ -419,6 +419,7 @@ class Snobal(object):
 
 #     @profile
 
+
     def do_tstep(self, tstep):
         """
         This routine performs the model's calculations for a single timestep.
@@ -707,6 +708,7 @@ class Snobal(object):
             self.snow_state.z_s = self.snow_state.m_s / self.snow_state.rho
             self.adj_layers()
 
+    @profile
     def evap_cond(self):
         """
         Calculates mass lost or gained by evaporation/condensation
@@ -1273,10 +1275,12 @@ class Snobal(object):
         if layer == 'surface':
             tsno = self.snow_state.T_s_0
             ds = self.snow_state.z_s_0
+            es_layer = self.snow_state.e_s_0
 
         else:
             tsno = self.snow_state.T_s_l
             ds = self.snow_state.z_s_l
+            es_layer = self.snow_state.e_s_l
 
         if tsno > FREEZE:
             warnings.warn('g_soil: tsno = %8.2f; set to %8.2f\n' %
@@ -1288,12 +1292,20 @@ class Snobal(object):
         # /***    based on heat flux data from RMSP            ***/
         # /***    note: Kt should be passed as an argument        ***/
         # /***    k_g = efcon(KT_WETSAND, tg, pa);            ***/
-        k_g = libsnobal.efcon(KT_MOISTSAND, self.input1.T_g, self.P_a)
+        k_g = libsnobal.efcon(
+            KT_MOISTSAND,
+            self.input1.T_g,
+            self.P_a,
+            es_layer=self.input1.e_g)
 
         # calculate G
         # set snow conductivity
         kcs = KTS(self.snow_state.rho)
-        k_s = libsnobal.efcon(kcs, tsno, self.P_a)
+        k_s = libsnobal.efcon(
+            kcs,
+            tsno,
+            self.P_a,
+            es_layer=es_layer)
         g = libsnobal.ssxfr(k_s, k_g, tsno, self.input1.T_g, ds, self.z_g)
 
         self.snow_state.G = g
@@ -1309,11 +1321,25 @@ class Snobal(object):
         else:
             kcs1 = KTS(self.snow_state.rho)
             kcs2 = KTS(self.snow_state.rho)
-            k_s1 = libsnobal.efcon(kcs1, self.snow_state.T_s_0, self.P_a)
-            k_s2 = libsnobal.efcon(kcs2, self.snow_state.T_s_l, self.P_a)
+            k_s1 = libsnobal.efcon(
+                kcs1,
+                self.snow_state.T_s_0,
+                self.P_a,
+                es_layer=self.snow_state.e_s_0)
 
-            g = libsnobal.ssxfr(k_s1, k_s2, self.snow_state.T_s_0,
-                                self.snow_state.T_s_l, self.snow_state.z_s_0, self.snow_state.z_s_l)
+            k_s2 = libsnobal.efcon(
+                kcs2,
+                self.snow_state.T_s_l,
+                self.P_a,
+                es_layer=self.snow_state.e_s_l)
+
+            g = libsnobal.ssxfr(
+                k_s1,
+                k_s2,
+                self.snow_state.T_s_0,
+                self.snow_state.T_s_l,
+                self.snow_state.z_s_0,
+                self.snow_state.z_s_l)
 
         self.snow_state.G_0 = g
 
@@ -1595,7 +1621,6 @@ class Snobal(object):
 
 #     @profile
 
-
     def calc_layers(self):
         """
         This routine determines the # of layers in the snowcover based its
@@ -1647,7 +1672,6 @@ class Snobal(object):
 
 
 #     @profile
-
 
     def layer_mass(self):
         """

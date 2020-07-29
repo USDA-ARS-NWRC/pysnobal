@@ -64,7 +64,8 @@ def LH_SUB(t): return LH_VAP(t) + LH_FUS(t)
 # mixing ratio
 
 
-def MIX_RATIO(e, P): return (MOL_H2O/MOL_AIR) * e/(P - e)
+def MIX_RATIO(e, P):
+    return (MOL_H2O/MOL_AIR) * e/(P - e)
 
 
 # effectuve diffusion coefficient (m^2/sec) for saturated porous layer
@@ -392,7 +393,7 @@ def hle1(press, ta, ts, za, ea, es, zq, u, zu, z0):
     return h, le, e, ier
 
 
-def efcon(k, t, p):
+def efcon(k, layer_temp, p_a, es_layer=None):
     """
     calculates the effective thermal conductivity for a layer
     accounting for both conduction and vapor diffusion.
@@ -400,8 +401,10 @@ def efcon(k, t, p):
 
     Args:
         k: layer thermal conductivity (J/(m K sec))
-        t: layer temperature (K)
-        p: air pressure (Pa)
+        layer_temp: layer temperature (K)
+        p_a: air pressure (Pa)
+        es_layer: saturation vapor pressure over ice of layer, Optional
+            will be calculated if not provided
 
     Returns:
         etc: effective thermal conductivity (J/(m K sec))
@@ -409,19 +412,21 @@ def efcon(k, t, p):
 
     # calculate effective layer diffusion (see Anderson, 1976, pg. 32)
 #     de = DIFFUS(p, t)
-    de = 0.65 * (SEA_LEVEL / p) * np.power(t/FREEZE, 14.0) * (0.01 * 0.01)
+    de = 0.65 * (SEA_LEVEL / p_a) * \
+        math.pow(layer_temp/FREEZE, 14.0) * (0.01 * 0.01)
 
     # set latent heat from layer temp.
-    if t > FREEZE:
-        lh = LH_VAP(t)
-    elif t == FREEZE:
-        lh = (LH_VAP(t) + LH_SUB(t)) / 2.0
+    if layer_temp > FREEZE:
+        lh = LH_VAP(layer_temp)
+    elif layer_temp == FREEZE:
+        lh = (LH_VAP(layer_temp) + LH_SUB(layer_temp)) / 2.0
     else:
-        lh = LH_SUB(t)
+        lh = LH_SUB(layer_temp)
 
     # set mixing ratio from layer temp.
-    e = sati(t)
-    q = MIX_RATIO(e, p)
+    if es_layer is None:
+        es_layer = sati(layer_temp)
+    q = MIX_RATIO(es_layer, p_a)
 
     # calculate effective layer conductivity
     return k + (lh * de * q)
