@@ -2,10 +2,10 @@
 autopep8
 coverage
 twine
-bumpversion
 isort
 flake8
 cython
 matplotlib
 pytest==4.6.5
 pytest-runner==5.1
+tox

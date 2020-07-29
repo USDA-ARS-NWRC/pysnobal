@@ -6,13 +6,11 @@ from copy import deepcopy
 import numpy as np
 import pandas as pd
 from inicheck.config import MasterConfig, UserConfig
-from inicheck.output import (generate_config, print_config_report,
-                             print_recipe_summary)
+from inicheck.output import print_config_report
 from inicheck.tools import check_config, get_user_config
 
 from pysnobal import utils
-from pysnobal.input import InputData
-from pysnobal.snobal import Snobal
+from pysnobal.point import InputData, Snobal
 
 DATA_TSTEP = 0
 NORMAL_TSTEP = 1

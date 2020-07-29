@@ -1,4 +1,4 @@
-from pysnobal.libsnobal import sati
+from pysnobal.point.libsnobal import sati
 
 
 class SnowState():

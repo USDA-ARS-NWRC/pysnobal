@@ -1,7 +1,5 @@
-import numpy as np
-
-from pysnobal.constants import FREEZE
-from pysnobal.libsnobal import sati
+from pysnobal.core.constants import FREEZE
+from pysnobal.point.libsnobal import sati
 
 
 class InputData():

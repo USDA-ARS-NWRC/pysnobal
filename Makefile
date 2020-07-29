@@ -60,8 +60,13 @@ test-all: ## run tests on every Python version with tox
 	tox
 
 coverage: ## check code coverage quickly with the default Python
-	coverage run --source pysnobal -m pytest
-	coverage report -m
+	coverage run --source pysnobal --omit="*/test*" -m pytest
+	coverage report --fail-under 80
+
+coveralls: coverage ## run coveralls
+	coveralls
+
+coverage-html: coverage ## check code coverage quickly with the default Python
 	coverage html
 	$(BROWSER) htmlcov/index.html
 

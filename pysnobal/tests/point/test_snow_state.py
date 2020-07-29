@@ -1,7 +1,7 @@
 import unittest
 
-from pysnobal.constants import FREEZE
-from pysnobal.snow_state import SnowState
+from pysnobal.core.constants import FREEZE
+from pysnobal.point import SnowState
 
 
 class TestSnowState(unittest.TestCase):

@@ -2,7 +2,7 @@ import unittest
 
 import pandas as pd
 
-from pysnobal import libsnobal
+from pysnobal.point import libsnobal
 
 
 class TestTurbulentTransfer(unittest.TestCase):

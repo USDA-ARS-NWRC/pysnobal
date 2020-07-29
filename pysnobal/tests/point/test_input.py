@@ -2,8 +2,8 @@ import unittest
 
 import numpy as np
 
-from pysnobal.constants import FREEZE
-from pysnobal.input import InputData
+from pysnobal.core.constants import FREEZE
+from pysnobal.point import InputData
 
 
 class TestInput(unittest.TestCase):

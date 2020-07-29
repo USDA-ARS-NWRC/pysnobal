@@ -8,13 +8,10 @@ import warnings
 from copy import copy
 
 import numpy as np
-import pandas as pd
 
-from pysnobal import libsnobal
-from pysnobal.constants import (
-    DATA_TSTEP, FREEZE, MEDIUM_TSTEP, NORMAL_TSTEP, SMALL_TSTEP)
-from pysnobal.input import InputDeltas
-from pysnobal.snow_state import SnowState
+from pysnobal.point import libsnobal, InputDeltas, SnowState
+from pysnobal.core.constants import (
+    DATA_TSTEP, FREEZE, SMALL_TSTEP)
 
 # Some constants and equations
 WHOLE_TSTEP = 0x1  # output when tstep is not divided
@@ -708,7 +705,6 @@ class Snobal(object):
             self.snow_state.z_s = self.snow_state.m_s / self.snow_state.rho
             self.adj_layers()
 
-    @profile
     def evap_cond(self):
         """
         Calculates mass lost or gained by evaporation/condensation
