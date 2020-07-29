@@ -1,71 +1,87 @@
-# Config file for automatic testing at travis-ci.com
-
 stages:
-  - test
-  - name: deploy
-    if:  type = pull_request OR branch = master OR tag IS present AND repo = scotthavens/pysnobal
-
+- test
+- name: deploy
+  if: type = pull_request OR branch = master OR tag IS present AND repo = scotthavens/pysnobal
 env:
   global:
-    - TWINE_USERNAME=__token__
-
-# defining the unittest jobs
-unittest: &unittest
+  - TWINE_USERNAME=__token__
+unittest:
   stage: test
   os: linux
   dist: bionic
   language: python
   cache: pip
-  install: 
-    - python3 --version
-    - python3 -m pip install tox-travis
+  install: &1
+  - python3 --version
+  - python3 -m pip install tox-travis
   script: tox
-
 jobs:
   include:
-    # test stage
-    - <<: *unittest
-      python: 3.6
-      env: TOXENV=py36
-
-    - <<: *unittest
-      python: 3.6
-      env: TOXENV=coverage
-
-    - <<: *unittest
-      python: 3.6
-      env: TOXENV=flake8
-
-    - <<: *unittest
-      python: 3.7
-      env: TOXENV=py37
-
-    - <<: *unittest
-      python: 3.8
-      env: TOXENV=py38
-
-    - <<: *unittest
-      os: osx
-      osx_image: xcode11.2  # Python 3.7.X running on macOS 10.14
-      language: shell
-      env:
-        - TOXENV=py37
-        - NOT_ON_GOLD_HOST=yup
-
+  - stage: test
+    os: linux
+    dist: bionic
+    language: python
+    cache: pip
+    install: *1
+    script: tox
+    python: 3.6
+    env: TOXENV=py36
+  - stage: test
+    os: linux
+    dist: bionic
+    language: python
+    cache: pip
+    install: *1
+    script: tox
+    python: 3.6
+    env: TOXENV=coverage
+  - stage: test
+    os: linux
+    dist: bionic
+    language: python
+    cache: pip
+    install: *1
+    script: tox
+    python: 3.6
+    env: TOXENV=flake8
+  - stage: test
+    os: linux
+    dist: bionic
+    language: python
+    cache: pip
+    install: *1
+    script: tox
+    python: 3.7
+    env: TOXENV=py37
+  - stage: test
+    os: linux
+    dist: bionic
+    language: python
+    cache: pip
+    install: *1
+    script: tox
+    python: 3.8
+    env: TOXENV=py38
+  - stage: test
+    os: osx
+    dist: bionic
+    language: shell
+    cache: pip
+    install: *1
+    script: tox
+    osx_image: xcode11.2
+    env:
+    - TOXENV=py37
+    - NOT_ON_GOLD_HOST=yup
   allow_failures:
-    - python: 3.6
-      env: TOXENV=flake8
-
-# Assuming you have installed the travis-ci CLI tool, after you
-# create the Github repo and add it to Travis, run the
-# following command to finish PyPI deployment setup:
-# $ travis encrypt --add deploy.password
+  - python: 3.6
+    env: TOXENV=flake8
 deploy:
   provider: pypi
   distributions: sdist bdist_wheel
   user: scotthavens
   password:
-    secure: PLEASE_REPLACE_ME
+    secure: cz+nxXRskQOWmticDYihkMh9hiJaDHkV7kGcKq7FfGDyEM0O4/Ktnw/AWRou8EnESGx7eYUpPjC52FEtU9EFFTgDAQjabC6Ily2G5BP8iDj+tr0hYkXS+9KLpaUMC38mhQZUDhS7O+QKyVoadt7MBJ0hMw8cVxFuxosKMTz2XcTQlgtcMojNpgEvyDq0pqDA82GX1knsyHAOYzBPhdCzcLt8pp1vU7QKbeJcI6LSeBtPgp6uhVoLaoi11AyOPsWFkEemmKJgG/dAa/sho5CKeiwuSJwzRmCwQGDVtZ3K4R9/fErvoEVc4xdEG+Mm2Yds0pWY9dpWv9khxvg9PIkZ0L+kw5YOHkwg4EVlJqejKWKRtQUSrVeapQ3Da1zcuS/6CMwpLLVEoGg2ifOkruJsGWKb6fMRDGPq976e1rkU5M6tCsoZs8ipC8VCzHzdZC5KxKYEmsYlZRUNwBgJIBih8Vmotlq9DJBS7xPUHO2nFHQQzCfrviIVU8XJLWPAHxb+ai9s4HDp/ObqYs0LK161iQRYPHE6PLdUGp7/ohx5gDnPBV1GmINHuQo4UVAzr3MZY4tCyjY+09qzgjDSm+T6nR20Bi2iQwu5Z4w6q3OwufEoc59qfZrmNUhGVjjF76aoC6z0A9/ITf8RAqttt1o6XSLU83ZWmn47tzYW129aI60=
   on:
     tags: true
     repo: scotthavens/pysnobal
