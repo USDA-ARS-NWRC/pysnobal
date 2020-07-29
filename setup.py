@@ -13,9 +13,9 @@ with open('HISTORY.rst') as history_file:
 with open('requirements.txt') as requirements_file:
     requirements = requirements_file.read()
 
-setup_requirements = ['pytest-runner', ]
+setup_requirements = ['setuptools_scm', ]
 
-test_requirements = ['pytest>=3', ]
+test_requirements = ['pytest>=3', 'pytest-runner']
 
 setup(
     author="USDA ARS Northwest Watershed Research Center",
