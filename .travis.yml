@@ -2,8 +2,7 @@
 
 stages:
   - test
-  - name: deploy
-    if:  branch = master AND tag IS present AND repo = scotthavens/pysnobal
+  - deploy
 
 # defining the unittest jobs
 unittest: &unittest
