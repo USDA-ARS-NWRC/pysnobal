@@ -40,6 +40,7 @@ setup(
     install_requires=requirements,
     license="CC0 1.0",
     long_description=readme,
+    long_description_content_type="text/markdown",
     include_package_data=True,
     keywords='pysnobal',
     name='pysnobal',
