@@ -5,10 +5,6 @@ stages:
   - name: deploy
     if:  type = pull_request OR branch = master OR tag IS present AND repo = scotthavens/pysnobal
 
-env:
-  global:
-    - TWINE_USERNAME=__token__
-
 # defining the unittest jobs
 unittest: &unittest
   stage: test
@@ -61,12 +57,13 @@ jobs:
 # following command to finish PyPI deployment setup:
 # $ travis encrypt --add deploy.password
 deploy:
+  cleanup: true
   provider: pypi
   distributions: sdist bdist_wheel
-  user: scotthavens
+  skip_existing: true
+  user: __token__
   password:
     secure: PLEASE_REPLACE_ME
   on:
     tags: true
     repo: scotthavens/pysnobal
-    python: 3.8
