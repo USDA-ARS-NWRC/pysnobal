@@ -11,20 +11,12 @@ from inicheck.tools import check_config, get_user_config
 
 from pysnobal import utils
 from pysnobal.point import InputData, Snobal
+from pysnobal.core.constants import FREEZE
 
 DATA_TSTEP = 0
 NORMAL_TSTEP = 1
 MEDIUM_TSTEP = 2
 SMALL_TSTEP = 3
-
-DEFAULT_NORMAL_THRESHOLD = 60.0
-DEFAULT_MEDIUM_THRESHOLD = 10.0
-DEFAULT_sMALL_THRESHOLD = 1.0
-DEFAULT_MEDIUM_TSTEP = 15.0
-DEFAULT_sMALL_TSTEP = 1.0
-
-WHOLE_TSTEP = 0x1  # output when tstep is not divided
-DIVIDED_TSTEP = 0x2  # output when timestep is divided
 
 
 class PySnobal():
@@ -33,6 +25,8 @@ class PySnobal():
         """
         PySnobal is a wrapper to the Snobal C code.
         """
+
+        self.output_timesteps = None
 
         # read in the config file
         self.read_config_file(config_file)
@@ -45,9 +39,6 @@ class PySnobal():
 
         # open the input files
         self.read_input_data()
-
-        # initialize the snowpack
-        # self.initialize_snowpack()
 
     def read_config_file(self, config_file):
         """
@@ -76,8 +67,8 @@ class PySnobal():
             config_file = config_file.filename
 
         else:
-            raise Exception('Config passed to PySnobal is neither file name nor '
-                            ' UserConfig instance')
+            raise Exception('Config passed to PySnobal is neither file '
+                            'name or UserConfig instance')
 
         # Check the config file
         warnings, errors = check_config(ucfg)
@@ -202,9 +193,11 @@ class PySnobal():
         })
 
         # output
+        self.output_mode = 'normal'
         if self.config['files']['output_mode'] == 'normal':
             tstep_info[NORMAL_TSTEP]['output'] = True
         elif self.config['files']['output_mode'] == 'all':
+            self.output_mode = 'all'
             tstep_info[NORMAL_TSTEP]['output'] = True
             tstep_info[MEDIUM_TSTEP]['output'] = True
             tstep_info[SMALL_TSTEP]['output'] = True
@@ -234,7 +227,7 @@ class PySnobal():
         params['data_tstep'] = self.config['time']['time_step']
         params['max_h2o_vol'] = self.config['model']['max_h2o']
         params['max_z_s_0'] = self.config['model']['max_active']
-        params['relative_heights'] = self.config['measurement_heights']['relative_heights']
+        params['relative_heights'] = self.config['measurement_heights']['relative_heights']  # noqa
 
         self.params = params
 
@@ -243,36 +236,6 @@ class PySnobal():
 
         # measurement heights
         self.measurement_heights = self.config['measurement_heights']
-
-    # def initialize_snowpack(self):
-    #     """
-    #     Initialize the snowpack state from the config file for the following
-    #     snowpack state variables:
-
-    #         z_s: total snowcover depth (m)
-    #         rho: average snowcover density (kg/m^3)
-    #         T_s_0: active snow layer temperature (C)
-    #         T_s: average snowcover temperature (C)
-    #         h2o_sat: % of liquid H2O saturation (relative
-    #                 water content i.e. ratio of water in
-    #                 snowcover to water that snowcover could
-    #                 hold at saturation)
-    #         z_0: roughness length (m) (for snow 0.01 to 0.0001)
-    #     """
-
-    #     self.snowpack_state = self.config['initial_snow_properties']
-
-    #     # Celcuis to Kelvin and change to uppercase for snobal
-    #     self.snowpack_state['T_s_0'] = self.snowpack_state['t_s_0'] + utils.C_TO_K
-    #     self.snowpack_state['T_s'] = self.snowpack_state['t_s'] + utils.C_TO_K
-
-    #     self.snowpack_state = self.dict2np(self.snowpack_state)
-
-    # def set_snowpack_state(self):
-    #     """
-    #     Potential future use to implement a setter for the snowpack state
-    #     """
-    #     raise NotImplementedError('set_snowpack_state not implemented yet')
 
     def read_input_data(self):
         """
@@ -294,21 +257,25 @@ class PySnobal():
         tdelta = input_data.index.to_series().diff().dropna().unique()[0]
 
         # clip to the start and end date
-        # Add one time step as each Snobal timestep requires two input data classes
+        # Add one time step as each Snobal timestep requires two input
+        # data classes
         input_data = input_data.loc[self.start_date:self.end_date + tdelta, :]
 
         # convert to Kelvin
-        input_data.precip_temp += utils.C_TO_K
-        input_data.air_temp += utils.C_TO_K
-        input_data.soil_temp += utils.C_TO_K
+        input_data.precip_temp += FREEZE
+        input_data.air_temp += FREEZE
+        input_data.soil_temp += FREEZE
 
         # check the precip, temp. cannot be below freezing if rain present
         # This is only present in Snobal and not iSnobal
         mass_rain = input_data.precip_mass * (1 - input_data.percent_snow)
         input_data.loc[(mass_rain > 0.0) & (
-            input_data.precip_temp < utils.FREEZE), 'precip_temp'] = utils.FREEZE
+            input_data.precip_temp < FREEZE), 'precip_temp'] = FREEZE
 
         self.input_data = input_data
+
+        if self.output_mode == 'normal':
+            self.output_timesteps = self.input_data.index
 
         self.map_input_data()
 
@@ -332,49 +299,10 @@ class PySnobal():
 
         self.input_data = self.input_data.rename(columns=mapper)
 
-    def dict2np(self, d):
-        """
-        The at least 2d is to trick snobal into thinking it's an ndarray
-        """
-        return {k: np.atleast_2d(np.array(v, dtype=float)) for k, v in d.items()}
-
-    # def initialize_output(self):
-    #     """
-    #     Initialize the output dictionary for Snobal to write results to, the
-    #     `output_rec` is passed to the C code for modification
-    #     """
-
-    #     # create the self.output_rec with additional fields and fill
-    #     # There are a lot of additional terms that the original self.output_rec does not
-    #     # have due to the output function being outside the C code which doesn't
-    #     # have access to those variables
-    #     sz = self.elevation.shape
-    #     flds = ['mask', 'elevation', 'z_0', 'rho', 'T_s_0', 'T_s_l', 'T_s',
-    #             'cc_s_0', 'cc_s_l', 'cc_s', 'm_s', 'm_s_0', 'm_s_l', 'z_s', 'z_s_0', 'z_s_l',
-    #             'h2o_sat', 'layer_count', 'h2o', 'h2o_max', 'h2o_vol', 'h2o_total',
-    #             'R_n_bar', 'H_bar', 'L_v_E_bar', 'G_bar', 'G_0_bar',
-    #             'M_bar', 'delta_Q_bar', 'delta_Q_0_bar', 'E_s_sum', 'melt_sum', 'ro_pred_sum',
-    #             'current_time', 'time_since_out']
-    #     s = {key: np.zeros(sz) for key in flds}  # the structure fields
-
-    #     # # update the output rec with the initial snowpack state
-    #     # for key, val in self.snowpack_state.items():
-    #     #     if key in flds:
-    #     #         s[key] = val
-
-    #     s['mask'] = np.ones(sz)
-    #     self.output_rec = s
-
-    #     # Create the output storage
-    #     self.output_list = []
-
     def run(self):
         """
         mimic the main.c from the Snobal model
         """
-
-        # initialize outputs
-        # self.initialize_output()
 
         # loop through the input
         # do_data_tstep needs two input records so only go
@@ -382,21 +310,13 @@ class PySnobal():
         input_data = self.input_data[:-1].iterrows()
         index, input1 = next(input_data)    # this is the first input
 
-        data_tstep = self.tstep_info[0]['time_step']
-        # timeSinceOut = 0.0
-        start_step = 0  # if restart then it would be higher if this were iSnobal
-        # step_time = start_step * data_tstep
-
-        # self.output_rec['current_time'] = step_time * \
-        #     np.ones(self.output_rec['elevation'].shape)
-        # self.output_rec['time_since_out'] = timeSinceOut * \
-        #     np.ones(self.output_rec['elevation'].shape)
-
         self.snobal = Snobal(
             self.params,
             self.tstep_info,
             self.config['initial_snow_properties'],
-            self.measurement_heights)
+            self.measurement_heights,
+            self.output_timesteps
+        )
 
         # first_step = 1
         for index, input2 in input_data:
@@ -426,73 +346,6 @@ class PySnobal():
 
         return True
 
-    # def output_timestep(self, index):
-    #     """
-    #     Add the model outputs to the output dataframe
-
-    #     **
-    #     This is a departure from Snobal that can print out the
-    #     sub-time steps, this will only print out on the data tstep
-    #     (for now)
-    #     **
-
-    #     """
-
-    #     # go from a numpy array to a single value
-    #     c = {key: val[0][0] for key, val in self.output_rec.items()}
-
-    #     c['date_time'] = index
-
-    #     self.output_list.append(c)
-
-    #     # reset the time since out
-    #     self.output_rec['time_since_out'][0] = 0
-
-        # # write out to a file
-        # # f = self.params['out_file']
-        # n = 0
-        # if f is not None:
-
-        #     curr_time_hrs = SEC_TO_HR(self.output_rec['current_time'][n])
-
-        #     # time
-        #     f.write('%g,' % curr_time_hrs)
-
-        #     # energy budget terms
-        #     f.write("%.3f,%.3f,%.3f,%.3f,%.3f,%.3f," %
-        #             (self.output_rec['R_n_bar'][n], self.output_rec['H_bar'][n], self.output_rec['L_v_E_bar'][n],
-        #              self.output_rec['G_bar'][n], self.output_rec['M_bar'][n], self.output_rec['delta_Q_bar'][n]))
-
-        #     # layer terms
-        #     f.write("%.3f,%.3f," %
-        #             (self.output_rec['G_0_bar'][n], self.output_rec['delta_Q_0_bar'][n]))
-
-        #     # heat storage and mass changes
-        #     f.write("%.9e,%.9e,%.9e," %
-        #             (self.output_rec['cc_s_0'][n], self.output_rec['cc_s_l'][n], self.output_rec['cc_s'][n]))
-        #     f.write("%.8f,%.8f,%.8f," %
-        #             (self.output_rec['E_s_sum'][n], self.output_rec['melt_sum'][n], self.output_rec['ro_pred_sum'][n]))
-
-        #     #             # runoff error if data included */
-        #     #             if (ro_data)
-        #     #                 fprintf(out, " %.3f",
-        #     #                         (ro_pred_sum - (ro * time_since_out)))
-
-        #     # sno properties */
-        #     f.write("%.6f,%.6f,%.6f,%.3f," %
-        #             (self.output_rec['z_s_0'][n], self.output_rec['z_s_l'][n], self.output_rec['z_s'][n], self.output_rec['rho'][n]))
-        #     f.write("%.3f,%.3f,%.3f,%.3f," %
-        #             (self.output_rec['m_s_0'][n], self.output_rec['m_s_l'][n], self.output_rec['m_s'][n], self.output_rec['h2o'][n]))
-        #     if self.params['temps_in_C']:
-        #         f.write("%.5f,%.5f,%.5f\n" %
-        #                 (K_TO_C(self.output_rec['T_s_0'][n]), K_TO_C(self.output_rec['T_s_l'][n]), K_TO_C(self.output_rec['T_s'][n])))
-        #     else:
-        #         f.write("%.5f,%.5f,%.5f\n" %
-        #                 (self.output_rec['T_s_0'][n], self.output_rec['T_s_l'][n], self.output_rec['T_s'][n]))
-
-        #     # reset the time since out
-        #     self.output_rec['time_since_out'][n] = 0
-
     def output_to_file(self):
         """
         Output the model result to a file
@@ -503,17 +356,9 @@ class PySnobal():
         self.output_df.sort_index(inplace=True)
 
         # Kelvin to Celcius
-        self.output_df['T_s_0'] -= utils.C_TO_K
-        self.output_df['T_s_l'] -= utils.C_TO_K
-        self.output_df['T_s'] -= utils.C_TO_K
-
-        # remove uneeded columns
-        # self.output_df.drop(
-        #     ['mask', 'elevation', 'current_time',
-        #         'time_since_out', 'layer_count', 'z_0',
-        #         'h2o_total', 'h2o_vol'],
-        #     axis=1,
-        #     inplace=True)
+        self.output_df['T_s_0'] -= FREEZE
+        self.output_df['T_s_l'] -= FREEZE
+        self.output_df['T_s'] -= FREEZE
 
         # Map to the outputs
         mapper = {
@@ -572,9 +417,5 @@ class PySnobal():
             for key, value in float_map.items():
                 self.output_df[key] = self.output_df[key].map(
                     lambda x: value % x)
-
-        # TODO fix this, it's when in the small time step, it will output the
-        # medium timestep as well
-        self.output_df = self.output_df.loc[~self.output_df.index.duplicated()]
 
         self.output_df.to_csv(self.config['files']['output_csv'])

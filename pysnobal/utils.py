@@ -4,16 +4,9 @@ def hrs2min(x): return x * 60
 def min2sec(x): return x * 60
 
 
-C_TO_K = 273.16
-FREEZE = C_TO_K
-
-
 def SEC_TO_HR(x): return x / 3600.0
 
 # Kelvin to Celcius
-
-
-def K_TO_C(x): return x - FREEZE
 
 
 def check_range(value, min_val, max_val, descrip):
