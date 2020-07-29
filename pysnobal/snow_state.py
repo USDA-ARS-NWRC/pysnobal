@@ -1,4 +1,4 @@
-import numpy as np
+from pysnobal.libsnobal import sati
 
 
 class SnowState():
@@ -91,51 +91,46 @@ class SnowState():
         for field in fields:
             setattr(self, field, self.zeros)
 
-    # def calc_layers(self):
-    #     """
-    #     This routine determines the # of layers in the snowcover based its
-    #     depth and mass.  Usually, there are are 2 layers: the surface (active)
-    #     and the lower layer.  The depth of the surface layer is set to the
-    #     maximum depth for the surface layer (variable "max_z_s_0").  The
-    #     remaining depth constitutes the lower layer.  The routine checks
-    #     to see if the mass of this lower layer is above the minimum threshold
-    #     (i.e., the mass threshold for the small run timestep).  If not,
-    #     the surface layer is the whole snowcover, and there's no lower
-    #     layer.
+    @property
+    def T_s_0(self):
+        return self._T_s_0
 
-    #     """
+    @T_s_0.setter
+    def T_s_0(self, var):
+        self._T_s_0 = var
+        self.__es_s_0 = False
 
-    #     if self.m_s <= self.tstep_info[SMALL_TSTEP]['threshold']:
-    #         # less than minimum layer mass, so treat as no snowcover
+    @property
+    def e_s_0(self):
+        """Calculate the saturation vapor pressure over ice for
+        the surface layer.
 
-    #         layer_count = 0
-    #         z_s = z_s_0 = z_s_l = 0
+        Returns:
+            float: saturation vapor pressure over ice
+        """
+        if not self.__es_s_0:
+            self._es_s_0 = sati(self.T_s_0)
+            self.__es_s_0 = True
+        return self._es_s_0
 
-    #     elif self.z_s < self.params['max_z_s_0']:
-    #         # not enough depth for surface layer and the lower layer,
-    #         # so just 1 layer: surface layer
+    @property
+    def T_s_l(self):
+        return self._T_s_l
 
-    #         layer_count = 1
-    #         z_s_0 = self.z_s
-    #         z_s_l = 0
-    #         z_s = z_s_0
+    @T_s_l.setter
+    def T_s_l(self, var):
+        self._T_s_l = var
+        self.__es_s_l = False
 
-    #     else:
-    #         # enough depth for both layers
+    @property
+    def e_s_l(self):
+        """Calculate the saturation vapor pressure over ice for
+        the lower layer.
 
-    #         layer_count = 2
-    #         z_s_0 = self.params['max_z_s_0']
-    #         z_s_l = self.z_s - z_s_0
-    #         z_s = z_s_0 + z_s_l  # not really needed but needed for below
-
-    #         # However, make sure there's enough MASS for the lower
-    #         # layer.  If not, then there's only 1 layer
-    #         if z_s_l * self.rho < self.tstep_info[SMALL_TSTEP]['threshold']:
-    #             layer_count = 1
-    #             z_s_0 = self.z_s
-    #             z_s_l = 0
-
-    #     self.layer_count = layer_count
-    #     self.z_s = z_s
-    #     self.z_s_0 = z_s_0
-    #     self.z_s_l = z_s_l
+        Returns:
+            float: saturation vapor pressure over ice
+        """
+        if not self.__es_s_l:
+            self._es_s_l = sati(self.T_s_l)
+            self.__es_s_l = True
+        return self._es_s_l

@@ -754,16 +754,15 @@ class Snobal(object):
             E_s_l = 0.0
         else:
             if self.snow_state.layer_count == 2:
-                e_s_l = libsnobal.sati(self.snow_state.T_s_l)
+                e_s_l = self.snow_state.e_s_l
                 T_bar = (self.input1.T_g + self.snow_state.T_s_l) / 2.0
 
             else:  # layer_count == 1
-                e_s_l = libsnobal.sati(self.snow_state.T_s_0)
+                e_s_l = self.snow_state.e_s_0
                 T_bar = (self.input1.T_g + self.snow_state.T_s_0) / 2.0
 
             q_s_l = libsnobal.spec_hum(e_s_l, self.P_a)
-            e_g = libsnobal.sati(self.input1.T_g)
-            q_g = libsnobal.spec_hum(e_g, self.P_a)
+            q_g = libsnobal.spec_hum(self.input1.e_g, self.P_a)
             q_delta = q_g - q_s_l
             rho_air = libsnobal.GAS_DEN(self.P_a, libsnobal.MOL_AIR, T_bar)
             k = libsnobal.DIFFUS(self.P_a, T_bar)
@@ -1324,16 +1323,8 @@ class Snobal(object):
         Calculates point turbulent transfer (H and L_v_E) for a 2-layer snowcover
         """
 
-#         if self.snow_state.T_s_0 < 0:
-#             raise Exception('T_s_0 is below 0 K')
-#         if self.input1.T_a < 0:
-#             raise Exception('T_a is below 0 K')
-
-        # calculate saturation vapor pressure
-        e_s = libsnobal.sati(self.snow_state.T_s_0)
-
         # error check for bad vapor pressures
-        sat_vp = libsnobal.sati(self.input1.T_a)
+        sat_vp = self.input1.sat_vp
 
         if self.input1.e_a > sat_vp:
             warnings.warn(
@@ -1356,7 +1347,7 @@ class Snobal(object):
             self.snow_state.T_s_0,
             rel_z_T,
             self.input1.e_a,
-            e_s,
+            self.snow_state.e_s_0,
             rel_z_T,
             self.input1.u,
             rel_z_u,
@@ -1366,7 +1357,7 @@ class Snobal(object):
         if status != 0:
             raise Exception("hle1 did not converge\nP_a %f, T_a %f, T_s_0 %f\nrelative z_T %f, e_a %f, e_s %f\nu %f, relative z_u %f, z_0 %f\n" %
                             (self.P_a, self.input1.T_a, self.snow_state.T_s_0, rel_z_T,
-                             self.input1.e_a, e_s, self.input1.u, rel_z_u, self.z_0))
+                             self.input1.e_a, self.snow_state.e_s_0, self.input1.u, rel_z_u, self.z_0))
 
         self.snow_state.H = H
         self.snow_state.L_v_E = L_v_E

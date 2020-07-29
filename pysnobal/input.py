@@ -1,6 +1,7 @@
 import numpy as np
 
 from pysnobal.constants import FREEZE
+from pysnobal.libsnobal import sati
 
 
 class InputData():
@@ -69,6 +70,50 @@ class InputData():
 
         if not input_delta:
             self.precipitation_inputs()
+
+    @property
+    def T_a(self):
+        return self._T_a
+
+    @T_a.setter
+    def T_a(self, var):
+        self._T_a = var
+        self.__sat_vp = False
+
+    @property
+    def sat_vp(self):
+        """Calculate the saturation vapor pressure over ice for
+        the air temperature
+
+        Returns:
+            float: saturation vapor pressure over ice
+        """
+        if not self.__sat_vp:
+            self._sat_vp = sati(self.T_a)
+            self.__sat_vp = True
+        return self._sat_vp
+
+    @property
+    def T_g(self):
+        return self._T_g
+
+    @T_g.setter
+    def T_g(self, var):
+        self._T_g = var
+        self.__e_g = False
+
+    @property
+    def e_g(self):
+        """Calculate the saturation vapor pressure over ice for
+        the soil temperature
+
+        Returns:
+            float: saturation vapor pressure over ice
+        """
+        if not self.__e_g:
+            self._e_g = sati(self.T_g)
+            self.__e_g = True
+        return self._e_g
 
     def precipitation_inputs(self):
 
