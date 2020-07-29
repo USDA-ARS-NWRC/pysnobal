@@ -3,7 +3,7 @@
 stages:
   - test
   - name: deploy
-    if:  type = pull_request OR branch = master OR tag IS present AND repo = scotthavens/pysnobal
+    if:  branch = master AND tag IS present AND repo = scotthavens/pysnobal
 
 # defining the unittest jobs
 unittest: &unittest
