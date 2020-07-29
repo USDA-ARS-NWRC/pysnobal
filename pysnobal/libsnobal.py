@@ -197,10 +197,11 @@ def sati(tk):
 
     else:
         # vapor below freezing
+        ftk = FREEZE/tk
         x = 100.0 * math.pow(
             10.0,
-            -9.09718 * (FREEZE/tk - 1.0) -
-            3.56654 * math.log(FREEZE/tk) / LOG_10 +
+            -9.09718 * (ftk - 1.0) -
+            3.56654 * math.log(ftk) / LOG_10 +
             8.76793e-1 * (1.0 - tk/FREEZE) +
             math.log(6.1071) / LOG_10)
 
@@ -238,7 +239,7 @@ def psi(zeta, code):
 
         if code == 'SM':
             result = 2 * math.log((1 + x)/2) + math.log((1 + x * x)/2) - \
-                2 * np.arctan(x) + np.pi/2
+                2 * math.atan(x) + np.pi/2
 
         elif (code == 'SH') or (code == 'SV'):
             result = 2 * math.log((1 + x * x)/2)
@@ -284,15 +285,7 @@ def hle1(press, ta, ts, za, ea, es, zq, u, zu, z0):
     20160111 Scott Havens
     """
 
-    # define some constants to keep constant with hle1.c
-    k = VON_KARMAN
-    av = AV
-    ah = AH
-    cp = CP_AIR
-    g = GRAVITY
-
     # Check for bad inputs
-
     # heights must be positive
     if (z0 <= 0) or (zq <= z0) or (zu <= z0) or (za <= z0):
         raise ValueError(
@@ -310,16 +303,19 @@ def hle1(press, ta, ts, za, ea, es, zq, u, zu, z0):
 
     # vapor pressures can't exceed saturation
     # if way off stop
-    if ((es - 25.0) > sati(ts)) or ((ea - 25.0) > satw(ta)):
-        raise ValueError("vp > sat es=%f\tessat=%f\tea=%f\teasat=%f" %
-                         (es, sati(ts), ea, sati(ta)))
+    es_sat = sati(ts)
+    ea_w = satw(ta)
+    if ((es - 25.0) > es_sat) or ((ea - 25.0) > ea_w):
+        raise ValueError(
+            "vp > sat es={}, ea_sat={}, ea={}, ea_sat={}".format(
+                es, es_sat, ea, sati(ta)))
 
     # else fix them up
-    if es > sati(ts):
-        es = sati(ts)
+    if es > es_sat:
+        es = es_sat
 
-    if ea > satw(ta):
-        ea = satw(ta)
+    if ea > ea_w:
+        ea = ea_w
 
     # displacement plane height, eq. 5.3 & 5.4
     d0 = 2 * PAESCHKE * z0 / 3
@@ -332,9 +328,11 @@ def hle1(press, ta, ts, za, ea, es, zq, u, zu, z0):
     # convert vapor pressures to specific humidities
     qa = spec_hum(ea, press)
     qs = spec_hum(es, press)
+    q_diff = qa - qs
 
     # convert temperature to potential temperature
     ta += DALR * za
+    t_diff = ta - ts
 
     # air density at press, virtual temp of geometric mean
     # of air and surface
@@ -343,10 +341,10 @@ def hle1(press, ta, ts, za, ea, es, zq, u, zu, z0):
 
     # starting value, assume neutral stability, so psi-functions
     # are all zero
-    ustar = k * u / ltsm
-    factor = k * ustar * dens
-    e = (qa - qs) * factor * av / ltsv
-    h = (ta - ts) * factor * cp * ah / ltsh
+    ustar = VON_KARMAN * u / ltsm
+    factor = VON_KARMAN * ustar * dens
+    e = q_diff * factor * AV / ltsv
+    h = t_diff * factor * CP_AIR * AH / ltsh
 
     # if not neutral stability, iterate on Obukhov stability
     # length to find solution
@@ -361,18 +359,18 @@ def hle1(press, ta, ts, za, ea, es, zq, u, zu, z0):
             # Eq 4.25, but no minus sign as we define
             # positive H as toward surface
             lo = ustar * ustar * ustar * dens / \
-                (k * g * (h/(ta * cp) + 0.61 * e))
+                (VON_KARMAN * GRAVITY * (h/(ta * CP_AIR) + 0.61 * e))
 
             # friction velocity, eq. 4.34'
-            ustar = k * u / (ltsm - psi(zu/lo, 'SM'))
+            ustar = VON_KARMAN * u / (ltsm - psi(zu/lo, 'SM'))
 
             # evaporative flux, eq. 4.33'
-            factor = k * ustar * dens
-            e = (qa - qs) * factor * av / (ltsv - psi(zq/lo, 'SV'))
+            factor = VON_KARMAN * ustar * dens
+            e = q_diff * factor * AV / (ltsv - psi(zq/lo, 'SV'))
 
             # sensible heat flus, eq. 4.35'
             # with sign reversed
-            h = (ta - ts) * factor * ah * cp / (ltsh - psi(za/lo, 'SH'))
+            h = t_diff * factor * AH * CP_AIR / (ltsh - psi(za/lo, 'SH'))
 
             diff = last - lo
 
