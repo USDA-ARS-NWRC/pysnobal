@@ -57,6 +57,5 @@ setup(
     test_suite='pysnobal.tests',
     tests_require=test_requirements,
     url='https://github.com/scotthavens/pysnobal',
-    version='0.1.0',
     zip_safe=False,
 )

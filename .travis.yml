@@ -63,7 +63,7 @@ deploy:
   skip_existing: true
   user: __token__
   password:
-    secure: PLEASE_REPLACE_ME
+    secure: cz+nxXRskQOWmticDYihkMh9hiJaDHkV7kGcKq7FfGDyEM0O4/Ktnw/AWRou8EnESGx7eYUpPjC52FEtU9EFFTgDAQjabC6Ily2G5BP8iDj+tr0hYkXS+9KLpaUMC38mhQZUDhS7O+QKyVoadt7MBJ0hMw8cVxFuxosKMTz2XcTQlgtcMojNpgEvyDq0pqDA82GX1knsyHAOYzBPhdCzcLt8pp1vU7QKbeJcI6LSeBtPgp6uhVoLaoi11AyOPsWFkEemmKJgG/dAa/sho5CKeiwuSJwzRmCwQGDVtZ3K4R9/fErvoEVc4xdEG+Mm2Yds0pWY9dpWv9khxvg9PIkZ0L+kw5YOHkwg4EVlJqejKWKRtQUSrVeapQ3Da1zcuS/6CMwpLLVEoGg2ifOkruJsGWKb6fMRDGPq976e1rkU5M6tCsoZs8ipC8VCzHzdZC5KxKYEmsYlZRUNwBgJIBih8Vmotlq9DJBS7xPUHO2nFHQQzCfrviIVU8XJLWPAHxb+ai9s4HDp/ObqYs0LK161iQRYPHE6PLdUGp7/ohx5gDnPBV1GmINHuQo4UVAzr3MZY4tCyjY+09qzgjDSm+T6nR20Bi2iQwu5Z4w6q3OwufEoc59qfZrmNUhGVjjF76aoC6z0A9/ITf8RAqttt1o6XSLU83ZWmn47tzYW129aI60=
   on:
     tags: true
     repo: scotthavens/pysnobal
