@@ -1,6 +1,5 @@
 numpy<1.19.0
 inicheck
-netcdf4
 pandas
 pytz
 setuptools_scm<4.2
