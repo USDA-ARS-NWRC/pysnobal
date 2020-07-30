@@ -21,7 +21,9 @@ class SnowState():
         self.z_s = init
         self.z_s_0 = init
         self.z_s_l = init
-        self.cc_s = init  # could be moved to a property that is calculated when needed
+
+        # TODO could be moved to a property that is calculated when needed
+        self.cc_s = init
         self.cc_s_0 = init
         self.cc_s_l = init
         self.m_s = init
@@ -142,7 +144,8 @@ class SnowState():
     @property
     def isothermal(self):
 
-        if (self.layer_count == 2) and (self.cc_s_0 == 0.0) and (self.cc_s_l == 0.0):
+        if (self.layer_count == 2) and (self.cc_s_0 == 0.0) and \
+                (self.cc_s_l == 0.0):
             self._isothermal = True
         elif (self.layer_count == 1) and (self.cc_s_0 == 0.0):
             self._isothermal = True

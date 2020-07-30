@@ -151,7 +151,7 @@ class PySnobal():
                           "input data's timestep")
         if ((data_tstep > 60) and (data_tstep % 60 != 0)):
             raise ValueError(
-                "Data timestep > 60 min must be multiple of 60 min (whole hrs)")
+                "Data timestep > 60 min must be multiple of 60 min")
         tstep_info[DATA_TSTEP]['time_step'] = utils.min2sec(data_tstep)
         tstep_info[DATA_TSTEP]['time_step_timedelta'] = pd.to_timedelta(
             data_tstep, unit='min')

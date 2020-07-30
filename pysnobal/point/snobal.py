@@ -207,10 +207,6 @@ class Snobal(object):
 
         return True
 
-
-#     @profile
-
-
     def do_tstep(self, tstep):
         """
         This routine performs the model's calculations for a single timestep.
@@ -333,7 +329,8 @@ class Snobal(object):
             tstep['time_step_timedelta']
 
         # # output if on the whole timestep
-        if self.output_divided or self.current_datetime in self.output_timesteps:
+        if self.output_divided or \
+                self.current_datetime in self.output_timesteps:
             # print('output whole timestep {}'.format(self.current_datetime))
             self.output()
 
@@ -397,7 +394,8 @@ class Snobal(object):
 
         # Determine runoff, and water left in the snow
         if self.snow_state.h2o_total > self.snow_state.h2o_max:
-            self.snow_state.ro_predict = self.snow_state.h2o_total - self.snow_state.h2o_max
+            self.snow_state.ro_predict = self.snow_state.h2o_total - \
+                self.snow_state.h2o_max
             self.snow_state.h2o = self.snow_state.h2o_max
             self.snow_state.h2o_sat = 1.0
             self.snow_state.h2o_vol = self.snow_state.max_h2o_vol
@@ -408,8 +406,10 @@ class Snobal(object):
         else:
             self.snow_state.ro_predict = 0.0
             self.snow_state.h2o = self.snow_state.h2o_total
-            self.snow_state.h2o_sat = self.snow_state.h2o / self.snow_state.h2o_max
-            self.snow_state.h2o_vol = self.snow_state.h2o_sat * self.snow_state.max_h2o_vol
+            self.snow_state.h2o_sat = self.snow_state.h2o / \
+                self.snow_state.h2o_max
+            self.snow_state.h2o_vol = self.snow_state.h2o_sat * \
+                self.snow_state.max_h2o_vol
 
     def h2o_compact(self):
         """
@@ -431,7 +431,7 @@ class Snobal(object):
                       |
                     A + = = = = = = = = = = = = = = = = = =
         (max - current|                     *   *
-                      |                * 
+                      |                *
                       |             *
             delta_rho |          *
             (kg/m^2)  |        *
@@ -457,8 +457,8 @@ class Snobal(object):
 
         A = MAX_DENSITY - self.snow_state.rho
         if self.input1.precip_now:
-            h2o_added = (
-                self.snow_state.melt + self.input1.m_rain) / self.snow_state.m_s
+            h2o_added = (self.snow_state.melt + self.input1.m_rain) / \
+                self.snow_state.m_s
 
         else:
             h2o_added = self.snow_state.melt / self.snow_state.m_s
@@ -545,8 +545,10 @@ class Snobal(object):
 
         # adj mass and depth for evap/cond
         if self.snow_state.layer_count > 0:
-            self.adj_snow(
-                ((self.snow_state.E_s + (prev_h2o_tot - self.snow_state.h2o_total)) / self.snow_state.rho) / 2.0, self.snow_state.E_s)
+            delta_z = ((self.snow_state.E_s +
+                        (prev_h2o_tot - self.snow_state.h2o_total)) /
+                       self.snow_state.rho) / 2.0
+            self.adj_snow(delta_z, self.snow_state.E_s)
 
     def snowmelt(self):
         """
@@ -624,7 +626,8 @@ class Snobal(object):
                     self.snow_state.cc_s_0 = 0
 
         # adjust lower layer for re-freezing
-        if (self.snow_state.layer_count == 2) and (self.snow_state.cc_s_l < 0.0):
+        if (self.snow_state.layer_count == 2) and \
+                (self.snow_state.cc_s_l < 0.0):
             # if liquid h2o, calc re-freezing and adj cc_s_l
             if self.snow_state.h2o_total > 0.0:
                 Q_freeze = self.snow_state.h2o_total * \
@@ -656,8 +659,10 @@ class Snobal(object):
             self.adj_snow((-1)*self.snow_state.melt/self.snow_state.rho, 0)
 
         # set total cold content
+        # TODO move this to snow state
         if self.snow_state.layer_count == 2:
-            self.snow_state.cc_s = self.snow_state.cc_s_0 + self.snow_state.cc_s_l
+            self.snow_state.cc_s = self.snow_state.cc_s_0 + \
+                self.snow_state.cc_s_l
         elif self.snow_state.layer_count == 1:
             self.snow_state.cc_s = self.snow_state.cc_s_0
 
@@ -679,7 +684,8 @@ class Snobal(object):
                 # Determine the additional liquid water that's in
                 # the snowfall, and then add its mass to liquid
                 # water in the whole snowcover.
-                h2o_vol_snow = self.input1.h2o_sat_snow * self.snow_state.max_h2o_vol
+                h2o_vol_snow = self.input1.h2o_sat_snow * \
+                    self.snow_state.max_h2o_vol
                 self.snow_state.h2o += h2o_left(self.input1.z_snow,
                                                 self.input1.rho_snow,
                                                 h2o_vol_snow)
@@ -744,7 +750,7 @@ class Snobal(object):
             if delta_z_s != 0.0:
                 self.adj_layers()
             else:
-                # Just change in the snowcover's mass, so update the layer masses
+                # Just change in the snowcover's mass, update the layer masses
                 self.layer_mass()
 
     def time_compact(self):
@@ -759,11 +765,12 @@ class Snobal(object):
             rho(time) = A / (1 + B/time)
 
         Historically, precise snow density was not a concern, as long as mass
-        and SWE were correct.  With the development of the ASO program providing
-        time-series lidar snow depth images, and the 2017 snow season in the
-        southern Sierra Nevada, with individual storms approaching 500mm of
-        deposition in a few days, and upper elevation snow depths of greater
-        than 10m, it became clear that a more robust density model was required.
+        and SWE were correct.  With the development of the ASO program
+        providing time-series lidar snow depth images, and the 2017 snow season
+        in the southern Sierra Nevada, with individual storms approaching 500mm
+        of deposition in a few days, and upper elevation snow depths of greater
+        than 10m, it became clear that a more robust density model was
+        required.
 
         Snow Density:  Snow density is initially a function of the temperature
         of the ice particles (snow flakes) as they fall to the ground during a
@@ -785,22 +792,23 @@ class Snobal(object):
         4) Addition of liquid water due to melt or
         Of these compaction processes, iSnobal accounts three - 2,3 & 4.
         This routine addresses 2, temperature metamorphism, and 3., overburden
-        metamorphism. The 4th, addition of liquid water is accounted for in the 
+        metamorphism. The 4th, addition of liquid water is accounted for in the
         routine _h2o_compact.c. We are using equations found in Anderson (1976)
         and Oleson, et al. (2013), who got his equations from Anderson in the
         first place.  (Oleson made it easier to figure out the units...)
 
         Though many dedicated individuals have worked on the density issue over
-        over the last 60+ years, we have, in general, a group working in Saporro
-        Japan to thank for most of what we know about snow density. Anderson
-        got the data and basic fitting equations from careful field and cold
-        room measurements made by Yosida (1963), Mellor (1964) and Kojima (1967).
-        The equations we are using are based on those that they derived from data
-        that they carefully collected over a number of years.  It is noteworthy
-        that while rapidly changing computers have made the kind of spatial
-        modeling we are attempting possible, snow physics remains unchanged – and
-        the field and labortory efforts and data fitting equations from more than
-        half a century ago represent our best understanding of those physics.
+        over the last 60+ years, we have, in general, a group working in
+        Saporro Japan to thank for most of what we know about snow density.
+        Anderson got the data and basic fitting equations from careful field
+        and cold room measurements made by Yosida (1963), Mellor (1964) and
+        Kojima (1967). The equations we are using are based on those that they
+        derived from data that they carefully collected over a number of years.
+        It is noteworthy that while rapidly changing computers have made the
+        kind of spatial modeling we are attempting possible, snow physics
+        remains unchanged – and the field and labortory efforts and data
+        fitting equations from more than half a century ago represent our
+        best understanding of those physics.
 
         Tz = 0.0 (freezing temperature, C or K)
         Ts = snow or precipitation temperature (C or K)
@@ -942,7 +950,8 @@ class Snobal(object):
                 self.snow_state.cc_s_l = self.cold_content(
                     self.snow_state.T_s_l, self.snow_state.m_s_l)
 
-            elif (prev_layer_count == 2) and (self.snow_state.layer_count == 1):
+            elif (prev_layer_count == 2) and \
+                    (self.snow_state.layer_count == 1):
                 # 2 layers --> 1 layer, remove lower layer
                 self.snow_state.T_s_l = MIN_SNOW_TEMP + FREEZE
                 self.snow_state.cc_s_l = 0
@@ -961,8 +970,9 @@ class Snobal(object):
             # temperature.
             # replaces _net_rad()
             self.snow_state.R_n = self.input1.S_n + \
-                (SNOW_EMISSIVITY * (self.input1.I_lw -
-                                    STEF_BOLTZ * np.power(self.snow_state.T_s_0, 4)))
+                (SNOW_EMISSIVITY * (
+                    self.input1.I_lw -
+                    STEF_BOLTZ * np.power(self.snow_state.T_s_0, 4)))
 
             # calculate H & L_v_E (and E as well)
             self.h_le()
@@ -980,8 +990,11 @@ class Snobal(object):
 
             # sum E.B. terms
             # surface energy budget
-            self.snow_state.delta_Q_0 = self.snow_state.R_n + self.snow_state.H + \
-                self.snow_state.L_v_E + self.snow_state.G_0 + self.snow_state.M
+            self.snow_state.delta_Q_0 = self.snow_state.R_n + \
+                self.snow_state.H + \
+                self.snow_state.L_v_E + \
+                self.snow_state.G_0 + \
+                self.snow_state.M
 
             # total snowpack energy budget
             if self.snow_state.layer_count == 1:
@@ -1101,7 +1114,8 @@ class Snobal(object):
     # @profile
     def h_le(self):
         """
-        Calculates point turbulent transfer (H and L_v_E) for a 2-layer snowcover
+        Calculates point turbulent transfer (H and L_v_E) for a
+        2-layer snowcover
         """
 
         # error check for bad vapor pressures
@@ -1136,9 +1150,14 @@ class Snobal(object):
         )
 
         if status != 0:
-            raise Exception("hle1 did not converge\nP_a %f, T_a %f, T_s_0 %f\nrelative z_T %f, e_a %f, e_s %f\nu %f, relative z_u %f, z_0 %f\n" %
-                            (self.P_a, self.input1.T_a, self.snow_state.T_s_0, rel_z_T,
-                             self.input1.e_a, self.snow_state.e_s_0, self.input1.u, rel_z_u, self.z_0))
+            raise Exception(
+                """hle1 did not converge \n"""
+                """P_a={}, T_a={}, T_s_0={}\n"""
+                """relative z_T={}, e_a={}, e_s={}\n"""
+                """u={}, relative z_u={}, z_0={}\n""".format(
+                    self.P_a, self.input1.T_a, self.snow_state.T_s_0, rel_z_T,
+                    self.input1.e_a, self.snow_state.e_s_0, self.input1.u,
+                    rel_z_u, self.z_0))
 
         self.snow_state.H = H
         self.snow_state.L_v_E = L_v_E
@@ -1150,7 +1169,7 @@ class Snobal(object):
         a given threshold for the current timestep.
 
         Args:
-            threshold: current timestep's threshold for a 
+            threshold: current timestep's threshold for a
                    layer's mass
 
         Returns:
@@ -1163,7 +1182,8 @@ class Snobal(object):
         if self.snow_state.layer_count == 1:
             return self.snow_state.m_s < threshold
         else:
-            return (self.snow_state.m_s_0 < threshold) or (self.snow_state.m_s_l < threshold)
+            return (self.snow_state.m_s_0 < threshold) or \
+                (self.snow_state.m_s_l < threshold)
 
     def get_sn_rec(self, first_rec=False):
         """
@@ -1181,11 +1201,9 @@ class Snobal(object):
 
         if first_rec:
 
-            self.snow_prop_index = 0    # keep track of which snow property to read
+            # keep track of which snow property to read
+            self.snow_prop_index = 0
 
-            # self.time_s = self.snow_records.iloc[self.snow_prop_index].name * HR_TO_SEC
-            # self.curr_time_hrs = self.snow_records.iloc[self.snow_prop_index].name * HR_TO_SEC
-            # self.start_time = self.snow_records.iloc[self.snow_prop_index].name * HR_TO_SEC
             self.time_s = 0
             self.curr_time_hrs = 0
             self.start_time = 0
@@ -1235,11 +1253,12 @@ class Snobal(object):
 
         Initialize all the following values
         h2o_sat, layer_count, max_h2o_vol, rho, T_s, T_s_0, T_s_l,
-        z_s, cc_s, cc_s_0, cc_s_l, h2o, h2o_max, h2o_total, h2o_vol, m_s, m_s_0, m_s_l
+        z_s, cc_s, cc_s_0, cc_s_l, h2o, h2o_max, h2o_total, h2o_vol,
+        m_s, m_s_0, m_s_l
 
         Args:
             from_record: whether or not to read from the snow.properties file,
-                else it will reinitialize based on 
+                else it will reinitialize based on
 
             z_s: depth of snowcover (m)
             rho: density of snowcover (kg/m^3)
@@ -1308,8 +1327,8 @@ class Snobal(object):
 
             # Compute liquid water content as volume ratio, and
             # snow density without water
-            self.snow_state.h2o_vol = self.snow_state.h2o_sat * self.snow_state.max_h2o_vol
-            # rho_dry = DRY_SNO_RHO(self.snow_state.rho, self.snow_state.h2o_vol)
+            self.snow_state.h2o_vol = self.snow_state.h2o_sat * \
+                self.snow_state.max_h2o_vol
 
             # Determine the maximum liquid water content (as specific mass)
             # and the actual liquid water content (as specific mass)
@@ -1317,7 +1336,8 @@ class Snobal(object):
                 self.snow_state.z_s,
                 self.snow_state.dry_snow_density,
                 self.snow_state.max_h2o_vol)
-            self.snow_state.h2o = self.snow_state.h2o_sat * self.snow_state.h2o_max
+            self.snow_state.h2o = self.snow_state.h2o_sat * \
+                self.snow_state.h2o_max
 
     def calc_layers(self):
         """
@@ -1358,7 +1378,7 @@ class Snobal(object):
 
             # However, make sure there's enough MASS for the lower
             # layer.  If not, then there's only 1 layer
-            if z_s_l * self.snow_state.rho < self.tstep_info[SMALL_TSTEP]['threshold']:
+            if z_s_l * self.snow_state.rho < self.tstep_info[SMALL_TSTEP]['threshold']:  # noqa
                 layer_count = 1
                 z_s_0 = self.snow_state.z_s
                 z_s_l = 0
@@ -1367,9 +1387,6 @@ class Snobal(object):
         self.snow_state.z_s = z_s
         self.snow_state.z_s_0 = z_s_0
         self.snow_state.z_s_l = z_s_l
-
-
-#     @profile
 
     def layer_mass(self):
         """
@@ -1387,7 +1404,8 @@ class Snobal(object):
             self.snow_state.m_s_0 = self.snow_state.rho * self.snow_state.z_s_0
 
             if self.snow_state.layer_count == 2:
-                self.snow_state.m_s_l = self.snow_state.rho * self.snow_state.z_s_l
+                self.snow_state.m_s_l = self.snow_state.rho * \
+                    self.snow_state.z_s_l
             else:
                 self.snow_state.m_s_l = 0
 
@@ -1428,10 +1446,11 @@ class Snobal(object):
 
         # sz = self.elevation.shape
         flds = ['rho', 'T_s_0', 'T_s_l', 'T_s',
-                'cc_s_0', 'cc_s_l', 'cc_s', 'm_s', 'm_s_0', 'm_s_l', 'z_s', 'z_s_0', 'z_s_l',
-                'h2o_sat', 'layer_count', 'h2o', 'h2o_max', 'h2o_vol', 'h2o_total',
-                'R_n_bar', 'H_bar', 'L_v_E_bar', 'G_bar', 'G_0_bar',
-                'M_bar', 'delta_Q_bar', 'delta_Q_0_bar', 'E_s_sum', 'melt_sum', 'ro_pred_sum']
+                'cc_s_0', 'cc_s_l', 'cc_s', 'm_s', 'm_s_0', 'm_s_l', 'z_s',
+                'z_s_0', 'z_s_l', 'h2o_sat', 'layer_count', 'h2o', 'h2o_max',
+                'h2o_vol', 'h2o_total', 'R_n_bar', 'H_bar', 'L_v_E_bar',
+                'G_bar', 'G_0_bar', 'M_bar', 'delta_Q_bar', 'delta_Q_0_bar',
+                'E_s_sum', 'melt_sum', 'ro_pred_sum']
         s = {key: 0.0 for key in flds}  # the structure fields
 
         # # update the output rec with the initial snowpack state
