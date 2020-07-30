@@ -2,18 +2,10 @@ import math
 
 import numpy as np
 
-FREEZE = 273.16         # freezing temp K
-BOIL = 373.15           # boiling temperature K
-STD_LAPSE_M = -0.0065   # lapse rate (K/m)
-STD_LAPSE = -6.5        # lapse rate (K/km)
-STD_AIRTMP = 2.88e2     # standard sea level air temp (K)
-SEA_LEVEL = 1.013246e5  # sea level pressure
-LOG_SEA_LEVEL = math.log(SEA_LEVEL)  # log of sea level pressure
-RGAS = 8.31432e3        # gas constant (J / kmole / deg)
-GRAVITY = 9.80665       # gravity (m/s^2)
-MOL_AIR = 28.9644       # molecular weight of air (kg / kmole)
-MOL_H2O = 18.0153       # molecular weight of water vapor (kg / kmole)
-VON_KARMAN = 0.41       # Von Karman constant
+from pysnobal.core.constants import FREEZE, GRAVITY, RGAS, BOIL, LOG_SEA_LEVEL, \
+    MOL_H2O, MOL_AIR, VON_KARMAN, SEA_LEVEL
+from pysnobal.core.functions import gas_density, virtual_temperature, lh_vap,\
+    lh_fus, lh_sub, mix_ratio
 
 # specific heat of air at constant pressure (J / kg / deg)
 CP_AIR = 1.005e3
@@ -33,57 +25,6 @@ BETA_U = 16
 
 ITMAX = 50
 LOG_10 = math.log(10.0)  # log(10)
-
-# equation of state, to give density of a gas (kg/m^3)
-
-
-def GAS_DEN(p, m, t): return p * m/(RGAS * t)
-
-# virtual temperature, i.e. the fictitious temperature that air must
-# have at the given pressure to have the same density as a water vapor
-# and air mixture at the same pressure with the given temperature and
-# vapor pressure.
-
-
-def VIR_TEMP(t, e, P): return t/(1. - (1. - MOL_H2O/MOL_AIR) * (e/P))
-
-
-# latent heat of vaporization, t = temperature (K)
-def LH_VAP(t): return 2.5e6 - 2.95573e3 * (t - FREEZE)
-
-# latent heat of fusion, t = temperature (K)
-
-
-def LH_FUS(t): return 3.336e5 + 1.6667e2 * (FREEZE - t)
-
-# latent heat of sublimination (J/kg), t = temperature (K)
-
-
-def LH_SUB(t): return LH_VAP(t) + LH_FUS(t)
-
-# mixing ratio
-
-
-def MIX_RATIO(e, P):
-    return (MOL_H2O/MOL_AIR) * e/(P - e)
-
-
-# effectuve diffusion coefficient (m^2/sec) for saturated porous layer
-# (like snow...).  See Anderson, 1976, pg. 32, eq. 3.13.
-#    pa = air pressure (Pa)
-#    ts = layer temperature (K)
-def DIFFUS(pa, ts): return 0.65 * (SEA_LEVEL / pa) * \
-    np.power(ts/FREEZE, 14.0) * (0.01*0.01)
-
-
-# water vapor flux (kg/(m^2 sec)) between two layers
-#   air_d = air density (kg/m^3)
-#   k     = diffusion coef. (m^2/sec)
-#   q_dif = specific hum. diff between layers (kg/kg)
-#   z_dif = absolute distance between layers (m)
-#
-#   note:   q_dif controls the sign of the computed flux
-def EVAP(air_d, k, q_dif, z_dif): return air_d * k * (q_dif/z_dif)
 
 
 def hysat(pb, tb, L, h, g, m):
@@ -337,7 +278,7 @@ def hle1(press, ta, ts, za, ea, es, zq, u, zu, z0):
 
     # air density at press, virtual temp of geometric mean
     # of air and surface
-    dens = GAS_DEN(press, MOL_AIR, VIR_TEMP(
+    dens = gas_density(press, MOL_AIR, virtual_temperature(
         math.sqrt(ta * ts), math.sqrt(ea * es), press))
 
     # starting value, assume neutral stability, so psi-functions
@@ -383,9 +324,9 @@ def hle1(press, ta, ts, za, ea, es, zq, u, zu, z0):
 
     ier = -1 if (it >= ITMAX) else 0
 #     print 'iterations: %i' % it
-    xlh = LH_VAP(ts)
+    xlh = lh_vap(ts)
     if ts <= FREEZE:
-        xlh += LH_FUS(ts)
+        xlh += lh_fus(ts)
 
     # latent heat flux (- away from surf)
     le = xlh * e
@@ -411,22 +352,22 @@ def efcon(k, layer_temp, p_a, es_layer=None):
     """
 
     # calculate effective layer diffusion (see Anderson, 1976, pg. 32)
-#     de = DIFFUS(p, t)
+#     de = diffusion_coef(p, t)
     de = 0.65 * (SEA_LEVEL / p_a) * \
         math.pow(layer_temp/FREEZE, 14.0) * (0.01 * 0.01)
 
     # set latent heat from layer temp.
     if layer_temp > FREEZE:
-        lh = LH_VAP(layer_temp)
+        lh = lh_vap(layer_temp)
     elif layer_temp == FREEZE:
-        lh = (LH_VAP(layer_temp) + LH_SUB(layer_temp)) / 2.0
+        lh = (lh_vap(layer_temp) + lh_sub(layer_temp)) / 2.0
     else:
-        lh = LH_SUB(layer_temp)
+        lh = lh_sub(layer_temp)
 
     # set mixing ratio from layer temp.
     if es_layer is None:
         es_layer = sati(layer_temp)
-    q = MIX_RATIO(es_layer, p_a)
+    q = mix_ratio(es_layer, p_a)
 
     # calculate effective layer conductivity
     return k + (lh * de * q)

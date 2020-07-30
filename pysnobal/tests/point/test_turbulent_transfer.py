@@ -3,6 +3,7 @@ import unittest
 import pandas as pd
 
 from pysnobal.point import libsnobal
+from pysnobal.core.constants import SEA_LEVEL, STD_AIRTMP, STD_LAPSE, GRAVITY, MOL_AIR
 
 
 class TestTurbulentTransfer(unittest.TestCase):
@@ -15,12 +16,12 @@ class TestTurbulentTransfer(unittest.TestCase):
     def calculate_hle1(self, inputs):
 
         P_a = libsnobal.hysat(
-            libsnobal.SEA_LEVEL,
-            libsnobal.STD_AIRTMP,
-            libsnobal.STD_LAPSE,
+            SEA_LEVEL,
+            STD_AIRTMP,
+            STD_LAPSE,
             inputs['elevation'] / 1000.0,
-            libsnobal.GRAVITY,
-            libsnobal.MOL_AIR)
+            GRAVITY,
+            MOL_AIR)
 
         H, L_v_E, E, status = libsnobal.hle1(
             P_a,
