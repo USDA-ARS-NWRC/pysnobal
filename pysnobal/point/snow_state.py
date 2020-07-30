@@ -1,6 +1,6 @@
-from pysnobal.point.libsnobal import sati
-from pysnobal.core.constants import FREEZE, RHO_ICE, RHO_W0, CAL_TO_J
+from pysnobal.core.constants import CAL_TO_J, FREEZE, RHO_ICE, RHO_W0
 from pysnobal.core.functions import cp_ice
+from pysnobal.point.libsnobal import sati
 
 
 class SnowState():

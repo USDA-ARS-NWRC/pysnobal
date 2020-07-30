@@ -2,10 +2,11 @@ import math
 
 import numpy as np
 
-from pysnobal.core.constants import FREEZE, GRAVITY, RGAS, BOIL, LOG_SEA_LEVEL, \
-    MOL_H2O, MOL_AIR, VON_KARMAN, SEA_LEVEL
-from pysnobal.core.functions import gas_density, virtual_temperature, lh_vap,\
-    lh_fus, lh_sub, mix_ratio
+from pysnobal.core.constants import (BOIL, FREEZE, GRAVITY, LOG_SEA_LEVEL,
+                                     MOL_AIR, MOL_H2O, RGAS, SEA_LEVEL,
+                                     VON_KARMAN)
+from pysnobal.core.functions import (gas_density, lh_fus, lh_sub, lh_vap,
+                                     mix_ratio, virtual_temperature)
 
 # specific heat of air at constant pressure (J / kg / deg)
 CP_AIR = 1.005e3

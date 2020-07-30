@@ -1,5 +1,5 @@
 
-from .input import InputData, InputDeltas
-from .snow_state import SnowState
 from . import libsnobal
+from .input import InputData, InputDeltas
 from .snobal import Snobal
+from .snow_state import SnowState

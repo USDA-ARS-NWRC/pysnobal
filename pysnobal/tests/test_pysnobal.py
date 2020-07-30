@@ -1,11 +1,10 @@
 import os
 import unittest
-from pathlib import Path
 from copy import deepcopy
-
-from inicheck.tools import cast_all_variables, get_user_config, MasterConfig
+from pathlib import Path
 
 import pandas as pd
+from inicheck.tools import MasterConfig, cast_all_variables, get_user_config
 
 import pysnobal
 from pysnobal.pysnobal import PySnobal

@@ -1,7 +1,7 @@
 import numpy as np
 
-from pysnobal.core.constants import FREEZE, CAL_TO_J, CP_W0, RHO_W0, RHO_ICE,\
-    RGAS, MOL_AIR, MOL_H2O, SEA_LEVEL
+from pysnobal.core.constants import (CAL_TO_J, CP_W0, FREEZE, MOL_AIR, MOL_H2O,
+                                     RGAS, RHO_ICE, RHO_W0, SEA_LEVEL)
 
 
 def k_to_c(x):

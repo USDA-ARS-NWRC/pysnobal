@@ -10,8 +10,8 @@ from inicheck.output import print_config_report
 from inicheck.tools import check_config, get_user_config
 
 from pysnobal import utils
-from pysnobal.point import InputData, Snobal
 from pysnobal.core.constants import FREEZE
+from pysnobal.point import InputData, Snobal
 
 DATA_TSTEP = 0
 NORMAL_TSTEP = 1

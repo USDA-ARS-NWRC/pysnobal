@@ -2,8 +2,9 @@ import unittest
 
 import pandas as pd
 
+from pysnobal.core.constants import (GRAVITY, MOL_AIR, SEA_LEVEL, STD_AIRTMP,
+                                     STD_LAPSE)
 from pysnobal.point import libsnobal
-from pysnobal.core.constants import SEA_LEVEL, STD_AIRTMP, STD_LAPSE, GRAVITY, MOL_AIR
 
 
 class TestTurbulentTransfer(unittest.TestCase):

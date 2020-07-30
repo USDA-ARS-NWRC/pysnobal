@@ -1,6 +1,7 @@
 """Top-level package for PySnobal."""
 
 import os
+
 from pkg_resources import DistributionNotFound, get_distribution
 
 try:
