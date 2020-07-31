@@ -1,14 +1,14 @@
+import math
 import warnings
 from copy import copy
-import math
 
 import numpy as np
-import pandas as pd
+# import pandas as pd
 
 from pysnobal.core.constants import (
     DATA_TSTEP, FREEZE, GRAVITY, KT_MOISTSAND, MAX_SNOW_DENSITY, MIN_SNOW_TEMP,
-    MOL_AIR, RHO_W0, SEA_LEVEL, SMALL_TSTEP, SNOW_EMISSIVITY, STD_AIRTMP,
-    STD_LAPSE, STEF_BOLTZ, VAP_SUB, RHO_MAX, R1, R2, SWE_MAX)
+    MOL_AIR, R1, R2, RHO_MAX, RHO_W0, SEA_LEVEL, SMALL_TSTEP, SNOW_EMISSIVITY,
+    STD_AIRTMP, STD_LAPSE, STEF_BOLTZ, SWE_MAX, VAP_SUB)
 from pysnobal.core.functions import (
     cp_ice, cp_water, diffusion_coef, gas_density, h2o_left, melt,
     time_average, vapor_flux)
@@ -128,7 +128,8 @@ class Snobal(object):
 
         """
 
-        # if self.current_datetime == pd.to_datetime('1995-10-12 10:00:00-07:00'):
+        # if self.current_datetime == \
+        # pd.to_datetime('1995-10-12 10:00:00-07:00'):
         #     self.current_datetime
 
         # store the inputs for later

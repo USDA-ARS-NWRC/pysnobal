@@ -1,7 +1,5 @@
 import os
 import sys
-import traceback
-from copy import deepcopy
 
 import numpy as np
 import pandas as pd
@@ -309,6 +307,7 @@ class PySnobal():
         # to the last record-1
         input_data = self.input_data[:-1].iterrows()
         index, input1 = next(input_data)    # this is the first input
+        input_data1 = InputData(input1)
 
         self.snobal = Snobal(
             self.params,
@@ -318,28 +317,20 @@ class PySnobal():
             self.output_timesteps
         )
 
-        # first_step = 1
         for index, input2 in input_data:
 
             # if index.hour == 0:
             #     print(index)
 
-            try:
-                # call do_data_tstep()
-                self.snobal.do_data_tstep(
-                    InputData(input1.to_dict()),
-                    InputData(input2.to_dict())
-                )
-
-            except Exception as e:
-                traceback.print_exc()
-                print('pysnobal error on time step {}'.format(index))
-                print(e)
-                return False
-    #
+            # call do_data_tstep()
+            input_data2 = InputData(input2)
+            self.snobal.do_data_tstep(
+                input_data1,
+                input_data2
+            )
 
             # input2 becomes input1
-            input1 = deepcopy(input2)
+            input_data1 = input_data2
 
         # output to file
         self.output_to_file()

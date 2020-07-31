@@ -2,9 +2,9 @@ import math
 
 import numpy as np
 
-from pysnobal.core.constants import (BOIL, FREEZE, GRAVITY,
-                                     LOG_SEA_LEVEL, MOL_AIR, MOL_H2O,
-                                     RGAS, SEA_LEVEL, VON_KARMAN)
+from pysnobal.core.constants import (BOIL, FREEZE, GRAVITY, LOG_SEA_LEVEL,
+                                     MOL_AIR, MOL_H2O, RGAS, SEA_LEVEL,
+                                     VON_KARMAN)
 from pysnobal.core.functions import (gas_density, lh_fus, lh_sub, lh_vap,
                                      mix_ratio, virtual_temperature)
 
@@ -196,7 +196,8 @@ def psi(zeta, code):
 
 
 # @profile
-def hle1(press, air_temp, surface_temp, za, ea, es, zq, wind_speed, zu, z0, init_ustar=None, init_factor=None):
+def hle1(press, air_temp, surface_temp, za, ea, es, zq, wind_speed, zu, z0,
+         init_ustar=None, init_factor=None):
     """
     computes sensible and latent heat flux and mass flux given
     measurements of temperature and specific humidity at surface
@@ -281,7 +282,8 @@ def hle1(press, air_temp, surface_temp, za, ea, es, zq, wind_speed, zu, z0, init
     # if neutral stability ignore starting values and calculate
     if air_temp == surface_temp:
 
-        # starting value, assume neutral stability, so psi-functions are all zero
+        # starting value, assume neutral stability, so psi-functions
+        # are all zero
         ustar = VON_KARMAN * wind_speed / ltsm
         factor = VON_KARMAN * ustar * dens
         e = q_diff * factor * AV / ltsv
