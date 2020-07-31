@@ -24,7 +24,7 @@ class TestTurbulentTransfer(unittest.TestCase):
             GRAVITY,
             MOL_AIR)
 
-        H, L_v_E, E, status = libsnobal.hle1(
+        H, L_v_E, E, status, ustar, factor = libsnobal.hle1(
             P_a,
             inputs['ta'],
             inputs['ts'],

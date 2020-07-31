@@ -83,6 +83,11 @@ class Snobal(object):
 
         self.init_output()
 
+        self._hle1_init = {
+            'init_ustar': None,
+            'init_factor': None
+        }
+
     def do_data_tstep(self, input1, input2):
         """
         This routine performs the model's calculations for 1 data timestep
@@ -258,7 +263,7 @@ class Snobal(object):
         self.energy_balance()
 
         # Adjust mass and calculate runoff
-        self.mass_bal()
+        self.mass_balance()
 
         # Update the averages for the energy terms and the totals for mass
         # changes since the last output.
@@ -348,7 +353,7 @@ class Snobal(object):
         return True
 
 #     @profile
-    def mass_bal(self):
+    def mass_balance(self):
         """
         Calculates the point mass budget for 2-layer energy budget snowmelt
         model.  It then solves for new snow temperatures.
@@ -1141,7 +1146,7 @@ class Snobal(object):
             rel_z_u = self.z_u - self.snow_state.z_s
 
         # calculate H & L_v_E
-        H, L_v_E, E, status = libsnobal.hle1(
+        H, L_v_E, E, status, ustar, factor = libsnobal.hle1(
             self.P_a,
             self.input1.T_a,
             self.snow_state.T_s_0,
@@ -1151,8 +1156,14 @@ class Snobal(object):
             rel_z_T,
             self.input1.u,
             rel_z_u,
-            self.z_0
+            self.z_0,
+            **self._hle1_init
         )
+
+        self._hle1_init = {
+            'init_ustar': ustar,
+            'init_factor': factor
+        }
 
         if status != 0:
             raise Exception(
