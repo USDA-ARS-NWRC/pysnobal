@@ -8,6 +8,7 @@ import warnings
 from copy import copy
 
 import numpy as np
+import pandas as pd
 
 from pysnobal.core.constants import (
     DATA_TSTEP, FREEZE, GRAVITY, KT_MOISTSAND, MAX_SNOW_DENSITY, MIN_SNOW_TEMP,
@@ -126,6 +127,9 @@ class Snobal(object):
 
 
         """
+
+        # if self.current_datetime == pd.to_datetime('1995-10-12 10:00:00-07:00'):
+        #     self.current_datetime
 
         # store the inputs for later
         self.input1 = input1
@@ -1008,6 +1012,7 @@ class Snobal(object):
             self.snow_state.H = 0
             self.snow_state.L_v_E = 0
             self.snow_state.E = 0
+            self.snow_state.M = 0
             self.snow_state.G = 0
             self.snow_state.G_0 = 0
             self.snow_state.delta_Q = 0
