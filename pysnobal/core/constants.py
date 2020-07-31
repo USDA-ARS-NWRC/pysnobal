@@ -41,3 +41,13 @@ CAL_TO_J = 4.186798188
 
 SNOW_EMISSIVITY = 0.98
 STEF_BOLTZ = 5.67032e-8     # Stefan-Boltzmann constant (W / m^2 / deg^4)
+
+
+# Maximum density due to compaction by gravity (kg/m^2)
+RHO_MAX = 550
+
+# R = 48 # in the original but not used?
+R1 = 23.5
+R2 = 24.5
+
+SWE_MAX = 2000.0

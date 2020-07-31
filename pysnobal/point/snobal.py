@@ -1,11 +1,6 @@
-"""
-Class snobal() that will hold all the modeling components
-
-20160109 Scott Havens
-"""
-
 import warnings
 from copy import copy
+import math
 
 import numpy as np
 import pandas as pd
@@ -13,7 +8,7 @@ import pandas as pd
 from pysnobal.core.constants import (
     DATA_TSTEP, FREEZE, GRAVITY, KT_MOISTSAND, MAX_SNOW_DENSITY, MIN_SNOW_TEMP,
     MOL_AIR, RHO_W0, SEA_LEVEL, SMALL_TSTEP, SNOW_EMISSIVITY, STD_AIRTMP,
-    STD_LAPSE, STEF_BOLTZ, VAP_SUB)
+    STD_LAPSE, STEF_BOLTZ, VAP_SUB, RHO_MAX, R1, R2, SWE_MAX)
 from pysnobal.core.functions import (
     cp_ice, cp_water, diffusion_coef, gas_density, h2o_left, melt,
     time_average, vapor_flux)
@@ -337,7 +332,7 @@ class Snobal(object):
         self.current_datetime = self.current_datetime + \
             tstep['time_step_timedelta']
 
-        # # output if on the whole timestep
+        # output if on the whole timestep
         if self.output_divided or \
                 self.current_datetime in self.output_timesteps:
             # print('output whole timestep {}'.format(self.current_datetime))
@@ -352,7 +347,7 @@ class Snobal(object):
 
         return True
 
-#     @profile
+    # @profile
     def mass_balance(self):
         """
         Calculates the point mass budget for 2-layer energy budget snowmelt
@@ -479,6 +474,7 @@ class Snobal(object):
             self.snow_state.z_s = self.snow_state.m_s / self.snow_state.rho
             self.adj_layers()
 
+    # @profile
     def evap_cond(self):
         """
         Calculates mass lost or gained by evaporation/condensation
@@ -554,8 +550,8 @@ class Snobal(object):
 
         # adj mass and depth for evap/cond
         if self.snow_state.layer_count > 0:
-            delta_z = ((self.snow_state.E_s +
-                        (prev_h2o_tot - self.snow_state.h2o_total)) /
+            delta_z = ((self.snow_state.E_s + prev_h2o_tot -
+                        self.snow_state.h2o_total) /
                        self.snow_state.rho) / 2.0
             self.adj_snow(delta_z, self.snow_state.E_s)
 
@@ -846,15 +842,6 @@ class Snobal(object):
         zs_n = SWE / rho_n
         """
 
-        # Maximum density due to compaction by gravity (kg/m^2)
-        RHO_MAX = 550
-
-        # R = 48 # in the original but not used?
-        R1 = 23.5
-        R2 = 24.5
-
-        SWE_MAX = 2000.0
-
         # If the snow is already at or above the maximum density due
         # compaction by gravity, then just leave.
         if (not self.snowcover) or (self.snow_state.rho >= RHO_MAX):
@@ -865,22 +852,22 @@ class Snobal(object):
         if self.snow_state.m_s >= SWE_MAX:
             rate = 1.0
         else:
-            rate = R1 * np.cos(np.pi * self.snow_state.m_s / SWE_MAX) + R2
+            rate = R1 * math.cos(np.pi * self.snow_state.m_s / SWE_MAX) + R2
             rate = rate / (self.time_step / 3600.0)
 
         # Proportional Destructive Temperature Metamorphism (d_rho_m)
         if self.snow_state.rho < 100:
             K = 1.0
         else:
-            K = np.exp(-0.046 * (self.snow_state.rho - 100))
+            K = math.exp(-0.046 * (self.snow_state.rho - 100))
 
-        d_rho_m = 0.01 * K * np.exp(-0.04 * (FREEZE - self.snow_state.T_s))
+        d_rho_m = 0.01 * K * math.exp(-0.04 * (FREEZE - self.snow_state.T_s))
         d_rho_m = d_rho_m / rate
 
         # Proportional Overburden Compaction (d_rho_c)
-        d_rho_c = 0.026 * np.exp(-0.08 * (FREEZE - self.snow_state.T_s)) * \
+        d_rho_c = 0.026 * math.exp(-0.08 * (FREEZE - self.snow_state.T_s)) * \
             self.snow_state.m_s * \
-            np.exp(-21.0 * (self.snow_state.rho / RHO_W0))
+            math.exp(-21.0 * (self.snow_state.rho / RHO_W0))
         d_rho_c = d_rho_c / rate
 
         self.snow_state.rho = self.snow_state.rho + \

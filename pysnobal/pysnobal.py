@@ -275,7 +275,7 @@ class PySnobal():
         self.input_data = input_data
 
         if self.output_mode == 'normal':
-            self.output_timesteps = self.input_data.index
+            self.output_timesteps = self.input_data.index.to_list()
 
         self.map_input_data()
 

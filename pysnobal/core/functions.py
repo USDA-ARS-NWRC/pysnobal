@@ -179,7 +179,7 @@ def diffusion_coef(pressure, temp):
     """
 
     return 0.65 * (SEA_LEVEL / pressure) * \
-        np.power(temp/FREEZE, 14.0) * (0.01*0.01)
+        np.power(temp/FREEZE, 14.0) * (0.01 * 0.01)
 
 
 def vapor_flux(air_density, k, q_dif, z_dif):
