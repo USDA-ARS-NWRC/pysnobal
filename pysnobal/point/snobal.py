@@ -8,7 +8,7 @@ import numpy as np
 from pysnobal.core.constants import (
     DATA_TSTEP, FREEZE, GRAVITY, KT_MOISTSAND, MAX_SNOW_DENSITY, MIN_SNOW_TEMP,
     MOL_AIR, R1, R2, RHO_MAX, RHO_W0, SEA_LEVEL, SMALL_TSTEP, SNOW_EMISSIVITY,
-    STD_AIRTMP, STD_LAPSE, STEF_BOLTZ, SWE_MAX, VAP_SUB)
+    STD_AIRTMP, STD_LAPSE, STEF_BOLTZ, SWE_MAX, VAP_SUB, NORMAL_TSTEP)
 from pysnobal.core.functions import (
     cp_ice, cp_water, diffusion_coef, gas_density, h2o_left, melt,
     time_average, vapor_flux)
@@ -47,9 +47,14 @@ class Snobal(object):
         self.current_datetime = self.params['start_date']
 
         self.output_timesteps = output_timesteps
+
         self.output_divided = False
         if self.output_timesteps is None:
             self.output_divided = True
+            self.output_timesteps_epoch = []
+        else:
+            self.output_timesteps_epoch = [
+                t.value // 10**9 for t in output_timesteps]
 
         self.P_a = libsnobal.hysat(
             SEA_LEVEL,
@@ -212,6 +217,7 @@ class Snobal(object):
 
         return True
 
+    # @profile
     def do_tstep(self, tstep):
         """
         This routine performs the model's calculations for a single timestep.
@@ -332,11 +338,11 @@ class Snobal(object):
         self.current_time = self.current_time + self.time_step
         self.current_datetime = self.current_datetime + \
             tstep['time_step_timedelta']
+        self.current_datetime_epoch = self.current_datetime.value // 10**9
 
         # output if on the whole timestep
         if self.output_divided or \
-                self.current_datetime in self.output_timesteps:
-            # print('output whole timestep {}'.format(self.current_datetime))
+                self.current_datetime_epoch in self.output_timesteps_epoch:
             self.output()
 
         # Update the model's input parameters

@@ -253,6 +253,7 @@ class PySnobal():
 
         # get the time delta of the data
         tdelta = input_data.index.to_series().diff().dropna().unique()[0]
+        input_data.sort_index(inplace=True)
 
         # clip to the start and end date
         # Add one time step as each Snobal timestep requires two input
@@ -297,6 +298,7 @@ class PySnobal():
 
         self.input_data = self.input_data.rename(columns=mapper)
 
+    # @profile
     def run(self):
         """
         mimic the main.c from the Snobal model
@@ -305,9 +307,10 @@ class PySnobal():
         # loop through the input
         # do_data_tstep needs two input records so only go
         # to the last record-1
+        # nrecords = len(self.input_data) - 1
         input_data = self.input_data[:-1].iterrows()
         index, input1 = next(input_data)    # this is the first input
-        input_data1 = InputData(input1)
+        input_data1 = InputData(self.input_data.iloc[0, :])
 
         self.snobal = Snobal(
             self.params,
@@ -317,12 +320,15 @@ class PySnobal():
             self.output_timesteps
         )
 
+        # index2 is the index for the second input timestep
+        # for index2 in range(1, nrecords):
         for index, input2 in input_data:
 
             # if index.hour == 0:
             #     print(index)
 
             # call do_data_tstep()
+            # data = self.input_data.iloc[index2, :]
             input_data2 = InputData(input2)
             self.snobal.do_data_tstep(
                 input_data1,
