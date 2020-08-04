@@ -10,8 +10,7 @@ from pysnobal.core.constants import (FREEZE, GRAVITY, KT_MOISTSAND,
                                      STD_AIRTMP, STD_LAPSE, STEF_BOLTZ,
                                      SWE_MAX, VAP_SUB)
 from pysnobal.core.functions import (cp_ice, cp_water, diffusion_coef,
-                                     gas_density, h2o_left, melt, time_average,
-                                     vapor_flux)
+                                     gas_density, h2o_left, melt, vapor_flux)
 from pysnobal.point import InputDeltas, SnowState, libsnobal
 
 # import pandas as pd
@@ -271,69 +270,12 @@ class Snobal(object):
 
         # Update the averages for the energy terms and the totals for mass
         # changes since the last output.
-        # TODO move this to SnowState
         if self.time_since_out > 0:
-            self.snow_state.R_n_bar = time_average(
-                self.snow_state.R_n_bar,
-                self.time_since_out,
-                self.snow_state.R_n,
-                self.time_step)
-            self.snow_state.H_bar = time_average(
-                self.snow_state.H_bar,
-                self.time_since_out,
-                self.snow_state.H,
-                self.time_step)
-            self.snow_state.L_v_E_bar = time_average(
-                self.snow_state.L_v_E_bar,
-                self.time_since_out,
-                self.snow_state.L_v_E,
-                self.time_step)
-            self.snow_state.G_bar = time_average(
-                self.snow_state.G_bar,
-                self.time_since_out,
-                self.snow_state.G,
-                self.time_step)
-            self.snow_state.M_bar = time_average(
-                self.snow_state.M_bar,
-                self.time_since_out,
-                self.snow_state.M,
-                self.time_step)
-            self.snow_state.delta_Q_bar = time_average(
-                self.snow_state.delta_Q_bar,
-                self.time_since_out,
-                self.snow_state.delta_Q,
-                self.time_step)
-            self.snow_state.G_0_bar = time_average(
-                self.snow_state.G_0_bar,
-                self.time_since_out,
-                self.snow_state.G_0,
-                self.time_step)
-            self.snow_state.delta_Q_0_bar = time_average(
-                self.snow_state.delta_Q_0_bar,
-                self.time_since_out,
-                self.snow_state.delta_Q_0,
-                self.time_step)
-
-            self.snow_state.E_s_sum += self.snow_state.E_s
-            self.snow_state.melt_sum += self.snow_state.melt
-            self.snow_state.ro_pred_sum += self.snow_state.ro_predict
-
+            self.snow_state.time_average(self.time_since_out, self.time_step)
             self.time_since_out += self.time_step
 
         else:
-            self.snow_state.R_n_bar = self.snow_state.R_n
-            self.snow_state.H_bar = self.snow_state.H
-            self.snow_state.L_v_E_bar = self.snow_state.L_v_E
-            self.snow_state.G_bar = self.snow_state.G
-            self.snow_state.M_bar = self.snow_state.M
-            self.snow_state.delta_Q_bar = self.snow_state.delta_Q
-            self.snow_state.G_0_bar = self.snow_state.G_0
-            self.snow_state.delta_Q_0_bar = self.snow_state.delta_Q_0
-
-            self.snow_state.E_s_sum = self.snow_state.E_s
-            self.snow_state.melt_sum = self.snow_state.melt
-            self.snow_state.ro_pred_sum = self.snow_state.ro_predict
-
+            self.snow_state.value_to_bar()
             self.time_since_out = self.time_step
 
         # increment time

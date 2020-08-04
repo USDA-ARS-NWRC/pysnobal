@@ -1,9 +1,21 @@
 from pysnobal.core.constants import CAL_TO_J, FREEZE, RHO_ICE, RHO_W0
-from pysnobal.core.functions import cp_ice
+from pysnobal.core.functions import cp_ice, time_average
 from pysnobal.point.libsnobal import sati
 
 
 class SnowState():
+
+    # time averaged values
+    _energy_state = [
+        'R_n',      # net allwave radiation (W/m^2)
+        'H',        # sensible heat xfr (W/m^2)
+        'L_v_E',    # latent heat xfr (W/m^2)
+        'G',        # heat transfer from soil to snowcover (W/m^2)
+        'G_0',      # heat transfer soil or lower layer to active layer (W/m^2)
+        'M',        # advected heat from precip (W/m^2)
+        'delta_Q',  # change in snowcover's energy(W/m ^ 2)
+        'delta_Q_0'  # change in active layer's energy(W/m ^ 2)
+    ]
 
     def __init__(self):
 
@@ -35,40 +47,11 @@ class SnowState():
         self.h2o_vol = init
 
         # Snow energetics state variables
-        # net allwave radiation (W/m^2)
-        self.R_n = init
+        for variable in self._energy_state:
+            setattr(self, variable, init)
 
-        # sensible heat xfr (W/m^2)
-        self.H = init
-
-        # latent heat xfr (W/m^2)
-        self.L_v_E = init
-
-        # heat xfr by conduction & diffusion from soil to snowcover (W/m^2)
-        self.G = init
-
-        # heat xfr by conduction & diffusion from soil or lower layer
-        # to active layer (W/m^2)
-        self.G_0 = init
-
-        # advected heat from precip (W/m^2)
-        self.M = init
-
-        # change in snowcover's energy(W/m ^ 2)
-        self.delta_Q = init
-
-        # change in active layer's energy(W/m ^ 2)
-        self.delta_Q_0 = init
-
-        #   averages of energy balance vars since last output record
-        self.R_n_bar = init
-        self.H_bar = init
-        self.L_v_E_bar = init
-        self.G_bar = init
-        self.G_0_bar = init
-        self.M_bar = init
-        self.delta_Q_bar = init
-        self.delta_Q_0_bar = init
+            bar_variable = "{}_bar".format(variable)
+            setattr(self, bar_variable, init)
 
         # mass balance vars for current timestep
         # specific melt (kg/m^2 or m)
@@ -234,3 +217,33 @@ class SnowState():
             float or array: thermal conductivity of snow
         """
         return CAL_TO_J * 0.0077 * (self.rho/1000.0) * (self.rho/1000.0)
+
+    def value_to_bar(self):
+        """Copy the current snow state variable value into the `_bar` value.
+        """
+
+        for variable in self._energy_state:
+            setattr(self, "{}_bar".format(variable), getattr(self, variable))
+
+        self.E_s_sum = self.E_s
+        self.melt_sum = self.melt
+        self.ro_pred_sum = self.ro_predict
+
+    def time_average(self, time_since_out, time_step):
+        """Update the time averaged value (`_bar`) for the desired variables.
+
+        Args:
+            time_since_out (float): seonds since last output
+            time_step (float): model time step
+        """
+
+        for variable in self._energy_state:
+            bar_variable = "{}_bar".format(variable)
+            bar_value = getattr(self, bar_variable)
+            ta = time_average(bar_value, time_since_out,
+                              getattr(self, variable), time_step)
+            setattr(self, bar_variable, ta)
+
+        self.E_s_sum += self.E_s
+        self.melt_sum += self.melt
+        self.ro_pred_sum += self.ro_predict
