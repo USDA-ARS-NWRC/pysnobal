@@ -1,21 +1,20 @@
 import math
 import warnings
-from copy import copy
 
 import numpy as np
 
-from pysnobal.core.constants import (DATA_TSTEP, FREEZE, GRAVITY, KT_MOISTSAND,
+from pysnobal.core.constants import (FREEZE, GRAVITY, KT_MOISTSAND,
                                      MAX_SNOW_DENSITY, MIN_SNOW_TEMP, MOL_AIR,
-                                     R1, R2, RHO_MAX, RHO_W0, SEA_LEVEL,
-                                     SMALL_TSTEP, SNOW_EMISSIVITY, STD_AIRTMP,
-                                     STD_LAPSE, STEF_BOLTZ, SWE_MAX, VAP_SUB)
+                                     NORMAL_TSTEP, R1, R2, RHO_MAX, RHO_W0,
+                                     SEA_LEVEL, SMALL_TSTEP, SNOW_EMISSIVITY,
+                                     STD_AIRTMP, STD_LAPSE, STEF_BOLTZ,
+                                     SWE_MAX, VAP_SUB)
 from pysnobal.core.functions import (cp_ice, cp_water, diffusion_coef,
                                      gas_density, h2o_left, melt, time_average,
                                      vapor_flux)
 from pysnobal.point import InputDeltas, SnowState, libsnobal
 
 # import pandas as pd
-
 
 
 class Snobal(object):
@@ -151,7 +150,7 @@ class Snobal(object):
 
         # Divide the data timestep into normal run timesteps.
         # keeps track of what time step level the model is on
-        self.current_level = DATA_TSTEP
+        self.current_level = NORMAL_TSTEP
         self.divided_step = False
         self.divide_tstep()
 
@@ -193,26 +192,26 @@ class Snobal(object):
 
         # Fetch the record for the timestep at the next level.
         self.next_level = self.current_level + 1
-        next_lvl_tstep = self.tstep_info[self.next_level]
+        curr_lvl_tstep = self.tstep_info[self.current_level]
 
-        if self.input1.precip_now and next_lvl_tstep['level'] > 1:
+        if self.input1.precip_now and curr_lvl_tstep['level'] > 1:
             self.input1.update_precip_deltas(
-                self.input_deltas[next_lvl_tstep['level']])
+                self.input_deltas[curr_lvl_tstep['level']])
 
         # For each the new smaller timestep, either subdivide them if
         # below their mass threshold, or run the model for them.
-        interval = next_lvl_tstep['intervals']
+        interval = curr_lvl_tstep['intervals']
         for i in range(interval):
 
-            if (self.next_level != SMALL_TSTEP) and \
-                    (self.below_thold(next_lvl_tstep['threshold'])):
+            if (self.current_level != SMALL_TSTEP) and \
+                    (self.below_thold(curr_lvl_tstep['threshold'])):
                 # increment the level number
-                self.current_level = copy(self.next_level)
+                self.current_level += 1
                 self.divided_step = True
                 if not self.divide_tstep():
                     return False
             else:
-                if not self.do_tstep(next_lvl_tstep):
+                if not self.do_tstep(curr_lvl_tstep):
                     return False
 
         self.current_level -= 1

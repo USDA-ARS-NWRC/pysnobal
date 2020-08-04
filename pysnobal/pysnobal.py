@@ -8,13 +8,9 @@ from inicheck.output import print_config_report
 from inicheck.tools import check_config, get_user_config
 
 from pysnobal import utils
-from pysnobal.core.constants import FREEZE
+from pysnobal.core.constants import (FREEZE, MEDIUM_TSTEP, NORMAL_TSTEP,
+                                     SMALL_TSTEP)
 from pysnobal.point import InputData, Snobal
-
-DATA_TSTEP = 0
-NORMAL_TSTEP = 1
-MEDIUM_TSTEP = 2
-SMALL_TSTEP = 3
 
 
 class PySnobal():
@@ -91,26 +87,19 @@ class PySnobal():
                 0: {
                     'level': 0,
                     'output': {{ config.files.output_mode }},
-                    'threshold': None,
-                    'time_step': {{ from input data }},
+                    'threshold': {{ config.model.norm_threshold }},
+                    'time_step': {{ config.model.norm_time_step }},
                     'intervals': 1
                     }
                 1: {
                     'level': 1,
                     'output': {{ config.files.output_mode }},
-                    'threshold': {{ config.model.norm_threshold }},
-                    'time_step': {{ config.model.norm_time_step }},
-                    'intervals': {{ data_tstep / norm_tstep }}
-                    }
-                2: {
-                    'level': 2,
-                    'output': {{ config.files.output_mode }},
                     'threshold': {{ config.model.medium_threshold }},
                     'time_step': {{ config.model.medium_time_step }},
                     'intervals': {{ norm_tstep / med_tstep }}
                     }
-                3: {
-                    'level': 3,
+                2: {
+                    'level': 2,
                     'output': {{ config.files.output_mode }},
                     'threshold': {{ config.model.small_threshold }},
                     'time_step': {{ config.model.small_time_step }},
@@ -119,16 +108,15 @@ class PySnobal():
             }
 
         Where
-            0 : data timestep
-            1 : normal run timestep
-            2 : medium run timestep
-            3 : small run timestep
+            0 : normal run timestep
+            1 : medium run timestep
+            2 : small run timestep
         """
 
         # intialize the time step info
 
         tstep_info = []
-        for i in range(4):
+        for i in range(3):
             t = {
                 'level': i,
                 'output': False,
@@ -144,16 +132,6 @@ class PySnobal():
         # If it is greater than 1 hour, it must be a multiple of 1 hour, e.g.
         # 2 hours, 3 hours, etc.
 
-        data_tstep = self.config['time']['time_step']
-        utils.check_range(data_tstep, 1.0, utils.hrs2min(60),
-                          "input data's timestep")
-        if ((data_tstep > 60) and (data_tstep % 60 != 0)):
-            raise ValueError(
-                "Data timestep > 60 min must be multiple of 60 min")
-        tstep_info[DATA_TSTEP]['time_step'] = utils.min2sec(data_tstep)
-        tstep_info[DATA_TSTEP]['time_step_timedelta'] = pd.to_timedelta(
-            data_tstep, unit='min')
-
         # time step parameters
         norm_tstep = self.config['model']['norm_time_step']
         med_tstep = self.config['model']['medium_time_step']
@@ -163,8 +141,8 @@ class PySnobal():
         tstep_info[NORMAL_TSTEP].update({
             'time_step': utils.min2sec(norm_tstep),
             'time_step_timedelta': pd.to_timedelta(norm_tstep, unit='min'),
-            'intervals': int(data_tstep / norm_tstep),
-            'intervals_per_timestep': int(data_tstep / norm_tstep),
+            'intervals': 1,
+            'intervals_per_timestep': 1,
             'threshold': self.config['model']['norm_threshold']
         })
 
@@ -222,7 +200,6 @@ class PySnobal():
         params = {}
         params['start_date'] = self.start_date
         params['elevation'] = self.config['topo']['elevation']
-        params['data_tstep'] = self.config['time']['time_step']
         params['max_h2o_vol'] = self.config['model']['max_h2o']
         params['max_z_s_0'] = self.config['model']['max_active']
         params['relative_heights'] = self.config['measurement_heights']['relative_heights']  # noqa

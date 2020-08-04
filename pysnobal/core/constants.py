@@ -1,9 +1,8 @@
 import math
 
-DATA_TSTEP = 0
-NORMAL_TSTEP = 1
-MEDIUM_TSTEP = 2
-SMALL_TSTEP = 3
+NORMAL_TSTEP = 0
+MEDIUM_TSTEP = 1
+SMALL_TSTEP = 2
 
 FREEZE = 273.16         # freezing temp K
 BOIL = 373.15           # boiling temperature K
