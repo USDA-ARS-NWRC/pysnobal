@@ -308,9 +308,14 @@ class PySnobal():
         # do_data_tstep needs two input records so only go
         # to the last record-1
         # nrecords = len(self.input_data) - 1
-        input_data = self.input_data[:-1].iterrows()
-        index, input1 = next(input_data)    # this is the first input
-        input_data1 = InputData(self.input_data.iloc[0, :])
+        # input_data = self.input_data[:-1].iterrows()
+
+        # index, input1 = next(input_data)    # this is the first input
+        # input_data1 = InputData(self.input_data[0])
+
+        input_data = self.input_data.to_dict('index')
+        input_data1 = InputData(input_data[self.input_data.index[0]])
+        del input_data[self.input_data.index[0]]
 
         self.snobal = Snobal(
             self.params,
@@ -321,8 +326,8 @@ class PySnobal():
         )
 
         # index2 is the index for the second input timestep
-        # for index2 in range(1, nrecords):
-        for index, input2 in input_data:
+        for date_time, input2 in input_data.items():
+            # for index, input2 in input_data:
 
             # if index.hour == 0:
             #     print(index)
