@@ -115,44 +115,42 @@ class PySnobal():
 
         # intialize the time step info
 
+        # time step parameters
+        time_step = [
+            self.config['model']['norm_time_step'],
+            self.config['model']['medium_time_step'],
+            self.config['model']['small_time_step'],
+        ]
+
         tstep_info = []
+        config_names = ['norm', 'medium', 'small']
         for i in range(3):
+            threshold = self.config['model']['{}_threshold'.format(
+                config_names[i])]
+
             t = {
                 'level': i,
                 'output': False,
-                'threshold': None,
-                'time_step': None,
-                'time_step_timedelta': None,
-                'intervals': None,
-                'intervals_per_timestep': 1
+                'threshold': threshold,
+                'time_step': utils.min2sec(time_step[i]),
+                'time_step_timedelta': pd.to_timedelta(
+                    time_step[i],
+                    unit='min')
             }
             tstep_info.append(t)
 
-        # The input data's time step must be between 1 minute and 6 hours.
-        # If it is greater than 1 hour, it must be a multiple of 1 hour, e.g.
-        # 2 hours, 3 hours, etc.
-
-        # time step parameters
-        norm_tstep = self.config['model']['norm_time_step']
-        med_tstep = self.config['model']['medium_time_step']
-        small_tstep = self.config['model']['small_time_step']
-
         # normal time step
         tstep_info[NORMAL_TSTEP].update({
-            'time_step': utils.min2sec(norm_tstep),
-            'time_step_timedelta': pd.to_timedelta(norm_tstep, unit='min'),
             'intervals': 1,
             'intervals_per_timestep': 1,
-            'threshold': self.config['model']['norm_threshold']
         })
 
         # medium time step
         tstep_info[MEDIUM_TSTEP].update({
-            'time_step': utils.min2sec(med_tstep),
-            'time_step_timedelta': pd.to_timedelta(med_tstep, unit='min'),
-            'intervals': int(norm_tstep / med_tstep),
-            'intervals_per_timestep': int(norm_tstep / med_tstep),
-            'threshold': self.config['model']['medium_threshold']
+            'intervals': int(time_step[NORMAL_TSTEP] /
+                             time_step[MEDIUM_TSTEP]),
+            'intervals_per_timestep': int(time_step[NORMAL_TSTEP] /
+                                          time_step[MEDIUM_TSTEP]),
         })
 
         # small time step
@@ -161,11 +159,10 @@ class PySnobal():
         # calculation. The original Snobal would divide the intervals
         # into the medium timestep
         tstep_info[SMALL_TSTEP].update({
-            'time_step': utils.min2sec(small_tstep),
-            'time_step_timedelta': pd.to_timedelta(small_tstep, unit='min'),
-            'intervals': int(med_tstep / small_tstep),
-            'intervals_per_timestep': int(norm_tstep / small_tstep),
-            'threshold': self.config['model']['small_threshold']
+            'intervals': int(time_step[MEDIUM_TSTEP] /
+                             time_step[SMALL_TSTEP]),
+            'intervals_per_timestep': int(time_step[NORMAL_TSTEP] /
+                                          time_step[SMALL_TSTEP]),
         })
 
         # output

@@ -3,10 +3,10 @@ import math
 import numpy as np
 
 from pysnobal.core.constants import (BOIL, FREEZE, GRAVITY, LOG_SEA_LEVEL,
-                                     MOL_AIR, MOL_H2O, RGAS, SEA_LEVEL,
-                                     VON_KARMAN)
-from pysnobal.core.functions import (gas_density, lh_fus, lh_sub, lh_vap,
-                                     mix_ratio, virtual_temperature)
+                                     MOL_AIR, MOL_H2O, RGAS, VON_KARMAN)
+from pysnobal.core.functions import (diffusion_coef, gas_density, lh_fus,
+                                     lh_sub, lh_vap, mix_ratio,
+                                     virtual_temperature)
 
 # specific heat of air at constant pressure (J / kg / deg)
 CP_AIR = 1.005e3
@@ -367,9 +367,7 @@ def efcon(k, layer_temp, p_a, es_layer=None):
     """
 
     # calculate effective layer diffusion (see Anderson, 1976, pg. 32)
-#     de = diffusion_coef(p, t)
-    de = 0.65 * (SEA_LEVEL / p_a) * \
-        math.pow(layer_temp/FREEZE, 14.0) * (0.01 * 0.01)
+    de = diffusion_coef(p_a, layer_temp)
 
     # set latent heat from layer temp.
     if layer_temp > FREEZE:
