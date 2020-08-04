@@ -1,87 +1,85 @@
 import os
-import unittest
 from copy import deepcopy
 from pathlib import Path
 
 import pandas as pd
+import pytest
 from inicheck.tools import MasterConfig, cast_all_variables, get_user_config
 
 import pysnobal
 from pysnobal.pysnobal import PySnobal
 
+BASE_INI_FILE_NAME = 'pysnobal_config.ini'
+test_dir = Path(pysnobal.__file__).parent.joinpath('tests')
+config_file = os.path.join(test_dir, BASE_INI_FILE_NAME)
 
-class TestPysnobal(unittest.TestCase):
 
-    BASE_INI_FILE_NAME = 'pysnobal_config.ini'
+@pytest.fixture(scope='module')
+def base_config():
+    """Load the base config object"""
 
-    test_dir = Path(pysnobal.__file__).parent.joinpath('tests')
-    config_file = os.path.join(test_dir, BASE_INI_FILE_NAME)
+    master_config = os.path.join(
+        Path(pysnobal.__file__).parent, 'pysnobal_core_config.ini')
+    mcfg = MasterConfig(path=master_config)
+    return get_user_config(config_file, mcfg=mcfg)
 
-    @property
-    def base_config(self):
-        return self.base_config_copy()
 
-    @classmethod
-    def base_config_copy(cls):
-        return deepcopy(cls._base_config)
+@pytest.fixture
+def base_config_copy(base_config):
+    """Create a copy of the base config object"""
+    return deepcopy(base_config)
 
-    @classmethod
-    def load_base_config(cls):
-        master_config = os.path.join(
-            Path(pysnobal.__file__).parent, 'pysnobal_core_config.ini')
-        mcfg = MasterConfig(path=master_config)
-        cls._base_config = get_user_config(cls.config_file, mcfg=mcfg)
 
-    @classmethod
-    def setUpClass(cls):
-        cls.load_base_config()
+@pytest.fixture(autouse=True)
+def make_clean():
+    """Make the directory and clean up after the test"""
 
-    def setUp(self):
-        os.makedirs('pysnobal/tests/output', exist_ok=True)
+    os.makedirs('pysnobal/tests/output', exist_ok=True)
+    yield
+    os.remove('pysnobal/tests/output/pysnobal_output.csv')
 
-    def tearDown(self):
-        os.remove('pysnobal/tests/output/pysnobal_output.csv')
 
-    def test_pysnobal_output_normal(self):
+def test_pysnobal_output_normal(make_clean, base_config):
 
-        # run PySnobal
-        status = PySnobal(self.base_config).run()
-        self.assertTrue(status)
+    # run PySnobal
+    status = PySnobal(base_config).run()
+    assert status
 
-        # load in the outputs
-        gold = pd.read_csv(
-            'pysnobal/tests/test_data_point/gold_csv/gold.pysnobal.csv',
-            index_col='date_time', parse_dates=True)
-        gold.index = gold.index.tz_convert('MST')
+    # load in the outputs
+    gold = pd.read_csv(
+        'pysnobal/tests/test_data_point/gold_csv/gold.pysnobal.csv',
+        index_col='date_time', parse_dates=True)
+    gold.index = gold.index.tz_convert('MST')
 
-        new = pd.read_csv(
-            'pysnobal/tests/output/pysnobal_output.csv',
-            index_col='date_time', parse_dates=True)
-        new.index = new.index.tz_convert('MST')
+    new = pd.read_csv(
+        'pysnobal/tests/output/pysnobal_output.csv',
+        index_col='date_time', parse_dates=True)
+    new.index = new.index.tz_convert('MST')
 
-        pd.testing.assert_frame_equal(gold, new)
+    pd.testing.assert_frame_equal(gold, new)
 
-    def test_pysnobal_ouput_all(self):
 
-        config = self.base_config_copy()
-        config.raw_cfg['files'].update({'output_mode': 'all'})
+def test_pysnobal_ouput_all(make_clean, base_config_copy):
 
-        config.apply_recipes()
-        config = cast_all_variables(config, config.mcfg)
+    config = base_config_copy
+    config.raw_cfg['files'].update({'output_mode': 'all'})
 
-        # run PySnobal
-        status = PySnobal(config).run()
-        self.assertTrue(status)
+    config.apply_recipes()
+    config = cast_all_variables(config, config.mcfg)
 
-        # load in the outputs
-        gold = pd.read_csv(
-            'pysnobal/tests/test_data_point/gold_csv/gold.pysnobal.all.csv',
-            index_col='date_time', parse_dates=True)
-        gold.index = gold.index.tz_convert('MST')
+    # run PySnobal
+    status = PySnobal(config).run()
+    assert status
 
-        new = pd.read_csv(
-            'pysnobal/tests/output/pysnobal_output.csv',
-            index_col='date_time', parse_dates=True)
-        new.index = new.index.tz_convert('MST')
+    # load in the outputs
+    gold = pd.read_csv(
+        'pysnobal/tests/test_data_point/gold_csv/gold.pysnobal.all.csv',
+        index_col='date_time', parse_dates=True)
+    gold.index = gold.index.tz_convert('MST')
 
-        pd.testing.assert_frame_equal(gold, new)
+    new = pd.read_csv(
+        'pysnobal/tests/output/pysnobal_output.csv',
+        index_col='date_time', parse_dates=True)
+    new.index = new.index.tz_convert('MST')
+
+    pd.testing.assert_frame_equal(gold, new)

@@ -298,21 +298,13 @@ class PySnobal():
 
         self.input_data = self.input_data.rename(columns=mapper)
 
-    # @profile
     def run(self):
         """
         mimic the main.c from the Snobal model
         """
 
         # loop through the input
-        # do_data_tstep needs two input records so only go
-        # to the last record-1
-        # nrecords = len(self.input_data) - 1
-        # input_data = self.input_data[:-1].iterrows()
-
-        # index, input1 = next(input_data)    # this is the first input
-        # input_data1 = InputData(self.input_data[0])
-
+        # do_data_tstep needs two input records
         input_data = self.input_data.to_dict('index')
         input_data1 = InputData(input_data[self.input_data.index[0]])
         del input_data[self.input_data.index[0]]
@@ -327,13 +319,11 @@ class PySnobal():
 
         # index2 is the index for the second input timestep
         for date_time, input2 in input_data.items():
-            # for index, input2 in input_data:
 
             # if index.hour == 0:
             #     print(index)
 
             # call do_data_tstep()
-            # data = self.input_data.iloc[index2, :]
             input_data2 = InputData(input2)
             self.snobal.do_data_tstep(
                 input_data1,
