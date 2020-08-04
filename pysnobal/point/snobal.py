@@ -52,10 +52,6 @@ class Snobal(object):
         self.output_divided = False
         if self.output_timesteps is None:
             self.output_divided = True
-            self.output_timesteps_epoch = []
-        else:
-            self.output_timesteps_epoch = [
-                t.value // 10**9 for t in output_timesteps]
 
         self.P_a = libsnobal.hysat(
             SEA_LEVEL,
@@ -213,6 +209,9 @@ class Snobal(object):
                 if not self.do_tstep(curr_lvl_tstep):
                     return False
 
+        if self.current_level == 0 and not self.output_divided:
+            self.output()
+
         self.current_level -= 1
         self.next_level -= 1
 
@@ -282,11 +281,9 @@ class Snobal(object):
         self.current_time = self.current_time + self.time_step
         self.current_datetime = self.current_datetime + \
             tstep['time_step_timedelta']
-        self.current_datetime_epoch = self.current_datetime.value // 10**9
 
         # output if on the whole timestep
-        if self.output_divided or \
-                self.current_datetime_epoch in self.output_timesteps_epoch:
+        if self.output_divided:
             self.output()
 
         # Update the model's input parameters
