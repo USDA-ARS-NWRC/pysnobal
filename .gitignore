@@ -107,3 +107,10 @@ ENV/
 pysnobal/tests/output/
 *.lprof
 profile/*.html
+
+# spatial IPW test data
+pysnobal/tests/test_data_spatial/**/in.*
+pysnobal/tests/test_data_spatial/**/em.*
+pysnobal/tests/test_data_spatial/**/snow.*
+pysnobal/tests/test_data_spatial/**/*.ipw
+pysnobal/tests/test_data_spatial/gold_ipw/**/*.nc

@@ -15,6 +15,8 @@ from pysnobal.point import InputData, Snobal
 
 class PySnobal():
 
+    CORE_CONFIG = 'pysnobal_core_config.ini'
+
     def __init__(self, config_file):
         """
         PySnobal is a wrapper to the Snobal C code.
@@ -49,8 +51,8 @@ class PySnobal():
                                 .format(config_file))
 
             # Get the master config file
-            master_config = os.path.abspath(os.path.dirname(
-                __file__)) + '/pysnobal_core_config.ini'
+            mcfg_dir = os.path.abspath(os.path.dirname(__file__))
+            master_config = os.path.join(mcfg_dir, self.CORE_CONFIG)
             mcfg = MasterConfig(path=master_config)
 
             # user config file
@@ -196,7 +198,8 @@ class PySnobal():
         # get the rest of the parameters
         params = {}
         params['start_date'] = self.start_date
-        params['elevation'] = self.config['topo']['elevation']
+        if 'elevation' in self.config['topo']:
+            params['elevation'] = self.config['topo']['elevation']
         params['max_h2o_vol'] = self.config['model']['max_h2o']
         params['max_z_s_0'] = self.config['model']['max_active']
         params['relative_heights'] = self.config['measurement_heights']['relative_heights']  # noqa

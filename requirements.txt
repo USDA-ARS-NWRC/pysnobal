@@ -3,3 +3,5 @@ inicheck
 pandas
 pytz
 setuptools_scm<4.2
+xarray>0.15
+netcdf4
