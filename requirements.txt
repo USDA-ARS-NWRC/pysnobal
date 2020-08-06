@@ -4,4 +4,4 @@ pandas
 pytz
 setuptools_scm<4.2
 xarray>0.15
-netcdf4
+dask[complete] # probably can break this up

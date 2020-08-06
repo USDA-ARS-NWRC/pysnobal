@@ -169,9 +169,9 @@ class PySnobal():
 
         # output
         self.output_mode = 'normal'
-        if self.config['files']['output_mode'] == 'normal':
-            tstep_info[NORMAL_TSTEP]['output'] = True
-        elif self.config['files']['output_mode'] == 'all':
+        tstep_info[NORMAL_TSTEP]['output'] = True
+
+        if self.config['files'].get('output_mode', None) == 'all':
             self.output_mode = 'all'
             tstep_info[NORMAL_TSTEP]['output'] = True
             tstep_info[MEDIUM_TSTEP]['output'] = True
@@ -198,8 +198,6 @@ class PySnobal():
         # get the rest of the parameters
         params = {}
         params['start_date'] = self.start_date
-        if 'elevation' in self.config['topo']:
-            params['elevation'] = self.config['topo']['elevation']
         params['max_h2o_vol'] = self.config['model']['max_h2o']
         params['max_z_s_0'] = self.config['model']['max_active']
         params['relative_heights'] = self.config['measurement_heights']['relative_heights']  # noqa
@@ -207,10 +205,15 @@ class PySnobal():
         self.params = params
 
         # elevation to a 2D array
-        self.elevation = np.atleast_2d(np.array(self.params['elevation']))
+        elevation = self.parse_elevation()
+        self.elevation = elevation
+        params['elevation'] = elevation
 
         # measurement heights
         self.measurement_heights = self.config['measurement_heights']
+
+    def parse_elevation(self):
+        return self.config['topo']['elevation']
 
     def read_input_data(self):
         """

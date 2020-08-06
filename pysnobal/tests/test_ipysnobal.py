@@ -9,7 +9,7 @@ from inicheck.tools import MasterConfig, cast_all_variables, get_user_config
 import pysnobal
 from pysnobal.ipysnobal import iPySnobal
 
-BASE_INI_FILE_NAME = 'ipysnobal_config.ini'
+BASE_INI_FILE_NAME = 'test_data_spatial/gold_ipw/rme_wy2004/netcdf/ipysnobal_config.ini'
 test_dir = Path(pysnobal.__file__).parent.joinpath('tests')
 config_file = os.path.join(test_dir, BASE_INI_FILE_NAME)
 
@@ -34,9 +34,10 @@ def base_config_copy(base_config):
 def make_clean():
     """Make the directory and clean up after the test"""
 
-    os.makedirs('pysnobal/tests/output', exist_ok=True)
+    # os.makedirs('pysnobal/tests/output', exist_ok=True)
     yield
-    os.remove('pysnobal/tests/output/*.nc')
+    os.remove(
+        'pysnobal/tests/test_data_spatial/gold_ipw/rme_wy2004/netcdf/pysnobal_out.nc')
 
 
 def test_ipysnobal(make_clean, base_config):
