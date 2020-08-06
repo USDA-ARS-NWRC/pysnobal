@@ -4,6 +4,7 @@ from pytest import approx
 
 from pysnobal.core.constants import (GRAVITY, MOL_AIR, SEA_LEVEL, STD_AIRTMP,
                                      STD_LAPSE)
+from pysnobal.core.functions import hysat
 from pysnobal.point import libsnobal
 
 
@@ -17,7 +18,7 @@ def gold_data():
 
 def calculate_hle1(inputs):
 
-    P_a = libsnobal.hysat(
+    P_a = hysat(
         SEA_LEVEL,
         STD_AIRTMP,
         STD_LAPSE,

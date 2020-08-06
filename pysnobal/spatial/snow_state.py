@@ -1,127 +1,16 @@
+import xarray as xr
+
 from pysnobal.core.constants import CAL_TO_J, FREEZE, RHO_ICE, RHO_W0
 from pysnobal.core.functions import cp_ice, time_average
 from pysnobal.point.libsnobal import sati
+from pysnobal.point import SnowState
 
 
-class SnowState():
+class SpatialSnowState(SnowState):
 
-    # time averaged values
-    _energy_state = [
-        'R_n',      # net allwave radiation (W/m^2)
-        'H',        # sensible heat xfr (W/m^2)
-        'L_v_E',    # latent heat xfr (W/m^2)
-        'G',        # heat transfer from soil to snowcover (W/m^2)
-        'G_0',      # heat transfer soil or lower layer to active layer (W/m^2)
-        'M',        # advected heat from precip (W/m^2)
-        'delta_Q',  # change in snowcover's energy(W/m ^ 2)
-        'delta_Q_0'  # change in active layer's energy(W/m ^ 2)
-    ]
+    def __init__(self, init):
 
-    def __init__(self, init=0):
-
-        self.zeros = init
-
-        # snowpack state variables
-        self.h2o_sat = init
-        self.layer_count = init
-        self.max_h2o_vol = init
-        self.rho = init
-        self.T_s = init
-        self.T_s_0 = init
-        self.T_s_l = init
-        self.z_s = init
-        self.z_s_0 = init
-        self.z_s_l = init
-
-        # TODO could be moved to a property that is calculated when needed
-        self.cc_s = init
-        self.cc_s_0 = init
-        self.cc_s_l = init
-        self.m_s = init
-        self.m_s_0 = init
-        self.m_s_l = init
-        self.h2o = init
-        self.h2o_max = init
-        self.h2o_total = init
-        self.h2o_vol = init
-
-        # Snow energetics state variables
-        for variable in self._energy_state:
-            setattr(self, variable, init)
-
-            bar_variable = "{}_bar".format(variable)
-            setattr(self, bar_variable, init)
-
-        # mass balance vars for current timestep
-        # specific melt (kg/m^2 or m)
-        self.melt = init
-
-        # mass flux by evap into air from active layer (kg/m^2/s)
-        self.E = init
-
-        # mass of evap into air & soil from snowcover (kg/m^2)
-        self.E_s = init
-
-        # predicted specific runoff (m/sec)
-        self.ro_predict = init
-
-        # sums of mass balance vars since last output record
-        self.melt_sum = init
-        self.E_s_sum = init
-
-        self._isothermal = False
-
-    def set_zeros(self, fields):
-
-        if isinstance(fields, str):
-            fields = fields.split()
-
-        for field in fields:
-            setattr(self, field, self.zeros)
-
-    @property
-    def T_s_0(self):
-        return self._T_s_0
-
-    @T_s_0.setter
-    def T_s_0(self, var):
-        self._T_s_0 = var
-        self.__es_s_0 = False
-
-    @property
-    def e_s_0(self):
-        """Calculate the saturation vapor pressure over ice for
-        the surface layer.
-
-        Returns:
-            float: saturation vapor pressure over ice
-        """
-        if not self.__es_s_0:
-            self._es_s_0 = sati(self.T_s_0)
-            self.__es_s_0 = True
-        return self._es_s_0
-
-    @property
-    def T_s_l(self):
-        return self._T_s_l
-
-    @T_s_l.setter
-    def T_s_l(self, var):
-        self._T_s_l = var
-        self.__es_s_l = False
-
-    @property
-    def e_s_l(self):
-        """Calculate the saturation vapor pressure over ice for
-        the lower layer.
-
-        Returns:
-            float: saturation vapor pressure over ice
-        """
-        if not self.__es_s_l:
-            self._es_s_l = sati(self.T_s_l)
-            self.__es_s_l = True
-        return self._es_s_l
+        super(SpatialSnowState, self).__init__(init)
 
     @property
     def isothermal(self):

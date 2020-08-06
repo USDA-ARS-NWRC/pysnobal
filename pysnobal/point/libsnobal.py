@@ -27,28 +27,6 @@ BETA_U = 16.0
 LOG_10 = math.log(10.0)  # log(10)
 
 
-def hysat(pb, tb, L, h, g, m):
-    '''
-    integral of hydrostatic equation over layer with linear
-    temperature variation
-
-        pb = base level pressure
-        tb = base level temp (K)
-        L  = lapse rate (deg/km)
-        h  = layer thickness (km)
-        g  = grav accel (m/s^2)
-        m  = molec wt (kg/kmole)
-
-     (the factors 1.e-3 and 1.e3 are for units conversion)
-     20151027 Scott Havens
-     '''
-
-    if L == 0:
-        return pb * np.exp(-g * m * h * 1.e3/(RGAS * tb))
-    else:
-        return pb * np.power(tb/(tb + L * h), g * m/(RGAS * L * 1.e-3))
-
-
 def satw_np(tk):
     """
     Saturation vapor pressure of water. from IPW satw

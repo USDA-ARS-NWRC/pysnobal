@@ -4,6 +4,28 @@ from pysnobal.core.constants import (CAL_TO_J, CP_W0, FREEZE, MOL_AIR, MOL_H2O,
                                      RGAS, RHO_ICE, RHO_W0, SEA_LEVEL)
 
 
+def hysat(pb, tb, L, h, g, m):
+    '''
+    integral of hydrostatic equation over layer with linear
+    temperature variation
+
+        pb = base level pressure
+        tb = base level temp (K)
+        L  = lapse rate (deg/km)
+        h  = layer thickness (km)
+        g  = grav accel (m/s^2)
+        m  = molec wt (kg/kmole)
+
+     (the factors 1.e-3 and 1.e3 are for units conversion)
+     20151027 Scott Havens
+     '''
+
+    if L == 0:
+        return pb * np.exp(-g * m * h * 1.e3/(RGAS * tb))
+    else:
+        return pb * np.power(tb/(tb + L * h), g * m/(RGAS * L * 1.e-3))
+
+
 def k_to_c(x):
     """Kelvin to Celcius
 

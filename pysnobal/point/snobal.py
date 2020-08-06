@@ -9,7 +9,7 @@ from pysnobal.core.constants import (FREEZE, GRAVITY, KT_MOISTSAND,
                                      SEA_LEVEL, SMALL_TSTEP, SNOW_EMISSIVITY,
                                      STD_AIRTMP, STD_LAPSE, STEF_BOLTZ,
                                      SWE_MAX, VAP_SUB)
-from pysnobal.core.functions import (cp_ice, cp_water, diffusion_coef,
+from pysnobal.core.functions import (cp_ice, cp_water, diffusion_coef, hysat,
                                      gas_density, h2o_left, melt, vapor_flux)
 from pysnobal.point import InputDeltas, SnowState, libsnobal
 
@@ -17,13 +17,6 @@ from pysnobal.point import InputDeltas, SnowState, libsnobal
 
 
 class Snobal(object):
-    """
-
-    To-do
-    self.snow is the working data frame only containing one record
-    self.output will be a dataframe that self.snow gets added
-
-    """
 
     def __init__(self, params, tstep_info, snow_prop, meas_heights,
                  output_timesteps=None):
@@ -53,7 +46,7 @@ class Snobal(object):
         if self.output_timesteps is None:
             self.output_divided = True
 
-        self.P_a = libsnobal.hysat(
+        self.P_a = hysat(
             SEA_LEVEL,
             STD_AIRTMP,
             STD_LAPSE,
@@ -1224,8 +1217,7 @@ class Snobal(object):
 
         # set the values from the initial snow properties
         if from_record:
-
-            self.snow_state = SnowState()
+            self.create_snow_state()
 
             self.snow_state.z_s = self.snow_records['z_s']
             self.snow_state.rho = self.snow_records['rho']
@@ -1289,6 +1281,9 @@ class Snobal(object):
                 self.snow_state.max_h2o_vol)
             self.snow_state.h2o = self.snow_state.h2o_sat * \
                 self.snow_state.h2o_max
+
+    def create_snow_state(self):
+        self.snow_state = SnowState()
 
     def calc_layers(self):
         """
