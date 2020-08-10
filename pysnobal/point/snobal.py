@@ -18,8 +18,8 @@ from pysnobal.point import InputDeltas, SnowState, libsnobal
 
 class Snobal(object):
 
-    def __init__(self, params, tstep_info, snow_prop, meas_heights,
-                 output_timesteps=None):
+    def __init__(self, params, tstep_info, inital_conditions, meas_heights,
+                 output_mode='normal'):
         """
         Initialize the snobal() class with the parameters,
         time step information,
@@ -29,7 +29,7 @@ class Snobal(object):
         Args:
             params: dictionary of parameters to run the model
             tstep_info: list of time step information
-            snow_prop: the initial snow properties record
+            inital_conditions: the initial snow properties record
             meas_height: measurement heights
         """
 
@@ -40,10 +40,8 @@ class Snobal(object):
         self.start_date = self.params['start_date']
         self.current_datetime = self.params['start_date']
 
-        self.output_timesteps = output_timesteps
-
         self.output_divided = False
-        if self.output_timesteps is None:
+        if output_mode == 'all':
             self.output_divided = True
 
         self.P_a = hysat(
@@ -55,11 +53,11 @@ class Snobal(object):
             MOL_AIR)
 
         # get the intial snowcover properties
-        self.snow_records = snow_prop
-        self.get_sn_rec(True)
+        self.snow_records = inital_conditions
 
-        # initialize the snowcover
-        self.init_snow(True)
+        # create then initialize the snowcover
+        self.create_snow_state(SnowState)
+        self.init_snow()
 
         # get measurement-height record
         self.measurement_heights = meas_heights
@@ -70,6 +68,7 @@ class Snobal(object):
         self.ro_data = False
 
         self.time_since_out = 0
+        # self.current_time = 0
 
         self.init_output()
 
@@ -91,7 +90,7 @@ class Snobal(object):
             m_pp
             percent_snow
             rho_snow
-            T_pp
+            t_pp
 
         This routine divides the data timestep into the appropriate number
         of normal run timesteps.  The input values for each normal timestep
@@ -117,8 +116,8 @@ class Snobal(object):
             input2: second timestep dict
 
             inputs contain all forcing data:
-                ['S_n', 'I_lw', 'T_a', 'e_a', 'u', 'T_g','m_pp',
-                    'percent_snow', 'rho_snow', 'T_pp']
+                ['S_n', 'I_lw', 't_a', 'e_a', 'u', 't_g','m_pp',
+                    'percent_snow', 'rho_snow', 't_pp']
 
 
         """
@@ -155,7 +154,7 @@ class Snobal(object):
             m_pp
             percent_snow
             rho_snow
-            T_pp
+            t_pp
 
         This routine divides the data timestep into the appropriate number
         of normal run timesteps.  The input values for each normal timestep
@@ -218,10 +217,10 @@ class Snobal(object):
 
             S_n
             I_lw
-            T_a
+            t_a
             e_a
             u
-            T_g
+            t_g
 
         The routine also requires the precipitation data have been adjusted
         for the timestep, and have been stored in the array:
@@ -271,7 +270,7 @@ class Snobal(object):
             self.time_since_out = self.time_step
 
         # increment time
-        self.current_time = self.current_time + self.time_step
+        # self.current_time = self.current_time + self.time_step
         self.current_datetime = self.current_datetime + \
             tstep['time_step_timedelta']
 
@@ -437,7 +436,7 @@ class Snobal(object):
             q_g: soil spec hum
             q_s_l: lower snow layer's spec hum
             rho_air: air density
-            T_bar: snow-soil mean temp
+            t_bar: snow-soil mean temp
         """
 
         # calculate evaporation or condensation
@@ -464,17 +463,17 @@ class Snobal(object):
         else:
             if self.snow_state.layer_count == 2:
                 e_s_l = self.snow_state.e_s_l
-                T_bar = (self.input1.T_g + self.snow_state.T_s_l) / 2.0
+                t_bar = (self.input1.t_g + self.snow_state.t_s_l) / 2.0
 
             else:  # layer_count == 1
                 e_s_l = self.snow_state.e_s_0
-                T_bar = (self.input1.T_g + self.snow_state.T_s_0) / 2.0
+                t_bar = (self.input1.t_g + self.snow_state.t_s_0) / 2.0
 
             q_s_l = libsnobal.spec_hum(e_s_l, self.P_a)
             q_g = libsnobal.spec_hum(self.input1.e_g, self.P_a)
             q_delta = q_g - q_s_l
-            rho_air = gas_density(self.P_a, libsnobal.MOL_AIR, T_bar)
-            k = diffusion_coef(self.P_a, T_bar)
+            rho_air = gas_density(self.P_a, libsnobal.MOL_AIR, t_bar)
+            k = diffusion_coef(self.P_a, t_bar)
 
             E_l = vapor_flux(rho_air, k, q_delta, self.z_g)
 
@@ -641,9 +640,9 @@ class Snobal(object):
                 # set the values from the initial snow properties
                 self.snow_state.z_s = self.input1.z_snow
                 self.snow_state.rho = self.input1.rho_snow
-                self.snow_state.T_s = self.input1.T_snow
-                self.snow_state.T_s_0 = self.input1.T_snow
-                self.snow_state.T_s_l = self.input1.T_snow
+                self.snow_state.t_s = self.input1.t_snow
+                self.snow_state.t_s_0 = self.input1.t_snow
+                self.snow_state.t_s_l = self.input1.t_snow
                 self.snow_state.h2o_sat = self.input1.h2o_sat_snow
 
                 self.init_snow()
@@ -802,11 +801,11 @@ class Snobal(object):
         else:
             K = math.exp(-0.046 * (self.snow_state.rho - 100))
 
-        d_rho_m = 0.01 * K * math.exp(-0.04 * (FREEZE - self.snow_state.T_s))
+        d_rho_m = 0.01 * K * math.exp(-0.04 * (FREEZE - self.snow_state.t_s))
         d_rho_m = d_rho_m / rate
 
         # Proportional Overburden Compaction (d_rho_c)
-        d_rho_c = 0.026 * math.exp(-0.08 * (FREEZE - self.snow_state.T_s)) * \
+        d_rho_c = 0.026 * math.exp(-0.08 * (FREEZE - self.snow_state.t_s)) * \
             self.snow_state.m_s * \
             math.exp(-21.0 * (self.snow_state.rho / RHO_W0))
         d_rho_c = d_rho_c / rate
@@ -868,13 +867,13 @@ class Snobal(object):
             # (as degrees K) instead of 0 K to keep quantization
             # range in output image smaller.
 
-            self.snow_state.T_s = MIN_SNOW_TEMP + FREEZE
-            self.snow_state.T_s_0 = MIN_SNOW_TEMP + FREEZE
+            self.snow_state.t_s = MIN_SNOW_TEMP + FREEZE
+            self.snow_state.t_s_0 = MIN_SNOW_TEMP + FREEZE
 
             if prev_layer_count == 2:
                 self.snow_state.m_s_l = 0
                 self.snow_state.cc_s_l = 0
-                self.snow_state.T_s_l = MIN_SNOW_TEMP + FREEZE
+                self.snow_state.t_s_l = MIN_SNOW_TEMP + FREEZE
 
             self.snowcover = False
 
@@ -883,14 +882,14 @@ class Snobal(object):
 
             if (prev_layer_count == 1) and (self.snow_state.layer_count == 2):
                 # 1 layer --> 2 layers, add lower layer
-                self.snow_state.T_s_l = self.snow_state.T_s
+                self.snow_state.t_s_l = self.snow_state.t_s
                 self.snow_state.cc_s_l = self.cold_content(
-                    self.snow_state.T_s_l, self.snow_state.m_s_l)
+                    self.snow_state.t_s_l, self.snow_state.m_s_l)
 
             elif (prev_layer_count == 2) and \
                     (self.snow_state.layer_count == 1):
                 # 2 layers --> 1 layer, remove lower layer
-                self.snow_state.T_s_l = MIN_SNOW_TEMP + FREEZE
+                self.snow_state.t_s_l = MIN_SNOW_TEMP + FREEZE
                 self.snow_state.cc_s_l = 0
 
     # @profile
@@ -909,7 +908,7 @@ class Snobal(object):
             self.snow_state.R_n = self.input1.S_n + \
                 (SNOW_EMISSIVITY * (
                     self.input1.I_lw -
-                    STEF_BOLTZ * np.power(self.snow_state.T_s_0, 4)))
+                    STEF_BOLTZ * np.power(self.snow_state.t_s_0, 4)))
 
             # calculate H & L_v_E (and E as well)
             self.h_le()
@@ -959,12 +958,12 @@ class Snobal(object):
 
         if self.input1.precip_now:
 
-            M = self.heat_stor(cp_water(self.input1.T_rain),
+            M = self.heat_stor(cp_water(self.input1.t_rain),
                                self.input1.m_rain,
-                               self.input1.T_rain - self.snow_state.T_s_0) + \
-                self.heat_stor(cp_ice(self.input1.T_snow),
+                               self.input1.t_rain - self.snow_state.t_s_0) + \
+                self.heat_stor(cp_ice(self.input1.t_snow),
                                self.input1.m_snow,
-                               self.input1.T_snow - self.snow_state.T_s_0)
+                               self.input1.t_snow - self.snow_state.t_s_0)
 
             M /= self.time_step
 
@@ -979,12 +978,12 @@ class Snobal(object):
         """
 
         if layer == 'surface':
-            tsno = self.snow_state.T_s_0
+            tsno = self.snow_state.t_s_0
             ds = self.snow_state.z_s_0
             es_layer = self.snow_state.e_s_0
 
         else:
-            tsno = self.snow_state.T_s_l
+            tsno = self.snow_state.t_s_l
             ds = self.snow_state.z_s_l
             es_layer = self.snow_state.e_s_l
 
@@ -1000,7 +999,7 @@ class Snobal(object):
         # /***    k_g = efcon(KT_WETSAND, tg, pa);            ***/
         k_g = libsnobal.efcon(
             KT_MOISTSAND,
-            self.input1.T_g,
+            self.input1.t_g,
             self.P_a,
             es_layer=self.input1.e_g)
 
@@ -1012,7 +1011,7 @@ class Snobal(object):
             tsno,
             self.P_a,
             es_layer=es_layer)
-        g = libsnobal.ssxfr(k_s, k_g, tsno, self.input1.T_g, ds, self.z_g)
+        g = libsnobal.ssxfr(k_s, k_g, tsno, self.input1.t_g, ds, self.z_g)
 
         self.snow_state.G = g
 
@@ -1022,28 +1021,28 @@ class Snobal(object):
         """
 
         # calculate g
-        if self.snow_state.T_s_0 == self.snow_state.T_s_l:
+        if self.snow_state.t_s_0 == self.snow_state.t_s_l:
             g = 0
         else:
             kcs1 = self.snow_state.kts
             kcs2 = self.snow_state.kts
             k_s1 = libsnobal.efcon(
                 kcs1,
-                self.snow_state.T_s_0,
+                self.snow_state.t_s_0,
                 self.P_a,
                 es_layer=self.snow_state.e_s_0)
 
             k_s2 = libsnobal.efcon(
                 kcs2,
-                self.snow_state.T_s_l,
+                self.snow_state.t_s_l,
                 self.P_a,
                 es_layer=self.snow_state.e_s_l)
 
             g = libsnobal.ssxfr(
                 k_s1,
                 k_s2,
-                self.snow_state.T_s_0,
-                self.snow_state.T_s_l,
+                self.snow_state.t_s_0,
+                self.snow_state.t_s_l,
                 self.snow_state.z_s_0,
                 self.snow_state.z_s_l)
 
@@ -1076,15 +1075,15 @@ class Snobal(object):
         # calculate H & L_v_E
         H, L_v_E, E, status, ustar, factor = libsnobal.hle1(
             self.P_a,
-            self.input1.T_a,
-            self.snow_state.T_s_0,
+            self.input1.t_a,
+            self.snow_state.t_s_0,
             rel_z_T,
             self.input1.e_a,
             self.snow_state.e_s_0,
             rel_z_T,
             self.input1.u,
             rel_z_u,
-            self.z_0,
+            self.snow_state.z_0,
             **self._hle1_init
         )
 
@@ -1096,12 +1095,12 @@ class Snobal(object):
         if status != 0:
             raise Exception(
                 """hle1 did not converge \n"""
-                """P_a={}, T_a={}, T_s_0={}\n"""
+                """P_a={}, t_a={}, t_s_0={}\n"""
                 """relative z_T={}, e_a={}, e_s={}\n"""
                 """u={}, relative z_u={}, z_0={}\n""".format(
-                    self.P_a, self.input1.T_a, self.snow_state.T_s_0, rel_z_T,
+                    self.P_a, self.input1.t_a, self.snow_state.t_s_0, rel_z_T,
                     self.input1.e_a, self.snow_state.e_s_0, self.input1.u,
-                    rel_z_u, self.z_0))
+                    rel_z_u, self.snow_state.z_0))
 
         self.snow_state.H = H
         self.snow_state.L_v_E = L_v_E
@@ -1129,40 +1128,6 @@ class Snobal(object):
             return (self.snow_state.m_s_0 < threshold) or \
                 (self.snow_state.m_s_l < threshold)
 
-    def get_sn_rec(self, first_rec=False):
-        """
-        This routine loads the next snow-properties record into the
-        proper snow variables.  Before loading the next record though,
-        it computes the difference between the current snow properties
-        (predicted) and those in the next record (measured).  It then
-        reads next record from either the corresponding input file or
-        standard input.  If there are no more records are available, the
-        global variable "more_sn_recs" is set to FALSE.
-
-        Args:
-            first_rec: whether or not it's the first record
-        """
-
-        if first_rec:
-
-            # keep track of which snow property to read
-            self.snow_prop_index = 0
-
-            self.time_s = 0
-            self.curr_time_hrs = 0
-            self.start_time = 0
-            self.more_sn_recs = True
-            self.z_0 = self.snow_records['z_0']
-
-            self.current_time = self.time_s
-
-        else:
-            # haven't ever seen this used so not entirly sure now this works
-            # increase the index if there are more than one record
-            self.snow_prop_index += 1
-
-        self.more_sn_recs = False
-
     def get_measurement_height_rec(self, first_rec=False):
         """
         This routine loads the next measurement-heights record into
@@ -1188,7 +1153,7 @@ class Snobal(object):
 
         self.more_mh_recs = False
 
-    def init_snow(self, from_record=False):
+    def init_snow(self):
         """init_sno
         This routine initializes the properties for the snowcover.  It
         determines the number of layers, their individual properties,
@@ -1196,7 +1161,7 @@ class Snobal(object):
         snowcover's water content.
 
         Initialize all the following values
-        h2o_sat, layer_count, max_h2o_vol, rho, T_s, T_s_0, T_s_l,
+        h2o_sat, layer_count, max_h2o_vol, rho, t_s, t_s_0, t_s_l,
         z_s, cc_s, cc_s_0, cc_s_l, h2o, h2o_max, h2o_total, h2o_vol,
         m_s, m_s_0, m_s_l
 
@@ -1206,28 +1171,14 @@ class Snobal(object):
 
             z_s: depth of snowcover (m)
             rho: density of snowcover (kg/m^3)
-            T_s: average temperature of snowcover (K)
-            T_s_0: temperature of surface layer of snowcover (K)
-            T_s_l: temperature of lower layer of snowcover (K)
+            t_s: average temperature of snowcover (K)
+            t_s_0: temperature of surface layer of snowcover (K)
+            t_s_l: temperature of lower layer of snowcover (K)
             h2o_sat:  % of liquid h2o saturation (0 to 1.0)
             max_h2o_vol: maximum liquid h2o content as volume ratio:
                         V_water/(V_snow - V_ice) (unitless)
 
         """
-
-        # set the values from the initial snow properties
-        if from_record:
-            self.create_snow_state()
-
-            self.snow_state.z_s = self.snow_records['z_s']
-            self.snow_state.rho = self.snow_records['rho']
-            self.snow_state.T_s_0 = self.snow_records['t_s_0']
-            self.snow_state.T_s = self.snow_records['t_s']
-            self.snow_state.h2o_sat = self.snow_records['h2o_sat']
-            self.snow_state.max_h2o_vol = self.params['max_h2o_vol']
-
-        elif not hasattr(self, 'snow_state'):
-            raise Exception('The snow_state has not been intitialized')
 
         # initialize the snowpack
         self.snow_state.m_s = self.snow_state.rho * self.snow_state.z_s
@@ -1250,22 +1201,22 @@ class Snobal(object):
             # Note: Snow temperatures are set to MIN_SNOW_TEMP
             # (as degrees K) instead of 0 K to keep quantization
             # range in output image smaller.
-            for col in ['T_s', 'T_s_0', 'T_s_l']:
+            for col in ['t_s', 't_s_0', 't_s_l']:
                 setattr(self.snow_state, col, MIN_SNOW_TEMP + FREEZE)
 
         else:
             # Compute the specific mass and cold content for each layer
             self.layer_mass()
             self.snow_state.cc_s_0 = self.cold_content(
-                self.snow_state.T_s_0,
+                self.snow_state.t_s_0,
                 self.snow_state.m_s_0)
 
             if self.snow_state.layer_count == 2:
                 self.snow_state.cc_s_l = self.cold_content(
-                    self.snow_state.T_s_l,
+                    self.snow_state.t_s_l,
                     self.snow_state.m_s_l)
             else:
-                self.snow_state.T_s_l = MIN_SNOW_TEMP + FREEZE
+                self.snow_state.t_s_l = MIN_SNOW_TEMP + FREEZE
                 self.snow_state.cc_s_l = 0
 
             # Compute liquid water content as volume ratio, and
@@ -1282,8 +1233,27 @@ class Snobal(object):
             self.snow_state.h2o = self.snow_state.h2o_sat * \
                 self.snow_state.h2o_max
 
-    def create_snow_state(self):
-        self.snow_state = SnowState()
+    def create_snow_state(self, snow_state_class, from_record=True):
+        """Create the snow state from the given snow state class.
+
+        Args:
+            snow_state_class (SnowState or SpatialSnowState):
+                SnowState or SpatialSnowState instance
+            from_record (bool, optional): Load the inital values from an input
+                records. Defaults to True.
+        """
+
+        self.snow_state = snow_state_class()
+
+        if from_record:
+            self.snow_state.set_from_dict(self.snow_records)
+            # self.snow_state.z_s = self.snow_records['z_s']
+            # self.snow_state.rho = self.snow_records['rho']
+            # self.snow_state.t_s_0 = self.snow_records['t_s_0']
+            # self.snow_state.t_s = self.snow_records['t_s']
+            # self.snow_state.h2o_sat = self.snow_records['h2o_sat']
+            self.snow_state.max_h2o_vol = self.params['max_h2o_vol']
+            # self.snow_state.z_0 = self.snow_records['z_0']
 
     def calc_layers(self):
         """
@@ -1391,7 +1361,7 @@ class Snobal(object):
         """
 
         # sz = self.elevation.shape
-        flds = ['rho', 'T_s_0', 'T_s_l', 'T_s',
+        flds = ['rho', 't_s_0', 't_s_l', 't_s',
                 'cc_s_0', 'cc_s_l', 'cc_s', 'm_s', 'm_s_0', 'm_s_l', 'z_s',
                 'z_s_0', 'z_s_l', 'h2o_sat', 'layer_count', 'h2o', 'h2o_max',
                 'h2o_vol', 'h2o_total', 'R_n_bar', 'H_bar', 'L_v_E_bar',

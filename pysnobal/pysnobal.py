@@ -253,9 +253,6 @@ class PySnobal():
 
         self.input_data = input_data
 
-        if self.output_mode == 'normal':
-            self.output_timesteps = self.input_data.index.to_list()
-
         self.map_input_data()
 
     def map_input_data(self):
@@ -266,14 +263,14 @@ class PySnobal():
         mapper = {
             'net_solar': 'S_n',
             'incoming_thermal': 'I_lw',
-            'air_temp': 'T_a',
+            'air_temp': 't_a',
             'vapor_pressure': 'e_a',
             'wind_speed': 'u',
-            'soil_temp': 'T_g',
+            'soil_temp': 't_g',
             'precip_mass': 'm_pp',
             'percent_snow': 'percent_snow',
             'rho_snow': 'rho_snow',
-            'precip_temp': 'T_pp'
+            'precip_temp': 't_pp'
         }
 
         self.input_data = self.input_data.rename(columns=mapper)
@@ -294,7 +291,7 @@ class PySnobal():
             self.tstep_info,
             self.config['initial_snow_properties'],
             self.measurement_heights,
-            self.output_timesteps
+            self.output_mode
         )
 
         # index2 is the index for the second input timestep
@@ -328,9 +325,9 @@ class PySnobal():
         self.output_df.sort_index(inplace=True)
 
         # Kelvin to Celcius
-        self.output_df['T_s_0'] -= FREEZE
-        self.output_df['T_s_l'] -= FREEZE
-        self.output_df['T_s'] -= FREEZE
+        self.output_df['t_s_0'] -= FREEZE
+        self.output_df['t_s_l'] -= FREEZE
+        self.output_df['t_s'] -= FREEZE
 
         # Map to the outputs
         mapper = {
@@ -353,7 +350,7 @@ class PySnobal():
                      'cc_s_l', 'cc_s', 'E_s', 'melt', 'ro_predict',
                      'z_s_0', 'z_s_l', 'z_s',
                      'rho', 'm_s_0', 'm_s_l', 'm_s', 'h2o',
-                     'T_s_0', 'T_s_l', 'T_s']
+                     't_s_0', 't_s_l', 't_s']
         self.output_df = self.output_df[keep_list]
 
         # Change the output format to match the original Snobal
@@ -382,9 +379,9 @@ class PySnobal():
                 'm_s_l': '%.3f',
                 'm_s': '%.3f',
                 'h2o': '%.3f',
-                'T_s_0': '%.5f',
-                'T_s_l': '%.5f',
-                'T_s': '%.5f'
+                't_s_0': '%.5f',
+                't_s_l': '%.5f',
+                't_s': '%.5f'
             }
             for key, value in float_map.items():
                 self.output_df[key] = self.output_df[key].map(

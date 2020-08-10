@@ -6,13 +6,13 @@ class InputData():
 
     # These will act like cumulative variables where the
     # input deltas will add to them
-    INPUT_VARIABLES = [
+    INPUt_VARIABLES = [
         'S_n',
         'I_lw',
-        'T_a',
+        't_a',
         'e_a',
         'u',
-        'T_g'
+        't_g'
     ]
 
     # Some of the precipitation variables are handled slightly
@@ -30,9 +30,9 @@ class InputData():
     PRECIP_CONSTANT = [
         'percent_snow',
         'rho_snow',
-        'T_pp',
-        'T_rain',
-        'T_snow'
+        't_pp',
+        't_rain',
+        't_snow'
     ]
 
     # These are derived variables from the precipitation inputs
@@ -40,22 +40,22 @@ class InputData():
     PRECIP_DERIVED = [
         'z_snow',
         'h2o_sat_snow',
-        'T_rain',
-        'T_snow'
+        't_rain',
+        't_snow'
     ]
 
     def __init__(self, data, input_delta=False):
 
         self.S_n = data['S_n']
         self.I_lw = data['I_lw']
-        self.T_a = data['T_a']
+        self.t_a = data['t_a']
         self.e_a = data['e_a']
         self.u = data['u']
-        self.T_g = data['T_g']
+        self.t_g = data['t_g']
         self.m_pp = data['m_pp']
         self.percent_snow = data['percent_snow']
         self.rho_snow = data['rho_snow']
-        self.T_pp = data['T_pp']
+        self.t_pp = data['t_pp']
 
         # derived precip values
         self.m_snow = self.m_pp * self.percent_snow
@@ -70,12 +70,12 @@ class InputData():
             self.precipitation_inputs()
 
     @property
-    def T_a(self):
-        return self._T_a
+    def t_a(self):
+        return self._t_a
 
-    @T_a.setter
-    def T_a(self, var):
-        self._T_a = var
+    @t_a.setter
+    def t_a(self, var):
+        self._t_a = var
         self.__sat_vp = False
 
     @property
@@ -87,17 +87,17 @@ class InputData():
             float: saturation vapor pressure over ice
         """
         if not self.__sat_vp:
-            self._sat_vp = sati(self.T_a)
+            self._sat_vp = sati(self.t_a)
             self.__sat_vp = True
         return self._sat_vp
 
     @property
-    def T_g(self):
-        return self._T_g
+    def t_g(self):
+        return self._t_g
 
-    @T_g.setter
-    def T_g(self, var):
-        self._T_g = var
+    @t_g.setter
+    def t_g(self, var):
+        self._t_g = var
         self.__e_g = False
 
     @property
@@ -109,7 +109,7 @@ class InputData():
             float: saturation vapor pressure over ice
         """
         if not self.__e_g:
-            self._e_g = sati(self.T_g)
+            self._e_g = sati(self.t_g)
             self.__e_g = True
         return self._e_g
 
@@ -134,39 +134,39 @@ class InputData():
                 self.z_snow = 0
 
             # check the precip, temp. cannot be below freezing if rain present
-            if (self.m_rain > 0) and (self.T_pp < FREEZE):
-                self.T_pp = FREEZE
+            if (self.m_rain > 0) and (self.t_pp < FREEZE):
+                self.t_pp = FREEZE
 
             # Mixed snow and rain
             if (self.m_snow > 0) and (self.m_rain > 0):
-                self.T_snow = FREEZE
+                self.t_snow = FREEZE
                 self.h2o_sat_snow = 1
-                self.T_rain = self.T_pp
+                self.t_rain = self.t_pp
 
             elif (self.m_snow > 0):
                 # Snow only
-                if (self.T_pp < FREEZE):
+                if (self.t_pp < FREEZE):
                     # cold snow
-                    self.T_snow = self.T_pp
+                    self.t_snow = self.t_pp
                     self.h2o_sat_snow = 0
                 else:
                     # warm snow
-                    self.T_snow = FREEZE
+                    self.t_snow = FREEZE
                     self.h2o_sat_snow = 1
 
             elif (self.m_rain > 0):
                 # rain only
-                self.T_rain = self.T_pp
+                self.t_rain = self.t_pp
 
     def add_deltas(self, input_deltas):
 
         # Add the input data deltas
         self.S_n = self.S_n + input_deltas.S_n
         self.I_lw = self.I_lw + input_deltas.I_lw
-        self.T_a = self.T_a + input_deltas.T_a
+        self.t_a = self.t_a + input_deltas.t_a
         self.e_a = self.e_a + input_deltas.e_a
         self.u = self.u + input_deltas.u
-        self.T_g = self.T_g + input_deltas.T_g
+        self.t_g = self.t_g + input_deltas.t_g
 
         self.update_precip_deltas(input_deltas)
 
@@ -193,7 +193,7 @@ class InputDeltas():
         for tstep in self.tstep_info:
 
             tstep_deltas = {}
-            for variable in self.input1.INPUT_VARIABLES:
+            for variable in self.input1.INPUt_VARIABLES:
                 tstep_deltas[variable] = (
                     getattr(self.input2, variable) -
                     getattr(self.input1, variable)

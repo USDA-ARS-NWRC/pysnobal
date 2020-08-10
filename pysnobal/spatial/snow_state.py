@@ -30,29 +30,29 @@ class SpatialSnowState(SnowState):
         """
 
         if self.layer_count == 1:
-            self.T_s_0 = self.new_tsno(
+            self.t_s_0 = self.new_tsno(
                 self.m_s_0,
-                self.T_s_0,
+                self.t_s_0,
                 self.cc_s_0)
-            self.T_s = self.T_s_0
+            self.t_s = self.t_s_0
 
         elif self.layer_count == 2:
             if self.isothermal:
-                self.T_s = FREEZE
-                self.T_s_l = FREEZE
-                self.T_s_0 = FREEZE
+                self.t_s = FREEZE
+                self.t_s_l = FREEZE
+                self.t_s_0 = FREEZE
             else:
-                self.T_s_0 = self.new_tsno(
+                self.t_s_0 = self.new_tsno(
                     self.m_s_0,
-                    self.T_s_0,
+                    self.t_s_0,
                     self.cc_s_0)
-                self.T_s_l = self.new_tsno(
+                self.t_s_l = self.new_tsno(
                     self.m_s_l,
-                    self.T_s_l,
+                    self.t_s_l,
                     self.cc_s_l)
-                self.T_s = self.new_tsno(
+                self.t_s = self.new_tsno(
                     self.m_s,
-                    self.T_s,
+                    self.t_s,
                     self.cc_s)
 
     def new_tsno(self, spm, t0, ccon):

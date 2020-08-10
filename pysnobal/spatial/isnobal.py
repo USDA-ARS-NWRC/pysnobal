@@ -47,7 +47,6 @@ class iSnobal(Snobal):
 
         # get the intial snowcover properties
         self.snow_records = inital_conditions
-        self.get_sn_rec(True)
 
         # initialize the snowcover
         self.init_snow(True)

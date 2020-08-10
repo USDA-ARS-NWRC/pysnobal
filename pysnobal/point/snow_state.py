@@ -26,9 +26,9 @@ class SnowState():
         self.layer_count = init
         self.max_h2o_vol = init
         self.rho = init
-        self.T_s = init
-        self.T_s_0 = init
-        self.T_s_l = init
+        self.t_s = init
+        self.t_s_0 = init
+        self.t_s_l = init
         self.z_s = init
         self.z_s_0 = init
         self.z_s_l = init
@@ -69,6 +69,7 @@ class SnowState():
         self.melt_sum = init
         self.E_s_sum = init
 
+        self.z_0 = 0.05
         self._isothermal = False
 
     def set_zeros(self, fields):
@@ -79,13 +80,23 @@ class SnowState():
         for field in fields:
             setattr(self, field, self.zeros)
 
-    @property
-    def T_s_0(self):
-        return self._T_s_0
+    def set_from_dict(self, data_dict):
+        """Set snow state variables from a dict object
 
-    @T_s_0.setter
-    def T_s_0(self, var):
-        self._T_s_0 = var
+        Args:
+            data_dict (dict): data dict to set in snow state
+        """
+
+        for variable, data in data_dict.items():
+            setattr(self, variable, data)
+
+    @property
+    def t_s_0(self):
+        return self._t_s_0
+
+    @t_s_0.setter
+    def t_s_0(self, var):
+        self._t_s_0 = var
         self.__es_s_0 = False
 
     @property
@@ -97,17 +108,17 @@ class SnowState():
             float: saturation vapor pressure over ice
         """
         if not self.__es_s_0:
-            self._es_s_0 = sati(self.T_s_0)
+            self._es_s_0 = sati(self.t_s_0)
             self.__es_s_0 = True
         return self._es_s_0
 
     @property
-    def T_s_l(self):
-        return self._T_s_l
+    def t_s_l(self):
+        return self._t_s_l
 
-    @T_s_l.setter
-    def T_s_l(self, var):
-        self._T_s_l = var
+    @t_s_l.setter
+    def t_s_l(self, var):
+        self._t_s_l = var
         self.__es_s_l = False
 
     @property
@@ -119,7 +130,7 @@ class SnowState():
             float: saturation vapor pressure over ice
         """
         if not self.__es_s_l:
-            self._es_s_l = sati(self.T_s_l)
+            self._es_s_l = sati(self.t_s_l)
             self.__es_s_l = True
         return self._es_s_l
 
@@ -141,29 +152,29 @@ class SnowState():
         """
 
         if self.layer_count == 1:
-            self.T_s_0 = self.new_tsno(
+            self.t_s_0 = self.new_tsno(
                 self.m_s_0,
-                self.T_s_0,
+                self.t_s_0,
                 self.cc_s_0)
-            self.T_s = self.T_s_0
+            self.t_s = self.t_s_0
 
         elif self.layer_count == 2:
             if self.isothermal:
-                self.T_s = FREEZE
-                self.T_s_l = FREEZE
-                self.T_s_0 = FREEZE
+                self.t_s = FREEZE
+                self.t_s_l = FREEZE
+                self.t_s_0 = FREEZE
             else:
-                self.T_s_0 = self.new_tsno(
+                self.t_s_0 = self.new_tsno(
                     self.m_s_0,
-                    self.T_s_0,
+                    self.t_s_0,
                     self.cc_s_0)
-                self.T_s_l = self.new_tsno(
+                self.t_s_l = self.new_tsno(
                     self.m_s_l,
-                    self.T_s_l,
+                    self.t_s_l,
                     self.cc_s_l)
-                self.T_s = self.new_tsno(
+                self.t_s = self.new_tsno(
                     self.m_s,
-                    self.T_s,
+                    self.t_s,
                     self.cc_s)
 
     def new_tsno(self, spm, t0, ccon):
