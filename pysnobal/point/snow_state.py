@@ -53,7 +53,7 @@ class SnowState():
             setattr(self, bar_variable, init)
 
         # mass balance vars for current timestep
-        # specific melt (kg/m^2 or m)
+        # specific melt (kg/m^2 or mm)
         self.melt = init
 
         # mass flux by evap into air from active layer (kg/m^2/s)
@@ -63,7 +63,7 @@ class SnowState():
         self.E_s = init
 
         # predicted specific runoff (m/sec)
-        self.ro_predict = init
+        self.swi = init
 
         # sums of mass balance vars since last output record
         self.melt_sum = init
@@ -237,7 +237,7 @@ class SnowState():
 
         self.E_s_sum = self.E_s
         self.melt_sum = self.melt
-        self.ro_pred_sum = self.ro_predict
+        self.swi_sum = self.swi
 
     def time_average(self, time_since_out, time_step):
         """Update the time averaged value (`_bar`) for the desired variables.
@@ -256,4 +256,4 @@ class SnowState():
 
         self.E_s_sum += self.E_s
         self.melt_sum += self.melt
-        self.ro_pred_sum += self.ro_predict
+        self.swi_sum += self.swi

@@ -115,7 +115,7 @@ class SpatialSnowState(SnowState):
 
         self.E_s_sum = self.E_s
         self.melt_sum = self.melt
-        self.ro_pred_sum = self.ro_predict
+        self.swi_sum = self.swi
 
     def time_average(self, time_since_out, time_step):
         """Update the time averaged value (`_bar`) for the desired variables.
@@ -134,4 +134,4 @@ class SpatialSnowState(SnowState):
 
         self.E_s_sum += self.E_s
         self.melt_sum += self.melt
-        self.ro_pred_sum += self.ro_predict
+        self.swi_sum += self.swi

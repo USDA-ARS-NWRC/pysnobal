@@ -52,23 +52,16 @@ class Snobal(object):
             GRAVITY,
             MOL_AIR)
 
-        # get the intial snowcover properties
+        # get the initial snowcover properties and initialize
         self.snow_records = inital_conditions
-
-        # create then initialize the snowcover
         self.create_snow_state(SnowState)
         self.init_snow()
 
         # get measurement-height record
         self.measurement_heights = meas_heights
-        self.get_measurement_height_rec(True)
         self.relative_hts = False
 
-        # runoff data
-        self.ro_data = False
-
         self.time_since_out = 0
-        # self.current_time = 0
 
         self.init_output()
 
@@ -270,7 +263,6 @@ class Snobal(object):
             self.time_since_out = self.time_step
 
         # increment time
-        # self.current_time = self.current_time + self.time_step
         self.current_datetime = self.current_datetime + \
             tstep['time_step_timedelta']
 
@@ -326,7 +318,7 @@ class Snobal(object):
         # then all water (e.g., rain) is runoff.
 
         if (not self.snowcover) or (self.snow_state.layer_count == 0):
-            self.snow_state.ro_predict = self.snow_state.h2o_total
+            self.snow_state.swi = self.snow_state.h2o_total
             return
 
         # Determine the snow density without any water, and the maximum
@@ -338,17 +330,17 @@ class Snobal(object):
 
         # Determine runoff, and water left in the snow
         if self.snow_state.h2o_total > self.snow_state.h2o_max:
-            self.snow_state.ro_predict = self.snow_state.h2o_total - \
+            self.snow_state.swi = self.snow_state.h2o_total - \
                 self.snow_state.h2o_max
             self.snow_state.h2o = self.snow_state.h2o_max
             self.snow_state.h2o_sat = 1.0
             self.snow_state.h2o_vol = self.snow_state.max_h2o_vol
 
             # Update the snowcover's mass for the loss of runoff.
-            self.adj_snow(0.0, -self.snow_state.ro_predict)
+            self.adj_snow(0.0, -self.snow_state.swi)
 
         else:
-            self.snow_state.ro_predict = 0.0
+            self.snow_state.swi = 0.0
             self.snow_state.h2o = self.snow_state.h2o_total
             self.snow_state.h2o_sat = self.snow_state.h2o / \
                 self.snow_state.h2o_max
@@ -475,7 +467,8 @@ class Snobal(object):
             rho_air = gas_density(self.P_a, libsnobal.MOL_AIR, t_bar)
             k = diffusion_coef(self.P_a, t_bar)
 
-            E_l = vapor_flux(rho_air, k, q_delta, self.z_g)
+            E_l = vapor_flux(rho_air, k, q_delta,
+                             self.measurement_heights['z_g'])
 
             # total mass of evap/cond for time step
             E_s_l = E_l * self.time_step
@@ -1011,7 +1004,8 @@ class Snobal(object):
             tsno,
             self.P_a,
             es_layer=es_layer)
-        g = libsnobal.ssxfr(k_s, k_g, tsno, self.input1.t_g, ds, self.z_g)
+        g = libsnobal.ssxfr(k_s, k_g, tsno, self.input1.t_g,
+                            ds, self.measurement_heights['z_g'])
 
         self.snow_state.G = g
 
@@ -1066,11 +1060,11 @@ class Snobal(object):
 
         # determine relative measurement heights
         if self.relative_hts:
-            rel_z_T = self.z_T
-            rel_z_u = self.z_u
+            rel_z_T = self.measurement_heights['z_t']
+            rel_z_u = self.measurement_heights['z_u']
         else:
-            rel_z_T = self.z_T - self.snow_state.z_s
-            rel_z_u = self.z_u - self.snow_state.z_s
+            rel_z_T = self.measurement_heights['z_t'] - self.snow_state.z_s
+            rel_z_u = self.measurement_heights['z_u'] - self.snow_state.z_s
 
         # calculate H & L_v_E
         H, L_v_E, E, status, ustar, factor = libsnobal.hle1(
@@ -1127,31 +1121,6 @@ class Snobal(object):
         else:
             return (self.snow_state.m_s_0 < threshold) or \
                 (self.snow_state.m_s_l < threshold)
-
-    def get_measurement_height_rec(self, first_rec=False):
-        """
-        This routine loads the next measurement-heights record into
-        the proper mh variables.  It then reads the next record from
-        either the corresponding input file or standard input.  If
-        there are no more records are available, the global variable
-        "more_mh_recs" is set to FALSE.
-
-        Args:
-            first_rec: whether or not it's the first record
-        """
-
-        if first_rec:
-            self.measurement_heights_index = 0
-
-            # self.time_z = self.measurement_heights['name * HR_TO_SEC
-            self.z_u = self.measurement_heights['z_u']
-            self.z_T = self.measurement_heights['z_t']
-            self.z_g = self.measurement_heights['z_g']
-
-        else:
-            self.measurement_heights_index += 1
-
-        self.more_mh_recs = False
 
     def init_snow(self):
         """init_sno
@@ -1366,7 +1335,7 @@ class Snobal(object):
                 'z_s_0', 'z_s_l', 'h2o_sat', 'layer_count', 'h2o', 'h2o_max',
                 'h2o_vol', 'h2o_total', 'R_n_bar', 'H_bar', 'L_v_E_bar',
                 'G_bar', 'G_0_bar', 'M_bar', 'delta_Q_bar', 'delta_Q_0_bar',
-                'E_s_sum', 'melt_sum', 'ro_pred_sum']
+                'E_s_sum', 'melt_sum', 'swi_sum']
         s = {key: 0.0 for key in flds}  # the structure fields
 
         # # update the output rec with the initial snowpack state

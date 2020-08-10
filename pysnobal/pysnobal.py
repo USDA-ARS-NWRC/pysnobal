@@ -341,13 +341,13 @@ class PySnobal():
             'delta_Q_0_bar': 'delta_Q_0',
             'E_s_sum': 'E_s',
             'melt_sum': 'melt',
-            'ro_pred_sum': 'ro_predict'
+            'swi_sum': 'swi'
         }
         self.output_df = self.output_df.rename(columns=mapper)
 
         keep_list = ['R_n', 'H', 'L_v_E', 'G', 'M', 'delta_Q',
                      'G_0', 'delta_Q_0', 'cc_s_0',
-                     'cc_s_l', 'cc_s', 'E_s', 'melt', 'ro_predict',
+                     'cc_s_l', 'cc_s', 'E_s', 'melt', 'swi',
                      'z_s_0', 'z_s_l', 'z_s',
                      'rho', 'm_s_0', 'm_s_l', 'm_s', 'h2o',
                      't_s_0', 't_s_l', 't_s']
@@ -370,7 +370,7 @@ class PySnobal():
                 'cc_s': '%.9e',
                 'E_s': '%.8f',
                 'melt': '%.8f',
-                'ro_predict': '%.8f',
+                'swi': '%.8f',
                 'z_s_0': '%.6f',
                 'z_s_l': '%.6f',
                 'z_s': '%.6f',

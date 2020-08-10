@@ -3,7 +3,6 @@ import sys
 
 import numpy as np
 import pandas as pd
-import netCDF4 as nc
 import xarray as xr
 from inicheck.config import MasterConfig, UserConfig
 from inicheck.output import print_config_report
