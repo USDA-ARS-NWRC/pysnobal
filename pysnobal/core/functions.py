@@ -217,3 +217,15 @@ def vapor_flux(air_density, k, q_dif, z_dif):
         float or array: water vapor flux
     """
     return air_density * k * (q_dif/z_dif)
+
+
+def heat_stor(cp, spm, tdif):
+    """
+    Calculate the heat storage
+    Args:
+        cp: specific heat of layer (J/kg K)
+        spm: layer specific mass (kg/m^2)
+        tdif: temperature change (K)
+    """
+
+    return cp * spm * tdif

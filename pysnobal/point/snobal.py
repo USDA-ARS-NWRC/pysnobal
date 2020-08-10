@@ -10,7 +10,7 @@ from pysnobal.core.constants import (FREEZE, GRAVITY, KT_MOISTSAND,
                                      STD_AIRTMP, STD_LAPSE, STEF_BOLTZ,
                                      SWE_MAX, VAP_SUB)
 from pysnobal.core.functions import (cp_ice, cp_water, diffusion_coef, hysat,
-                                     gas_density, h2o_left, melt, vapor_flux)
+                                     gas_density, h2o_left, melt, vapor_flux, heat_stor)
 from pysnobal.point import InputDeltas, SnowState, libsnobal
 
 # import pandas as pd
@@ -596,14 +596,6 @@ class Snobal(object):
         if self.snow_state.melt > 0:
             self.adj_snow((-1)*self.snow_state.melt/self.snow_state.rho, 0)
 
-        # set total cold content
-        # TODO move this to snow state
-        if self.snow_state.layer_count == 2:
-            self.snow_state.cc_s = self.snow_state.cc_s_0 + \
-                self.snow_state.cc_s_l
-        elif self.snow_state.layer_count == 1:
-            self.snow_state.cc_s = self.snow_state.cc_s_0
-
     def precip_event(self):
         """
         This routine processes a precipitation event, i.e., the current
@@ -853,7 +845,7 @@ class Snobal(object):
 
             # set a bunch of values to 0
             index = ['h2o_vol', 'h2o', 'h2o_max', 'h2o_sat',
-                     'm_s', 'cc_s', 'm_s_0', 'cc_s_0']
+                     'm_s', 'm_s_0', 'cc_s_0']
             self.snow_state.set_zeros(index)
 
             # Note: Snow temperatures are set to MIN_SNOW_TEMP
@@ -951,12 +943,12 @@ class Snobal(object):
 
         if self.input1.precip_now:
 
-            M = self.heat_stor(cp_water(self.input1.t_rain),
-                               self.input1.m_rain,
-                               self.input1.t_rain - self.snow_state.t_s_0) + \
-                self.heat_stor(cp_ice(self.input1.t_snow),
-                               self.input1.m_snow,
-                               self.input1.t_snow - self.snow_state.t_s_0)
+            M = heat_stor(cp_water(self.input1.t_rain),
+                          self.input1.m_rain,
+                          self.input1.t_rain - self.snow_state.t_s_0) + \
+                heat_stor(cp_ice(self.input1.t_snow),
+                          self.input1.m_snow,
+                          self.input1.t_snow - self.snow_state.t_s_0)
 
             M /= self.time_step
 
@@ -1163,7 +1155,7 @@ class Snobal(object):
                 self.snow_state.h2o_total += self.snow_state.m_s
 
             self.snow_state.set_zeros([
-                'rho', 'm_s', 'cc_s', 'm_s_0', 'cc_s_0', 'm_s_l',
+                'rho', 'm_s', 'm_s_0', 'cc_s_0', 'm_s_l',
                 'cc_s_l', 'h2o_vol', 'h2o', 'h2o_max', 'h2o_sat'
             ])
 
@@ -1310,19 +1302,8 @@ class Snobal(object):
 
         cc = 0
         if temp < FREEZE:
-            cc = self.heat_stor(cp_ice(temp), mass, temp-FREEZE)
+            cc = heat_stor(cp_ice(temp), mass, temp-FREEZE)
         return cc
-
-    def heat_stor(self, cp, spm, tdif):
-        """
-        Calculate the heat storage
-        Args:
-            cp: specific heat of layer (J/kg K)
-            spm: layer specific mass (kg/m^2)
-            tdif: temperature change (K)
-        """
-
-        return cp * spm * tdif
 
     def init_output(self):
         """Initialize the output, it will be a list of dictionaries that

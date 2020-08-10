@@ -1,5 +1,5 @@
-from pysnobal.core.constants import CAL_TO_J, FREEZE, RHO_ICE, RHO_W0
-from pysnobal.core.functions import cp_ice, time_average
+from pysnobal.core.constants import CAL_TO_J, FREEZE, RHO_ICE, RHO_W0, MIN_SNOW_TEMP
+from pysnobal.core.functions import cp_ice, time_average, heat_stor
 from pysnobal.point.libsnobal import sati
 
 
@@ -34,7 +34,7 @@ class SnowState():
         self.z_s_l = init
 
         # TODO could be moved to a property that is calculated when needed
-        self.cc_s = init
+        # self.cc_s = init
         self.cc_s_0 = init
         self.cc_s_l = init
         self.m_s = init
@@ -146,6 +146,51 @@ class SnowState():
             self._isothermal = False
 
         return self._isothermal
+
+    # @property
+    # def cc_s_0(self):
+    #     if self.t_s_0 == MIN_SNOW_TEMP + FREEZE:
+    #         self._cc_s_0 = 0
+    #     else:
+    #         self._cc_s_0 = self.cold_content(self.t_s_0, self.m_s_0)
+
+    #     return val
+
+    # @cc_s_0.setter
+    # def cc_s_0(self, val):
+    #     self._cc_s_0 = val
+
+    # @property
+    # def cc_s_l(self):
+    #     return self.cold_content(self.t_s_l, self.m_s_l)
+
+    @property
+    def cc_s(self):
+        cc_s = 0
+        if self.layer_count == 2:
+            cc_s = self.cc_s_0 + self.cc_s_l
+        elif self.layer_count == 1:
+            cc_s = self.cc_s_0
+        return cc_s
+
+    # def cold_content(self, temp, mass):
+    #     """
+    #     This routine calculates the cold content for a layer (i.e., the
+    #     energy required to bring its temperature to freezing) from the
+    #     layer's temperature and specific mass.
+
+    #     Args:
+    #         temp: temperature of layer
+    #         mass: specific mass of layer
+
+    #     Returns:
+    #         cc: cold content of layer
+    #     """
+
+    #     cc = 0
+    #     if temp < FREEZE:
+    #         cc = heat_stor(cp_ice(temp), mass, temp-FREEZE)
+    #     return cc
 
     def adjust_layer_temps(self):
         """Adjust the layer temperatures
