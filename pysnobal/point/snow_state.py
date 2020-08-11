@@ -18,13 +18,15 @@ class SnowState():
         'delta_Q_0'  # change in active layer's energy(W/m ^ 2)
     ]
 
-    def __init__(self, init=0):
+    def __init__(self, init=0, max_z_s_0=0.25, small_threshold=1):
 
         self.zeros = init
+        self.max_z_s_0 = max_z_s_0
+        self.small_threshold = small_threshold
 
         # snowpack state variables
         self.h2o_sat = init
-        self.layer_count = init
+        # self.layer_count = init
         self.max_h2o_vol = init
         self.rho = init
         self.t_s = init
@@ -70,6 +72,7 @@ class SnowState():
         self.E_s_sum = init
 
         self.z_0 = 0.05
+        self.__layer_count = False
 
     def set_zeros(self, fields):
 
@@ -144,6 +147,14 @@ class SnowState():
     @property
     def cc_s(self):
         return self.cc_s_0 + self.cc_s_l
+
+    @property
+    def layer_count(self):
+        if not self.__layer_count:
+            self._layer_count = sum([self.z_s_0 > 0, self.z_s_l > 0])
+            self.__layer_count = True
+
+        return self._layer_count
 
     def adjust_layer_temps(self):
         """Adjust the layer temperatures
@@ -242,3 +253,39 @@ class SnowState():
 
         self.m_s_0 = self.rho * self.z_s_0
         self.m_s_l = self.rho * self.z_s_l
+
+    def calc_layers(self):
+        """
+        This routine determines the # of layers in the snowcover based its
+        depth and mass.  Usually, there are are 2 layers: the surface (active)
+        and the lower layer.  The depth of the surface layer is set to the
+        maximum depth for the surface layer (variable "max_z_s_0").  The
+        remaining depth constitutes the lower layer.  The routine checks
+        to see if the mass of this lower layer is above the minimum threshold
+        (i.e., the mass threshold for the small run timestep).  If not,
+        the surface layer is the whole snowcover, and there's no lower
+        layer.
+
+        """
+
+        if self.m_s <= self.small_threshold:
+            # less than minimum layer mass, so treat as no snowcover
+            # can change to the set zeros
+            z_s_0 = z_s_l = 0
+
+        else:
+            # Split up the snow depth into 1 or 2 layers
+            z_s_l = self.z_s - self.max_z_s_0
+            z_s_0 = self.max_z_s_0 if z_s_l > 0 else self.z_s
+            z_s_l = z_s_l if z_s_l > 0 else 0
+
+            # Make sure there's enough MASS for the lower
+            # layer.  If not, then there's only 1 layer
+            if z_s_l * self.rho < self.small_threshold:
+                z_s_0 = self.z_s
+                z_s_l = 0
+
+        self.z_s = z_s_0 + z_s_l
+        self.z_s_0 = z_s_0
+        self.z_s_l = z_s_l
+        self.__layer_count = False

@@ -831,7 +831,7 @@ class Snobal(object):
 
         prev_layer_count = self.snow_state.layer_count
 
-        self.calc_layers()
+        self.snow_state.calc_layers()
 
         if self.snow_state.layer_count == 0:
             # 1 or 2 layers ---> 0
@@ -1150,7 +1150,7 @@ class Snobal(object):
         self.snow_state.m_s = self.snow_state.rho * self.snow_state.z_s
 
         # determine the number of layers
-        self.calc_layers()
+        self.snow_state.calc_layers()
 
         if self.snow_state.layer_count == 0:
             # If mass > 0, then it must be below threshold.
@@ -1209,7 +1209,9 @@ class Snobal(object):
                 records. Defaults to True.
         """
 
-        self.snow_state = snow_state_class()
+        self.snow_state = snow_state_class(
+            max_z_s_0=self.params['max_z_s_0'],
+            small_threshold=self.tstep_info[SMALL_TSTEP]['threshold'])
 
         if from_record:
             self.snow_state.set_from_dict(self.snow_records)
@@ -1220,55 +1222,6 @@ class Snobal(object):
             # self.snow_state.h2o_sat = self.snow_records['h2o_sat']
             self.snow_state.max_h2o_vol = self.params['max_h2o_vol']
             # self.snow_state.z_0 = self.snow_records['z_0']
-
-    def calc_layers(self):
-        """
-        This routine determines the # of layers in the snowcover based its
-        depth and mass.  Usually, there are are 2 layers: the surface (active)
-        and the lower layer.  The depth of the surface layer is set to the
-        maximum depth for the surface layer (variable "max_z_s_0").  The
-        remaining depth constitutes the lower layer.  The routine checks
-        to see if the mass of this lower layer is above the minimum threshold
-        (i.e., the mass threshold for the small run timestep).  If not,
-        the surface layer is the whole snowcover, and there's no lower
-        layer.
-
-        """
-
-        if self.snow_state.m_s <= self.tstep_info[SMALL_TSTEP]['threshold']:
-            # less than minimum layer mass, so treat as no snowcover
-
-            layer_count = 0
-            z_s = z_s_0 = z_s_l = 0
-
-        elif self.snow_state.z_s < self.params['max_z_s_0']:
-            # not enough depth for surface layer and the lower layer,
-            # so just 1 layer: surface layer
-
-            layer_count = 1
-            z_s_0 = self.snow_state.z_s
-            z_s_l = 0
-            z_s = z_s_0
-
-        else:
-            # enough depth for both layers
-
-            layer_count = 2
-            z_s_0 = self.params['max_z_s_0']
-            z_s_l = self.snow_state.z_s - z_s_0
-            z_s = z_s_0 + z_s_l  # not really needed but needed for below
-
-            # However, make sure there's enough MASS for the lower
-            # layer.  If not, then there's only 1 layer
-            if z_s_l * self.snow_state.rho < self.tstep_info[SMALL_TSTEP]['threshold']:  # noqa
-                layer_count = 1
-                z_s_0 = self.snow_state.z_s
-                z_s_l = 0
-
-        self.snow_state.layer_count = layer_count
-        self.snow_state.z_s = z_s
-        self.snow_state.z_s_0 = z_s_0
-        self.snow_state.z_s_l = z_s_l
 
     def cold_content(self, temp, mass):
         """
