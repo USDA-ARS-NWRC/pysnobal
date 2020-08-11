@@ -10,7 +10,8 @@ from pysnobal.core.constants import (FREEZE, GRAVITY, KT_MOISTSAND,
                                      STD_AIRTMP, STD_LAPSE, STEF_BOLTZ,
                                      SWE_MAX, VAP_SUB)
 from pysnobal.core.functions import (cp_ice, cp_water, diffusion_coef, hysat,
-                                     gas_density, h2o_left, melt, vapor_flux, heat_stor)
+                                     gas_density, h2o_left, melt, vapor_flux,
+                                     heat_stor)
 from pysnobal.point import InputDeltas, SnowState, libsnobal
 
 # import pandas as pd
@@ -244,7 +245,7 @@ class Snobal(object):
         self.snow_state.set_zeros('h2o_total')
 
         # is there snowcover?
-        self.snowcover = self.snow_state.layer_count > 0
+        self.snowcover = self.snow_state.snowcover
 
         # Calculate energy transfer terms
         self.energy_balance()
@@ -482,7 +483,7 @@ class Snobal(object):
         self.snow_state.E_s = E_s_0 + E_s_l
 
         # adj mass and depth for evap/cond
-        if self.snow_state.layer_count > 0:
+        if self.snow_state.snowcover:
             delta_z = ((self.snow_state.E_s + prev_h2o_tot -
                         self.snow_state.h2o_total) /
                        self.snow_state.rho) / 2.0
@@ -884,27 +885,18 @@ class Snobal(object):
         """
 
         # if there is a snowcover
-        if self.snow_state.layer_count > 0:
+        if self.snow_state.snowcover:
 
             # Calculates net allwave radiation from the net solar radiation
             # incoming thermal/longwave radiation, and the snow surface
             # temperature.
-            # replaces _net_rad()
-            self.snow_state.R_n = self.input1.S_n + \
-                (SNOW_EMISSIVITY * (
-                    self.input1.I_lw -
-                    STEF_BOLTZ * np.power(self.snow_state.t_s_0, 4)))
+            self.net_radiation()
 
             # calculate H & L_v_E (and E as well)
             self.h_le()
 
             # calculate G & G_0 (conduction/diffusion heat xfr)
-            if self.snow_state.layer_count == 1:
-                self.g_soil('surface')
-                self.snow_state.G_0 = self.snow_state.G
-            else:  # layer_count == 2
-                self.g_soil('lower')
-                self.g_snow()
+            self.heat_transfer()
 
             # calculate advection
             self.advec()
@@ -918,22 +910,37 @@ class Snobal(object):
                 self.snow_state.M
 
             # total snowpack energy budget
-            if self.snow_state.layer_count == 1:
-                self.snow_state.delta_Q = self.snow_state.delta_Q_0
-            else:
-                self.snow_state.delta_Q = self.snow_state.delta_Q_0 + \
-                    self.snow_state.G - self.snow_state.G_0
+            # if self.snow_state.layer_count == 1:
+            #     self.snow_state.delta_Q = self.snow_state.delta_Q_0
+            # else:
+            self.snow_state.delta_Q = self.snow_state.delta_Q_0 + \
+                self.snow_state.G - self.snow_state.G_0
 
         else:
-            self.snow_state.R_n = 0
-            self.snow_state.H = 0
-            self.snow_state.L_v_E = 0
-            self.snow_state.E = 0
-            self.snow_state.M = 0
-            self.snow_state.G = 0
-            self.snow_state.G_0 = 0
-            self.snow_state.delta_Q = 0
-            self.snow_state.delta_Q_0 = 0
+            self.snow_state.set_zeros(['R_n', 'H', 'L_v_E', 'E',
+                                       'M', 'G', 'G_0', 'delta_Q',
+                                       'delta_Q_0'])
+
+    def net_radiation(self):
+        """Calculate the net radiation
+        """
+
+        self.snow_state.R_n = self.input1.S_n + \
+            (SNOW_EMISSIVITY * (
+                self.input1.I_lw -
+                STEF_BOLTZ * np.power(self.snow_state.t_s_0, 4)))
+
+    def heat_transfer(self):
+        """Conduction/diffusion heat transfer between snow layers
+        and the ground
+        """
+
+        if self.snow_state.layer_count == 1:
+            self.g_soil('surface')
+            self.snow_state.G_0 = self.snow_state.G
+        else:  # layer_count == 2
+            self.g_soil('lower')
+            self.g_snow()
 
     def advec(self):
         """

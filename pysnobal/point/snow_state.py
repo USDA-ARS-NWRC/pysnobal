@@ -147,6 +147,10 @@ class SnowState():
 
         return self._isothermal
 
+    @property
+    def snowcover(self):
+        return self.layer_count > 0
+
     # @property
     # def cc_s_0(self):
     #     if self.t_s_0 == MIN_SNOW_TEMP + FREEZE:
