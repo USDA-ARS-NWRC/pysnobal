@@ -65,32 +65,6 @@ def cp_water(t):
     return CP_W0 - 2.55 * (t - FREEZE)
 
 
-def h2o_left(d, rhos, sat):
-    """water retained by snow at given saturation (see SNO_SAT)
-
-    Args:
-        d (float or array): total depth of snow [m]
-        rhos (float or array): density of snow [kg/m3]
-        sat (float or array): snow saturation
-
-    Returns:
-        float or array: water held within the snowpack
-    """
-    return (sat * d * RHO_W0 * (RHO_ICE - rhos)) / RHO_ICE
-
-
-def melt(Q):
-    """snow melt
-
-    Args:
-        Q (float or array): available energy [J/m2]
-
-    Returns:
-        float or array: snow melt [kg/m2]
-    """
-    return Q / lh_fus(FREEZE)
-
-
 def time_average(avg, total_time, value, time_incr):
     """A macro to update a time-weighted average for a quantity.
 
@@ -217,15 +191,3 @@ def vapor_flux(air_density, k, q_dif, z_dif):
         float or array: water vapor flux
     """
     return air_density * k * (q_dif/z_dif)
-
-
-def heat_stor(cp, spm, tdif):
-    """
-    Calculate the heat storage
-    Args:
-        cp: specific heat of layer (J/kg K)
-        spm: layer specific mass (kg/m^2)
-        tdif: temperature change (K)
-    """
-
-    return cp * spm * tdif

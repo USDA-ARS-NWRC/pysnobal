@@ -10,11 +10,9 @@ from pysnobal.core.constants import (FREEZE, GRAVITY, KT_MOISTSAND,
                                      STD_AIRTMP, STD_LAPSE, STEF_BOLTZ,
                                      SWE_MAX, VAP_SUB)
 from pysnobal.core.functions import (cp_ice, cp_water, diffusion_coef, hysat,
-                                     gas_density, h2o_left, melt, vapor_flux,
-                                     heat_stor)
+                                     gas_density, vapor_flux)
+from pysnobal.core.snow import heat_stor, h2o_left, melt
 from pysnobal.point import InputDeltas, SnowState, libsnobal
-
-# import pandas as pd
 
 
 class Snobal(object):
@@ -682,7 +680,7 @@ class Snobal(object):
                 self.adj_layers()
             else:
                 # Just change in the snowcover's mass, update the layer masses
-                self.layer_mass()
+                self.snow_state.layer_mass()
 
     def time_compact(self):
         """
@@ -864,7 +862,7 @@ class Snobal(object):
             self.snowcover = False
 
         else:
-            self.layer_mass()
+            self.snow_state.layer_mass()
 
             if (prev_layer_count == 1) and (self.snow_state.layer_count == 2):
                 # 1 layer --> 2 layers, add lower layer
@@ -1174,7 +1172,7 @@ class Snobal(object):
 
         else:
             # Compute the specific mass and cold content for each layer
-            self.layer_mass()
+            self.snow_state.layer_mass()
             self.snow_state.cc_s_0 = self.cold_content(
                 self.snow_state.t_s_0,
                 self.snow_state.m_s_0)
@@ -1271,27 +1269,6 @@ class Snobal(object):
         self.snow_state.z_s = z_s
         self.snow_state.z_s_0 = z_s_0
         self.snow_state.z_s_l = z_s_l
-
-    def layer_mass(self):
-        """
-        This routine computes the specific mass for each snow layer in
-        the snowcover.  A layer's mass is based its depth and the
-        average snowcover density.
-        """
-
-        if self.snow_state.layer_count == 0:
-            self.snow_state.m_s_0 = 0
-            self.snow_state.m_s_l = 0
-
-        else:
-            # layer count is 1 or 2
-            self.snow_state.m_s_0 = self.snow_state.rho * self.snow_state.z_s_0
-
-            if self.snow_state.layer_count == 2:
-                self.snow_state.m_s_l = self.snow_state.rho * \
-                    self.snow_state.z_s_l
-            else:
-                self.snow_state.m_s_l = 0
 
     def cold_content(self, temp, mass):
         """

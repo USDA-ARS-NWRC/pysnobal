@@ -1,6 +1,7 @@
-from pysnobal.core.constants import CAL_TO_J, FREEZE, RHO_ICE, RHO_W0, MIN_SNOW_TEMP
-from pysnobal.core.functions import cp_ice, time_average, heat_stor
 from pysnobal.point.libsnobal import sati
+from pysnobal.core.functions import time_average
+from pysnobal.core.snow import new_tsno
+from pysnobal.core.constants import CAL_TO_J, FREEZE, RHO_ICE, RHO_W0
 
 
 class SnowState():
@@ -34,7 +35,6 @@ class SnowState():
         self.z_s_l = init
 
         # TODO could be moved to a property that is calculated when needed
-        # self.cc_s = init
         self.cc_s_0 = init
         self.cc_s_l = init
         self.m_s = init
@@ -70,7 +70,6 @@ class SnowState():
         self.E_s_sum = init
 
         self.z_0 = 0.05
-        self._isothermal = False
 
     def set_zeros(self, fields):
 
@@ -136,72 +135,22 @@ class SnowState():
 
     @property
     def isothermal(self):
-
-        if (self.layer_count == 2) and (self.cc_s_0 == 0.0) and \
-                (self.cc_s_l == 0.0):
-            self._isothermal = True
-        elif (self.layer_count == 1) and (self.cc_s_0 == 0.0):
-            self._isothermal = True
-        else:
-            self._isothermal = False
-
-        return self._isothermal
+        return self.cc_s == 0.0
 
     @property
     def snowcover(self):
         return self.layer_count > 0
 
-    # @property
-    # def cc_s_0(self):
-    #     if self.t_s_0 == MIN_SNOW_TEMP + FREEZE:
-    #         self._cc_s_0 = 0
-    #     else:
-    #         self._cc_s_0 = self.cold_content(self.t_s_0, self.m_s_0)
-
-    #     return val
-
-    # @cc_s_0.setter
-    # def cc_s_0(self, val):
-    #     self._cc_s_0 = val
-
-    # @property
-    # def cc_s_l(self):
-    #     return self.cold_content(self.t_s_l, self.m_s_l)
-
     @property
     def cc_s(self):
-        cc_s = 0
-        if self.layer_count == 2:
-            cc_s = self.cc_s_0 + self.cc_s_l
-        elif self.layer_count == 1:
-            cc_s = self.cc_s_0
-        return cc_s
-
-    # def cold_content(self, temp, mass):
-    #     """
-    #     This routine calculates the cold content for a layer (i.e., the
-    #     energy required to bring its temperature to freezing) from the
-    #     layer's temperature and specific mass.
-
-    #     Args:
-    #         temp: temperature of layer
-    #         mass: specific mass of layer
-
-    #     Returns:
-    #         cc: cold content of layer
-    #     """
-
-    #     cc = 0
-    #     if temp < FREEZE:
-    #         cc = heat_stor(cp_ice(temp), mass, temp-FREEZE)
-    #     return cc
+        return self.cc_s_0 + self.cc_s_l
 
     def adjust_layer_temps(self):
         """Adjust the layer temperatures
         """
 
         if self.layer_count == 1:
-            self.t_s_0 = self.new_tsno(
+            self.t_s_0 = new_tsno(
                 self.m_s_0,
                 self.t_s_0,
                 self.cc_s_0)
@@ -213,41 +162,18 @@ class SnowState():
                 self.t_s_l = FREEZE
                 self.t_s_0 = FREEZE
             else:
-                self.t_s_0 = self.new_tsno(
+                self.t_s_0 = new_tsno(
                     self.m_s_0,
                     self.t_s_0,
                     self.cc_s_0)
-                self.t_s_l = self.new_tsno(
+                self.t_s_l = new_tsno(
                     self.m_s_l,
                     self.t_s_l,
                     self.cc_s_l)
-                self.t_s = self.new_tsno(
+                self.t_s = new_tsno(
                     self.m_s,
                     self.t_s,
                     self.cc_s)
-
-    def new_tsno(self, spm, t0, ccon):
-        """
-        calculates a new temperature for a snow layer from its
-        adjusted cold content, and the layer's last (previous) temperature.
-
-        The layer's specific mass (the argument <I>spm</I>) can be computed by
-        multiplying the layer's thickness (m) by its density (kg/m^3).
-
-        Args:
-            spm: layer's specific mass (kg/m^2)
-            t0: layer's last temperature (K)
-            ccon: layer's adjusted cold content (J/m^2)
-
-        Returns:
-            tsno: snow layer's new temperature (K)
-        """
-
-        cp = cp_ice(t0)
-        tdif = ccon / (spm * cp)
-        tsno = tdif + FREEZE
-
-        return tsno
 
     @property
     def dry_snow_density(self):
@@ -306,3 +232,13 @@ class SnowState():
         self.E_s_sum += self.E_s
         self.melt_sum += self.melt
         self.swi_sum += self.swi
+
+    def layer_mass(self):
+        """
+        This routine computes the specific mass for each snow layer in
+        the snowcover.  A layer's mass is based its depth and the
+        average snowcover density.
+        """
+
+        self.m_s_0 = self.rho * self.z_s_0
+        self.m_s_l = self.rho * self.z_s_l
