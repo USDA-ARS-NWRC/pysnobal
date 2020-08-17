@@ -4,7 +4,7 @@
 # You can set these variables from the command line.
 SPHINXOPTS    =
 SPHINXBUILD   = python -msphinx
-SPHINXPROJ    = pysnobal2
+SPHINXPROJ    = pysnobal
 SOURCEDIR     = .
 BUILDDIR      = _build
 

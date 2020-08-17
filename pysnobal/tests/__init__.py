@@ -1,1 +1,1 @@
-"""Unit test package for pysnobal2."""
+"""Unit test package for pysnobal."""

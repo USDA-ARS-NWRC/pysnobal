@@ -4,4 +4,4 @@ Usage
 
 To use PySnobal in a project::
 
-    import pysnobal2
+    import pysnobal

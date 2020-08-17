@@ -12,7 +12,7 @@ To install PySnobal, run this command in your terminal:
 
 .. code-block:: console
 
-    $ pip install pysnobal2
+    $ pip install pysnobal
 
 This is the preferred method to install PySnobal, as it will always install the most recent stable release.
 
@@ -32,13 +32,13 @@ You can either clone the public repository:
 
 .. code-block:: console
 
-    $ git clone git://github.com/scotthavens/pysnobal2
+    $ git clone git://github.com/scotthavens/pysnobal
 
 Or download the `tarball`_:
 
 .. code-block:: console
 
-    $ curl -OJL https://github.com/scotthavens/pysnobal2/tarball/master
+    $ curl -OJL https://github.com/scotthavens/pysnobal/tarball/master
 
 Once you have a copy of the source, you can install it with:
 
@@ -47,5 +47,5 @@ Once you have a copy of the source, you can install it with:
     $ python setup.py install
 
 
-.. _Github repo: https://github.com/scotthavens/pysnobal2
-.. _tarball: https://github.com/scotthavens/pysnobal2/tarball/master
+.. _Github repo: https://github.com/scotthavens/pysnobal
+.. _tarball: https://github.com/scotthavens/pysnobal/tarball/master
