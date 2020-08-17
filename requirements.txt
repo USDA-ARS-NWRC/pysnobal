@@ -1,0 +1,7 @@
+numpy<1.19.0
+inicheck
+pandas
+pytz
+setuptools_scm<4.2
+xarray>0.15
+dask[complete] # probably can break this up
