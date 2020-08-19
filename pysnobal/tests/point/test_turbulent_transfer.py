@@ -52,3 +52,29 @@ def test_hle1_gold(gold_data):
         assert approx(L_v_E, row.py_L_v_E)
         assert approx(E, row.py_E)
         assert approx(status, row.py_status)
+
+
+def test_hle1_stable(gold_data):
+
+    data = {
+        'elevation': 1264.0,
+        'ta': 256.16,
+        'ts': 256.1990314427861,
+        'za': 4.0,
+        'ea': 20,
+        'es': 137,
+        'u': 38.0,
+        'zu': 4.0,
+        'z0': 0.01,
+        'py_H': 0.0,
+        'py_L_v_E': -510.5932737176731,
+        'py_E': -0.00017688648886582492,
+        'py_status': 0.0
+    }
+
+    H, L_v_E, E, status = calculate_hle1(data)
+
+    assert approx(H, data['py_H'])
+    assert approx(L_v_E, data['py_L_v_E'])
+    assert approx(E, data['py_E'])
+    assert approx(status, data['py_status'])

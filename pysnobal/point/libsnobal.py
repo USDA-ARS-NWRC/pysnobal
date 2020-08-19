@@ -175,6 +175,14 @@ def psi(zeta, code):
 
 
 def psi_momentum(x):
+    """psi function for momentum (SM)
+
+    Args:
+        x (float): x value
+
+    Returns:
+        float: momentum value
+    """
     return 2. * math.log((1. + x)/2.) + \
         math.log((1. + x * x)/2.) - \
         2. * math.atan(x) + \
@@ -182,25 +190,35 @@ def psi_momentum(x):
 
 
 def psi_heat_flux(x):
+    """psi function for sensible heat flux (SH) and
+    latent heat flux (SV) 
+
+    Args:
+        x (float): x value
+
+    Returns:
+        float: heat flux value
+    """
     return 2. * math.log((1. + x * x)/2.)
 
 
-@profile
+# @profile
 def psi_func(zeta, func):
-    """
-    psi-functions
-    code =   SM    momentum
-             SH    sensible heat flux
-             SV    latent heat flux
+    """Calculate the psi value
+
+    Args:
+        zeta (float): zeta value
+        func (instance): function name to call
+
+    Returns:
+        float: psi value
     """
 
     if zeta > 0.0:        # stable
         result = -BETA_S * min(zeta, 1.0)
 
     elif zeta < 0.0:  # unstable
-
         x = math.sqrt(math.sqrt(1.0 - BETA_U * zeta))
-
         result = func(x)
 
     else:  # neutral
@@ -209,7 +227,7 @@ def psi_func(zeta, func):
     return result
 
 
-@profile
+# @profile
 def hle1(press, air_temp, surface_temp, za, ea, es, zq, wind_speed, zu, z0,
          init_ustar=None, init_factor=None):
     """
@@ -294,6 +312,8 @@ def hle1(press, air_temp, surface_temp, za, ea, es, zq, wind_speed, zu, z0,
         math.sqrt(air_temp * surface_temp), math.sqrt(ea * es), press))
 
     # if neutral stability ignore starting values and calculate
+    # when would this happen? With floating point precision, this will almost
+    # never happen. Even if it did, the solution would be found quickly?
     if air_temp == surface_temp:
 
         # starting value, assume neutral stability, so psi-functions
@@ -302,6 +322,7 @@ def hle1(press, air_temp, surface_temp, za, ea, es, zq, wind_speed, zu, z0,
         factor = VON_KARMAN * ustar * dens
         e = q_diff * factor * AV / ltsv
         h = t_diff * factor * CP_AIR * AH / ltsh
+        it = 0
 
     # if not neutral stability, iterate on Obukhov stability
     # length to find solution
@@ -350,7 +371,7 @@ def hle1(press, air_temp, surface_temp, za, ea, es, zq, wind_speed, zu, z0,
             diff = last - lo
 
             # it += 1
-            if (np.abs(diff) < THRESH) and (np.abs(diff/lo) < THRESH):
+            if (abs(diff) < THRESH) and (abs(diff/lo) < THRESH):
                 break
             # if it > ITMAX:
             #     break
