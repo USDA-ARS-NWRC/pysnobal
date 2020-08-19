@@ -9,6 +9,8 @@
 ARG VARIANT="3"
 FROM mcr.microsoft.com/vscode/devcontainers/python:0-${VARIANT}
 
+RUN echo "WTF"
+
 # install IPW
 ENV IPW=/ipw
 ENV PATH="/ipw/local/bin:/ipw/bin:${PATH}"

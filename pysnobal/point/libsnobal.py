@@ -25,6 +25,7 @@ BETA_S = 5.2
 BETA_U = 16.0
 
 LOG_10 = math.log(10.0)  # log(10)
+PI_2 = np.pi / 2.
 
 
 def satw_np(tk):
@@ -148,24 +149,24 @@ def psi(zeta, code):
              SV    latent heat flux
     """
 
+    if code not in ['SM', 'SH', 'SV']:
+        raise ValueError("psi-function code not of these: SM, SH, SV")
+
     if zeta > 0.0:        # stable
-        if zeta > 1.:
-            zeta = 1.
-        result = -BETA_S * zeta
+        result = -BETA_S * min(zeta, 1.0)
 
     elif zeta < 0.0:  # unstable
 
         x = math.sqrt(math.sqrt(1.0 - BETA_U * zeta))
 
         if code == 'SM':
-            result = 2. * math.log((1. + x)/2.) + math.log((1. + x * x)/2.) - \
-                2. * math.atan(x) + np.pi/2.
-
-        elif (code == 'SH') or (code == 'SV'):
-            result = 2. * math.log((1. + x * x)/2.)
+            result = 2. * math.log((1. + x)/2.) + \
+                math.log((1. + x * x)/2.) - \
+                2. * math.atan(x) + \
+                PI_2
 
         else:
-            raise ValueError("psi-function code not of these: SM, SH, SV")
+            result = 2. * math.log((1. + x * x)/2.)
 
     else:  # neutral
         result = 0
@@ -173,7 +174,42 @@ def psi(zeta, code):
     return result
 
 
-# @profile
+def psi_momentum(x):
+    return 2. * math.log((1. + x)/2.) + \
+        math.log((1. + x * x)/2.) - \
+        2. * math.atan(x) + \
+        PI_2
+
+
+def psi_heat_flux(x):
+    return 2. * math.log((1. + x * x)/2.)
+
+
+@profile
+def psi_func(zeta, func):
+    """
+    psi-functions
+    code =   SM    momentum
+             SH    sensible heat flux
+             SV    latent heat flux
+    """
+
+    if zeta > 0.0:        # stable
+        result = -BETA_S * min(zeta, 1.0)
+
+    elif zeta < 0.0:  # unstable
+
+        x = math.sqrt(math.sqrt(1.0 - BETA_U * zeta))
+
+        result = func(x)
+
+    else:  # neutral
+        result = 0
+
+    return result
+
+
+@profile
 def hle1(press, air_temp, surface_temp, za, ea, es, zq, wind_speed, zu, z0,
          init_ustar=None, init_factor=None):
     """
@@ -296,15 +332,20 @@ def hle1(press, air_temp, surface_temp, za, ea, es, zq, wind_speed, zu, z0,
                 (VON_KARMAN * GRAVITY * (h/(air_temp * CP_AIR) + 0.61 * e))
 
             # friction velocity, eq. 4.34'
-            ustar = VON_KARMAN * wind_speed / (ltsm - psi(zu/lo, 'SM'))
+            # ustar = VON_KARMAN * wind_speed / (ltsm - psi(zu/lo, 'SM'))
+            ustar = VON_KARMAN * wind_speed / \
+                (ltsm - psi_func(zu/lo, psi_momentum))
 
             # evaporative flux, eq. 4.33'
             factor = VON_KARMAN * ustar * dens
-            e = q_diff * factor * AV / (ltsv - psi(zq/lo, 'SV'))
+            # e = q_diff * factor * AV / (ltsv - psi(zq/lo, 'SV'))
+            e = q_diff * factor * AV / (ltsv - psi_func(zq/lo, psi_heat_flux))
 
             # sensible heat flux, eq. 4.35'
             # with sign reversed
-            h = t_diff * factor * AH * CP_AIR / (ltsh - psi(za/lo, 'SH'))
+            # h = t_diff * factor * AH * CP_AIR / (ltsh - psi(za/lo, 'SH'))
+            h = t_diff * factor * AH * CP_AIR / \
+                (ltsh - psi_func(za/lo, psi_heat_flux))
 
             diff = last - lo
 
