@@ -10,7 +10,7 @@ from pysnobal.core.constants import (FREEZE, GRAVITY, KT_MOISTSAND,
                                      STD_AIRTMP, STD_LAPSE, STEF_BOLTZ,
                                      SWE_MAX, VAP_SUB)
 from pysnobal.core.functions import (cp_ice, cp_water, diffusion_coef, hysat,
-                                     gas_density, vapor_flux)
+                                     gas_density, vapor_flux, spec_hum)
 from pysnobal.core.snow import heat_stor, h2o_left, melt
 from pysnobal.point import InputDeltas, SnowState, libsnobal
 
@@ -460,8 +460,8 @@ class Snobal(object):
                 e_s_l = self.snow_state.e_s_0
                 t_bar = (self.input1.t_g + self.snow_state.t_s_0) / 2.0
 
-            q_s_l = libsnobal.spec_hum(e_s_l, self.P_a)
-            q_g = libsnobal.spec_hum(self.input1.e_g, self.P_a)
+            q_s_l = spec_hum(e_s_l, self.P_a)
+            q_g = spec_hum(self.input1.e_g, self.P_a)
             q_delta = q_g - q_s_l
             rho_air = gas_density(self.P_a, libsnobal.MOL_AIR, t_bar)
             k = diffusion_coef(self.P_a, t_bar)

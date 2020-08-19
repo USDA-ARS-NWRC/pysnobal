@@ -162,6 +162,17 @@ def mix_ratio(vapor_pressure, pressure):
     return (MOL_H2O/MOL_AIR) * vapor_pressure/(pressure - vapor_pressure)
 
 
+def spec_hum(e, P):
+    """
+    specific humidity from vapor pressure
+
+    e = vapor pressure
+    P = pressure (same units as e)
+    """
+
+    return e * MOL_H2O / (MOL_AIR * P + e * (MOL_H2O - MOL_AIR))
+
+
 def diffusion_coef(pressure, temp):
     """effective diffusion coefficient(m ^ 2/sec) for saturated porous layer
     (like snow...).  See Anderson, 1976, pg. 32, eq. 3.13.

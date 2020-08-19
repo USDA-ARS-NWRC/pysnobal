@@ -3,9 +3,9 @@ import math
 import numpy as np
 
 from pysnobal.core.constants import (BOIL, FREEZE, GRAVITY, LOG_SEA_LEVEL,
-                                     MOL_AIR, MOL_H2O, RGAS, VON_KARMAN)
+                                     MOL_AIR, VON_KARMAN)
 from pysnobal.core.functions import (diffusion_coef, gas_density, lh_fus,
-                                     lh_sub, lh_vap, mix_ratio,
+                                     lh_sub, lh_vap, mix_ratio, spec_hum,
                                      virtual_temperature)
 
 # specific heat of air at constant pressure (J / kg / deg)
@@ -129,21 +129,13 @@ def sati(tk):
     return x
 
 
-def spec_hum(e, P):
-    """
-    specific humidity from vapor pressure
-
-    e = vapor pressure
-    P = pressure (same units as e)
-    """
-
-    return e * MOL_H2O / (MOL_AIR * P + e * (MOL_H2O - MOL_AIR))
-
-
 # @profile
 def psi(zeta, code):
     """
     psi-functions
+
+    The original clone from the IPW psi function
+
     code =   SM    momentum
              SH    sensible heat flux
              SV    latent heat flux
@@ -191,7 +183,7 @@ def psi_momentum(x):
 
 def psi_heat_flux(x):
     """psi function for sensible heat flux (SH) and
-    latent heat flux (SV) 
+    latent heat flux (SV)
 
     Args:
         x (float): x value
@@ -298,9 +290,7 @@ def hle1(press, air_temp, surface_temp, za, ea, es, zq, wind_speed, zu, z0,
     ltsv = math.log((zq - d0) / z0)
 
     # convert vapor pressures to specific humidities
-    qa = spec_hum(ea, press)
-    qs = spec_hum(es, press)
-    q_diff = qa - qs
+    q_diff = spec_hum(ea, press) - spec_hum(es, press)
 
     # convert temperature to potential temperature
     air_temp += DALR * za
@@ -308,8 +298,14 @@ def hle1(press, air_temp, surface_temp, za, ea, es, zq, wind_speed, zu, z0,
 
     # air density at press, virtual temp of geometric mean
     # of air and surface
-    dens = gas_density(press, MOL_AIR, virtual_temperature(
-        math.sqrt(air_temp * surface_temp), math.sqrt(ea * es), press))
+    dens = gas_density(
+        press,
+        MOL_AIR,
+        virtual_temperature(
+            math.sqrt(air_temp * surface_temp),
+            math.sqrt(ea * es),
+            press)
+    )
 
     # if neutral stability ignore starting values and calculate
     # when would this happen? With floating point precision, this will almost
@@ -353,28 +349,22 @@ def hle1(press, air_temp, surface_temp, za, ea, es, zq, wind_speed, zu, z0,
                 (VON_KARMAN * GRAVITY * (h/(air_temp * CP_AIR) + 0.61 * e))
 
             # friction velocity, eq. 4.34'
-            # ustar = VON_KARMAN * wind_speed / (ltsm - psi(zu/lo, 'SM'))
             ustar = VON_KARMAN * wind_speed / \
                 (ltsm - psi_func(zu/lo, psi_momentum))
 
             # evaporative flux, eq. 4.33'
             factor = VON_KARMAN * ustar * dens
-            # e = q_diff * factor * AV / (ltsv - psi(zq/lo, 'SV'))
             e = q_diff * factor * AV / (ltsv - psi_func(zq/lo, psi_heat_flux))
 
             # sensible heat flux, eq. 4.35'
             # with sign reversed
-            # h = t_diff * factor * AH * CP_AIR / (ltsh - psi(za/lo, 'SH'))
             h = t_diff * factor * AH * CP_AIR / \
                 (ltsh - psi_func(za/lo, psi_heat_flux))
 
             diff = last - lo
 
-            # it += 1
             if (abs(diff) < THRESH) and (abs(diff/lo) < THRESH):
                 break
-            # if it > ITMAX:
-            #     break
 
     ier = -1 if (it >= ITMAX) else 0
 
@@ -385,7 +375,6 @@ def hle1(press, air_temp, surface_temp, za, ea, es, zq, wind_speed, zu, z0,
     # latent heat flux (- away from surf)
     le = xlh * e
 
-    # print(it)
     return h, le, e, ier, ustar, factor
 
 
