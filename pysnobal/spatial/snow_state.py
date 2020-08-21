@@ -1,4 +1,5 @@
 import xarray as xr
+import numpy as np
 
 from pysnobal.core.constants import CAL_TO_J, FREEZE, RHO_ICE, RHO_W0
 from pysnobal.core.functions import cp_ice, time_average
@@ -8,9 +9,12 @@ from pysnobal.point import SnowState
 
 class SpatialSnowState(SnowState):
 
-    def __init__(self, init):
+    def __init__(self, init=0, max_z_s_0=0.25, small_threshold=1):
 
-        super(SpatialSnowState, self).__init__(init)
+        super(SpatialSnowState, self).__init__(
+            init, max_z_s_0, small_threshold)
+
+        self.num_grid = init.shape[0] * init.shape[1]
 
     @property
     def isothermal(self):
@@ -135,3 +139,43 @@ class SpatialSnowState(SnowState):
         self.E_s_sum += self.E_s
         self.melt_sum += self.melt
         self.swi_sum += self.swi
+
+    def calc_layers(self):
+        """
+        This routine determines the # of layers in the snowcover based its
+        depth and mass.  Usually, there are are 2 layers: the surface (active)
+        and the lower layer.  The depth of the surface layer is set to the
+        maximum depth for the surface layer (variable "max_z_s_0").  The
+        remaining depth constitutes the lower layer.  The routine checks
+        to see if the mass of this lower layer is above the minimum threshold
+        (i.e., the mass threshold for the small run timestep).  If not,
+        the surface layer is the whole snowcover, and there's no lower
+        layer.
+
+        """
+
+        # less than minimum layer mass, so treat as no snowcover
+        # can change to the set zeros
+        idx0 = self.m_s <= self.small_threshold
+        self.z_s_0[idx0] = 0
+        self.z_s_l[idx0] = 0
+
+        num_vals_changed = np.sum(idx0.values)
+
+        if num_vals_changed != self.num_grid:
+
+            # Split up the snow depth into 1 or 2 layers
+            z_s_l = self.z_s - self.max_z_s_0
+            z_s_0 = self.max_z_s_0 if z_s_l > 0 else self.z_s
+            z_s_l = z_s_l if z_s_l > 0 else 0
+
+            # Make sure there's enough MASS for the lower
+            # layer.  If not, then there's only 1 layer
+            if z_s_l * self.rho < self.small_threshold:
+                z_s_0 = self.z_s
+                z_s_l = 0
+
+        self.z_s = self.z_s_0 + self.z_s_l
+        # self.z_s_0 = z_s_0
+        # self.z_s_l = z_s_l
+        self.__layer_count = False

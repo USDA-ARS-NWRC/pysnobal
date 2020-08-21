@@ -49,7 +49,9 @@ class iSnobal(Snobal):
         self.snow_records = inital_conditions
 
         # initialize the snowcover
-        self.init_snow(True)
+        init = np.zeros_like(self.elevation)
+        self.create_snow_state(SpatialSnowState, init=init)
+        self.init_snow()
 
         # get measurement-height record
         self.measurement_heights = meas_heights
@@ -68,18 +70,18 @@ class iSnobal(Snobal):
             'init_factor': None
         }
 
-    def create_snow_state(self):
-        """Create the initial snow state
-        """
+    # def create_snow_state(self):
+    #     """Create the initial snow state
+    #     """
 
-        init_array = np.zeros_like(self.elevation)
-        zeros = xr.DataArray(
-            init_array,
-            coords=self.elevation.coords,
-            dims=self.elevation.dims
-        )
+    #     init_array = np.zeros_like(self.elevation)
+    #     zeros = xr.DataArray(
+    #         init_array,
+    #         coords=self.elevation.coords,
+    #         dims=self.elevation.dims
+    #     )
 
-        self.snow_state = SpatialSnowState(zeros)
+    #     self.snow_state = SpatialSnowState(zeros)
 
     def calc_layers(self):
         """

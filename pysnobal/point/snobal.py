@@ -867,7 +867,7 @@ class Snobal(object):
             if (prev_layer_count == 1) and (self.snow_state.layer_count == 2):
                 # 1 layer --> 2 layers, add lower layer
                 self.snow_state.t_s_l = self.snow_state.t_s
-                self.snow_state.cc_s_l = self.cold_content(
+                self.snow_state.cc_s_l = self.snow_state.cold_content(
                     self.snow_state.t_s_l, self.snow_state.m_s_l)
 
             elif (prev_layer_count == 2) and \
@@ -1120,7 +1120,7 @@ class Snobal(object):
                 (self.snow_state.m_s_l < threshold)
 
     def init_snow(self):
-        """init_sno
+        """init_snow
         This routine initializes the properties for the snowcover.  It
         determines the number of layers, their individual properties,
         the cold content for the snowcover and its layers, and the
@@ -1152,54 +1152,39 @@ class Snobal(object):
         # determine the number of layers
         self.snow_state.calc_layers()
 
-        if self.snow_state.layer_count == 0:
-            # If mass > 0, then it must be below threshold.
-            # So turn this little bit of mass into water
+        self.snow_state.check_no_layer_mass()
+        self.snow_state.init_layers()
 
-            if self.snow_state.m_s > 0.0:
-                self.snow_state.h2o_total += self.snow_state.m_s
+        # else:
+        #     # Compute the specific mass and cold content for each layer
+        #     self.snow_state.layer_mass()
+        #     self.snow_state.cc_s_0 = self.cold_content(
+        #         self.snow_state.t_s_0,
+        #         self.snow_state.m_s_0)
 
-            self.snow_state.set_zeros([
-                'rho', 'm_s', 'm_s_0', 'cc_s_0', 'm_s_l',
-                'cc_s_l', 'h2o_vol', 'h2o', 'h2o_max', 'h2o_sat'
-            ])
+        #     if self.snow_state.layer_count == 2:
+        #         self.snow_state.cc_s_l = self.cold_content(
+        #             self.snow_state.t_s_l,
+        #             self.snow_state.m_s_l)
+        #     else:
+        #         self.snow_state.t_s_l = MIN_SNOW_TEMP + FREEZE
+        #         self.snow_state.cc_s_l = 0
 
-            # Note: Snow temperatures are set to MIN_SNOW_TEMP
-            # (as degrees K) instead of 0 K to keep quantization
-            # range in output image smaller.
-            for col in ['t_s', 't_s_0', 't_s_l']:
-                setattr(self.snow_state, col, MIN_SNOW_TEMP + FREEZE)
+        #     # Compute liquid water content as volume ratio, and
+        #     # snow density without water
+        #     self.snow_state.h2o_vol = self.snow_state.h2o_sat * \
+        #         self.snow_state.max_h2o_vol
 
-        else:
-            # Compute the specific mass and cold content for each layer
-            self.snow_state.layer_mass()
-            self.snow_state.cc_s_0 = self.cold_content(
-                self.snow_state.t_s_0,
-                self.snow_state.m_s_0)
+        #     # Determine the maximum liquid water content (as specific mass)
+        #     # and the actual liquid water content (as specific mass)
+        #     self.snow_state.h2o_max = h2o_left(
+        #         self.snow_state.z_s,
+        #         self.snow_state.dry_snow_density,
+        #         self.snow_state.max_h2o_vol)
+        #     self.snow_state.h2o = self.snow_state.h2o_sat * \
+        #         self.snow_state.h2o_max
 
-            if self.snow_state.layer_count == 2:
-                self.snow_state.cc_s_l = self.cold_content(
-                    self.snow_state.t_s_l,
-                    self.snow_state.m_s_l)
-            else:
-                self.snow_state.t_s_l = MIN_SNOW_TEMP + FREEZE
-                self.snow_state.cc_s_l = 0
-
-            # Compute liquid water content as volume ratio, and
-            # snow density without water
-            self.snow_state.h2o_vol = self.snow_state.h2o_sat * \
-                self.snow_state.max_h2o_vol
-
-            # Determine the maximum liquid water content (as specific mass)
-            # and the actual liquid water content (as specific mass)
-            self.snow_state.h2o_max = h2o_left(
-                self.snow_state.z_s,
-                self.snow_state.dry_snow_density,
-                self.snow_state.max_h2o_vol)
-            self.snow_state.h2o = self.snow_state.h2o_sat * \
-                self.snow_state.h2o_max
-
-    def create_snow_state(self, snow_state_class, from_record=True):
+    def create_snow_state(self, snow_state_class, init=0, from_record=True):
         """Create the snow state from the given snow state class.
 
         Args:
@@ -1210,6 +1195,7 @@ class Snobal(object):
         """
 
         self.snow_state = snow_state_class(
+            init=init,
             max_z_s_0=self.params['max_z_s_0'],
             small_threshold=self.tstep_info[SMALL_TSTEP]['threshold'])
 
@@ -1222,25 +1208,6 @@ class Snobal(object):
             # self.snow_state.h2o_sat = self.snow_records['h2o_sat']
             self.snow_state.max_h2o_vol = self.params['max_h2o_vol']
             # self.snow_state.z_0 = self.snow_records['z_0']
-
-    def cold_content(self, temp, mass):
-        """
-        This routine calculates the cold content for a layer (i.e., the
-        energy required to bring its temperature to freezing) from the
-        layer's temperature and specific mass.
-
-        Args:
-            temp: temperature of layer
-            mass: specific mass of layer
-
-        Returns:
-            cc: cold content of layer
-        """
-
-        cc = 0
-        if temp < FREEZE:
-            cc = heat_stor(cp_ice(temp), mass, temp-FREEZE)
-        return cc
 
     def init_output(self):
         """Initialize the output, it will be a list of dictionaries that
