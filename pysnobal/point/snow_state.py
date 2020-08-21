@@ -1,10 +1,34 @@
 from pysnobal.point.libsnobal import sati
 from pysnobal.core.functions import time_average
-from pysnobal.core.snow import new_tsno, h2o_left, cp_ice, heat_stor
-from pysnobal.core.constants import CAL_TO_J, FREEZE, RHO_ICE, RHO_W0, MIN_SNOW_TEMP
+from pysnobal.core.snow import new_tsno, h2o_left, cold_content, dry_snow_density
+from pysnobal.core.constants import CAL_TO_J, FREEZE, RHO_ICE, RHO_W0
 
 
 class SnowState():
+    """
+    Attributes:
+        layer_count
+        max_h2o_vol: maximum liquid water content as volume ratio, used to
+            predict swi
+        rho
+        t_s
+        t_s_0
+        t_s_l
+        z_s
+        z_s_0
+        z_s_l
+        cc_s_0
+        cc_s_l
+        m_s
+        m_s_0
+        m_s_l
+        h2o_sat: percent saturation, 0 to 1.0
+        h2o: actual liquid water content (as specific mass, h2o_sat*h2o_max)
+        h2o_max: maximum liquid water content (as specific mass)
+        h2o_total: total amount of liquid water in snowpack, value greater than
+            h2o_max will become swi
+        h2o_vol: liquid water content as volume ratio (h2o_sat*max_h2o_vol)
+    """
 
     # time averaged values
     _energy_state = [
@@ -187,21 +211,6 @@ class SnowState():
                     self.cc_s)
 
     @property
-    def dry_snow_density(self):
-        """dry snow density (without H2O) at a given total snow density
-        (with H2O) and snow saturation
-
-        Args:
-            rhos (float or array): total density of snow (kg/m^3)
-            sat (float or array): snow saturation (see SNO_SAT)
-
-        Returns:
-            float or array: dry snow density
-        """
-        return (self.rho - self.h2o_vol * RHO_W0) / \
-            (1 - self.h2o_vol * RHO_W0 / RHO_ICE)
-
-    @property
     def kts(self):
         """thermal conductivity of snow (J/(m sec K))
         (after Yen, 1965, see Anderson, 1976, pg. 31)
@@ -290,25 +299,6 @@ class SnowState():
         self.z_s_l = z_s_l
         self.__layer_count = False
 
-    def cold_content(self, temp, mass):
-        """
-        This routine calculates the cold content for a layer (i.e., the
-        energy required to bring its temperature to freezing) from the
-        layer's temperature and specific mass.
-
-        Args:
-            temp: temperature of layer
-            mass: specific mass of layer
-
-        Returns:
-            cc: cold content of layer
-        """
-
-        cc = 0
-        if temp < FREEZE:
-            cc = heat_stor(cp_ice(temp), mass, temp-FREEZE)
-        return cc
-
     def check_no_layer_mass(self):
         """Reset the snowstate to zero's if the layer count is 0
         """
@@ -338,28 +328,22 @@ class SnowState():
         if self.layer_count > 0:
             # Compute the specific mass and cold content for each layer
             self.layer_mass()
-            self.cc_s_0 = self.cold_content(
-                self.t_s_0,
-                self.m_s_0)
+            self.cc_s_0 = cold_content(self.t_s_0, self.m_s_0)
 
             if self.layer_count == 2:
-                self.cc_s_l = self.cold_content(
-                    self.t_s_l,
-                    self.m_s_l)
+                self.cc_s_l = cold_content(self.t_s_l, self.m_s_l)
             else:
                 self.t_s_l = FREEZE
                 self.cc_s_l = 0
 
             # Compute liquid water content as volume ratio, and
             # snow density without water
-            self.h2o_vol = self.h2o_sat * \
-                self.max_h2o_vol
+            self.h2o_vol = self.h2o_sat * self.max_h2o_vol
 
             # Determine the maximum liquid water content (as specific mass)
             # and the actual liquid water content (as specific mass)
             self.h2o_max = h2o_left(
                 self.z_s,
-                self.dry_snow_density,
+                dry_snow_density(self.rho, self.h2o_vol),
                 self.max_h2o_vol)
-            self.h2o = self.h2o_sat * \
-                self.h2o_max
+            self.h2o = self.h2o_sat * self.h2o_max

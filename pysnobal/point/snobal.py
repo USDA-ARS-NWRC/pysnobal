@@ -11,7 +11,7 @@ from pysnobal.core.constants import (FREEZE, GRAVITY, KT_MOISTSAND,
                                      SWE_MAX, VAP_SUB)
 from pysnobal.core.functions import (cp_ice, cp_water, diffusion_coef, hysat,
                                      gas_density, vapor_flux, spec_hum)
-from pysnobal.core.snow import heat_stor, h2o_left, melt
+from pysnobal.core.snow import heat_stor, h2o_left, melt, cold_content, dry_snow_density
 from pysnobal.point import InputDeltas, SnowState, libsnobal
 
 
@@ -324,6 +324,8 @@ class Snobal(object):
         # liquid water the snow can hold.
         m_s_dry = self.snow_state.m_s - self.snow_state.h2o_total
         rho_dry = m_s_dry / self.snow_state.z_s
+        # rho_dry = dry_snow_density(
+        #     self.snow_state.rho, self.snow_state.h2o_total)
         self.snow_state.h2o_max = h2o_left(
             self.snow_state.z_s, rho_dry, self.snow_state.max_h2o_vol)
 
@@ -867,7 +869,7 @@ class Snobal(object):
             if (prev_layer_count == 1) and (self.snow_state.layer_count == 2):
                 # 1 layer --> 2 layers, add lower layer
                 self.snow_state.t_s_l = self.snow_state.t_s
-                self.snow_state.cc_s_l = self.snow_state.cold_content(
+                self.snow_state.cc_s_l = cold_content(
                     self.snow_state.t_s_l, self.snow_state.m_s_l)
 
             elif (prev_layer_count == 2) and \
