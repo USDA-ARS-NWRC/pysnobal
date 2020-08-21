@@ -851,13 +851,13 @@ class Snobal(object):
             # (as degrees K) instead of 0 K to keep quantization
             # range in output image smaller.
 
-            self.snow_state.t_s = MIN_SNOW_TEMP + FREEZE
-            self.snow_state.t_s_0 = MIN_SNOW_TEMP + FREEZE
+            self.snow_state.t_s = FREEZE
+            self.snow_state.t_s_0 = FREEZE
 
             if prev_layer_count == 2:
                 self.snow_state.m_s_l = 0
                 self.snow_state.cc_s_l = 0
-                self.snow_state.t_s_l = MIN_SNOW_TEMP + FREEZE
+                self.snow_state.t_s_l = FREEZE
 
             self.snowcover = False
 
@@ -873,7 +873,7 @@ class Snobal(object):
             elif (prev_layer_count == 2) and \
                     (self.snow_state.layer_count == 1):
                 # 2 layers --> 1 layer, remove lower layer
-                self.snow_state.t_s_l = MIN_SNOW_TEMP + FREEZE
+                self.snow_state.t_s_l = FREEZE
                 self.snow_state.cc_s_l = 0
 
     # @profile

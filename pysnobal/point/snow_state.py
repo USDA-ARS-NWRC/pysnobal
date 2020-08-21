@@ -329,7 +329,7 @@ class SnowState():
             # (as degrees K) instead of 0 K to keep quantization
             # range in output image smaller.
             for col in ['t_s', 't_s_0', 't_s_l']:
-                setattr(self, col, MIN_SNOW_TEMP + FREEZE)
+                setattr(self, col, FREEZE)
 
     def init_layers(self):
         """If there are layers present, initialize the layers
@@ -347,7 +347,7 @@ class SnowState():
                     self.t_s_l,
                     self.m_s_l)
             else:
-                self.t_s_l = MIN_SNOW_TEMP + FREEZE
+                self.t_s_l = FREEZE
                 self.cc_s_l = 0
 
             # Compute liquid water content as volume ratio, and
