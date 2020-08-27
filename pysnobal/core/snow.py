@@ -87,7 +87,7 @@ def dry_snow_density(rho, sat):
 
     Args:
         rhos (float or array): total density of snow (kg/m^3)
-        sat (float or array): snow saturation (see SNO_SAT)
+        sat (float or array): liquid water content as volume ratio (h2o_sat*max_h2o_vol)
 
     Returns:
         float or array: dry snow density

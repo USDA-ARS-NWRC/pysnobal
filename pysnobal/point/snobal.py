@@ -322,10 +322,10 @@ class Snobal(object):
 
         # Determine the snow density without any water, and the maximum
         # liquid water the snow can hold.
-        m_s_dry = self.snow_state.m_s - self.snow_state.h2o_total
-        rho_dry = m_s_dry / self.snow_state.z_s
-        # rho_dry = dry_snow_density(
-        #     self.snow_state.rho, self.snow_state.h2o_total)
+        # m_s_dry = self.snow_state.m_s - self.snow_state.h2o_total
+        # rho_dry = m_s_dry / self.snow_state.z_s
+        rho_dry = dry_snow_density(
+            self.snow_state.rho, self.snow_state.h2o_vol)
         self.snow_state.h2o_max = h2o_left(
             self.snow_state.z_s, rho_dry, self.snow_state.max_h2o_vol)
 
@@ -335,7 +335,7 @@ class Snobal(object):
                 self.snow_state.h2o_max
             self.snow_state.h2o = self.snow_state.h2o_max
             self.snow_state.h2o_sat = 1.0
-            self.snow_state.h2o_vol = self.snow_state.max_h2o_vol
+            # self.snow_state.h2o_vol = self.snow_state.max_h2o_vol
 
             # Update the snowcover's mass for the loss of runoff.
             self.adj_snow(0.0, -self.snow_state.swi)
@@ -345,8 +345,8 @@ class Snobal(object):
             self.snow_state.h2o = self.snow_state.h2o_total
             self.snow_state.h2o_sat = self.snow_state.h2o / \
                 self.snow_state.h2o_max
-            self.snow_state.h2o_vol = self.snow_state.h2o_sat * \
-                self.snow_state.max_h2o_vol
+            # self.snow_state.h2o_vol = self.snow_state.h2o_sat * \
+            #     self.snow_state.max_h2o_vol
 
     def h2o_compact(self):
         """
@@ -845,7 +845,7 @@ class Snobal(object):
                 self.snow_state.h2o_total += self.snow_state.m_s
 
             # set a bunch of values to 0
-            index = ['h2o_vol', 'h2o', 'h2o_max', 'h2o_sat',
+            index = ['h2o', 'h2o_max', 'h2o_sat',
                      'm_s', 'm_s_0', 'cc_s_0']
             self.snow_state.set_zeros(index)
 

@@ -9,7 +9,7 @@ class SnowState():
     Attributes:
         layer_count
         max_h2o_vol: maximum liquid water content as volume ratio, used to
-            predict swi
+            predict swi V_water/(V_snow-V_ice)
         rho
         t_s
         t_s_0
@@ -69,7 +69,7 @@ class SnowState():
         self.h2o = init
         self.h2o_max = init
         self.h2o_total = init
-        self.h2o_vol = init
+        # self.h2o_vol = init
 
         # Snow energetics state variables
         for variable in self._energy_state:
@@ -179,6 +179,10 @@ class SnowState():
             self.__layer_count = True
 
         return self._layer_count
+
+    @property
+    def h2o_vol(self):
+        return self.h2o_sat * self.max_h2o_vol
 
     def adjust_layer_temps(self):
         """Adjust the layer temperatures
@@ -312,7 +316,7 @@ class SnowState():
 
             self.set_zeros([
                 'rho', 'm_s', 'm_s_0', 'cc_s_0', 'm_s_l',
-                'cc_s_l', 'h2o_vol', 'h2o', 'h2o_max', 'h2o_sat'
+                'cc_s_l', 'h2o', 'h2o_max', 'h2o_sat'
             ])
 
             # Note: Snow temperatures are set to MIN_SNOW_TEMP
@@ -338,7 +342,7 @@ class SnowState():
 
             # Compute liquid water content as volume ratio, and
             # snow density without water
-            self.h2o_vol = self.h2o_sat * self.max_h2o_vol
+            # self.h2o_vol = self.h2o_sat * self.max_h2o_vol
 
             # Determine the maximum liquid water content (as specific mass)
             # and the actual liquid water content (as specific mass)
