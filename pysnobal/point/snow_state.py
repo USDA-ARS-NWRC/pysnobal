@@ -186,10 +186,6 @@ class SnowState():
 
         return self._layer_count
 
-    @property
-    def h2o_vol(self):
-        return self.h2o_sat * self.max_h2o_vol
-
     def adjust_layer_temps(self):
         """Adjust the layer temperatures
         """
@@ -260,6 +256,18 @@ class SnowState():
             self.max_h2o_vol)
 
     @property
+    def h2o_vol(self):
+        return self.h2o_sat * self.max_h2o_vol
+
+    # @property
+    # def h2o_sat(self):
+    #     return self.h2o / self.h2o_max
+
+    # @property
+    # def h2o(self):
+    #     return self.h2o_sat * self.h2o_max
+
+    @property
     def swi2(self):
 
         if not self.tstep_snowcover or self.layer_count == 0:
@@ -267,13 +275,13 @@ class SnowState():
 
         elif self.h2o_total > self.h2o_max:
             swi = self.h2o_total - self.h2o_max
-            self.h2o = self.h2o_max
-            self.h2o_sat = 1.0
+            # self.h2o = self.h2o_max
+            # self.h2o_sat = 1.0
 
         else:
             swi = 0.0
-            self.h2o = self.h2o_total
-            self.h2o_sat = self.h2o / self.h2o_max
+            # self.h2o = self.h2o_total
+            # self.h2o_sat = self.h2o / self.h2o_max
 
         return swi
 

@@ -1,6 +1,6 @@
 import math
 import warnings
-from copy import copy
+from copy import deepcopy
 
 import numpy as np
 import pandas as pd
@@ -245,8 +245,8 @@ class Snobal(object):
         self.snow_state.set_zeros('h2o_total')
 
         # is there snowcover?
-        self.snowcover = copy(self.snow_state.snowcover)
-        self.snow_state.tstep_snowcover = copy(self.snowcover)
+        self.snowcover = self.snow_state.snowcover
+        self.snow_state.tstep_snowcover = self.snow_state.snowcover
 
         # Calculate energy transfer terms
         self.energy_balance()
@@ -857,8 +857,7 @@ class Snobal(object):
                 self.snow_state.h2o_total += self.snow_state.m_s
 
             # set a bunch of values to 0
-            index = ['h2o', 'h2o_sat',
-                     'm_s', 'm_s_0', 'cc_s_0']
+            index = ['h2o', 'h2o_sat', 'm_s', 'm_s_0', 'cc_s_0']
             self.snow_state.set_zeros(index)
 
             # Note: Snow temperatures are set to MIN_SNOW_TEMP
