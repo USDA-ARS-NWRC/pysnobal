@@ -79,18 +79,3 @@ def cold_content(temp, mass):
     """
 
     return heat_stor(cp_ice(temp), mass, temp - FREEZE)
-
-
-def dry_snow_density(rho, sat):
-    """dry snow density (without H2O) at a given total snow density
-    (with H2O) and snow saturation
-
-    Args:
-        rhos (float or array): total density of snow (kg/m^3)
-        sat (float or array): liquid water content as volume ratio (h2o_sat*max_h2o_vol)
-
-    Returns:
-        float or array: dry snow density
-    """
-    return (rho - sat * RHO_W0) / \
-        (1 - sat * RHO_W0 / RHO_ICE)

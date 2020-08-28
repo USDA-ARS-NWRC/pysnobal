@@ -1,7 +1,9 @@
 import math
 import warnings
+from copy import copy
 
 import numpy as np
+import pandas as pd
 
 from pysnobal.core.constants import (FREEZE, GRAVITY, KT_MOISTSAND,
                                      MAX_SNOW_DENSITY, MIN_SNOW_TEMP, MOL_AIR,
@@ -11,7 +13,7 @@ from pysnobal.core.constants import (FREEZE, GRAVITY, KT_MOISTSAND,
                                      SWE_MAX, VAP_SUB)
 from pysnobal.core.functions import (cp_ice, cp_water, diffusion_coef, hysat,
                                      gas_density, vapor_flux, spec_hum)
-from pysnobal.core.snow import heat_stor, h2o_left, melt, cold_content, dry_snow_density
+from pysnobal.core.snow import heat_stor, h2o_left, melt, cold_content
 from pysnobal.point import InputDeltas, SnowState, libsnobal
 
 
@@ -115,7 +117,7 @@ class Snobal(object):
         """
 
         # if self.current_datetime == \
-        # pd.to_datetime('1995-10-12 10:00:00-07:00'):
+        #         pd.to_datetime('1983-11-12 22:00:00-07:00'):
         #     self.current_datetime
 
         # store the inputs for later
@@ -243,7 +245,8 @@ class Snobal(object):
         self.snow_state.set_zeros('h2o_total')
 
         # is there snowcover?
-        self.snowcover = self.snow_state.snowcover
+        self.snowcover = copy(self.snow_state.snowcover)
+        self.snow_state.tstep_snowcover = copy(self.snowcover)
 
         # Calculate energy transfer terms
         self.energy_balance()
@@ -318,21 +321,30 @@ class Snobal(object):
 
         if (not self.snowcover) or (self.snow_state.layer_count == 0):
             self.snow_state.swi = self.snow_state.h2o_total
+            if self.snow_state.swi != self.snow_state.swi2:
+                self.snow_state.swi2
             return
 
         # Determine the snow density without any water, and the maximum
         # liquid water the snow can hold.
         # m_s_dry = self.snow_state.m_s - self.snow_state.h2o_total
         # rho_dry = m_s_dry / self.snow_state.z_s
-        rho_dry = dry_snow_density(
-            self.snow_state.rho, self.snow_state.h2o_vol)
-        self.snow_state.h2o_max = h2o_left(
-            self.snow_state.z_s, rho_dry, self.snow_state.max_h2o_vol)
+        # rho_dry = self.snow_state.dry_snow_density
+        # self.snow_state.h2o_max = h2o_left(
+        #     self.snow_state.z_s,
+        #     self.snow_state.dry_snow_density,
+        #     self.snow_state.max_h2o_vol)
 
         # Determine runoff, and water left in the snow
+        # if self.snow_state.swi > 0:
+        #     self.adj_snow(0.0, -self.snow_state.swi)
+
         if self.snow_state.h2o_total > self.snow_state.h2o_max:
             self.snow_state.swi = self.snow_state.h2o_total - \
                 self.snow_state.h2o_max
+            # self.snow_state.swi2
+            if self.snow_state.swi != self.snow_state.swi2:
+                self.snow_state.swi2
             self.snow_state.h2o = self.snow_state.h2o_max
             self.snow_state.h2o_sat = 1.0
             # self.snow_state.h2o_vol = self.snow_state.max_h2o_vol
@@ -845,7 +857,7 @@ class Snobal(object):
                 self.snow_state.h2o_total += self.snow_state.m_s
 
             # set a bunch of values to 0
-            index = ['h2o', 'h2o_max', 'h2o_sat',
+            index = ['h2o', 'h2o_sat',
                      'm_s', 'm_s_0', 'cc_s_0']
             self.snow_state.set_zeros(index)
 

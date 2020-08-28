@@ -1,6 +1,6 @@
 from pysnobal.point.libsnobal import sati
 from pysnobal.core.functions import time_average
-from pysnobal.core.snow import new_tsno, h2o_left, cold_content, dry_snow_density
+from pysnobal.core.snow import new_tsno, h2o_left, cold_content
 from pysnobal.core.constants import CAL_TO_J, FREEZE, RHO_ICE, RHO_W0
 
 
@@ -67,7 +67,7 @@ class SnowState():
         self.m_s_0 = init
         self.m_s_l = init
         self.h2o = init
-        self.h2o_max = init
+        # self.h2o_max = init
         self.h2o_total = init
         # self.h2o_vol = init
 
@@ -97,6 +97,12 @@ class SnowState():
 
         self.z_0 = 0.05
         self.__layer_count = False
+
+        # While this is a little redundant, Snobal can lose the snowcover during
+        # a timestep but the self.snowcover is not updated like the snow_state. So
+        # the snowcover will only be updated when it comes through the do_tstep
+        # function. The swi needs the tstep_snowcover.
+        self.tstep_snowcover = False
 
     def set_zeros(self, fields):
 
@@ -227,6 +233,50 @@ class SnowState():
         """
         return CAL_TO_J * 0.0077 * (self.rho/1000.0) * (self.rho/1000.0)
 
+    @property
+    def dry_snow_density(self):
+        """dry snow density (without H2O) at a given total snow density
+        (with H2O) and snow saturation
+
+        Args:
+            rhos (float or array): total density of snow (kg/m^3)
+            sat (float or array): liquid water content as volume
+                ratio (h2o_sat*max_h2o_vol)
+
+        Returns:
+            float or array: dry snow density
+        """
+        return (self.rho - self.h2o_vol * RHO_W0) / \
+            (1 - self.h2o_vol * RHO_W0 / RHO_ICE)
+
+    @property
+    def h2o_max(self):
+        """Maximum water that the snowpack can hold as a specific mass given
+        the depth, dry snow density and maximum h2o volume
+        """
+        return h2o_left(
+            self.z_s,
+            self.dry_snow_density,
+            self.max_h2o_vol)
+
+    @property
+    def swi2(self):
+
+        if not self.tstep_snowcover or self.layer_count == 0:
+            swi = self.h2o_total
+
+        elif self.h2o_total > self.h2o_max:
+            swi = self.h2o_total - self.h2o_max
+            self.h2o = self.h2o_max
+            self.h2o_sat = 1.0
+
+        else:
+            swi = 0.0
+            self.h2o = self.h2o_total
+            self.h2o_sat = self.h2o / self.h2o_max
+
+        return swi
+
     def value_to_bar(self):
         """Copy the current snow state variable value into the `_bar` value.
         """
@@ -316,7 +366,7 @@ class SnowState():
 
             self.set_zeros([
                 'rho', 'm_s', 'm_s_0', 'cc_s_0', 'm_s_l',
-                'cc_s_l', 'h2o', 'h2o_max', 'h2o_sat'
+                'cc_s_l', 'h2o', 'h2o_sat'
             ])
 
             # Note: Snow temperatures are set to MIN_SNOW_TEMP
@@ -346,8 +396,8 @@ class SnowState():
 
             # Determine the maximum liquid water content (as specific mass)
             # and the actual liquid water content (as specific mass)
-            self.h2o_max = h2o_left(
-                self.z_s,
-                dry_snow_density(self.rho, self.h2o_vol),
-                self.max_h2o_vol)
+            # self.h2o_max = h2o_left(
+            #     self.z_s,
+            #     dry_snow_density(self.rho, self.h2o_vol),
+            #     self.max_h2o_vol)
             self.h2o = self.h2o_sat * self.h2o_max
