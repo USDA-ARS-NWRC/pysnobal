@@ -321,33 +321,13 @@ class Snobal(object):
 
         if (not self.snowcover) or (self.snow_state.layer_count == 0):
             self.snow_state.swi = self.snow_state.h2o_total
-            if self.snow_state.swi != self.snow_state.swi2:
-                self.snow_state.swi2
             return
-
-        # Determine the snow density without any water, and the maximum
-        # liquid water the snow can hold.
-        # m_s_dry = self.snow_state.m_s - self.snow_state.h2o_total
-        # rho_dry = m_s_dry / self.snow_state.z_s
-        # rho_dry = self.snow_state.dry_snow_density
-        # self.snow_state.h2o_max = h2o_left(
-        #     self.snow_state.z_s,
-        #     self.snow_state.dry_snow_density,
-        #     self.snow_state.max_h2o_vol)
-
-        # Determine runoff, and water left in the snow
-        # if self.snow_state.swi > 0:
-        #     self.adj_snow(0.0, -self.snow_state.swi)
 
         if self.snow_state.h2o_total > self.snow_state.h2o_max:
             self.snow_state.swi = self.snow_state.h2o_total - \
                 self.snow_state.h2o_max
-            # self.snow_state.swi2
-            if self.snow_state.swi != self.snow_state.swi2:
-                self.snow_state.swi2
             self.snow_state.h2o = self.snow_state.h2o_max
             self.snow_state.h2o_sat = 1.0
-            # self.snow_state.h2o_vol = self.snow_state.max_h2o_vol
 
             # Update the snowcover's mass for the loss of runoff.
             self.adj_snow(0.0, -self.snow_state.swi)
@@ -357,8 +337,6 @@ class Snobal(object):
             self.snow_state.h2o = self.snow_state.h2o_total
             self.snow_state.h2o_sat = self.snow_state.h2o / \
                 self.snow_state.h2o_max
-            # self.snow_state.h2o_vol = self.snow_state.h2o_sat * \
-            #     self.snow_state.max_h2o_vol
 
     def h2o_compact(self):
         """

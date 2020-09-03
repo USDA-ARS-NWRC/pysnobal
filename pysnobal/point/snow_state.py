@@ -259,32 +259,6 @@ class SnowState():
     def h2o_vol(self):
         return self.h2o_sat * self.max_h2o_vol
 
-    # @property
-    # def h2o_sat(self):
-    #     return self.h2o / self.h2o_max
-
-    # @property
-    # def h2o(self):
-    #     return self.h2o_sat * self.h2o_max
-
-    @property
-    def swi2(self):
-
-        if not self.tstep_snowcover or self.layer_count == 0:
-            swi = self.h2o_total
-
-        elif self.h2o_total > self.h2o_max:
-            swi = self.h2o_total - self.h2o_max
-            # self.h2o = self.h2o_max
-            # self.h2o_sat = 1.0
-
-        else:
-            swi = 0.0
-            # self.h2o = self.h2o_total
-            # self.h2o_sat = self.h2o / self.h2o_max
-
-        return swi
-
     def value_to_bar(self):
         """Copy the current snow state variable value into the `_bar` value.
         """
