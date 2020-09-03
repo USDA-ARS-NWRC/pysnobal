@@ -16,6 +16,14 @@ class SpatialSnowState(SnowState):
 
         self.num_grid = init.shape[0] * init.shape[1]
 
+    def set_zeros(self, fields, idx):
+
+        if isinstance(fields, str):
+            fields = fields.split()
+
+        for field in fields:
+            setattr(self, field, self.zeros)
+
     @property
     def isothermal(self):
 
@@ -179,3 +187,27 @@ class SpatialSnowState(SnowState):
         # self.z_s_0 = z_s_0
         # self.z_s_l = z_s_l
         self.__layer_count = False
+
+    def check_no_layer_mass(self):
+        """Reset the snowstate to zero's if the layer count is 0
+        """
+
+        idx = self.layer_count == 0
+
+        # If mass > 0, then it must be below threshold.
+        # So turn this little bit of mass into water
+        idx_mass = np.where(idx & self.m_s > 0.0)
+        if np.any(idx_mass):
+            self.h2o_total[idx_mass] += self.m_s[idx_mass]
+
+        self.set_zeros([
+            'rho', 'm_s', 'm_s_0', 'cc_s_0', 'm_s_l',
+            'cc_s_l', 'h2o', 'h2o_sat'
+        ], idx)
+
+        # Note: Snow temperatures are set to MIN_SNOW_TEMP
+        # (as degrees K) instead of 0 K to keep quantization
+        # range in output image smaller.
+        self.t_s[idx] = FREEZE
+        self.t_s_0[idx] = FREEZE
+        self.t_s_l[idx] = FREEZE

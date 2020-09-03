@@ -49,7 +49,7 @@ class iSnobal(Snobal):
         self.snow_records = inital_conditions
 
         # initialize the snowcover
-        init = np.zeros_like(self.elevation)
+        init = xr.zeros_like(self.elevation)
         self.create_snow_state(SpatialSnowState, init=init)
         self.init_snow()
 

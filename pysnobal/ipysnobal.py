@@ -78,6 +78,10 @@ class iPySnobal(PySnobal):
                 z = z.rename(name)
                 ic.append(z)
 
+            # ic = xr.merge(ic).to_dict()
+            # self.initial_conditions = {key: np.array(data['data'])
+            #                            for key, data in ic['data_vars'].items()}
+
             self.initial_conditions = xr.merge(ic)
 
     def run(self):

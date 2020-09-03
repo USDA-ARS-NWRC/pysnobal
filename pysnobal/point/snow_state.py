@@ -342,7 +342,6 @@ class SnowState():
         if self.layer_count == 0:
             # If mass > 0, then it must be below threshold.
             # So turn this little bit of mass into water
-
             if self.m_s > 0.0:
                 self.h2o_total += self.m_s
 
