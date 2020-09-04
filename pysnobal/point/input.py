@@ -20,8 +20,8 @@ class InputData():
     # but are just split evenly by the intervals
     PRECIP_VARIABLES = [
         'precip_mass',
-        'm_snow',
-        'm_rain',
+        'mass_snow',
+        'mass_rain',
         'z_snow'
     ]
 
@@ -31,8 +31,8 @@ class InputData():
         'percent_snow',
         'rho_snow',
         'precip_temp',
-        't_rain',
-        't_snow'
+        'temp_rain',
+        'temp_snow'
     ]
 
     # These are derived variables from the precipitation inputs
@@ -40,8 +40,8 @@ class InputData():
     PRECIP_DERIVED = [
         'z_snow',
         'h2o_sat_snow',
-        't_rain',
-        't_snow'
+        'temp_rain',
+        'temp_snow'
     ]
 
     def __init__(self, data, input_delta=False, init=0):
@@ -58,8 +58,8 @@ class InputData():
         self.precip_temp = data['precip_temp']
 
         # derived precip values
-        self.m_snow = self.precip_mass * self.percent_snow
-        self.m_rain = self.precip_mass - self.m_snow
+        self.mass_snow = self.precip_mass * self.percent_snow
+        self.mass_rain = self.precip_mass - self.mass_snow
 
         # initialize the other variables to 0
         for precip_derived in self.PRECIP_DERIVED:
@@ -120,12 +120,12 @@ class InputData():
             self.precip_now = True
 
             # self.precip_mass = self.precip_mass
-            # self.m_snow = self.precip_mass * self.percent_snow
-            # self.m_rain = self.precip_mass - self.m_snow
+            # self.mass_snow = self.precip_mass * self.percent_snow
+            # self.mass_rain = self.precip_mass - self.mass_snow
 
-            if (self.m_snow > 0.0):
+            if (self.mass_snow > 0.0):
                 if (self.rho_snow > 0.0):
-                    self.z_snow = self.m_snow / self.rho_snow
+                    self.z_snow = self.mass_snow / self.rho_snow
                 else:
                     raise ValueError(
                         'rho_snow is <= 0.0 with percent_snow > 0.0')
@@ -133,29 +133,29 @@ class InputData():
                 self.z_snow = 0
 
             # check the precip, temp. cannot be below freezing if rain present
-            if (self.m_rain > 0) and (self.precip_temp < FREEZE):
+            if (self.mass_rain > 0) and (self.precip_temp < FREEZE):
                 self.precip_temp = FREEZE
 
             # Mixed snow and rain
-            if (self.m_snow > 0) and (self.m_rain > 0):
-                self.t_snow = FREEZE
+            if (self.mass_snow > 0) and (self.mass_rain > 0):
+                self.temp_snow = FREEZE
                 self.h2o_sat_snow = 1
-                self.t_rain = self.precip_temp
+                self.temp_rain = self.precip_temp
 
-            elif (self.m_snow > 0):
+            elif (self.mass_snow > 0):
                 # Snow only
                 if (self.precip_temp < FREEZE):
                     # cold snow
-                    self.t_snow = self.precip_temp
+                    self.temp_snow = self.precip_temp
                     self.h2o_sat_snow = 0
                 else:
                     # warm snow
-                    self.t_snow = FREEZE
+                    self.temp_snow = FREEZE
                     self.h2o_sat_snow = 1
 
-            elif (self.m_rain > 0):
+            elif (self.mass_rain > 0):
                 # rain only
-                self.t_rain = self.precip_temp
+                self.temp_rain = self.precip_temp
 
     def add_deltas(self, input_deltas):
 

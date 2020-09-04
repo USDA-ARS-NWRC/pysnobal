@@ -381,7 +381,7 @@ class Snobal(object):
 
         A = MAX_DENSITY - self.snow_state.rho
         if self.input1.precip_now:
-            h2o_added = (self.snow_state.melt + self.input1.m_rain) / \
+            h2o_added = (self.snow_state.melt + self.input1.mass_rain) / \
                 self.snow_state.m_s
 
         else:
@@ -608,21 +608,21 @@ class Snobal(object):
                                                 self.input1.rho_snow,
                                                 h2o_vol_snow)
 
-            elif self.input1.m_snow > 0:
+            elif self.input1.mass_snow > 0:
 
                 # set the values from the initial snow properties
                 self.snow_state.z_s = self.input1.z_snow
                 self.snow_state.rho = self.input1.rho_snow
-                self.snow_state.t_s = self.input1.t_snow
-                self.snow_state.t_s_0 = self.input1.t_snow
-                self.snow_state.t_s_l = self.input1.t_snow
+                self.snow_state.t_s = self.input1.temp_snow
+                self.snow_state.t_s_0 = self.input1.temp_snow
+                self.snow_state.t_s_l = self.input1.temp_snow
                 self.snow_state.h2o_sat = self.input1.h2o_sat_snow
 
                 self.init_snow()
 
             # Add rainfall and water in the snowcover to the total liquid water
             self.snow_state.h2o_total += self.snow_state.h2o + \
-                self.input1.m_rain
+                self.input1.mass_rain
 
         else:
             # Add water in the snowcover to total liquid water
@@ -936,12 +936,12 @@ class Snobal(object):
 
         if self.input1.precip_now:
 
-            M = heat_stor(cp_water(self.input1.t_rain),
-                          self.input1.m_rain,
-                          self.input1.t_rain - self.snow_state.t_s_0) + \
-                heat_stor(cp_ice(self.input1.t_snow),
-                          self.input1.m_snow,
-                          self.input1.t_snow - self.snow_state.t_s_0)
+            M = heat_stor(cp_water(self.input1.temp_rain),
+                          self.input1.mass_rain,
+                          self.input1.temp_rain - self.snow_state.t_s_0) + \
+                heat_stor(cp_ice(self.input1.temp_snow),
+                          self.input1.mass_snow,
+                          self.input1.temp_snow - self.snow_state.t_s_0)
 
             M /= self.time_step
 

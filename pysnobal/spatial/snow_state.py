@@ -13,7 +13,20 @@ class SpatialSnowState(SnowState):
     def __init__(self, init=0, max_z_s_0=0.25, small_threshold=1):
 
         super(SpatialSnowState, self).__init__(
-            init, max_z_s_0, small_threshold)
+            init.copy(), max_z_s_0, small_threshold)
+
+        # The creation of the attributes was a little sloppy with the
+        # DataArray naming, fix that here
+        da_attr = []
+        for attr, value in self.__dict__.items():
+            if isinstance(value, xr.DataArray):
+                da_attr.append(attr)
+
+        # The init has created a reference for all data arrays, need
+        # to change name and copy
+        for attr in da_attr:
+            init.name = attr
+            setattr(self, attr, init.copy())
 
         self.num_grid = init.shape[0] * init.shape[1]
 

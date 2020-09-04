@@ -102,37 +102,67 @@ class iSnobal(Snobal):
 
         """
 
-        # Fetch the record for the timestep at the next level.
-        self.next_level = self.current_level + 1
-        curr_lvl_tstep = self.tstep_info[self.current_level]
+        # Shortcut if there is no snow
+        if (self.snow_state.layer_count == 0).all():
+            self.snow_state.value_to_bar()
+            self.current_datetime = self.current_datetime + \
+                self.tstep_info[self.current_level]['time_step_timedelta']
+            self.output()
+            return True
 
-        if self.input1.precip_now and curr_lvl_tstep['level'] > 1:
-            self.input1.update_precip_deltas(
-                self.input_deltas[curr_lvl_tstep['level']])
+        # # Fetch the record for the timestep at the next level.
+        # self.next_level = self.current_level + 1
+        # curr_lvl_tstep = self.tstep_info[self.current_level]
 
-        # For each the new smaller timestep, either subdivide them if
-        # below their mass threshold, or run the model for them.
-        interval = curr_lvl_tstep['intervals']
-        for i in range(interval):
+        # if self.input1.precip_now and curr_lvl_tstep['level'] > 1:
+        #     self.input1.update_precip_deltas(
+        #         self.input_deltas[curr_lvl_tstep['level']])
 
-            if (self.current_level != SMALL_TSTEP) and \
-                    (self.below_thold(curr_lvl_tstep['threshold'])):
-                # increment the level number
-                self.current_level += 1
-                self.divided_step = True
-                if not self.divide_tstep():
-                    return False
-            else:
-                if not self.do_tstep(curr_lvl_tstep):
-                    return False
+        # # For each the new smaller timestep, either subdivide them if
+        # # below their mass threshold, or run the model for them.
+        # interval = curr_lvl_tstep['intervals']
+        # for i in range(interval):
 
-        if self.current_level == 0 and not self.output_divided:
+        #     if (self.current_level != SMALL_TSTEP) and \
+        #             (self.below_thold(curr_lvl_tstep['threshold'])):
+        #         # increment the level number
+        #         self.current_level += 1
+        #         self.divided_step = True
+        #         if not self.divide_tstep():
+        #             return False
+        #     else:
+        #         if not self.do_tstep(curr_lvl_tstep):
+        #             return False
+
+        if self.current_level == 0:
             self.output()
 
-        self.current_level -= 1
-        self.next_level -= 1
+        # self.current_level -= 1
+        # self.next_level -= 1
 
         return True
+
+    def below_thold(self, threshold):
+        """
+        This routine determines if any individual layer's mass is below
+        a given threshold for the current timestep.
+
+        Args:
+            threshold: current timestep's threshold for a
+                   layer's mass
+
+        Returns:
+            True    A layer's mass is less than the threshold.
+            False    All layers' masses are greater than the threshold.
+        """
+
+        if self.snow_state.layer_count == 0:
+            return False
+        if self.snow_state.layer_count == 1:
+            return self.snow_state.m_s < threshold
+        else:
+            return (self.snow_state.m_s_0 < threshold) or \
+                (self.snow_state.m_s_l < threshold)
 
     def calc_layers(self):
         """
@@ -193,28 +223,39 @@ class iSnobal(Snobal):
 
         TODO there may be a way with dask and xarray to link this to a file and
         sync the dataset with the disk
+        TODO move the variables to a constant
         """
 
         # sz = self.elevation.shape
-        flds = ['rho', 't_s_0', 't_s_l', 't_s',
-                'cc_s_0', 'cc_s_l', 'cc_s', 'm_s', 'm_s_0', 'm_s_l', 'z_s',
-                'z_s_0', 'z_s_l', 'h2o_sat', 'layer_count', 'h2o', 'h2o_max',
-                'h2o_vol', 'h2o_total', 'R_n_bar', 'H_bar', 'L_v_E_bar',
-                'G_bar', 'G_0_bar', 'M_bar', 'delta_Q_bar', 'delta_Q_0_bar',
-                'E_s_sum', 'melt_sum', 'swi_sum']
+        self.output_fields = ['rho', 't_s_0', 't_s_l', 't_s',
+                              'cc_s_0', 'cc_s_l', 'cc_s', 'm_s', 'm_s_0', 'm_s_l', 'z_s',
+                              'z_s_0', 'z_s_l', 'h2o_sat', 'layer_count', 'h2o', 'h2o_max',
+                              'h2o_vol', 'h2o_total', 'R_n_bar', 'H_bar', 'L_v_E_bar',
+                              'G_bar', 'G_0_bar', 'M_bar', 'delta_Q_bar', 'delta_Q_0_bar',
+                              'E_s_sum', 'melt_sum', 'swi_sum']
 
-        self.output_rec = xr.Dataset({
-            key: xr.zeros_like(self.elevation) for key in flds
-        })
+        # self.output_rec = xr.Dataset({
+        #     key: xr.zeros_like(self.elevation) for key in flds
+        # })
+
+        # # time will always just be one value but will make it easier later
+        # self.output_rec = self.output_rec.expand_dims(
+        #     dim={'time': [self.current_datetime]},
+        #     axis=0)
 
     def output(self):
         """
         Specify where the model output should go
         """
 
-        c = {key: getattr(self.snow_state, key)
-             for key in self.output_rec.keys()}
-        c['date_time'] = self.current_datetime
+        self.output_rec = xr.merge(
+            [{key: xr.zeros_like(self.elevation)}
+             for key in self.output_fields]
+        )
 
-        self.output_list.append(c)
+        # time will always just be one value but will make it easier later
+        self.output_rec = self.output_rec.expand_dims(
+            dim={'time': [self.current_datetime]},
+            axis=0)
+
         self.time_since_out = 0.0

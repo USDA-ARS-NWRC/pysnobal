@@ -48,11 +48,11 @@ def test_precip_cold_snow(data):
     data['precip_mass'] = np.array([[1]])
 
     gold = {
-        'm_rain': np.array([[0.]]),
-        'm_snow': np.array([[1.]]),
+        'mass_rain': np.array([[0.]]),
+        'mass_snow': np.array([[1.]]),
         'z_snow': np.array([[0.00666667]]),
-        't_rain': np.array([[0]]),
-        't_snow': np.array([[270.66]]),
+        'temp_rain': np.array([[0]]),
+        'temp_snow': np.array([[270.66]]),
         'h2o_sat_snow': np.array([[0.]])
     }
 
@@ -68,11 +68,11 @@ def test_precip_mixed(data):
     data['percent_snow'] = np.array([[0.5]])
 
     gold = {
-        'm_rain': np.array([[0.5]]),
-        'm_snow': np.array([[0.5]]),
+        'mass_rain': np.array([[0.5]]),
+        'mass_snow': np.array([[0.5]]),
         'z_snow': np.array([[0.00333333]]),
-        't_rain': np.array([[274]]),
-        't_snow': np.array([[FREEZE]]),
+        'temp_rain': np.array([[274]]),
+        'temp_snow': np.array([[FREEZE]]),
         'h2o_sat_snow': np.array([[1.]])
     }
 
@@ -81,18 +81,18 @@ def test_precip_mixed(data):
     compare_gold(gold, data)
 
 
-def test_precip_warm_snow(data):
+def test_precip_warmass_snow(data):
 
     data['precip_mass'] = np.array([[1]])
     data['precip_temp'] = np.array([[274]])
     data['percent_snow'] = np.array([[1.]])
 
     gold = {
-        'm_rain': np.array([[0.]]),
-        'm_snow': np.array([[1.]]),
+        'mass_rain': np.array([[0.]]),
+        'mass_snow': np.array([[1.]]),
         'z_snow': np.array([[0.00666667]]),
-        't_rain': np.array([[0]]),
-        't_snow': np.array([[FREEZE]]),
+        'temp_rain': np.array([[0]]),
+        'temp_snow': np.array([[FREEZE]]),
         'h2o_sat_snow': np.array([[1.]])
     }
 
@@ -108,11 +108,11 @@ def test_precip_rain(data):
     data['percent_snow'] = np.array([[0.]])
 
     gold = {
-        'm_rain': np.array([[1.]]),
-        'm_snow': np.array([[0.]]),
+        'mass_rain': np.array([[1.]]),
+        'mass_snow': np.array([[0.]]),
         'z_snow': np.array([[0.]]),
-        't_rain': np.array([[280]]),
-        't_snow': np.array([[0]]),
+        'temp_rain': np.array([[280]]),
+        'temp_snow': np.array([[0]]),
         'h2o_sat_snow': np.array([[0.]])
     }
 

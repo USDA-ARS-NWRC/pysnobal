@@ -91,6 +91,8 @@ class iPySnobal(PySnobal):
 
     def run(self):
 
+        self.init_output()
+
         # loop through the input
         # do_data_tstep needs two input records
         input_data1 = InputSpatialData(self.dataset.isel(time=0))
@@ -105,8 +107,11 @@ class iPySnobal(PySnobal):
         # index2 is the index for the second input timestep
         for idx, date_time in enumerate(self.dataset.time[1:]):
 
+            # if pd.to_datetime(date_time.values).hour == 0:
+            print(date_time.values)
+
             # call do_data_tstep()
-            input_data2 = self.dataset.isel(time=idx)
+            input_data2 = InputSpatialData(self.dataset.isel(time=idx))
             input_deltas = InputSpatialDeltas(
                 input_data1,
                 input_data2,
@@ -121,7 +126,21 @@ class iPySnobal(PySnobal):
             # input2 becomes input1
             input_data1 = input_data2
 
-        # output to file
-        self.output_to_file()
+            # output to file
+            self.output_to_file()
 
         return True
+
+    def init_output(self):
+        self.output_file = None
+
+    def output_to_file(self):
+        """
+        Output the model result to a file
+        """
+        # plumb this later, just keep in a dataset
+        if self.output_file is None:
+            self.output_file = self.snobal.output_rec.copy()
+        else:
+            self.output_file = xr.merge(
+                [self.output_file, self.snobal.output_rec])
