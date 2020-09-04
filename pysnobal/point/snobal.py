@@ -81,10 +81,10 @@ class Snobal(object):
         'precip_now' used be TRUE.  Furthermore, the routine requires
         that the following precipitation variables have been initialized:
 
-            m_pp
+            precip_mass
             percent_snow
             rho_snow
-            t_pp
+            precip_temp
 
         This routine divides the data timestep into the appropriate number
         of normal run timesteps.  The input values for each normal timestep
@@ -110,8 +110,8 @@ class Snobal(object):
             input2: second timestep dict
 
             inputs contain all forcing data:
-                ['S_n', 'I_lw', 't_a', 'e_a', 'u', 't_g','m_pp',
-                    'percent_snow', 'rho_snow', 't_pp']
+                ['net_solar', 'incoming_thermal', 'air_temp', 'vapor_pressure', 'wind_speed', 'soil_temp','precip_mass',
+                    'percent_snow', 'rho_snow', 'precip_temp']
 
 
         """
@@ -145,10 +145,10 @@ class Snobal(object):
         'precip_now' used be TRUE.  Furthermore, the routine requires
         that the following precipitation variables have been initialized:
 
-            m_pp
+            precip_mass
             percent_snow
             rho_snow
-            t_pp
+            precip_temp
 
         This routine divides the data timestep into the appropriate number
         of normal run timesteps.  The input values for each normal timestep
@@ -209,12 +209,12 @@ class Snobal(object):
         This routine performs the model's calculations for a single timestep.
         It requires that these climate variables have been initialized:
 
-            S_n
-            I_lw
+            net_solar
+            incoming_thermal
             t_a
             e_a
             u
-            t_g
+            soil_temp
 
         The routine also requires the precipitation data have been adjusted
         for the timestep, and have been stored in the array:
@@ -411,7 +411,7 @@ class Snobal(object):
             E_s_0: mass of evaporation to air (kg/m^2)
             E_s_l: mass of evaporation to soil (kg/m^2)
             E_l: mass flux by evap/cond to soil (kg/m^2/s)
-            e_g: soil vapor press
+            soil_vp: soil vapor press
             e_s_l: lower snow layer's vapor press
             k: soil diffusion coef
             prev_h2o_tot: previous value of h2o_total variable
@@ -446,14 +446,14 @@ class Snobal(object):
         else:
             if self.snow_state.layer_count == 2:
                 e_s_l = self.snow_state.e_s_l
-                t_bar = (self.input1.t_g + self.snow_state.t_s_l) / 2.0
+                t_bar = (self.input1.soil_temp + self.snow_state.t_s_l) / 2.0
 
             else:  # layer_count == 1
                 e_s_l = self.snow_state.e_s_0
-                t_bar = (self.input1.t_g + self.snow_state.t_s_0) / 2.0
+                t_bar = (self.input1.soil_temp + self.snow_state.t_s_0) / 2.0
 
             q_s_l = spec_hum(e_s_l, self.P_a)
-            q_g = spec_hum(self.input1.e_g, self.P_a)
+            q_g = spec_hum(self.input1.soil_vp, self.P_a)
             q_delta = q_g - q_s_l
             rho_air = gas_density(self.P_a, libsnobal.MOL_AIR, t_bar)
             k = diffusion_coef(self.P_a, t_bar)
@@ -600,7 +600,7 @@ class Snobal(object):
                 # Adjust snowcover's depth and mass by snowfall's
                 # depth and the total precipitation mass.
                 self.adj_snow(
-                    self.input1.z_snow, self.input1.m_pp)
+                    self.input1.z_snow, self.input1.precip_mass)
 
                 # Determine the additional liquid water that's in
                 # the snowfall, and then add its mass to liquid
@@ -755,7 +755,7 @@ class Snobal(object):
         New snow density and depth
 
         rho_n = rho + ((PTM + POC) * rho)
-        zs_n = SWE / rho_n
+        znet_solar = SWE / rho_n
         """
 
         # If the snow is already at or above the maximum density due
@@ -914,9 +914,9 @@ class Snobal(object):
         """Calculate the net radiation
         """
 
-        self.snow_state.R_n = self.input1.S_n + \
+        self.snow_state.R_n = self.input1.net_solar + \
             (SNOW_EMISSIVITY * (
-                self.input1.I_lw -
+                self.input1.incoming_thermal -
                 STEF_BOLTZ * np.power(self.snow_state.t_s_0, 4)))
 
     def heat_transfer(self):
@@ -980,9 +980,9 @@ class Snobal(object):
         # /***    k_g = efcon(KT_WETSAND, tg, pa);            ***/
         k_g = libsnobal.efcon(
             KT_MOISTSAND,
-            self.input1.t_g,
+            self.input1.soil_temp,
             self.P_a,
-            es_layer=self.input1.e_g)
+            es_layer=self.input1.soil_vp)
 
         # calculate G
         # set snow conductivity
@@ -992,7 +992,7 @@ class Snobal(object):
             tsno,
             self.P_a,
             es_layer=es_layer)
-        g = libsnobal.ssxfr(k_s, k_g, tsno, self.input1.t_g,
+        g = libsnobal.ssxfr(k_s, k_g, tsno, self.input1.soil_temp,
                             ds, self.measurement_heights['z_g'])
 
         self.snow_state.G = g
@@ -1040,11 +1040,11 @@ class Snobal(object):
         # error check for bad vapor pressures
         sat_vp = self.input1.sat_vp
 
-        if self.input1.e_a > sat_vp:
+        if self.input1.vapor_pressure > sat_vp:
             warnings.warn(
                 """{} h_le: input vapor pressure is greater than """
                 """saturation vapor pressure""".format(self.current_datetime))
-            self.input1.e_a = sat_vp
+            self.input1.vapor_pressure = sat_vp
 
         # determine relative measurement heights
         if self.relative_hts:
@@ -1057,13 +1057,13 @@ class Snobal(object):
         # calculate H & L_v_E
         H, L_v_E, E, status, ustar, factor = libsnobal.hle1(
             self.P_a,
-            self.input1.t_a,
+            self.input1.air_temp,
             self.snow_state.t_s_0,
             rel_z_T,
-            self.input1.e_a,
+            self.input1.vapor_pressure,
             self.snow_state.e_s_0,
             rel_z_T,
-            self.input1.u,
+            self.input1.wind_speed,
             rel_z_u,
             self.snow_state.z_0,
             **self._hle1_init
@@ -1080,8 +1080,8 @@ class Snobal(object):
                 """P_a={}, t_a={}, t_s_0={}\n"""
                 """relative z_T={}, e_a={}, e_s={}\n"""
                 """u={}, relative z_u={}, z_0={}\n""".format(
-                    self.P_a, self.input1.t_a, self.snow_state.t_s_0, rel_z_T,
-                    self.input1.e_a, self.snow_state.e_s_0, self.input1.u,
+                    self.P_a, self.input1.air_temp, self.snow_state.t_s_0, rel_z_T,
+                    self.input1.vapor_pressure, self.snow_state.e_s_0, self.input1.u,
                     rel_z_u, self.snow_state.z_0))
 
         self.snow_state.H = H

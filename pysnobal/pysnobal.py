@@ -1,7 +1,6 @@
 import os
 import sys
 
-import numpy as np
 import pandas as pd
 from inicheck.config import MasterConfig, UserConfig
 from inicheck.output import print_config_report
@@ -252,28 +251,6 @@ class PySnobal():
             input_data.precip_temp < FREEZE), 'precip_temp'] = FREEZE
 
         self.input_data = input_data
-
-        self.map_input_data()
-
-    def map_input_data(self):
-        """
-        Maps the input data from a dataframe to that needed by Snobal
-        """
-
-        mapper = {
-            'net_solar': 'S_n',
-            'incoming_thermal': 'I_lw',
-            'air_temp': 't_a',
-            'vapor_pressure': 'e_a',
-            'wind_speed': 'u',
-            'soil_temp': 't_g',
-            'precip_mass': 'm_pp',
-            'percent_snow': 'percent_snow',
-            'rho_snow': 'rho_snow',
-            'precip_temp': 't_pp'
-        }
-
-        self.input_data = self.input_data.rename(columns=mapper)
 
     def run(self):
         """

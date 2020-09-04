@@ -7,19 +7,19 @@ class InputData():
     # These will act like cumulative variables where the
     # input deltas will add to them
     INPUT_VARIABLES = [
-        'S_n',
-        'I_lw',
-        't_a',
-        'e_a',
-        'u',
-        't_g'
+        'net_solar',
+        'incoming_thermal',
+        'air_temp',
+        'vapor_pressure',
+        'wind_speed',
+        'soil_temp'
     ]
 
     # Some of the precipitation variables are handled slightly
     # differently where they are not added to the values before
     # but are just split evenly by the intervals
     PRECIP_VARIABLES = [
-        'm_pp',
+        'precip_mass',
         'm_snow',
         'm_rain',
         'z_snow'
@@ -30,7 +30,7 @@ class InputData():
     PRECIP_CONSTANT = [
         'percent_snow',
         'rho_snow',
-        't_pp',
+        'precip_temp',
         't_rain',
         't_snow'
     ]
@@ -46,20 +46,20 @@ class InputData():
 
     def __init__(self, data, input_delta=False):
 
-        self.S_n = data['S_n']
-        self.I_lw = data['I_lw']
-        self.t_a = data['t_a']
-        self.e_a = data['e_a']
-        self.u = data['u']
-        self.t_g = data['t_g']
-        self.m_pp = data['m_pp']
+        self.net_solar = data['net_solar']
+        self.incoming_thermal = data['incoming_thermal']
+        self.air_temp = data['air_temp']
+        self.vapor_pressure = data['vapor_pressure']
+        self.wind_speed = data['wind_speed']
+        self.soil_temp = data['soil_temp']
+        self.precip_mass = data['precip_mass']
         self.percent_snow = data['percent_snow']
         self.rho_snow = data['rho_snow']
-        self.t_pp = data['t_pp']
+        self.precip_temp = data['precip_temp']
 
         # derived precip values
-        self.m_snow = self.m_pp * self.percent_snow
-        self.m_rain = self.m_pp - self.m_snow
+        self.m_snow = self.precip_mass * self.percent_snow
+        self.m_rain = self.precip_mass - self.m_snow
 
         # initialize the other variables to 0
         init = 0
@@ -70,12 +70,12 @@ class InputData():
             self.precipitation_inputs()
 
     @property
-    def t_a(self):
-        return self._t_a
+    def air_temp(self):
+        return self._air_temp
 
-    @t_a.setter
-    def t_a(self, var):
-        self._t_a = var
+    @air_temp.setter
+    def air_temp(self, var):
+        self._air_temp = var
         self.__sat_vp = False
 
     @property
@@ -87,42 +87,42 @@ class InputData():
             float: saturation vapor pressure over ice
         """
         if not self.__sat_vp:
-            self._sat_vp = sati(self.t_a)
+            self._sat_vp = sati(self.air_temp)
             self.__sat_vp = True
         return self._sat_vp
 
     @property
-    def t_g(self):
-        return self._t_g
+    def soil_temp(self):
+        return self._soil_temp
 
-    @t_g.setter
-    def t_g(self, var):
-        self._t_g = var
-        self.__e_g = False
+    @soil_temp.setter
+    def soil_temp(self, var):
+        self._soil_temp = var
+        self.__soil_vp = False
 
     @property
-    def e_g(self):
+    def soil_vp(self):
         """Calculate the saturation vapor pressure over ice for
         the soil temperature
 
         Returns:
             float: saturation vapor pressure over ice
         """
-        if not self.__e_g:
-            self._e_g = sati(self.t_g)
-            self.__e_g = True
-        return self._e_g
+        if not self.__soil_vp:
+            self._soil_vp = sati(self.soil_temp)
+            self.__soil_vp = True
+        return self._soil_vp
 
     def precipitation_inputs(self):
 
         self.precip_now = False
 
-        if self.m_pp > 0:
+        if self.precip_mass > 0:
             self.precip_now = True
 
-            # self.m_pp = self.m_pp
-            # self.m_snow = self.m_pp * self.percent_snow
-            # self.m_rain = self.m_pp - self.m_snow
+            # self.precip_mass = self.precip_mass
+            # self.m_snow = self.precip_mass * self.percent_snow
+            # self.m_rain = self.precip_mass - self.m_snow
 
             if (self.m_snow > 0.0):
                 if (self.rho_snow > 0.0):
@@ -134,20 +134,20 @@ class InputData():
                 self.z_snow = 0
 
             # check the precip, temp. cannot be below freezing if rain present
-            if (self.m_rain > 0) and (self.t_pp < FREEZE):
-                self.t_pp = FREEZE
+            if (self.m_rain > 0) and (self.precip_temp < FREEZE):
+                self.precip_temp = FREEZE
 
             # Mixed snow and rain
             if (self.m_snow > 0) and (self.m_rain > 0):
                 self.t_snow = FREEZE
                 self.h2o_sat_snow = 1
-                self.t_rain = self.t_pp
+                self.t_rain = self.precip_temp
 
             elif (self.m_snow > 0):
                 # Snow only
-                if (self.t_pp < FREEZE):
+                if (self.precip_temp < FREEZE):
                     # cold snow
-                    self.t_snow = self.t_pp
+                    self.t_snow = self.precip_temp
                     self.h2o_sat_snow = 0
                 else:
                     # warm snow
@@ -156,17 +156,17 @@ class InputData():
 
             elif (self.m_rain > 0):
                 # rain only
-                self.t_rain = self.t_pp
+                self.t_rain = self.precip_temp
 
     def add_deltas(self, input_deltas):
 
         # Add the input data deltas
-        self.S_n = self.S_n + input_deltas.S_n
-        self.I_lw = self.I_lw + input_deltas.I_lw
-        self.t_a = self.t_a + input_deltas.t_a
-        self.e_a = self.e_a + input_deltas.e_a
-        self.u = self.u + input_deltas.u
-        self.t_g = self.t_g + input_deltas.t_g
+        self.net_solar = self.net_solar + input_deltas.net_solar
+        self.incoming_thermal = self.incoming_thermal + input_deltas.incoming_thermal
+        self.air_temp = self.air_temp + input_deltas.air_temp
+        self.vapor_pressure = self.vapor_pressure + input_deltas.vapor_pressure
+        self.wind_speed = self.wind_speed + input_deltas.wind_speed
+        self.soil_temp = self.soil_temp + input_deltas.soil_temp
 
         self.update_precip_deltas(input_deltas)
 

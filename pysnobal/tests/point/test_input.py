@@ -9,16 +9,16 @@ from pysnobal.point import InputData
 def data():
     """Initial input data values"""
     return {
-        'I_lw': np.array([[237.]]),
-        'S_n': np.array([[0.]]),
-        't_a': np.array([[277.16]]),
-        't_g': np.array([[273.16]]),
-        't_pp': np.array([[270.66]]),
-        'e_a': np.array([[496.16]]),
-        'm_pp': np.array([[0.]]),
+        'incoming_thermal': np.array([[237.]]),
+        'net_solar': np.array([[0.]]),
+        'air_temp': np.array([[277.16]]),
+        'soil_temp': np.array([[273.16]]),
+        'precip_temp': np.array([[270.66]]),
+        'vapor_pressure': np.array([[496.16]]),
+        'precip_mass': np.array([[0.]]),
         'percent_snow': np.array([[1.]]),
         'rho_snow': np.array([[150.]]),
-        'u': np.array([[2.3]])
+        'wind_speed': np.array([[2.3]])
     }
 
 
@@ -45,7 +45,7 @@ def test_access(data, initial_input):
 
 def test_precip_cold_snow(data):
 
-    data['m_pp'] = np.array([[1]])
+    data['precip_mass'] = np.array([[1]])
 
     gold = {
         'm_rain': np.array([[0.]]),
@@ -63,8 +63,8 @@ def test_precip_cold_snow(data):
 
 def test_precip_mixed(data):
 
-    data['m_pp'] = np.array([[1]])
-    data['t_pp'] = np.array([[274]])
+    data['precip_mass'] = np.array([[1]])
+    data['precip_temp'] = np.array([[274]])
     data['percent_snow'] = np.array([[0.5]])
 
     gold = {
@@ -83,8 +83,8 @@ def test_precip_mixed(data):
 
 def test_precip_warm_snow(data):
 
-    data['m_pp'] = np.array([[1]])
-    data['t_pp'] = np.array([[274]])
+    data['precip_mass'] = np.array([[1]])
+    data['precip_temp'] = np.array([[274]])
     data['percent_snow'] = np.array([[1.]])
 
     gold = {
@@ -103,8 +103,8 @@ def test_precip_warm_snow(data):
 
 def test_precip_rain(data):
 
-    data['m_pp'] = np.array([[1]])
-    data['t_pp'] = np.array([[280]])
+    data['precip_mass'] = np.array([[1]])
+    data['precip_temp'] = np.array([[280]])
     data['percent_snow'] = np.array([[0.]])
 
     gold = {
