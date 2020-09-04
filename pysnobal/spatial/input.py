@@ -1,8 +1,9 @@
 import xarray as xr
+import numpy as np
 
 from pysnobal.core.constants import FREEZE
 from pysnobal.point.libsnobal import sati
-from pysnobal.point.input import InputData, InputDeltas
+from pysnobal.point import InputData, InputDeltas
 
 
 class InputSpatialData(InputData):
@@ -13,37 +14,6 @@ class InputSpatialData(InputData):
 
         super(InputSpatialData, self).__init__(
             data, input_delta, init)
-
-        self.net_solar = data['net_solar']
-        self.thermal = data['thermal']
-        self.air_temp = data['air_temp']
-        self.vapor_pressure = data['vapor_pressure']
-        self.wind_speed = data['wind_speed']
-        self.soil_temp = data['soil_temp']
-        self.precip_mass = data['precip_mass']
-        self.percent_snow = data['percent_snow']
-        self.rho_snow = data['rho_snow']
-        self.precip_temp = data['precip_temp']
-
-        # derived precip values
-        self.m_snow = self.precip_mass * self.percent_snow
-        self.m_rain = self.precip_mass - self.m_snow
-
-        # initialize the other variables to 0
-        for precip_derived in self.PRECIP_DERIVED:
-            setattr(self, precip_derived, init)
-
-        if not input_delta:
-            self.precipitation_inputs()
-
-    @property
-    def t_a(self):
-        return self._t_a
-
-    @t_a.setter
-    def t_a(self, var):
-        self._t_a = var
-        self.__sat_vp = False
 
     @property
     def sat_vp(self):
@@ -57,15 +27,6 @@ class InputSpatialData(InputData):
             self._sat_vp = sati(self.air_temp)
             self.__sat_vp = True
         return self._sat_vp
-
-    @property
-    def soil_temp(self):
-        return self._soil_temp
-
-    @soil_temp.setter
-    def soil_temp(self, var):
-        self._soil_temp = var
-        self.__soil_vp = False
 
     @property
     def soil_vp(self):
@@ -84,7 +45,7 @@ class InputSpatialData(InputData):
 
         self.precip_now = False
 
-        if self.precip_mass > 0:
+        if np.any(self.precip_mass.values > 0):
             self.precip_now = True
 
             # self.precip_mass = self.precip_mass
@@ -125,33 +86,33 @@ class InputSpatialData(InputData):
                 # rain only
                 self.t_rain = self.precip_temp
 
-    def add_deltas(self, input_deltas):
+    # def add_deltas(self, input_deltas):
 
-        # Add the input data deltas
-        self.net_solar = self.net_solar + input_deltas.net_solar
-        self.thermal = self.thermal + \
-            input_deltas.thermal
-        self.air_temp = self.air_temp + input_deltas.air_temp
-        self.vapor_pressure = self.vapor_pressure + input_deltas.vapor_pressure
-        self.wind_speed = self.wind_speed + input_deltas.wind_speed
-        self.soil_temp = self.soil_temp + input_deltas.soil_temp
+    #     # Add the input data deltas
+    #     self.net_solar = self.net_solar + input_deltas.net_solar
+    #     self.thermal = self.thermal + \
+    #         input_deltas.thermal
+    #     self.air_temp = self.air_temp + input_deltas.air_temp
+    #     self.vapor_pressure = self.vapor_pressure + input_deltas.vapor_pressure
+    #     self.wind_speed = self.wind_speed + input_deltas.wind_speed
+    #     self.soil_temp = self.soil_temp + input_deltas.soil_temp
 
-        self.update_precip_deltas(input_deltas)
+    #     self.update_precip_deltas(input_deltas)
 
-    def update_precip_deltas(self, input_deltas):
+    # def update_precip_deltas(self, input_deltas):
 
-        # update the precipitation. Snobal takes the input deltas
-        # and divides by the intervals
-        for precip_variable in self.PRECIP_VARIABLES:
-            setattr(self, precip_variable,
-                    getattr(input_deltas, precip_variable))
+    #     # update the precipitation. Snobal takes the input deltas
+    #     # and divides by the intervals
+    #     for precip_variable in self.PRECIP_VARIABLES:
+    #         setattr(self, precip_variable,
+    #                 getattr(input_deltas, precip_variable))
 
 
 class InputSpatialDeltas(InputDeltas):
 
     def __init__(self, input1, input2, tstep_info):
 
-        super(InputSpatialData, self).__init__(
+        super(InputSpatialDeltas, self).__init__(
             input1, input2, tstep_info)
 
     def calculate(self):
@@ -175,6 +136,6 @@ class InputSpatialDeltas(InputDeltas):
                 tstep_deltas[precip_constant] = \
                     getattr(self.input1, precip_constant)
 
-            self.deltas[tstep['level']] = InputData(tstep_deltas)
+            self.deltas[tstep['level']] = InputSpatialData(tstep_deltas)
 
         return self.deltas

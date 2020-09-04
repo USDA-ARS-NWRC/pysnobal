@@ -9,7 +9,7 @@ from inicheck.tools import check_config, get_user_config
 from pysnobal import utils
 from pysnobal.core.constants import (FREEZE, MEDIUM_TSTEP, NORMAL_TSTEP,
                                      SMALL_TSTEP)
-from pysnobal.point import InputData, Snobal
+from pysnobal.point import InputData, Snobal, InputDeltas
 
 
 class PySnobal():
@@ -279,9 +279,15 @@ class PySnobal():
 
             # call do_data_tstep()
             input_data2 = InputData(input2)
+            input_deltas = InputDeltas(
+                input_data1,
+                input_data2,
+                self.snobal.tstep_info).calculate()
+
             self.snobal.do_data_tstep(
                 input_data1,
-                input_data2
+                input_data2,
+                input_deltas
             )
 
             # input2 becomes input1

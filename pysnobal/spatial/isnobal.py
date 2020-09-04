@@ -66,18 +66,73 @@ class iSnobal(Snobal):
             'init_factor': None
         }
 
-    # def create_snow_state(self):
-    #     """Create the initial snow state
-    #     """
+    def divide_tstep(self):
+        """
+        This routine performs the model's calculations for 1 data timestep
+        between 2 input-data records which are in 'input_rec1' and
+        'input_rec2'.
 
-    #     init_array = np.zeros_like(self.elevation)
-    #     zeros = xr.DataArray(
-    #         init_array,
-    #         coords=self.elevation.coords,
-    #         dims=self.elevation.dims
-    #     )
+        If there's precipitation during the data timestep, the flag
+        'precip_now' used be TRUE.  Furthermore, the routine requires
+        that the following precipitation variables have been initialized:
 
-    #     self.snow_state = SpatialSnowState(zeros)
+            precip_mass
+            percent_snow
+            rho_snow
+            precip_temp
+
+        This routine divides the data timestep into the appropriate number
+        of normal run timesteps.  The input values for each normal timestep
+        are computed from the two input records by linear interpolation.
+
+        If output is desired for any of the run timesteps (normal, medium,
+        or small), the appropriate output flags must be set in the proper
+        timestep's record (i.e., the array 'tstep_info').  If any output
+        flag is set, the routine requires that the global variable 'out_func'
+        point to appropriate output function.
+
+        This routine may return in the middle of a data timestep if:
+
+            a)  the output function pointed to by 'out_func' is called, and
+            b)  the flag 'run_no_snow' is FALSE, and
+            c)  there is no snow remaining on the ground at the end of
+                timestep
+
+        In this happens, the flag 'stop_no_snow' is set to TRUE.
+
+        """
+
+        # Fetch the record for the timestep at the next level.
+        self.next_level = self.current_level + 1
+        curr_lvl_tstep = self.tstep_info[self.current_level]
+
+        if self.input1.precip_now and curr_lvl_tstep['level'] > 1:
+            self.input1.update_precip_deltas(
+                self.input_deltas[curr_lvl_tstep['level']])
+
+        # For each the new smaller timestep, either subdivide them if
+        # below their mass threshold, or run the model for them.
+        interval = curr_lvl_tstep['intervals']
+        for i in range(interval):
+
+            if (self.current_level != SMALL_TSTEP) and \
+                    (self.below_thold(curr_lvl_tstep['threshold'])):
+                # increment the level number
+                self.current_level += 1
+                self.divided_step = True
+                if not self.divide_tstep():
+                    return False
+            else:
+                if not self.do_tstep(curr_lvl_tstep):
+                    return False
+
+        if self.current_level == 0 and not self.output_divided:
+            self.output()
+
+        self.current_level -= 1
+        self.next_level -= 1
+
+        return True
 
     def calc_layers(self):
         """

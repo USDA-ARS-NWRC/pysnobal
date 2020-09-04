@@ -71,7 +71,7 @@ class Snobal(object):
             'init_factor': None
         }
 
-    def do_data_tstep(self, input1, input2):
+    def do_data_tstep(self, input1, input2, input_deltas):
         """
         This routine performs the model's calculations for 1 data timestep
         between 2 input-data records which are in 'input_rec1' and
@@ -110,8 +110,9 @@ class Snobal(object):
             input2: second timestep dict
 
             inputs contain all forcing data:
-                ['net_solar', 'thermal', 'air_temp', 'vapor_pressure', 'wind_speed', 'soil_temp','precip_mass',
-                    'percent_snow', 'rho_snow', 'precip_temp']
+                ['net_solar', 'thermal', 'air_temp', 'vapor_pressure',
+                 'wind_speed', 'soil_temp','precip_mass',
+                 'percent_snow', 'rho_snow', 'precip_temp']
 
 
         """
@@ -123,11 +124,7 @@ class Snobal(object):
         # store the inputs for later
         self.input1 = input1
         self.input2 = input2
-
-        # Compute deltas for the climate input parameters over the
-        # data timestep.
-        self.input_deltas = InputDeltas(
-            self.input1, self.input2, self.tstep_info).calculate()
+        self.input_deltas = input_deltas
 
         # Divide the data timestep into normal run timesteps.
         # keeps track of what time step level the model is on

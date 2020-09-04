@@ -11,9 +11,8 @@ from inicheck.tools import check_config, get_user_config
 from pysnobal import utils
 from pysnobal.core.constants import (FREEZE, MEDIUM_TSTEP, NORMAL_TSTEP,
                                      SMALL_TSTEP)
-from pysnobal.spatial import iSnobal
+from pysnobal.spatial import iSnobal, InputSpatialData, InputSpatialDeltas
 from pysnobal.pysnobal import PySnobal
-from pysnobal.spatial.input import InputSpatialData
 
 
 class iPySnobal(PySnobal):
@@ -61,6 +60,11 @@ class iPySnobal(PySnobal):
         self.dataset['air_temp'] += FREEZE
         self.dataset['soil_temp'] += FREEZE
 
+        self.dataset = self.dataset.rename_vars({
+            'precip': 'precip_mass',
+            'snow_density': 'rho_snow'
+        })
+
     def read_initial_conditions(self):
 
         if self.config['files']['initial_conditions'] is not None:
@@ -103,9 +107,15 @@ class iPySnobal(PySnobal):
 
             # call do_data_tstep()
             input_data2 = self.dataset.isel(time=idx)
+            input_deltas = InputSpatialDeltas(
+                input_data1,
+                input_data2,
+                self.snobal.tstep_info).calculate()
+
             self.snobal.do_data_tstep(
                 input_data1,
-                input_data2
+                input_data2,
+                input_deltas
             )
 
             # input2 becomes input1
