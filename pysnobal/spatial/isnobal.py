@@ -58,6 +58,7 @@ class iSnobal(Snobal):
         self.relative_hts = True
 
         self.time_since_out = 0
+        self.current_level = NORMAL_TSTEP
 
         self.init_output()
 
@@ -65,6 +66,21 @@ class iSnobal(Snobal):
             'init_ustar': None,
             'init_factor': None
         }
+
+    @property
+    def any_snowcover(self):
+        return np.any(self.snow_state.snowcover.values)
+
+    def increment_current_timestep(self):
+        """Increment the current time step by the current level
+        """
+        self.current_datetime = self.current_datetime + \
+            self.tstep_info[self.current_level]['time_step_timedelta']
+
+    def proceed_no_snow(self):
+        self.snow_state.value_to_bar()
+        self.increment_current_timestep()
+        self.output()
 
     def divide_tstep(self):
         """
@@ -102,12 +118,9 @@ class iSnobal(Snobal):
 
         """
 
-        # Shortcut if there is no snow
+        # Shortcut if there is no snow, may not need
         if (self.snow_state.layer_count == 0).all():
-            self.snow_state.value_to_bar()
-            self.current_datetime = self.current_datetime + \
-                self.tstep_info[self.current_level]['time_step_timedelta']
-            self.output()
+            self.proceed_no_snow()
             return True
 
         # # Fetch the record for the timestep at the next level.

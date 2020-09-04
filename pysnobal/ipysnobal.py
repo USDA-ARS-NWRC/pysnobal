@@ -55,6 +55,12 @@ class iPySnobal(PySnobal):
 
         self.dataset = xr.open_mfdataset(file_names)
 
+        # Assign the time zone, NOTE xarray appears to convert these to
+        # UTC when displaying the times
+        time = self.dataset['time'].to_index()
+        time_tz = time.tz_localize(self.config['time']['time_zone'])
+        self.dataset = self.dataset.assign_coords(time=time_tz.to_series())
+
         # convert to Kelvin
         self.dataset['precip_temp'] += FREEZE
         self.dataset['air_temp'] += FREEZE
@@ -64,6 +70,16 @@ class iPySnobal(PySnobal):
             'precip': 'precip_mass',
             'snow_density': 'rho_snow'
         })
+
+        # get the time delta of the data
+        tdelta = np.unique(
+            self.dataset.time.values[1:] - self.dataset.time.values[:-1])[0]
+
+        # clip to the start and end date
+        # Add one time step as each Snobal timestep requires two input
+        # data classes
+        input_data = self.dataset.sel(time=slice(
+            self.start_date, self.end_date + tdelta))
 
     def read_initial_conditions(self):
 
@@ -112,16 +128,25 @@ class iPySnobal(PySnobal):
 
             # call do_data_tstep()
             input_data2 = InputSpatialData(self.dataset.isel(time=idx))
-            input_deltas = InputSpatialDeltas(
-                input_data1,
-                input_data2,
-                self.snobal.tstep_info).calculate()
 
-            self.snobal.do_data_tstep(
-                input_data1,
-                input_data2,
-                input_deltas
-            )
+            # skip doing anything if there isn't any snow and no
+            # precip in the inputs, could expand this further to lazily load
+            # the rest of the data by just loading the precip first
+            if not self.snobal.any_snowcover and not input_data1.precip_now:
+                self.snobal.proceed_no_snow()
+
+            else:
+
+                input_deltas = InputSpatialDeltas(
+                    input_data1,
+                    input_data2,
+                    self.snobal.tstep_info).calculate()
+
+                self.snobal.do_data_tstep(
+                    input_data1,
+                    input_data2,
+                    input_deltas
+                )
 
             # input2 becomes input1
             input_data1 = input_data2
@@ -138,9 +163,10 @@ class iPySnobal(PySnobal):
         """
         Output the model result to a file
         """
-        # plumb this later, just keep in a dataset
-        if self.output_file is None:
-            self.output_file = self.snobal.output_rec.copy()
-        else:
-            self.output_file = xr.merge(
-                [self.output_file, self.snobal.output_rec])
+        pass
+        # # plumb this later, just keep in a dataset
+        # if self.output_file is None:
+        #     self.output_file = self.snobal.output_rec.copy()
+        # else:
+        #     self.output_file = xr.merge(
+        #         [self.output_file, self.snobal.output_rec])
