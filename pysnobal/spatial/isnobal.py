@@ -55,11 +55,7 @@ class iSnobal(Snobal):
 
         # get measurement-height record
         self.measurement_heights = meas_heights
-        self.get_measurement_height_rec(True)
-        self.relative_hts = False
-
-        # runoff data
-        self.ro_data = False
+        self.relative_hts = True
 
         self.time_since_out = 0
 
@@ -134,3 +130,36 @@ class iSnobal(Snobal):
         self.snow_state.z_s_0 = xr.where(
             idx, self.snow_state.z_s, self.snow_state.z_s_0)
         self.snow_state.z_s_l = xr.where(idx, 0, self.snow_state.z_s_l)
+
+    def init_output(self):
+        """Initialize the output, keeping all data in memory will not be efficient.
+        Therefore, just have a Dataset that houses the current timestep that will
+        be written out to disk at each timestep.
+
+        TODO there may be a way with dask and xarray to link this to a file and
+        sync the dataset with the disk
+        """
+
+        # sz = self.elevation.shape
+        flds = ['rho', 't_s_0', 't_s_l', 't_s',
+                'cc_s_0', 'cc_s_l', 'cc_s', 'm_s', 'm_s_0', 'm_s_l', 'z_s',
+                'z_s_0', 'z_s_l', 'h2o_sat', 'layer_count', 'h2o', 'h2o_max',
+                'h2o_vol', 'h2o_total', 'R_n_bar', 'H_bar', 'L_v_E_bar',
+                'G_bar', 'G_0_bar', 'M_bar', 'delta_Q_bar', 'delta_Q_0_bar',
+                'E_s_sum', 'melt_sum', 'swi_sum']
+
+        self.output_rec = xr.Dataset({
+            key: xr.zeros_like(self.elevation) for key in flds
+        })
+
+    def output(self):
+        """
+        Specify where the model output should go
+        """
+
+        c = {key: getattr(self.snow_state, key)
+             for key in self.output_rec.keys()}
+        c['date_time'] = self.current_datetime
+
+        self.output_list.append(c)
+        self.time_since_out = 0.0

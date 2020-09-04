@@ -98,13 +98,10 @@ class iPySnobal(PySnobal):
         )
 
         # index2 is the index for the second input timestep
-        for date_time, input2 in input_data.items():
-
-            # if index.hour == 0:
-            #     print(index)
+        for idx, date_time in enumerate(self.dataset.time[1:]):
 
             # call do_data_tstep()
-            input_data2 = InputData(input2)
+            input_data2 = self.dataset.isel(time=idx)
             self.snobal.do_data_tstep(
                 input_data1,
                 input_data2

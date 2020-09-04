@@ -6,7 +6,7 @@ class InputData():
 
     # These will act like cumulative variables where the
     # input deltas will add to them
-    INPUt_VARIABLES = [
+    INPUT_VARIABLES = [
         'S_n',
         'I_lw',
         't_a',
@@ -193,7 +193,7 @@ class InputDeltas():
         for tstep in self.tstep_info:
 
             tstep_deltas = {}
-            for variable in self.input1.INPUt_VARIABLES:
+            for variable in self.input1.INPUT_VARIABLES:
                 tstep_deltas[variable] = (
                     getattr(self.input2, variable) -
                     getattr(self.input1, variable)

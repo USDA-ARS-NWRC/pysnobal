@@ -3,6 +3,7 @@ import numpy as np
 
 from pysnobal.core.constants import CAL_TO_J, FREEZE, RHO_ICE, RHO_W0
 from pysnobal.core.functions import cp_ice, time_average
+from pysnobal.core.snow import cold_content
 from pysnobal.point.libsnobal import sati
 from pysnobal.point import SnowState
 
@@ -22,7 +23,10 @@ class SpatialSnowState(SnowState):
             fields = fields.split()
 
         for field in fields:
-            setattr(self, field, self.zeros)
+            # operates on the numpy array within the DataArray
+            da = getattr(self, field)
+            da.values[idx] = 0
+            setattr(self, field, da)
 
     @property
     def isothermal(self):
@@ -165,8 +169,8 @@ class SpatialSnowState(SnowState):
         # less than minimum layer mass, so treat as no snowcover
         # can change to the set zeros
         idx0 = self.m_s <= self.small_threshold
-        self.z_s_0[idx0] = 0
-        self.z_s_l[idx0] = 0
+        self.z_s_0 = xr.where(idx0, 0, self.z_s_0)
+        self.z_s_l = xr.where(idx0, 0, self.z_s_l)
 
         num_vals_changed = np.sum(idx0.values)
 
@@ -196,9 +200,9 @@ class SpatialSnowState(SnowState):
 
         # If mass > 0, then it must be below threshold.
         # So turn this little bit of mass into water
-        idx_mass = np.where(idx & self.m_s > 0.0)
+        idx_mass = np.where(idx & (self.m_s > 0.0))
         if np.any(idx_mass):
-            self.h2o_total[idx_mass] += self.m_s[idx_mass]
+            self.h2o_total.values[idx_mass] += self.m_s.values[idx_mass]
 
         self.set_zeros([
             'rho', 'm_s', 'm_s_0', 'cc_s_0', 'm_s_l',
@@ -208,6 +212,18 @@ class SpatialSnowState(SnowState):
         # Note: Snow temperatures are set to MIN_SNOW_TEMP
         # (as degrees K) instead of 0 K to keep quantization
         # range in output image smaller.
-        self.t_s[idx] = FREEZE
-        self.t_s_0[idx] = FREEZE
-        self.t_s_l[idx] = FREEZE
+        self.t_s.values[idx] = FREEZE
+        self.t_s_0.values[idx] = FREEZE
+        self.t_s_l.values[idx] = FREEZE
+
+    def init_layers(self):
+        """If there are layers present, initialize the layers
+        """
+
+        # if self.layer_count > 0:
+        # Compute the specific mass and cold content for each layer
+        self.layer_mass()
+        self.cc_s_0 = cold_content(self.t_s_0, self.m_s_0)
+        self.cc_s_l = cold_content(self.t_s_l, self.m_s_l)
+
+        self.h2o = self.h2o_sat * self.h2o_max
