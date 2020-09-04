@@ -13,6 +13,7 @@ from pysnobal.core.constants import (FREEZE, MEDIUM_TSTEP, NORMAL_TSTEP,
                                      SMALL_TSTEP)
 from pysnobal.spatial import iSnobal
 from pysnobal.pysnobal import PySnobal
+from pysnobal.spatial.input import InputSpatialData
 
 
 class iPySnobal(PySnobal):
@@ -88,7 +89,7 @@ class iPySnobal(PySnobal):
 
         # loop through the input
         # do_data_tstep needs two input records
-        input_data1 = self.dataset.isel(time=0)
+        input_data1 = InputSpatialData(self.dataset.isel(time=0))
 
         self.snobal = iSnobal(
             self.params,
