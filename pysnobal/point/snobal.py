@@ -110,7 +110,7 @@ class Snobal(object):
             input2: second timestep dict
 
             inputs contain all forcing data:
-                ['net_solar', 'incoming_thermal', 'air_temp', 'vapor_pressure', 'wind_speed', 'soil_temp','precip_mass',
+                ['net_solar', 'thermal', 'air_temp', 'vapor_pressure', 'wind_speed', 'soil_temp','precip_mass',
                     'percent_snow', 'rho_snow', 'precip_temp']
 
 
@@ -210,7 +210,7 @@ class Snobal(object):
         It requires that these climate variables have been initialized:
 
             net_solar
-            incoming_thermal
+            thermal
             t_a
             e_a
             u
@@ -916,7 +916,7 @@ class Snobal(object):
 
         self.snow_state.R_n = self.input1.net_solar + \
             (SNOW_EMISSIVITY * (
-                self.input1.incoming_thermal -
+                self.input1.thermal -
                 STEF_BOLTZ * np.power(self.snow_state.t_s_0, 4)))
 
     def heat_transfer(self):

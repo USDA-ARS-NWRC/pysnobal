@@ -1,3 +1,5 @@
+import xarray as xr
+
 from pysnobal.core.constants import FREEZE
 from pysnobal.point.libsnobal import sati
 from pysnobal.point.input import InputData, InputDeltas
@@ -7,8 +9,13 @@ class InputSpatialData(InputData):
 
     def __init__(self, data, input_delta=False, init=0):
 
+        init = init * xr.ones_like(data['air_temp'])
+
+        super(InputSpatialData, self).__init__(
+            data, input_delta, init)
+
         self.net_solar = data['net_solar']
-        self.incoming_thermal = data['incoming_thermal']
+        self.thermal = data['thermal']
         self.air_temp = data['air_temp']
         self.vapor_pressure = data['vapor_pressure']
         self.wind_speed = data['wind_speed']
@@ -122,8 +129,8 @@ class InputSpatialData(InputData):
 
         # Add the input data deltas
         self.net_solar = self.net_solar + input_deltas.net_solar
-        self.incoming_thermal = self.incoming_thermal + \
-            input_deltas.incoming_thermal
+        self.thermal = self.thermal + \
+            input_deltas.thermal
         self.air_temp = self.air_temp + input_deltas.air_temp
         self.vapor_pressure = self.vapor_pressure + input_deltas.vapor_pressure
         self.wind_speed = self.wind_speed + input_deltas.wind_speed

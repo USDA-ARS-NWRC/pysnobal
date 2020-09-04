@@ -1,4 +1,4 @@
-date_time,net_solar,incoming_thermal,air_temp,vapor_pressure,wind_speed,soil_temp,precip_mass,percent_snow,rho_snow,precip_temp
+date_time,net_solar,thermal,air_temp,vapor_pressure,wind_speed,soil_temp,precip_mass,percent_snow,rho_snow,precip_temp
 10/1/1983 0:00,0,237,4,496.16,2.3,10.3,0,1,150,-2.5
 10/1/1983 1:00,0,237,4.1,491.46,2.3,10.3,0,1,150,-2.6
 10/1/1983 2:00,0,240,4.5,505.45,2.8,10.3,0,1,150,-2.3

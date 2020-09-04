@@ -1,4 +1,4 @@
-date_time,net_solar,incoming_thermal,air_temp,vapor_pressure,wind_speed,soil_temp,precip_mass,percent_snow,rho_snow,precip_temp
+date_time,net_solar,thermal,air_temp,vapor_pressure,wind_speed,soil_temp,precip_mass,percent_snow,rho_snow,precip_temp
 1999-10-01 00:00:00,0.0,291,8.1,572.42,0.9,11.8,0.0,1.0,175,-0.8
 1999-10-01 01:00:00,0.0,278,6.8,434.8,1.1,11.8,0.0,1.0,100,-4.1
 1999-10-01 02:00:00,0.0,261,6.8,227.28,2.4,11.8,0.0,1.0,75,-11.5

@@ -8,7 +8,7 @@ class InputData():
     # input deltas will add to them
     INPUT_VARIABLES = [
         'net_solar',
-        'incoming_thermal',
+        'thermal',
         'air_temp',
         'vapor_pressure',
         'wind_speed',
@@ -44,10 +44,10 @@ class InputData():
         't_snow'
     ]
 
-    def __init__(self, data, input_delta=False):
+    def __init__(self, data, input_delta=False, init=0):
 
         self.net_solar = data['net_solar']
-        self.incoming_thermal = data['incoming_thermal']
+        self.thermal = data['thermal']
         self.air_temp = data['air_temp']
         self.vapor_pressure = data['vapor_pressure']
         self.wind_speed = data['wind_speed']
@@ -62,7 +62,6 @@ class InputData():
         self.m_rain = self.precip_mass - self.m_snow
 
         # initialize the other variables to 0
-        init = 0
         for precip_derived in self.PRECIP_DERIVED:
             setattr(self, precip_derived, init)
 
@@ -162,7 +161,7 @@ class InputData():
 
         # Add the input data deltas
         self.net_solar = self.net_solar + input_deltas.net_solar
-        self.incoming_thermal = self.incoming_thermal + input_deltas.incoming_thermal
+        self.thermal = self.thermal + input_deltas.thermal
         self.air_temp = self.air_temp + input_deltas.air_temp
         self.vapor_pressure = self.vapor_pressure + input_deltas.vapor_pressure
         self.wind_speed = self.wind_speed + input_deltas.wind_speed

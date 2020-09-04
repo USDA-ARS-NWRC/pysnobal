@@ -9,7 +9,7 @@ from pysnobal.point import InputData
 def data():
     """Initial input data values"""
     return {
-        'incoming_thermal': np.array([[237.]]),
+        'thermal': np.array([[237.]]),
         'net_solar': np.array([[0.]]),
         'air_temp': np.array([[277.16]]),
         'soil_temp': np.array([[273.16]]),
