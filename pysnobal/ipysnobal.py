@@ -11,14 +11,15 @@ interpretation
 
 from .c_snobal import snobal
 import os
-import ConfigParser
-import sys, os
+import configparser
+import sys
+import os
 import numpy as np
 import pandas as pd
 from datetime import timedelta
 import netCDF4 as nc
 # import matplotlib.pyplot as plt
-import progressbar
+# import progressbar
 from copy import copy
 
 try:
@@ -49,21 +50,26 @@ DEFAULT_SMALL_THRESHOLD = 1.0
 DEFAULT_MEDIUM_TSTEP = 15.0
 DEFAULT_SMALL_TSTEP = 1.0
 
-WHOLE_TSTEP = 0x1 # output when tstep is not divided
+WHOLE_TSTEP = 0x1  # output when tstep is not divided
 DIVIDED_TSTEP = 0x2  # output when timestep is divided
 
-hrs2min = lambda x: x * 60
-min2sec = lambda x: x * 60
-SEC_TO_HR = lambda x: x / 3600.0
+
+def hrs2min(x): return x * 60
+def min2sec(x): return x * 60
+def SEC_TO_HR(x): return x / 3600.0
+
+
 C_TO_K = 273.16
 FREEZE = C_TO_K
 
 # Kelvin to Celcius
-K_TO_C = lambda x: x - FREEZE
+
+
+def K_TO_C(x): return x - FREEZE
 
 
 # parse configuration file
-class MyParser(ConfigParser.ConfigParser):
+class MyParser(configparser.ConfigParser):
     def as_dict(self):
         d = dict(self._sections)
         for k in d:
@@ -73,16 +79,16 @@ class MyParser(ConfigParser.ConfigParser):
         return d
 
     def _make_lowercase(self, obj):
-        if hasattr(obj,'iteritems'):
+        if hasattr(obj, 'iteritems'):
             # dictionary
             ret = {}
-            for k,v in obj.iteritems():
+            for k, v in obj.iteritems():
                 ret[self._make_lowercase(k)] = v
             return ret
-        elif isinstance(obj,basestring):
+        elif isinstance(obj, basestring):
             # string
             return obj.lower()
-        elif hasattr(obj,'__iter__'):
+        elif hasattr(obj, '__iter__'):
             # list (or the like)
             ret = []
             for item in obj:
@@ -105,7 +111,8 @@ def check_range(value, min_val, max_val, descrip):
         True if within range
     """
     if (value < min_val) or (value > max_val):
-        raise ValueError("%s (%f) out of range: %f to %f", descrip, value, min_val, max_val);
+        raise ValueError("%s (%f) out of range: %f to %f",
+                         descrip, value, min_val, max_val)
     pass
 
 
@@ -156,19 +163,19 @@ def get_args(configFile):
 
     # read the config file and store
     if not os.path.isfile(configFile):
-        raise Exception('Configuration file does not exist --> %s' % configFile)
-
+        raise Exception(
+            'Configuration file does not exist --> %s' % configFile)
 
     f = MyParser()
     f.read(configFile)
     config = f.as_dict()
 
-    #------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------
     # these are the default options
     options = {
         'time_step': 60,
         'max-h2o': 0.01,
-#         'max_z0': DEFAULT_MAX_Z_S_0,
+        #         'max_z0': DEFAULT_MAX_Z_S_0,
         'c': True,
         'K': True,
         'mass_threshold': DEFAULT_NORMAL_THRESHOLD,
@@ -184,22 +191,22 @@ def get_args(configFile):
     c = {}
     for v in config['constants']:
         c[v] = float(config['constants'][v])
-    options.update(c) # update the defult with any user values
+    options.update(c)  # update the defult with any user values
 
     config['constants'] = options
 
-    #------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------
     # read in the time and ensure a few things
     # nsteps will only be used if end_date is not specified
     data_tstep_min = int(config['time']['time_step'])
-    check_range (data_tstep_min, 1.0, hrs2min(60),"input data's timestep")
+    check_range(data_tstep_min, 1.0, hrs2min(60), "input data's timestep")
     if ((data_tstep_min > 60) and (data_tstep_min % 60 != 0)):
-        raise ValueError("Data timestep > 60 min must be multiple of 60 min (whole hrs)")
+        raise ValueError(
+            "Data timestep > 60 min must be multiple of 60 min (whole hrs)")
     config['time']['time_step'] = data_tstep_min
 
     # add to constant sections for tstep_info calculation
     config['constants']['time_step'] = config['time']['time_step']
-
 
     # read in the start date and end date
     start_date = pd.to_datetime(config['time']['start_date'])
@@ -208,13 +215,15 @@ def get_args(configFile):
         end_date = pd.to_datetime(config['time']['end_date'])
         if end_date < start_date:
             raise ValueError('end_date is before start_date')
-        nsteps = (end_date-start_date).total_seconds()/60  # elapsed time in minutes
+        nsteps = (end_date-start_date).total_seconds() / \
+            60  # elapsed time in minutes
         nsteps = int(nsteps / config['time']['time_step'])
 
     elif 'nsteps' in config['time']:
         nsteps = int(config['time']['nsteps'])
 
-        end_date = start_date + timedelta(minutes=nsteps*config['time']['time_step'])
+        end_date = start_date + \
+            timedelta(minutes=nsteps*config['time']['time_step'])
 
     else:
         raise Exception('end_date or nsteps must be specified')
@@ -224,7 +233,8 @@ def get_args(configFile):
                     timedelta(minutes=config['constants']['time_step']))
 
     if len(dv) != nsteps + 1:
-        raise Exception('nsteps does not work with selected start and end dates')
+        raise Exception(
+            'nsteps does not work with selected start and end dates')
 
     config['time']['start_date'] = start_date
     config['time']['end_date'] = end_date
@@ -275,9 +285,9 @@ def get_tstep_info(options, config):
 
     tstep_info = []
     for i in range(4):
-        t = {'level': i, 'output': False, 'threshold': None, 'time_step': None, 'intervals': None}
+        t = {'level': i, 'output': False, 'threshold': None,
+             'time_step': None, 'intervals': None}
         tstep_info.append(t)
-
 
     # The input data's time step must be between 1 minute and 6 hours.
     # If it is greater than 1 hour, it must be a multiple of 1 hour, e.g.
@@ -288,7 +298,8 @@ def get_tstep_info(options, config):
 
     norm_tstep_min = 60.0
     tstep_info[NORMAL_TSTEP]['time_step'] = min2sec(norm_tstep_min)
-    tstep_info[NORMAL_TSTEP]['intervals'] = int(data_tstep_min / norm_tstep_min)
+    tstep_info[NORMAL_TSTEP]['intervals'] = int(
+        data_tstep_min / norm_tstep_min)
 
     med_tstep_min = DEFAULT_MEDIUM_TSTEP
     tstep_info[MEDIUM_TSTEP]['time_step'] = min2sec(med_tstep_min)
@@ -315,7 +326,6 @@ def get_tstep_info(options, config):
     tstep_info[NORMAL_TSTEP]['threshold'] = DEFAULT_NORMAL_THRESHOLD
     tstep_info[MEDIUM_TSTEP]['threshold'] = DEFAULT_MEDIUM_THRESHOLD
     tstep_info[SMALL_TSTEP]['threshold'] = DEFAULT_SMALL_THRESHOLD
-
 
     # get the rest of the parameters
     params = {}
@@ -350,7 +360,7 @@ def open_files(options):
 
     """
 
-    #------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------
     # get the initial conditions
     i = nc.Dataset(options['initial_conditions']['file'])
 
@@ -369,7 +379,8 @@ def open_files(options):
         if i.variables.has_key(f):
             init[f] = i.variables[f][:]         # read in the variables
         elif f == 'mask':
-            init[f] = np.ones_like(init['elevation'])   # if no mask set all to ones so all will be ran
+            # if no mask set all to ones so all will be ran
+            init[f] = np.ones_like(init['elevation'])
         else:
             init[f] = all_zeros                 # default is set to zeros
 
@@ -382,13 +393,13 @@ def open_files(options):
     init['T_s'] += FREEZE
     init['T_s_0'] += FREEZE
 
-
-    #------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------
     # get the forcing data and open the file
     force = {}
     force['thermal'] = nc.Dataset(options['inputs']['thermal'], 'r')
     force['air_temp'] = nc.Dataset(options['inputs']['air_temp'], 'r')
-    force['vapor_pressure'] = nc.Dataset(options['inputs']['vapor_pressure'], 'r')
+    force['vapor_pressure'] = nc.Dataset(
+        options['inputs']['vapor_pressure'], 'r')
     force['wind_speed'] = nc.Dataset(options['inputs']['wind_speed'], 'r')
     force['net_solar'] = nc.Dataset(options['inputs']['net_solar'], 'r')
 
@@ -396,7 +407,8 @@ def open_files(options):
     try:
         force['soil_temp'] = nc.Dataset(options['inputs']['soil_temp'], 'r')
     except:
-        force['soil_temp'] = float(options['inputs']['soil_temp']) * np.ones_like(init['elevation'])
+        force['soil_temp'] = float(
+            options['inputs']['soil_temp']) * np.ones_like(init['elevation'])
 
     force['precip_mass'] = nc.Dataset(options['inputs']['precip_mass'], 'r')
     force['percent_snow'] = nc.Dataset(options['inputs']['percent_snow'], 'r')
@@ -405,7 +417,7 @@ def open_files(options):
 
     # print options['inputs']['precip_temp']
     # print os.stat(options['inputs']['precip_temp']).st_size
-    #print force['precip_mass']['precip_mass'][950:960,:,:]
+    # print force['precip_mass']['precip_mass'][950:960,:,:]
 
     return init, force
 
@@ -423,88 +435,92 @@ def output_files(options, init):
     """
 
     # chunk size
-    cs = (6,10,10)
+    cs = (6, 10, 10)
 
-    #------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------
     # EM netCDF
     m = {}
-    m['name'] = ['net_rad','sensible_heat','latent_heat','snow_soil','precip_advected','sum_EB','evaporation','snowmelt','SWI','cold_content']
-    m['units'] = ['W m-2','W m-2','W m-2','W m-2','W m-2','W m-2','kg m-2','kg m-2','kg or mm m-2','J m-2']
-    m['description'] =['Average net all-wave radiation','Average sensible heat transfer','Average latent heat exchange','Average snow/soil heat exchange',
-                     'Average advected heat from precipitation','Average sum of EB terms for snowcover','Total evaporation',
-                     'Total snowmelt','Total runoff','Snowcover cold content']
+    m['name'] = ['net_rad', 'sensible_heat', 'latent_heat', 'snow_soil',
+                 'precip_advected', 'sum_EB', 'evaporation', 'snowmelt', 'SWI', 'cold_content']
+    m['units'] = ['W m-2', 'W m-2', 'W m-2', 'W m-2', 'W m-2',
+                  'W m-2', 'kg m-2', 'kg m-2', 'kg or mm m-2', 'J m-2']
+    m['description'] = ['Average net all-wave radiation', 'Average sensible heat transfer', 'Average latent heat exchange', 'Average snow/soil heat exchange',
+                        'Average advected heat from precipitation', 'Average sum of EB terms for snowcover', 'Total evaporation',
+                        'Total snowmelt', 'Total runoff', 'Snowcover cold content']
 
     netcdfFile = os.path.join(options['output']['location'], 'em.nc')
-    dimensions = ('time','y','x')
+    dimensions = ('time', 'y', 'x')
 
     em = nc.Dataset(netcdfFile, 'w')
 
     # create the dimensions
-    em.createDimension('time',None)
-    em.createDimension('y',len(init['y']))
-    em.createDimension('x',len(init['x']))
+    em.createDimension('time', None)
+    em.createDimension('y', len(init['y']))
+    em.createDimension('x', len(init['x']))
 
     # create some variables
     em.createVariable('time', 'f', dimensions[0])
     em.createVariable('y', 'f', dimensions[1])
     em.createVariable('x', 'f', dimensions[2])
 
-    setattr(em.variables['time'], 'units', 'hours since %s' % options['time']['start_date'])
+    setattr(em.variables['time'], 'units', 'hours since %s' %
+            options['time']['start_date'])
     setattr(em.variables['time'], 'calendar', 'standard')
 #     setattr(em.variables['time'], 'time_zone', time_zone)
     em.variables['x'][:] = init['x']
     em.variables['y'][:] = init['y']
 
     # em image
-    for i,v in enumerate(m['name']):
+    for i, v in enumerate(m['name']):
 
-#         em.createVariable(v, 'f', dimensions[:3], chunksizes=(6,10,10))
+        #         em.createVariable(v, 'f', dimensions[:3], chunksizes=(6,10,10))
         em.createVariable(v, 'f', dimensions[:3], chunksizes=cs)
         setattr(em.variables[v], 'units', m['units'][i])
         setattr(em.variables[v], 'description', m['description'][i])
 
     options['output']['em'] = em
 
-    #------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------
     # SNOW netCDF
 
     s = {}
-    s['name'] = ['thickness','snow_density','specific_mass','liquid_water','temp_surf','temp_lower','temp_snowcover','thickness_lower','water_saturation']
-    s['units'] = ['m','kg m-3','kg m-2','kg m-2','C','C','C','m','percent']
-    s['description'] =['Predicted thickness of the snowcover','Predicted average snow density','Predicted specific mass of the snowcover',
-                       'Predicted mass of liquid water in the snowcover','Predicted temperature of the surface layer',
-                       'Predicted temperature of the lower layer','Predicted temperature of the snowcover',
-                       'Predicted thickness of the lower layer', 'Predicted percentage of liquid water saturation of the snowcover']
+    s['name'] = ['thickness', 'snow_density', 'specific_mass', 'liquid_water',
+                 'temp_surf', 'temp_lower', 'temp_snowcover', 'thickness_lower', 'water_saturation']
+    s['units'] = ['m', 'kg m-3', 'kg m-2', 'kg m-2', 'C', 'C', 'C', 'm', 'percent']
+    s['description'] = ['Predicted thickness of the snowcover', 'Predicted average snow density', 'Predicted specific mass of the snowcover',
+                        'Predicted mass of liquid water in the snowcover', 'Predicted temperature of the surface layer',
+                        'Predicted temperature of the lower layer', 'Predicted temperature of the snowcover',
+                        'Predicted thickness of the lower layer', 'Predicted percentage of liquid water saturation of the snowcover']
 
     netcdfFile = os.path.join(options['output']['location'], 'snow.nc')
-    dimensions = ('time','y','x')
+    dimensions = ('time', 'y', 'x')
 
     snow = nc.Dataset(netcdfFile, 'w')
 
     # create the dimensions
-    snow.createDimension('time',None)
-    snow.createDimension('y',len(init['y']))
-    snow.createDimension('x',len(init['x']))
+    snow.createDimension('time', None)
+    snow.createDimension('y', len(init['y']))
+    snow.createDimension('x', len(init['x']))
 
     # create some variables
     snow.createVariable('time', 'f', dimensions[0])
     snow.createVariable('y', 'f', dimensions[1])
     snow.createVariable('x', 'f', dimensions[2])
 
-    setattr(snow.variables['time'], 'units', 'hours since %s' % options['time']['start_date'])
+    setattr(snow.variables['time'], 'units',
+            'hours since %s' % options['time']['start_date'])
     setattr(snow.variables['time'], 'calendar', 'standard')
 #     setattr(snow.variables['time'], 'time_zone', time_zone)
     snow.variables['x'][:] = init['x']
     snow.variables['y'][:] = init['y']
 
     # snow image
-    for i,v in enumerate(s['name']):
+    for i, v in enumerate(s['name']):
 
         snow.createVariable(v, 'f', dimensions[:3], chunksizes=cs)
 #         snow.createVariable(v, 'f', dimensions[:3])
         setattr(snow.variables[v], 'units', s['units'][i])
         setattr(snow.variables[v], 'description', s['description'][i])
-
 
     options['output']['snow'] = snow
 
@@ -514,7 +530,7 @@ def output_timestep(s, tstep, options):
     Output the model results for the current time step
     """
 
-    em_out = {'net_rad':'R_n_bar', 'sensible_heat':'H_bar', 'latent_heat': 'L_v_E_bar',
+    em_out = {'net_rad': 'R_n_bar', 'sensible_heat': 'H_bar', 'latent_heat': 'L_v_E_bar',
               'snow_soil': 'G_bar', 'precip_advected': 'M_bar',
               'sum_EB': 'delta_Q_bar', 'evaporation': 'E_s_sum',
               'snowmelt': 'melt_sum', 'SWI': 'ro_pred_sum',
@@ -532,22 +548,20 @@ def output_timestep(s, tstep, options):
     em = {}
     snow = {}
 
-
     # gather all the data together
 #     for index, si in np.ndenumerate(s):
 #
 #         if si is not None:
-    for key,value in em_out.iteritems():
+    for key, value in em_out.iteritems():
         em[key] = copy(s[value])
 
-    for key,value in snow_out.iteritems():
+    for key, value in snow_out.iteritems():
         snow[key] = copy(s[value])
 
     # convert from K to C
     snow['temp_snowcover'] -= FREEZE
     snow['temp_surf'] -= FREEZE
     snow['temp_lower'] -= FREEZE
-
 
     # now find the correct index
     # the current time integer
@@ -563,21 +577,19 @@ def output_timestep(s, tstep, options):
     else:
         index = len(times)
 
-
     # insert the time
     options['output']['snow'].variables['time'][index] = t
     options['output']['em'].variables['time'][index] = t
 
     # insert the data
     for key in em_out:
-        options['output']['em'].variables[key][index,:] = em[key]
+        options['output']['em'].variables[key][index, :] = em[key]
     for key in snow_out:
-        options['output']['snow'].variables[key][index,:] = snow[key]
+        options['output']['snow'].variables[key][index, :] = snow[key]
 
     # sync to disk
     options['output']['snow'].sync()
     options['output']['em'].sync()
-
 
 
 def output_timestep_point(output_rec, params):
@@ -593,10 +605,10 @@ def output_timestep_point(output_rec, params):
 
     # write out to a file
     f = params['out_file']
-    n = 0 #np.unravel_index(0, output_rec['elevation'])
+    n = 0  # np.unravel_index(0, output_rec['elevation'])
     if f is not None:
 
-        curr_time_hrs =  SEC_TO_HR(output_rec['current_time'][n])
+        curr_time_hrs = SEC_TO_HR(output_rec['current_time'][n])
 
 #         # time
 #         f.write('%g,' % curr_time_hrs)
@@ -632,18 +644,18 @@ def output_timestep_point(output_rec, params):
         f.write('%g,' % curr_time_hrs)
 
         # energy budget terms
-        f.write("%.3f,%.3f,%.3f,%.3f,%.3f,%.3f," % \
-                (output_rec['R_n_bar'][n], output_rec['H_bar'][n], output_rec['L_v_E_bar'][n], \
-                output_rec['G_bar'][n], output_rec['M_bar'][n], output_rec['delta_Q_bar'][n]))
+        f.write("%.3f,%.3f,%.3f,%.3f,%.3f,%.3f," %
+                (output_rec['R_n_bar'][n], output_rec['H_bar'][n], output_rec['L_v_E_bar'][n],
+                 output_rec['G_bar'][n], output_rec['M_bar'][n], output_rec['delta_Q_bar'][n]))
 
         # layer terms
-        f.write("%.3f,%.3f," % \
+        f.write("%.3f,%.3f," %
                 (output_rec['G_0_bar'][n], output_rec['delta_Q_0_bar'][n]))
 
         # heat storage and mass changes
-        f.write("%.9e,%.9e,%.9e," % \
+        f.write("%.9e,%.9e,%.9e," %
                 (output_rec['cc_s_0'][n], output_rec['cc_s_l'][n], output_rec['cc_s'][n]))
-        f.write("%.8f,%.8f,%.8f," % \
+        f.write("%.8f,%.8f,%.8f," %
                 (output_rec['E_s_sum'][n], output_rec['melt_sum'][n], output_rec['ro_pred_sum'][n]))
 
         #             # runoff error if data included */
@@ -652,15 +664,15 @@ def output_timestep_point(output_rec, params):
         #                         (ro_pred_sum - (ro * time_since_out)))
 
         # sno properties */
-        f.write("%.6f,%.6f,%.6f,%.3f," % \
+        f.write("%.6f,%.6f,%.6f,%.3f," %
                 (output_rec['z_s_0'][n], output_rec['z_s_l'][n], output_rec['z_s'][n], output_rec['rho'][n]))
-        f.write("%.3f,%.3f,%.3f,%.3f," % \
+        f.write("%.3f,%.3f,%.3f,%.3f," %
                 (output_rec['m_s_0'][n], output_rec['m_s_l'][n], output_rec['m_s'][n], output_rec['h2o'][n]))
         if params['temps_in_C']:
             f.write("%.5f,%.5f,%.5f\n" %
                     (K_TO_C(output_rec['T_s_0'][n]), K_TO_C(output_rec['T_s_l'][n]), K_TO_C(output_rec['T_s'][n])))
         else:
-            f.write("%.5f,%.5f,%.5f\n" % \
+            f.write("%.5f,%.5f,%.5f\n" %
                     (output_rec['T_s_0'][n], output_rec['T_s_l'][n], output_rec['T_s'][n]))
 
         # reset the time since out
@@ -682,15 +694,14 @@ def get_timestep(force, tstep, point=None):
                'percent_snow': 'percent_snow', 'snow_density': 'rho_snow',
                'precip_temp': 'T_pp'}
 
-
     for f in force.keys():
-
 
         if isinstance(force[f], np.ndarray):
             # If it's a constant value then just read in the numpy array
             # pull out the value
             if point is None:
-                inpt[map_val[f]] = force[f].copy() # ensures not a reference (especially if T_g)
+                # ensures not a reference (especially if T_g)
+                inpt[map_val[f]] = force[f].copy()
             else:
                 inpt[map_val[f]] = np.atleast_2d(force[f][point[0], point[1]])
 
@@ -698,7 +709,8 @@ def get_timestep(force, tstep, point=None):
             # determine the index in the netCDF file
 
             # compare the dimensions and variables to get the variable name
-            v = list(set(force[f].variables.keys())-set(force[f].dimensions.keys()))[0]
+            v = list(set(force[f].variables.keys()) -
+                     set(force[f].dimensions.keys()))[0]
 
             # find the index based on the time step
             t = nc.date2index(tstep, force[f].variables['time'],
@@ -707,11 +719,11 @@ def get_timestep(force, tstep, point=None):
 
             # pull out the value
             if point is None:
-                inpt[map_val[f]] = force[f].variables[v][t,:].astype(np.float64)
+                inpt[map_val[f]] = force[f].variables[v][t,
+                                                         :].astype(np.float64)
             else:
-                inpt[map_val[f]] = np.atleast_2d(force[f].variables[v][t,point[0], point[1]].astype(np.float64))
-
-
+                inpt[map_val[f]] = np.atleast_2d(
+                    force[f].variables[v][t, point[0], point[1]].astype(np.float64))
 
     # convert from C to K
     inpt['T_a'] += FREEZE
@@ -719,7 +731,6 @@ def get_timestep(force, tstep, point=None):
     inpt['T_g'] += FREEZE
 
     return inpt
-
 
 
 # def initialize(params, tstep_info, mh, init):
@@ -758,13 +769,13 @@ def initialize(params, tstep_info, init):
     # have due to the output function being outside the C code which doesn't
     # have access to those variables
     sz = init['elevation'].shape
-    flds = ['mask', 'elevation', 'z_0', 'rho', 'T_s_0', 'T_s_l', 'T_s', \
-            'cc_s_0', 'cc_s_l', 'cc_s', 'm_s', 'm_s_0', 'm_s_l', 'z_s', 'z_s_0', 'z_s_l',\
-            'h2o_sat', 'layer_count', 'h2o', 'h2o_max', 'h2o_vol','h2o_total',\
-            'R_n_bar', 'H_bar', 'L_v_E_bar', 'G_bar', 'G_0_bar',\
-            'M_bar', 'delta_Q_bar', 'delta_Q_0_bar', 'E_s_sum', 'melt_sum', 'ro_pred_sum',\
+    flds = ['mask', 'elevation', 'z_0', 'rho', 'T_s_0', 'T_s_l', 'T_s',
+            'cc_s_0', 'cc_s_l', 'cc_s', 'm_s', 'm_s_0', 'm_s_l', 'z_s', 'z_s_0', 'z_s_l',
+            'h2o_sat', 'layer_count', 'h2o', 'h2o_max', 'h2o_vol', 'h2o_total',
+            'R_n_bar', 'H_bar', 'L_v_E_bar', 'G_bar', 'G_0_bar',
+            'M_bar', 'delta_Q_bar', 'delta_Q_0_bar', 'E_s_sum', 'melt_sum', 'ro_pred_sum',
             'current_time', 'time_since_out']
-    s = {key: np.zeros(sz) for key in flds} # the structure fields
+    s = {key: np.zeros(sz) for key in flds}  # the structure fields
 
     # go through each sn value and fill
     for key, val in init.items():
@@ -776,7 +787,6 @@ def initialize(params, tstep_info, init):
 #             s[key] = val
 
     return s
-
 
 
 def main(configFile):
@@ -808,7 +818,6 @@ def main(configFile):
             else:
                 init[i] = np.atleast_2d(init[i][point])
 
-
     # initialize
 #     s = initialize(params, tstep_info, options['constants'], init)
     output_rec = initialize(params, tstep_info, init)
@@ -817,40 +826,42 @@ def main(configFile):
     if not point_run:
         output_files(options, init)
 
-
     # loop through the input
     # do_data_tstep needs two input records so only go
     # to the last record-1
 
     data_tstep = tstep_info[0]['time_step']
     timeSinceOut = 0.0
-    start_step = 0 # if restart then it would be higher if this were iSnobal
+    start_step = 0  # if restart then it would be higher if this were iSnobal
     step_time = start_step * data_tstep
 
-    output_rec['current_time'] = step_time * np.ones(output_rec['elevation'].shape)
-    output_rec['time_since_out'] = timeSinceOut * np.ones(output_rec['elevation'].shape)
+    output_rec['current_time'] = step_time * \
+        np.ones(output_rec['elevation'].shape)
+    output_rec['time_since_out'] = timeSinceOut * \
+        np.ones(output_rec['elevation'].shape)
 
     input1 = get_timestep(force, options['time']['date_time'][0], point)
 
 #     if point_run:
 #         input1 = {i: np.atleast_2d(input1[i][point]) for i in input1.keys()}
 
-    pbar = progressbar.ProgressBar(max_value=len(options['time']['date_time']))
+    # pbar = progressbar.ProgressBar(max_value=len(options['time']['date_time']))
     j = 1
-    first_step = 1;
+    first_step = 1
     for tstep in options['time']['date_time'][1:]:
-    #for tstep in options['time']['date_time'][953:958]:
+        # for tstep in options['time']['date_time'][953:958]:
 
         input2 = get_timestep(force, tstep, point)
-        #print output_rec
+        # print output_rec
 
         # this should replicate a Snobal point run but will not mimic the iSnobal results at the point
         if point_run:
-            first_step = 0;
+            first_step = 0
             if j == 1:
-                first_step = 1;
+                first_step = 1
 
-        rt = snobal.do_tstep_grid(input1, input2, output_rec, tstep_info, options['constants'], params, first_step, nthreads=4)
+        rt = snobal.do_tstep_grid(input1, input2, output_rec, tstep_info,
+                                  options['constants'], params, first_step, nthreads=4)
         #rt = snobal.do_tstep_grid(input1, input2, output_rec, tstep_info, options['constants'], params, first_step, nthreads=1)
 
         if rt != -1:
@@ -865,19 +876,20 @@ def main(configFile):
         else:
             if (j % options['output']['frequency'] == 0) or (j == len(options['time']['date_time'])):
                 output_timestep(output_rec, tstep, options)
-                output_rec['time_since_out'] = np.zeros(output_rec['elevation'].shape)
+                output_rec['time_since_out'] = np.zeros(
+                    output_rec['elevation'].shape)
 
         j += 1
-        pbar.update(j)
+        # pbar.update(j)
 
-    pbar.finish()
-
+    # pbar.finish()
 
     # output
 #     params['out_file'].close()
     close_files(force)
 #     app = MyApplication()
 #     app.run()
+
 
 def open_init_files(options):
     """
@@ -891,7 +903,7 @@ def open_init_files(options):
 
     """
 
-    #------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------
     # get the initial conditions
     i = nc.Dataset(options['initial_conditions']['file'])
 
@@ -910,7 +922,8 @@ def open_init_files(options):
         if i.variables.has_key(f):
             init[f] = i.variables[f][:]         # read in the variables
         elif f == 'mask':
-            init[f] = np.ones_like(init['elevation'])   # if no mask set all to ones so all will be ran
+            # if no mask set all to ones so all will be ran
+            init[f] = np.ones_like(init['elevation'])
         else:
             init[f] = all_zeros                 # default is set to zeros
 
@@ -928,6 +941,7 @@ def open_init_files(options):
 ################################################################
 ########### Functions for interfacing with smrf run ############
 ################################################################
+
 
 def init_from_smrf(configFile):
     """
@@ -953,12 +967,13 @@ def init_from_smrf(configFile):
 
     return options, params, tstep_info, init, output_rec
 
+
 class QueueIsnobal(threading.Thread):
     """
     Takes values from the queue and uses them to run iPySnobal
     """
 
-    def __init__(self, queue, date_time, out_frequency,thread_variables,
+    def __init__(self, queue, date_time, out_frequency, thread_variables,
                  configFile, options, params, tstep_info, init,
                  output_rec, nx, ny):
         """
@@ -1001,11 +1016,13 @@ class QueueIsnobal(threading.Thread):
 
         data_tstep = self.tstep_info[0]['time_step']
         timeSinceOut = 0.0
-        start_step = 0 # if restart then it would be higher if this were iSnobal
+        start_step = 0  # if restart then it would be higher if this were iSnobal
         step_time = start_step * data_tstep
 
-        self.output_rec['current_time'] = step_time * np.ones(self.output_rec['elevation'].shape)
-        self.output_rec['time_since_out'] = timeSinceOut * np.ones(self.output_rec['elevation'].shape)
+        self.output_rec['current_time'] = step_time * \
+            np.ones(self.output_rec['elevation'].shape)
+        self.output_rec['time_since_out'] = timeSinceOut * \
+            np.ones(self.output_rec['elevation'].shape)
 
         # map function from these values to the ones requried by snobal
         map_val = {'air_temp': 'T_a', 'net_solar': 'S_n', 'thermal': 'I_lw',
@@ -1019,7 +1036,8 @@ class QueueIsnobal(threading.Thread):
         for v in force_variables:
             if v in self.queue.keys():
                 # print v
-                data = self.queue[v].get(self.date_time[0], block=True, timeout=None)
+                data = self.queue[v].get(
+                    self.date_time[0], block=True, timeout=None)
                 if data is None:
                     print(v)
                     data = np.zeros((self.ny, self.nx))
@@ -1043,10 +1061,10 @@ class QueueIsnobal(threading.Thread):
 
         #pbar = progressbar.ProgressBar(max_value=len(options['time']['date_time']))
         j = 1
-        first_step = 1;
+        first_step = 1
         for tstep in self.date_time[1:]:
-        #for tstep in options['time']['date_time'][953:958]:
-        # get the output variables then pass to the function
+            # for tstep in options['time']['date_time'][953:958]:
+            # get the output variables then pass to the function
             #print('Timestep: {}'.format(tstep))
             input2 = {}
             for v in force_variables:
@@ -1079,18 +1097,18 @@ class QueueIsnobal(threading.Thread):
             # output at the frequency and the last time step
             if (j % self.options['output']['frequency'] == 0) or (j == len(self.options['time']['date_time'])):
                 output_timestep(self.output_rec, tstep, self.options)
-                self.output_rec['time_since_out'] = np.zeros(self.output_rec['elevation'].shape)
+                self.output_rec['time_since_out'] = np.zeros(
+                    self.output_rec['elevation'].shape)
 
             j += 1
-            #pbar.update(j)
+            # pbar.update(j)
 
             # put the value into the output queue so clean knows it's done
             self.queue['isnobal'].put([tstep, True])
 
             #self._logger.debug('%s iSnobal run from queues' % tstep)
 
-        #pbar.finish()
-
+        # pbar.finish()
 
 
 if __name__ == "__main__":

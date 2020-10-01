@@ -4,6 +4,7 @@
 .pydevproject
 .settings/
 .vscode/
+.venv
 
 test_data_spatial/
 test_data_BRB/
