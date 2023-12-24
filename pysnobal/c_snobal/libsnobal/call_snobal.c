@@ -41,7 +41,6 @@ int call_snobal (
 	// for some reason, C compiler doen't let you threadprivate the tstep since it's already created.
 	// Therefore, we need to create a pointer to it, apply threadprivate, then copy in the data from the input
 	//	static TSTEP_REC *tstep_info;
-#pragma omp threadprivate(tstep_info)
 	for (n = 0; n < 4; n++)
 		tstep_info[n] = tstep[n];
 

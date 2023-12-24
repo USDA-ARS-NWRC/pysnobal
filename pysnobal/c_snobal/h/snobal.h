@@ -131,6 +131,7 @@ extern  TSTEP_REC  tstep_info[4]; 	/* array of info for each timestep:
 						   2 : medium  "     "
 						   3 : small   "     "
  */
+#pragma omp threadprivate(tstep_info)
 
 extern	double	time_step;	/* length current timestep (sec) */
 extern  double  current_time;   /* start time of current time step (sec) */
